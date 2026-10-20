@@ -6,5 +6,5 @@ window.CONFIG = {
   repo: "umutmelihakyol-oyun",                  // Depo adı
   branch: "main",
   path: "games.json",
-  vault: "Umutmelih+-123"                              // admin.html ilk kurulumda üretilen şifreli anahtar
+  vault: "umutmelihyonetim123"                              // admin.html ilk kurulumda üretilen şifreli anahtar
 };
