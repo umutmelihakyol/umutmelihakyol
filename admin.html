@@ -84,13 +84,14 @@ $('#in').onclick=async()=>{
   if(v.split('.').length!==3||v.length<60)return gsay('config.js içindeki vault alanında şifreli anahtar yok, kısa bir metin var. Buraya şifreni değil, admin.html#kurulum ekranında üretilen uzun metni yapıştırmalısın.',1);
   try{T=await unseal(v,$('#pw').value)}
   catch(e){return gsay(e.name==='OperationError'?'Şifre yanlış ya da config.js içindeki vault başka bir şifreyle üretilmiş. Sayfayı Ctrl+F5 ile yenileyip tekrar dene. Sorun sürerse admin.html#kurulum adresinden yeni vault üret.':'config.js içindeki vault metni bozuk. Metnin tamamını, tırnakların arasına tek satır olarak yapıştırdığından emin ol.',1)}
+  if(!/^[\w-]+$/.test(T)){T='';return gsay('Vault içindeki token geçersiz karakter içeriyor, yani token yanlış kopyalanmış. admin.html#kurulum ile doğru token\'ı girip yeni vault üret.',1)}
   try{sessionStorage.setItem('gh_t',T)}catch{}
   unlock();
 };
 $('#pw').addEventListener('keydown',e=>{if(e.key==='Enter')$('#in').click()});
 $('#out').onclick=()=>{sessionStorage.removeItem('gh_t');location.reload()};
 $('#mk').onclick=async()=>{const t=$('#tok').value.trim(),p=$('#pw1').value;
-  if(!t)return gsay('Token boş.',1);if(p.length<12)return gsay('Şifre en az 12 karakter olmalı.',1);if(p!==$('#pw2').value)return gsay('Şifreler aynı değil.',1);
+  if(!t)return gsay('Token boş.',1);if(!/^[\w-]{20,}$/.test(t))return gsay('Bu bir GitHub token\'ına benzemiyor. Token yalnızca harf, rakam, _ ve - içerir (örn. github_pat_11AB…). Boşluk, Türkçe karakter ya da başka bir metin kopyalamış olabilirsin.',1);if(p.length<12)return gsay('Şifre en az 12 karakter olmalı.',1);if(p!==$('#pw2').value)return gsay('Şifreler aynı değil.',1);
   const v=await seal(t,p);try{await unseal(v,p)}catch{return gsay('Doğrulama başarısız, tekrar dene.',1)}$('#vout').value=v;gsay('Hazır ve doğrulandı. Bu metni config.js içindeki vault alanına yapıştır.')};
 if(!C.vault||location.hash==='#kurulum'){$('#login').hidden=true;$('#setup').hidden=false}
 else if(T)unlock();
