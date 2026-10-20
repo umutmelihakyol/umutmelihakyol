@@ -54,28 +54,30 @@ function render(){
   const v=(g,k)=>has(g[k])?+g[k]:-1;
   l.sort((a,b)=>s==='score'?v(b,'score')-v(a,'score'):s==='hours'?v(b,'hours')-v(a,'hours'):s==='name'?a.title.localeCompare(b.title,'tr'):(b.finished||'').localeCompare(a.finished||''));
   $('#grid').innerHTML=l.length?l.map(card).join(''):'<p class="empty">Gösterilecek oyun yok.</p>';
-  $('#grid').querySelectorAll('.card').forEach(c=>{const n=c.querySelector('.note'),t=c.querySelector('h3');if(n.scrollHeight>n.clientHeight+1||t.scrollHeight>t.clientHeight+1)c.querySelector('.more').hidden=false});
+  $('#grid').querySelectorAll('.card').forEach(c=>{const n=c.querySelector('.note');if(n.scrollHeight>n.clientHeight+1)c.querySelector('.more').textContent='Devamını oku'});
   $('#pills').innerHTML=['all',...Object.keys(ST)].map(k=>`<button class="pill" data-k="${k}" aria-pressed="${st===k}">${k==='all'?'Hepsi':ST[k]} <span>${k==='all'?games.length:games.filter(g=>stOf(g)===k).length}</span></button>`).join('');
   const fin=games.filter(g=>stOf(g)==='bitirdim'),sc=games.filter(g=>has(g.score));
   const h=fin.reduce((t,g)=>t+(+g.hours||0),0),avg=sc.length?sc.reduce((t,g)=>t+ +g.score,0)/sc.length:0;
   $('#stats').innerHTML=`<div><b>${fin.length}</b>bitirilen oyun</div><div><b>${h.toLocaleString('tr')}</b>saat</div><div><b>${avg.toFixed(1)}</b>ortalama puan</div><div><b>${games.filter(g=>g.recommended===true).length}</b>önerilen</div>`;
 }
-const recHtml=g=>g.recommended===true?'<span class="rec yes">Öneriyorum</span>':g.recommended===false?'<span class="rec no">Önermiyorum</span>':'<span></span>';
+const recChip=g=>g.recommended===true?'<span class="recb yes">Öneriyorum</span>':g.recommended===false?'<span class="recb no">Önermiyorum</span>':'';
 const revHtml=g=>{const r=safeUrl(g.review);return r?`<a href="${r}" target="_blank" rel="noopener">İncelemeyi oku</a>`:stOf(g)==='istek'?'':'<span class="none">İnceleme yok</span>'};
-const facts=g=>`<dl class="facts">${has(g.hours)?`<dt>Süre</dt><dd>${esc(g.hours)} saat</dd>`:''}${g.finished?`<dt>Bitiş</dt><dd>${fmtDate(g.finished)}</dd>`:''}</dl>`;
-const cover=g=>`<div class="cover">${g.image?`<img src="${safeUrl(g.image)}" alt="${esc(g.title)} kapak görseli" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">`:''}<span class="stb s-${stOf(g)}">${ST[stOf(g)]}</span>${has(g.score)?`<span class="score" title="Puanım">${num(g.score)}</span>`:''}</div>`;
+const NOF={bitirdim:'Süre ve tarih girilmemiş',oynuyorum:'Şu an oynuyorum',biraktim:'Yarım bıraktım',istek:'Henüz oynamadım'};
+const facts=g=>{const p=[];if(has(g.hours))p.push(`<span><i>Süre</i>${esc(g.hours)} saat</span>`);if(g.finished)p.push(`<span><i>Bitiş</i>${fmtDate(g.finished)}</span>`);return `<p class="facts">${p.join('')||`<span>${NOF[stOf(g)]}</span>`}</p>`};
+const chips=g=>(g.genres||[]).map(t=>`<span>${esc(t)}</span>`).join('');
+const cover=g=>`<div class="cover">${g.image?`<img src="${safeUrl(g.image)}" alt="${esc(g.title)} kapak görseli" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">`:''}<span class="stb s-${stOf(g)}">${ST[stOf(g)]}</span>${has(g.score)?`<span class="score" title="Puanım">${num(g.score)}</span>`:''}${recChip(g)}</div>`;
 function card(g){
   return `<article class="card" data-id="${esc(g.id)}">${cover(g)}
-  <div class="body"><h3><a class="tl" href="#${esc(g.id)}">${esc(g.title)}</a></h3><p class="meta pl">${esc(g.platform)}</p>
-  <p class="tags">${(g.genres||[]).map(t=>`<span>${esc(t)}</span>`).join('')}</p>
-  ${facts(g)}<p class="note">${esc(g.note)}</p><a class="more" href="#${esc(g.id)}" hidden>Devamını oku</a>
-  <div class="row">${recHtml(g)}${revHtml(g)}</div></div></article>`;
+  <div class="body"><h3><a class="tl" href="#${esc(g.id)}" title="${esc(g.title)}">${esc(g.title)}</a></h3>
+  <div class="sub"><span class="plat">${esc(g.platform)}</span><span class="tags">${chips(g)}</span></div>
+  ${facts(g)}<p class="note${g.note?'':' none'}">${g.note?esc(g.note):'Henüz not eklenmemiş.'}</p>
+  <div class="row"><a class="more" href="#${esc(g.id)}">Ayrıntılar</a>${revHtml(g)}</div></div></article>`;
 }
 function openGame(id){
   const g=games.find(x=>x.id===id),d=$('#dlg');if(!g)return d.open&&d.close();
   d.innerHTML=`${cover(g)}<div class="inner"><h2>${esc(g.title)}</h2><p class="meta">${esc(g.platform)}</p>
-  <p class="tags wrapt">${(g.genres||[]).map(t=>`<span>${esc(t)}</span>`).join('')}</p>${facts(g)}
-  ${g.note?`<p class="full">${esc(g.note)}</p>`:''}<div class="row">${recHtml(g)}${revHtml(g)}</div>
+  <p class="tags wrapt">${chips(g)}</p>${facts(g)}
+  ${g.note?`<p class="full">${esc(g.note)}</p>`:''}<div class="row">${revHtml(g)}</div>
   <p><button class="btn copy">Bağlantıyı kopyala</button> <button class="btn" onclick="this.closest('dialog').close()">Kapat</button></p></div>`;
   if(!d.open)d.showModal();
 }
