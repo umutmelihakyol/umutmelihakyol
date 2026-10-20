@@ -57,6 +57,8 @@
       <label class="wide">İnceleme bağlantısı (yoksa boş bırak)<input id="review" type="url" placeholder="https://…"></label>
       <label class="wide">Kapak görseli adresi<input id="image" type="url" placeholder="Arama ile otomatik dolar"></label>
       <label class="wide">Kısa not<textarea id="note" rows="2"></textarea></label>
+      <label>Artılar (her satıra bir madde, isteğe bağlı)<textarea id="pros" rows="3"></textarea></label>
+      <label>Eksiler (her satıra bir madde, isteğe bağlı)<textarea id="cons" rows="3"></textarea></label>
     </div>
     <p><button class="btn pri" id="add">Kaydet</button> <button class="btn" id="clr">Formu temizle</button></p>
     <p class="msg" id="msg" role="status"></p>
@@ -134,16 +136,16 @@ function list(){
 $('#list').onclick=async e=>{
   const d=e.target.dataset.d,ed=e.target.dataset.e;
   if(d&&confirm('Bu oyun silinsin mi?')){const old=games;games=games.filter(g=>g.id!==d);if(await persist())list();else games=old}
-  if(ed){const g=games.find(x=>x.id===ed);editId=ed;ids.forEach(i=>$('#'+i).value=g[i]??'');$('#fav').value=g.favorite?'1':'0';$('#genres').value=(g.genres||[]).join(', ');$('#status').value=g.status||'bitirdim';$('#rec').value=g.recommended===true?'1':g.recommended===false?'0':'';$('#ft').textContent='Oyunu düzenle';scrollTo({top:0,behavior:'smooth'})}
+  if(ed){const g=games.find(x=>x.id===ed);editId=ed;ids.forEach(i=>$('#'+i).value=g[i]??'');$('#fav').value=g.favorite?'1':'0';$('#pros').value=(g.pros||[]).join('\n');$('#cons').value=(g.cons||[]).join('\n');$('#genres').value=(g.genres||[]).join(', ');$('#status').value=g.status||'bitirdim';$('#rec').value=g.recommended===true?'1':g.recommended===false?'0':'';$('#ft').textContent='Oyunu düzenle';scrollTo({top:0,behavior:'smooth'})}
 };
-function clear(){editId=null;ids.forEach(i=>$('#'+i).value='');$('#genres').value='';$('#fav').value='0';$('#status').value='bitirdim';$('#rec').value='1';$('#ft').textContent='Oyun bilgileri'}
+function clear(){editId=null;ids.forEach(i=>$('#'+i).value='');$('#genres').value='';$('#pros').value='';$('#cons').value='';$('#fav').value='0';$('#status').value='bitirdim';$('#rec').value='1';$('#ft').textContent='Oyun bilgileri'}
 $('#clr').onclick=clear;
 $('#add').onclick=async()=>{
   const stt=$('#status').value,val=i=>$('#'+i).value.trim();
   if(!val('title'))return say('Oyun adı zorunlu.',1);
   if(stt==='bitirdim'&&(val('score')===''||val('hours')===''||!val('finished')))return say('Bitirdiğin oyunlarda puan, süre ve tarih zorunlu.',1);
-  const n=i=>val(i)===''?null:+val(i);
-  const g={id:editId||Date.now().toString(36),status:stt,title:val('title'),image:val('image'),platform:val('platform'),genres:val('genres').split(',').map(x=>x.trim()).filter(Boolean),score:n('score'),hours:n('hours'),finished:val('finished')||null,recommended:$('#rec').value===''?null:$('#rec').value==='1',review:val('review'),note:val('note'),year:n('year'),developer:val('developer'),favorite:$('#fav').value==='1',updatedAt:new Date().toISOString()};
+  const n=i=>val(i)===''?null:+val(i),lines=i=>$('#'+i).value.split('\n').map(x=>x.trim()).filter(Boolean);
+  const g={id:editId||Date.now().toString(36),status:stt,title:val('title'),image:val('image'),platform:val('platform'),genres:val('genres').split(',').map(x=>x.trim()).filter(Boolean),score:n('score'),hours:n('hours'),finished:val('finished')||null,recommended:$('#rec').value===''?null:$('#rec').value==='1',review:val('review'),note:val('note'),year:n('year'),developer:val('developer'),favorite:$('#fav').value==='1',pros:lines('pros'),cons:lines('cons'),updatedAt:new Date().toISOString()};
   const old=games;games=editId?games.map(x=>x.id===editId?g:x):[g,...games];
   if(await persist()){clear();list()}else games=old;
 };
