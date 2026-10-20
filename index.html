@@ -26,6 +26,7 @@
     </div>
   </header>
   <div class="stats" id="stats"></div>
+  <section class="soonwrap" id="soon" hidden><h2>Yakında bitireceklerim</h2><div class="soon" id="soonList"></div></section>
   <div class="pills" id="pills" role="group" aria-label="Duruma göre filtre"></div>
   <div class="tools">
     <input id="q" type="search" placeholder="Oyun ara…" aria-label="Oyun ara">
@@ -38,8 +39,13 @@
     <select id="sort" aria-label="Sıralama">
       <option value="date">En son bitirilen</option><option value="score">En yüksek puan</option><option value="hours">En uzun süre</option><option value="name">A-Z</option>
     </select>
+    <div class="seg" role="group" aria-label="Görünüm">
+      <button type="button" data-v="card" title="Kart görünümü" aria-label="Kart görünümü"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.500"/><rect x="14" y="3" width="7" height="7" rx="1.500"/><rect x="3" y="14" width="7" height="7" rx="1.500"/><rect x="14" y="14" width="7" height="7" rx="1.500"/></svg></button>
+      <button type="button" data-v="list" title="Liste görünümü" aria-label="Liste görünümü"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg></button>
+    </div>
   </div>
   <main class="grid" id="grid"></main>
+  <footer class="foot" id="foot"></footer>
 </div>
 <dialog id="dlg" aria-label="Oyun ayrıntıları"></dialog>
 <script>
@@ -52,7 +58,8 @@ const has=v=>v!==null&&v!==undefined&&v!=='';
 const ST={bitirdim:'Bitirdim',oynuyorum:'Oynuyorum',biraktim:'Yarım bıraktım',istek:'İstek listesi'};
 const stOf=g=>g.status||'bitirdim';
 const plats=g=>String(g.platform||'').split(',').map(x=>x.trim()).filter(Boolean);
-let games=[],st='all',favOnly=false,vis=[],randomMode=false;
+let games=[],st='all',favOnly=false,vis=[],randomMode=false,view='card';
+try{view=localStorage.getItem('view')||'card'}catch{}
 document.title=$('#title').textContent=(window.CONFIG&&CONFIG.siteTitle)||'Oyun Günlüğüm';
 
 function fillSel(id,label,vals){$(id).innerHTML=`<option value="">${label}</option>`+[...new Set(vals)].sort((a,b)=>a.localeCompare(b,'tr')).map(v=>`<option>${esc(v)}</option>`).join('')}
@@ -63,7 +70,10 @@ function render(){
   const v=(g,k)=>has(g[k])?+g[k]:-1;
   l.sort((a,b)=>s==='score'?v(b,'score')-v(a,'score'):s==='hours'?v(b,'hours')-v(a,'hours'):s==='name'?a.title.localeCompare(b.title,'tr'):(b.finished||'').localeCompare(a.finished||''));
   vis=l;
-  $('#grid').innerHTML=l.length?l.map(card).join(''):'<p class="empty">Gösterilecek oyun yok.</p>';
+  const G=$('#grid');
+  if(!l.length){G.className='grid';G.innerHTML='<p class="empty">Gösterilecek oyun yok.</p>'}
+  else if(view==='list'){G.className='listwrap';G.innerHTML=table(l)}
+  else{G.className='grid';G.innerHTML=l.map(card).join('')}
   $('#grid').querySelectorAll('.card').forEach(c=>{const n=c.querySelector('.note');if(n.scrollHeight>n.clientHeight+1)c.querySelector('.more').textContent='Devamını oku'});
   $('#pills').innerHTML=['all',...Object.keys(ST)].map(k=>`<button class="pill" data-k="${k}" aria-pressed="${st===k}">${k==='all'?'Hepsi':ST[k]} <span>${k==='all'?games.length:games.filter(g=>stOf(g)===k).length}</span></button>`).join('')+`<button class="pill fav" data-fav="1" aria-pressed="${favOnly}">${HEART} Favoriler <span>${games.filter(g=>g.favorite===true).length}</span></button>`;
   const fin=games.filter(g=>stOf(g)==='bitirdim'),sc=games.filter(g=>has(g.score));
@@ -85,6 +95,22 @@ function card(g){
   ${facts(g)}<p class="note${g.note?'':' none'}">${g.note?esc(g.note):'Henüz not eklenmemiş.'}</p>
   <div class="row"><a class="more" href="#${esc(g.id)}">Ayrıntılar</a>${revHtml(g)}</div></div></article>`;
 }
+const thumb=(g,c)=>g.image?`<img class="${c}" src="${safeUrl(g.image)}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">`:`<span class="${c} ph"></span>`;
+function table(l){
+  const row=g=>`<tr data-id="${esc(g.id)}"><td><div class="nm">${thumb(g,'th')}<a class="tl" href="#${esc(g.id)}">${g.favorite===true?`<span class="hrt">${HEART}</span>`:''}${esc(g.title)}</a></div></td>
+  <td class="c-pl">${esc(g.platform)||'—'}</td><td><span class="s-${stOf(g)}">${ST[stOf(g)]}</span></td><td class="sc">${has(g.score)?num(g.score):'—'}</td>
+  <td class="c-hr">${has(g.hours)?esc(g.hours)+' saat':'—'}</td><td class="c-dt">${g.finished?fmtDate(g.finished):'—'}</td>
+  <td class="c-rc">${g.recommended===true?'<span class="rec yes">Öneriyorum</span>':g.recommended===false?'<span class="rec no">Önermiyorum</span>':'—'}</td></tr>`;
+  return `<table class="tbl"><thead><tr><th>Oyun</th><th class="c-pl">Platform</th><th>Durum</th><th>Puan</th><th class="c-hr">Süre</th><th class="c-dt">Bitiş</th><th class="c-rc">Öneri</th></tr></thead><tbody>${l.map(row).join('')}</tbody></table>`;
+}
+function soon(){
+  const l=games.filter(g=>stOf(g)==='oynuyorum');$('#soon').hidden=!l.length;
+  $('#soonList').innerHTML=l.map(g=>`<a class="soonc" href="#${esc(g.id)}">${thumb(g,'sth')}<span><b>${esc(g.title)}</b><small>${esc(g.platform)||'Oynuyorum'}</small></span></a>`).join('');
+}
+function foot(){
+  const u=games.map(g=>g.updatedAt).filter(Boolean).sort().pop();
+  $('#foot').textContent=u?'Son güncelleme: '+new Date(u).toLocaleDateString('tr-TR',{day:'numeric',month:'long',year:'numeric'}):'';
+}
 function openGame(id){
   const g=games.find(x=>x.id===id),d=$('#dlg');if(!g)return d.open&&d.close();
   d.innerHTML=`${cover(g)}<div class="inner"><h2>${esc(g.title)}</h2><p class="meta">${esc(g.platform)}</p>
@@ -100,7 +126,7 @@ $('#dlg').addEventListener('click',e=>{
   const b=e.target.closest('.copy');if(b)navigator.clipboard.writeText(location.href).then(()=>b.textContent='Kopyalandı',()=>prompt('Bağlantı:',location.href));
 });
 $('#grid').addEventListener('click',e=>{
-  const c=e.target.closest('.card');if(!c||e.target.closest('a[target]'))return;
+  const c=e.target.closest('.card,tr[data-id]');if(!c||e.target.closest('a[target]'))return;
   e.preventDefault();location.hash=c.dataset.id;openGame(c.dataset.id);
 });
 addEventListener('hashchange',()=>openGame(location.hash.slice(1)));
@@ -111,11 +137,13 @@ function pickRandom(){
   const g=pool[Math.floor(Math.random()*pool.length)];randomMode=true;location.hash=g.id;openGame(g.id);
 }
 $('#rnd').addEventListener('click',pickRandom);
+const segSync=()=>document.querySelectorAll('.seg button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.v===view));
+$('.seg').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;view=b.dataset.v;try{localStorage.setItem('view',view)}catch{}segSync();render()});segSync();
 ['q','plat','genre','flt','sort'].forEach(i=>$('#'+i).addEventListener('input',render));
 addEventListener('resize',()=>games.length&&render());
 fetch('games.json?'+Date.now()).then(r=>r.json()).then(d=>{
   games=d;fillSel('#plat','Tüm platformlar',d.flatMap(plats));fillSel('#genre','Tüm türler',d.flatMap(g=>g.genres||[]));
-  render();if(location.hash)openGame(location.hash.slice(1));
+  render();soon();foot();if(location.hash)openGame(location.hash.slice(1));
 }).catch(()=>{$('#grid').innerHTML='<p class="empty">games.json yüklenemedi.</p>'});
 </script>
 </body>
