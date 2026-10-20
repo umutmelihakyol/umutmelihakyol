@@ -1,5 +1,37 @@
 [
   {
+    "id": "mvh82qsf",
+    "status": "bitirdim",
+    "title": "Lake",
+    "image": "https://media.rawg.io/media/games/39c/39cf070df0b9fc65e49db51a47025629.jpg",
+    "platform": "PC",
+    "genres": [
+      "Macera"
+    ],
+    "score": 7.5,
+    "hours": 7,
+    "finished": "2026-10-18",
+    "recommended": true,
+    "review": "https://www.technopat.net/sosyal/konu/lake-huzurlu-bir-kasabada-2-hafta.4191967/",
+    "note": "Aksiyon yok, gerilim yok, dünyayı kurtarmak gibi büyük bir amacımız da yok. Sadece sevimli evleri, yemyeşil ağaçları ve güzel göl manzaralarıyla huzur veren kasaba var. Lake, yoğun ve stresli oyunlardan uzaklaşıp biraz kafa dinlemek isteyenlere hitap eden bağımsız bir oyun.",
+    "year": 2021,
+    "developer": "Gamious",
+    "favorite": false,
+    "pros": [
+      "Huzur veren atmosfer ve güzel manzaralar",
+      "Samimi hikâye ve karakterler",
+      "Başarılı seslendirmeler ve radyo yayınları",
+      "Farklı sonlar ve diyalog seçimleri"
+    ],
+    "cons": [
+      "Tekrara düşen oynanış",
+      "Sınırlı araç ve karakter mekanikleri",
+      "Görsel hatalar ve çarpışma sorunları",
+      "Kasabanın yeterince canlı hissettirmemesi"
+    ],
+    "updatedAt": "2026-10-20T21:55:52.480Z"
+  },
+  {
     "id": "mvh4d6tf",
     "status": "oynuyorum",
     "title": "Call of Duty: Modern Warfare 4",
