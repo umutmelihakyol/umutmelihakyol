@@ -72,7 +72,7 @@ let games=[],sha=null,editId=null;
 let T=sessionStorage.getItem('gh_t')||'';const tok=()=>T;
 const api=`https://api.github.com/repos/${C.owner}/${C.repo}/contents/${C.path}`;
 const hdr=()=>({Authorization:'Bearer '+tok(),Accept:'application/vnd.github+json'});
-const say=(t,bad)=>{const m=$('#msg');m.textContent=t;m.style.color=bad?'var(--no)':'var(--yes)'};
+const say=(t,bad)=>{const m=$('#msg');m.textContent=t;m.style.color=bad?'var(--no)':'var(--yes)';m.scrollIntoView({block:'nearest',behavior:'smooth'})};
 const enc=new TextEncoder(),dec=new TextDecoder(),b64=u=>btoa(String.fromCharCode(...u)),unb=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
 async function key(pw,salt){const m=await crypto.subtle.importKey('raw',enc.encode(pw.normalize('NFC')),'PBKDF2',false,['deriveKey']);return crypto.subtle.deriveKey({name:'PBKDF2',salt,iterations:250000,hash:'SHA-256'},m,{name:'AES-GCM',length:256},false,['encrypt','decrypt'])}
 async function seal(tk,pw){const salt=crypto.getRandomValues(new Uint8Array(16)),iv=crypto.getRandomValues(new Uint8Array(12));const ct=new Uint8Array(await crypto.subtle.encrypt({name:'AES-GCM',iv},await key(pw,salt),enc.encode(tk)));return [b64(salt),b64(iv),b64(ct)].join('.')}
@@ -81,6 +81,7 @@ const gsay=(t,bad)=>{const m=$('#gmsg');m.textContent=t;m.style.color=bad?'var(-
 function unlock(){$('#gate').hidden=true;$('#app').hidden=false;$('#out').hidden=false;load()}
 $('#in').onclick=async()=>{
   const v=(C.vault||'').trim().replace(/^["']|["']$/g,'');
+  if(v.split('.').length!==3||v.length<60)return gsay('config.js içindeki vault alanında şifreli anahtar yok, kısa bir metin var. Buraya şifreni değil, admin.html#kurulum ekranında üretilen uzun metni yapıştırmalısın.',1);
   try{T=await unseal(v,$('#pw').value)}
   catch(e){return gsay(e.name==='OperationError'?'Şifre yanlış ya da config.js içindeki vault başka bir şifreyle üretilmiş. Sayfayı Ctrl+F5 ile yenileyip tekrar dene. Sorun sürerse admin.html#kurulum adresinden yeni vault üret.':'config.js içindeki vault metni bozuk. Metnin tamamını, tırnakların arasına tek satır olarak yapıştırdığından emin ol.',1)}
   try{sessionStorage.setItem('gh_t',T)}catch{}
@@ -94,20 +95,34 @@ $('#mk').onclick=async()=>{const t=$('#tok').value.trim(),p=$('#pw1').value;
 if(!C.vault||location.hash==='#kurulum'){$('#login').hidden=true;$('#setup').hidden=false}
 else if(T)unlock();
 
+const errOf=async r=>{let m='';try{m=(await r.json()).message||''}catch{}const e=new Error(r.status+(m?' ('+m+')':''));e.status=r.status;return e};
+const hint=st=>st===401?' Token geçersiz ya da süresi dolmuş. Yeni token üretip admin.html#kurulum ile vault\'u yenile.':st===403||st===404?' Token bu depoya "Contents: Read and write" izni vermiyor olabilir ya da config.js içindeki owner, repo, branch, path ayarı yanlış.':'';
+async function getFile(){const r=await fetch(`${api}?ref=${C.branch}`,{headers:hdr(),cache:'no-store'});if(r.status===404)return null;if(!r.ok)throw await errOf(r);return r.json()}
 async function load(){
   if(tok()){
-    const r=await fetch(`${api}?ref=${C.branch}`,{headers:hdr()});
-    if(r.ok){const j=await r.json();sha=j.sha;games=JSON.parse(new TextDecoder().decode(Uint8Array.from(atob(j.content.replace(/\n/g,'')),c=>c.charCodeAt(0))));return list()}
-    say('GitHub\'a bağlanılamadı. Anahtarı ve config.js ayarlarını kontrol et.',1);
+    try{
+      const j=await getFile();
+      if(!j)say('GitHub\'da '+C.path+' bulunamadı. İlk kayıtta oluşturulacak.',1);
+      else{sha=j.sha;games=JSON.parse(new TextDecoder().decode(Uint8Array.from(atob(j.content.replace(/\n/g,'')),c=>c.charCodeAt(0))));say('GitHub bağlantısı hazır: '+C.owner+'/'+C.repo);return list()}
+    }catch(e){say('GitHub\'a bağlanılamadı: '+e.message+hint(e.status),1)}
   }
   games=await fetch('games.json?'+Date.now()).then(r=>r.json()).catch(()=>[]);list();
 }
 async function persist(){
-  if(!tok()){say('Önce GitHub anahtarını kaydet ya da games.json dosyasını indirip elle yükle.',1);return false}
-  const bytes=new TextEncoder().encode(JSON.stringify(games,null,2));let b='';bytes.forEach(x=>b+=String.fromCharCode(x));
-  const r=await fetch(api,{method:'PUT',headers:hdr(),body:JSON.stringify({message:'Oyun listesi güncellendi',content:btoa(b),branch:C.branch,sha})});
-  if(!r.ok){say('Kaydedilemedi ('+r.status+'). Anahtarın "Contents: Read and write" iznine sahip olmalı.',1);return false}
-  sha=(await r.json()).content.sha;say('Kaydedildi. Site birkaç saniye içinde güncellenir.');return true;
+  if(!tok()){say('Oturum açık değil, sayfayı yenileyip tekrar giriş yap.',1);return false}
+  const btn=$('#add');btn.disabled=true;const lbl=btn.textContent;btn.textContent='Kaydediliyor…';
+  try{
+    const bytes=new TextEncoder().encode(JSON.stringify(games,null,2));let b='';bytes.forEach(x=>b+=String.fromCharCode(x));
+    for(let n=0;n<2;n++){
+      if(!sha){const j=await getFile();sha=j?j.sha:null}
+      const body={message:'Oyun listesi güncellendi',content:btoa(b),branch:C.branch};if(sha)body.sha=sha;
+      const r=await fetch(api,{method:'PUT',headers:hdr(),body:JSON.stringify(body)});
+      if(r.ok){sha=(await r.json()).content.sha;say('Kaydedildi. Site 1-2 dakika içinde güncellenir.');return true}
+      if((r.status===409||r.status===422)&&n===0){sha=null;continue}
+      throw await errOf(r);
+    }
+  }catch(e){say('Kaydedilemedi: '+e.message+hint(e.status),1);return false}
+  finally{btn.disabled=false;btn.textContent=lbl}
 }
 function list(){
   $('#list').innerHTML=games.map(g=>`<div class="li"><span>${esc(g.title)} <span class="meta">${ST[g.status||'bitirdim']}${g.score!=null&&g.score!==''?', '+esc(g.score)+'/10':''}</span></span><span><button class="btn" data-e="${esc(g.id)}">Düzenle</button> <button class="btn del" data-d="${esc(g.id)}">Sil</button></span></div>`).join('')||'<p class="meta">Henüz oyun yok.</p>';
