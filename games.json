@@ -17,7 +17,14 @@
     "year": 2026,
     "developer": "Activision",
     "favorite": true,
-    "updatedAt": "2026-10-20T20:12:01.347Z"
+    "pros": [
+      "Hızlı oynanış",
+      "Güzel hikaye"
+    ],
+    "cons": [
+      "Fiyatı yüksek"
+    ],
+    "updatedAt": "2026-10-20T20:38:46.374Z"
   },
   {
     "id": "mvh3id1u",
