@@ -1,5 +1,40 @@
 [
   {
+    "id": "mvh84y5c",
+    "status": "bitirdim",
+    "title": "Gris",
+    "image": "https://media.rawg.io/media/games/51c/51c430f1795c79b78f863a9f22dc422d.jpg",
+    "platform": "PC",
+    "genres": [
+      "Bağımsız",
+      "Platform",
+      "Macera",
+      "Bulmaca"
+    ],
+    "score": 8.5,
+    "hours": 6,
+    "finished": "2026-10-11",
+    "recommended": true,
+    "review": "https://www.technopat.net/sosyal/konu/gris-sanat-tasarimiyla-anlatilan-bir-yolculuk.4189249/",
+    "note": "Bazı oyunlar sundukları oynanış mekanikleriyle, bazıları ise anlattıkları hikayelerle akılda kalır. GRIS ise bunların yanında, hissettirdikleriyle ön plana çıkan özel bir oyun. GRIS, sulu boya tablolarını andıran görsel tasarımı, etkileyici müzikleri ve semboller üzerinden ilerleyen anlatımıyla alışılmışın dışında bir deneyim sunuyor.",
+    "year": 2018,
+    "developer": "Nomada Studio",
+    "favorite": false,
+    "pros": [
+      "Etkileyici sanat tasarımı ve görseller",
+      "Duygusal anlatım ve başarılı müzikler",
+      "Akıcı animasyonlar",
+      "Yaratıcı yetenekler ve bulmacalar"
+    ],
+    "cons": [
+      "Basit oynanış ve bulmacalar",
+      "Doğrusal bölüm tasarımı",
+      "Bazı platformların zor ayırt edilmesi",
+      "Sınırlı tekrar oynanabilirlik"
+    ],
+    "updatedAt": "2026-10-20T21:57:35.328Z"
+  },
+  {
     "id": "mvh82qsf",
     "status": "bitirdim",
     "title": "Lake",
