@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Umut Melih Akyol - Oyunlar</title>
+<title>Oyun Günlüğüm</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700&family=Nunito+Sans:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
@@ -13,7 +13,7 @@
 <body>
 <div class="wrap">
   <header class="top">
-    <h1 id="title">UmutMelihAkyol - Oyun Günlüğüm</h1>
+    <h1 id="title">Oyun Günlüğüm</h1>
     <div class="acts">
       <a class="btn ico" href="admin.html" title="Yönetim paneli">
         <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
@@ -34,6 +34,7 @@
     <select id="flt" aria-label="Öneri filtresi">
       <option value="all">Öneri: hepsi</option><option value="yes">Önerdiklerim</option><option value="no">Önermediklerim</option><option value="rev">İncelemesi olanlar</option>
     </select>
+    <button class="btn ico" id="rnd" type="button" title="Şu an listelenen oyunlardan rastgele birini seçer"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.500" cy="8.500" r="1" fill="currentColor"/><circle cx="15.500" cy="8.500" r="1" fill="currentColor"/><circle cx="12" cy="12" r="1" fill="currentColor"/><circle cx="8.500" cy="15.500" r="1" fill="currentColor"/><circle cx="15.500" cy="15.500" r="1" fill="currentColor"/></svg> Rastgele seç</button>
     <select id="sort" aria-label="Sıralama">
       <option value="date">En son bitirilen</option><option value="score">En yüksek puan</option><option value="hours">En uzun süre</option><option value="name">A-Z</option>
     </select>
@@ -51,19 +52,20 @@ const has=v=>v!==null&&v!==undefined&&v!=='';
 const ST={bitirdim:'Bitirdim',oynuyorum:'Oynuyorum',biraktim:'Yarım bıraktım',istek:'İstek listesi'};
 const stOf=g=>g.status||'bitirdim';
 const plats=g=>String(g.platform||'').split(',').map(x=>x.trim()).filter(Boolean);
-let games=[],st='all';
+let games=[],st='all',favOnly=false,vis=[],randomMode=false;
 document.title=$('#title').textContent=(window.CONFIG&&CONFIG.siteTitle)||'Oyun Günlüğüm';
 
 function fillSel(id,label,vals){$(id).innerHTML=`<option value="">${label}</option>`+[...new Set(vals)].sort((a,b)=>a.localeCompare(b,'tr')).map(v=>`<option>${esc(v)}</option>`).join('')}
 function render(){
   const q=$('#q').value.trim().toLocaleLowerCase('tr'),pf=$('#plat').value,gf=$('#genre').value,f=$('#flt').value,s=$('#sort').value;
-  const l=games.filter(g=>g.title.toLocaleLowerCase('tr').includes(q)&&(st==='all'||stOf(g)===st)&&(!pf||plats(g).includes(pf))&&(!gf||(g.genres||[]).includes(gf))
+  const l=games.filter(g=>g.title.toLocaleLowerCase('tr').includes(q)&&(st==='all'||stOf(g)===st)&&(!favOnly||g.favorite===true)&&(!pf||plats(g).includes(pf))&&(!gf||(g.genres||[]).includes(gf))
     &&(f==='all'||(f==='yes'&&g.recommended===true)||(f==='no'&&g.recommended===false)||(f==='rev'&&g.review)));
   const v=(g,k)=>has(g[k])?+g[k]:-1;
   l.sort((a,b)=>s==='score'?v(b,'score')-v(a,'score'):s==='hours'?v(b,'hours')-v(a,'hours'):s==='name'?a.title.localeCompare(b.title,'tr'):(b.finished||'').localeCompare(a.finished||''));
+  vis=l;
   $('#grid').innerHTML=l.length?l.map(card).join(''):'<p class="empty">Gösterilecek oyun yok.</p>';
   $('#grid').querySelectorAll('.card').forEach(c=>{const n=c.querySelector('.note');if(n.scrollHeight>n.clientHeight+1)c.querySelector('.more').textContent='Devamını oku'});
-  $('#pills').innerHTML=['all',...Object.keys(ST)].map(k=>`<button class="pill" data-k="${k}" aria-pressed="${st===k}">${k==='all'?'Hepsi':ST[k]} <span>${k==='all'?games.length:games.filter(g=>stOf(g)===k).length}</span></button>`).join('');
+  $('#pills').innerHTML=['all',...Object.keys(ST)].map(k=>`<button class="pill" data-k="${k}" aria-pressed="${st===k}">${k==='all'?'Hepsi':ST[k]} <span>${k==='all'?games.length:games.filter(g=>stOf(g)===k).length}</span></button>`).join('')+`<button class="pill fav" data-fav="1" aria-pressed="${favOnly}">${HEART} Favoriler <span>${games.filter(g=>g.favorite===true).length}</span></button>`;
   const fin=games.filter(g=>stOf(g)==='bitirdim'),sc=games.filter(g=>has(g.score));
   const h=fin.reduce((t,g)=>t+(+g.hours||0),0),avg=sc.length?sc.reduce((t,g)=>t+ +g.score,0)/sc.length:0;
   $('#stats').innerHTML=`<div><b>${fin.length}</b>bitirilen oyun</div><div><b>${h.toLocaleString('tr')}</b>saat</div><div><b>${avg.toFixed(1)}</b>ortalama puan</div><div><b>${games.filter(g=>g.recommended===true).length}</b>önerilen</div>`;
@@ -72,8 +74,10 @@ const recChip=g=>g.recommended===true?'<span class="recb yes">Öneriyorum</span>
 const revHtml=g=>{const r=safeUrl(g.review);return r?`<a href="${r}" target="_blank" rel="noopener">İncelemeyi oku</a>`:stOf(g)==='istek'?'':'<span class="none">İnceleme yok</span>'};
 const NOF={bitirdim:'Süre ve tarih girilmemiş',oynuyorum:'Şu an oynuyorum',biraktim:'Yarım bıraktım',istek:'Henüz oynamadım'};
 const facts=g=>{const p=[];if(has(g.hours))p.push(`<span><i>Süre</i>${esc(g.hours)} saat</span>`);if(g.finished)p.push(`<span><i>Bitiş</i>${fmtDate(g.finished)}</span>`);return `<p class="facts">${p.join('')||`<span>${NOF[stOf(g)]}</span>`}</p>`};
+const HEART='<svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor" aria-hidden="true"><path d="M12 21s-7.5-4.6-9.6-9.3C.9 8.3 2.7 4.5 6.3 4.5c2.1 0 3.6 1.1 4.5 2.6l1.2 1.8 1.2-1.8c.9-1.5 2.4-2.6 4.5-2.6 3.6 0 5.4 3.8 3.9 7.2C19.500 16.400 12 21 12 21z"/></svg>';
+const info=g=>{const p=[];if(has(g.year))p.push(`<span><i>Çıkış yılı</i>${esc(g.year)}</span>`);if(g.developer)p.push(`<span><i>Geliştirici</i>${esc(g.developer)}</span>`);return p.length?`<p class="facts">${p.join('')}</p>`:''};
 const chips=g=>(g.genres||[]).map(t=>`<span>${esc(t)}</span>`).join('');
-const cover=g=>`<div class="cover">${g.image?`<img src="${safeUrl(g.image)}" alt="${esc(g.title)} kapak görseli" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">`:''}<span class="stb s-${stOf(g)}">${ST[stOf(g)]}</span>${has(g.score)?`<span class="score" title="Puanım">${num(g.score)}</span>`:''}${recChip(g)}</div>`;
+const cover=g=>`<div class="cover">${g.image?`<img src="${safeUrl(g.image)}" alt="${esc(g.title)} kapak görseli" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">`:''}${g.favorite===true?`<span class="fvb" title="Favorim">${HEART}</span>`:''}<span class="stb s-${stOf(g)}">${ST[stOf(g)]}</span>${has(g.score)?`<span class="score" title="Puanım">${num(g.score)}</span>`:''}${recChip(g)}</div>`;
 function card(g){
   return `<article class="card" data-id="${esc(g.id)}">${cover(g)}
   <div class="body"><h3><a class="tl" href="#${esc(g.id)}" title="${esc(g.title)}">${esc(g.title)}</a></h3>
@@ -84,14 +88,15 @@ function card(g){
 function openGame(id){
   const g=games.find(x=>x.id===id),d=$('#dlg');if(!g)return d.open&&d.close();
   d.innerHTML=`${cover(g)}<div class="inner"><h2>${esc(g.title)}</h2><p class="meta">${esc(g.platform)}</p>
-  <p class="tags wrapt">${chips(g)}</p>${facts(g)}
+  <p class="tags wrapt">${chips(g)}</p>${facts(g)}${info(g)}
   ${g.note?`<p class="full">${esc(g.note)}</p>`:''}<div class="row">${revHtml(g)}</div>
-  <p><button class="btn copy">Bağlantıyı kopyala</button> <button class="btn" onclick="this.closest('dialog').close()">Kapat</button></p></div>`;
+  <p>${randomMode?'<button class="btn pri again">Başka bir oyun seç</button> ':''}<button class="btn copy">Bağlantıyı kopyala</button> <button class="btn" onclick="this.closest('dialog').close()">Kapat</button></p></div>`;
   if(!d.open)d.showModal();
 }
-$('#dlg').addEventListener('close',()=>history.replaceState(null,'',location.pathname+location.search));
+$('#dlg').addEventListener('close',()=>{randomMode=false;history.replaceState(null,'',location.pathname+location.search)});
 $('#dlg').addEventListener('click',e=>{
   if(e.target===e.currentTarget)return e.currentTarget.close();
+  if(e.target.closest('.again'))return pickRandom();
   const b=e.target.closest('.copy');if(b)navigator.clipboard.writeText(location.href).then(()=>b.textContent='Kopyalandı',()=>prompt('Bağlantı:',location.href));
 });
 $('#grid').addEventListener('click',e=>{
@@ -99,7 +104,13 @@ $('#grid').addEventListener('click',e=>{
   e.preventDefault();location.hash=c.dataset.id;openGame(c.dataset.id);
 });
 addEventListener('hashchange',()=>openGame(location.hash.slice(1)));
-$('#pills').addEventListener('click',e=>{const b=e.target.closest('.pill');if(b){st=b.dataset.k;render()}});
+$('#pills').addEventListener('click',e=>{const b=e.target.closest('.pill');if(!b)return;if(b.dataset.fav)favOnly=!favOnly;else st=b.dataset.k;render()});
+function pickRandom(){
+  const cur=location.hash.slice(1),pool=vis.length>1?vis.filter(g=>g.id!==cur):vis;
+  if(!pool.length){const b=$('#rnd');b.lastChild.textContent=' Listede oyun yok';setTimeout(()=>b.lastChild.textContent=' Rastgele seç',2000);return}
+  const g=pool[Math.floor(Math.random()*pool.length)];randomMode=true;location.hash=g.id;openGame(g.id);
+}
+$('#rnd').addEventListener('click',pickRandom);
 ['q','plat','genre','flt','sort'].forEach(i=>$('#'+i).addEventListener('input',render));
 addEventListener('resize',()=>games.length&&render());
 fetch('games.json?'+Date.now()).then(r=>r.json()).then(d=>{
