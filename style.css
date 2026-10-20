@@ -70,3 +70,25 @@ footer.foot a{color:var(--mute)}
 .card{cursor:pointer}
 a.more{display:block;width:fit-content;font-weight:700;color:var(--acc);height:1.5em;cursor:pointer}
 a.more[hidden]{display:block;visibility:hidden}
+
+/* v4: eşit kartlar, bağlantı renkleri, kaydırma çubuğu */
+a,a:visited{color:var(--acc)}
+.tl,.tl:visited{color:inherit}
+footer.foot a,footer.foot a:visited{color:var(--mute)}
+a.btn,a.btn:visited{color:var(--ink);text-decoration:none}
+.grid{grid-template-columns:repeat(auto-fill,minmax(270px,1fr))}
+.body{gap:8px}
+.body h3{display:block;-webkit-line-clamp:unset;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-height:0}
+.sub{display:flex;gap:10px;align-items:center;height:1.7em;overflow:hidden}
+.sub .plat{flex:0 1 auto;max-width:55%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--mute);font-size:.9rem}
+.sub .tags{flex:1;min-width:0;height:auto}
+.facts{display:flex;flex-wrap:nowrap;gap:0 16px;min-height:0;white-space:nowrap;overflow:hidden;margin:0;font-size:.9rem}
+.facts i{font-style:normal;color:var(--mute);margin-right:6px}
+.inner .facts{flex-wrap:wrap}
+.note.none{font-style:italic;opacity:.8}
+.row{justify-content:space-between;flex-wrap:nowrap;margin-top:auto}
+a.more{display:inline;width:auto;height:auto;font-weight:700}
+.recb{position:absolute;right:12px;bottom:-14px;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:3px 12px;font-size:.85rem;font-weight:700}
+.recb.yes{color:var(--yes)}.recb.no{color:var(--no)}
+dialog{scrollbar-width:none}dialog::-webkit-scrollbar{display:none}
+dialog .cover{aspect-ratio:16/7}
