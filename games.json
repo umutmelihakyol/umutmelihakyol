@@ -1,5 +1,23 @@
 [
   {
+    "id": "mvh2rqsw",
+    "status": "bitirdim",
+    "title": "Samson",
+    "image": "https://media.rawg.io/media/games/89d/89dd76fda9a181482f32fc02f3f63164.jpeg",
+    "platform": "PC",
+    "genres": [
+      "Yarış",
+      "Macera",
+      "Aksiyon"
+    ],
+    "score": 4.5,
+    "hours": 8,
+    "finished": "2026-04-09",
+    "recommended": false,
+    "review": "https://www.technopat.net/sosyal/konu/samson-hayal-kirikligi-bir-oyun.4084072/",
+    "note": "Oyunu bir süre deneyimleme fırsatım oldu ve açıkçası benim için yılın en büyük hayal kırıklıklarından biri oldu. İlk bakışta atmosferi, tarzı ve kurduğu dünya ile insanı içine çekmeyi başarıyor fakat biraz vakit geçirdikten sonra hem teknik tarafta hem de oynanışta ciddi problemler kendini net şekilde göstermeye ve belli etmeye başlıyor."
+  },
+  {
     "id": "mvh2p9eb",
     "status": "bitirdim",
     "title": "Pragmata",
