@@ -143,7 +143,7 @@ $('#add').onclick=async()=>{
   if(!val('title'))return say('Oyun adı zorunlu.',1);
   if(stt==='bitirdim'&&(val('score')===''||val('hours')===''||!val('finished')))return say('Bitirdiğin oyunlarda puan, süre ve tarih zorunlu.',1);
   const n=i=>val(i)===''?null:+val(i);
-  const g={id:editId||Date.now().toString(36),status:stt,title:val('title'),image:val('image'),platform:val('platform'),genres:val('genres').split(',').map(x=>x.trim()).filter(Boolean),score:n('score'),hours:n('hours'),finished:val('finished')||null,recommended:$('#rec').value===''?null:$('#rec').value==='1',review:val('review'),note:val('note'),year:n('year'),developer:val('developer'),favorite:$('#fav').value==='1'};
+  const g={id:editId||Date.now().toString(36),status:stt,title:val('title'),image:val('image'),platform:val('platform'),genres:val('genres').split(',').map(x=>x.trim()).filter(Boolean),score:n('score'),hours:n('hours'),finished:val('finished')||null,recommended:$('#rec').value===''?null:$('#rec').value==='1',review:val('review'),note:val('note'),year:n('year'),developer:val('developer'),favorite:$('#fav').value==='1',updatedAt:new Date().toISOString()};
   const old=games;games=editId?games.map(x=>x.id===editId?g:x):[g,...games];
   if(await persist()){clear();list()}else games=old;
 };
