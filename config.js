@@ -7,6 +7,6 @@ window.CONFIG = {
   branch: "main",
   path: "games.json",
   suggestUrl: "",
-  goatcounter: "",
+  goatcounter: "https://umutmelihakyol.goatcounter.com/count",
   vault: "O11qpZzPWAMAHiicpKPJsg==.XjEP0e/g9zwIWvYO.Jw7cnG9zvka8sOht1RePpS0tpYtYo7njA+gc/zNZgUEcxcFFM7N9TJbRkZuOL0zf2KXGKJPtzQaB4T6iPd8/AUllRbtZENJQivncVUnPrbInrXktea5CviLW63DCJivhcG7+v8ur63+HsvX9IA=="                              // admin.html ilk kurulumda üretilen şifreli anahtar
 };
