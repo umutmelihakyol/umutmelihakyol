@@ -8,12 +8,12 @@
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700&family=Nunito+Sans:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 <script src="theme.js"></script>
-<script src="config.js"></script>
+<script>document.write('<script src="config.js?'+Date.now()+'"><\/script>')</script>
 </head>
 <body>
 <div class="wrap">
   <header class="top"><h1>Oyun ekle</h1><span><button class="btn" id="out" hidden>Çıkış</button> <a class="btn" href="index.html">Siteye dön</a></span></header>
- 
+
   <section class="panel" id="gate">
     <div id="login">
       <h2>Giriş</h2>
@@ -74,18 +74,24 @@ const api=`https://api.github.com/repos/${C.owner}/${C.repo}/contents/${C.path}`
 const hdr=()=>({Authorization:'Bearer '+tok(),Accept:'application/vnd.github+json'});
 const say=(t,bad)=>{const m=$('#msg');m.textContent=t;m.style.color=bad?'var(--no)':'var(--yes)'};
 const enc=new TextEncoder(),dec=new TextDecoder(),b64=u=>btoa(String.fromCharCode(...u)),unb=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
-async function key(pw,salt){const m=await crypto.subtle.importKey('raw',enc.encode(pw),'PBKDF2',false,['deriveKey']);return crypto.subtle.deriveKey({name:'PBKDF2',salt,iterations:250000,hash:'SHA-256'},m,{name:'AES-GCM',length:256},false,['encrypt','decrypt'])}
+async function key(pw,salt){const m=await crypto.subtle.importKey('raw',enc.encode(pw.normalize('NFC')),'PBKDF2',false,['deriveKey']);return crypto.subtle.deriveKey({name:'PBKDF2',salt,iterations:250000,hash:'SHA-256'},m,{name:'AES-GCM',length:256},false,['encrypt','decrypt'])}
 async function seal(tk,pw){const salt=crypto.getRandomValues(new Uint8Array(16)),iv=crypto.getRandomValues(new Uint8Array(12));const ct=new Uint8Array(await crypto.subtle.encrypt({name:'AES-GCM',iv},await key(pw,salt),enc.encode(tk)));return [b64(salt),b64(iv),b64(ct)].join('.')}
 async function unseal(v,pw){const [s,i,c]=v.split('.').map(unb);return dec.decode(await crypto.subtle.decrypt({name:'AES-GCM',iv:i},await key(pw,s),c))}
 const gsay=(t,bad)=>{const m=$('#gmsg');m.textContent=t;m.style.color=bad?'var(--no)':'var(--yes)'};
 function unlock(){$('#gate').hidden=true;$('#app').hidden=false;$('#out').hidden=false;load()}
-$('#in').onclick=async()=>{try{T=await unseal(C.vault,$('#pw').value);sessionStorage.setItem('gh_t',T);unlock()}catch{gsay('Şifre yanlış.',1)}};
+$('#in').onclick=async()=>{
+  const v=(C.vault||'').trim().replace(/^["']|["']$/g,'');
+  try{T=await unseal(v,$('#pw').value)}
+  catch(e){return gsay(e.name==='OperationError'?'Şifre yanlış ya da config.js içindeki vault başka bir şifreyle üretilmiş. Sayfayı Ctrl+F5 ile yenileyip tekrar dene. Sorun sürerse admin.html#kurulum adresinden yeni vault üret.':'config.js içindeki vault metni bozuk. Metnin tamamını, tırnakların arasına tek satır olarak yapıştırdığından emin ol.',1)}
+  try{sessionStorage.setItem('gh_t',T)}catch{}
+  unlock();
+};
 $('#pw').addEventListener('keydown',e=>{if(e.key==='Enter')$('#in').click()});
 $('#out').onclick=()=>{sessionStorage.removeItem('gh_t');location.reload()};
 $('#mk').onclick=async()=>{const t=$('#tok').value.trim(),p=$('#pw1').value;
   if(!t)return gsay('Token boş.',1);if(p.length<12)return gsay('Şifre en az 12 karakter olmalı.',1);if(p!==$('#pw2').value)return gsay('Şifreler aynı değil.',1);
-  $('#vout').value=await seal(t,p);gsay('Hazır. Bu metni config.js içindeki vault alanına yapıştır.')};
-if(!C.vault){$('#login').hidden=true;$('#setup').hidden=false}
+  const v=await seal(t,p);try{await unseal(v,p)}catch{return gsay('Doğrulama başarısız, tekrar dene.',1)}$('#vout').value=v;gsay('Hazır ve doğrulandı. Bu metni config.js içindeki vault alanına yapıştır.')};
+if(!C.vault||location.hash==='#kurulum'){$('#login').hidden=true;$('#setup').hidden=false}
 else if(T)unlock();
 
 async function load(){
