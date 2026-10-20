@@ -1,5 +1,27 @@
 [
   {
+    "id": "mvh3id1u",
+    "status": "bitirdim",
+    "title": "Hollow Knight: Silksong",
+    "image": "https://media.rawg.io/media/games/27c/27cd8b7dead05a870f8a514a9a1915ad.jpg",
+    "platform": "PC",
+    "genres": [
+      "Bağımsız",
+      "Platform",
+      "Macera",
+      "Aksiyon"
+    ],
+    "score": 9,
+    "hours": 35,
+    "finished": "2026-07-17",
+    "recommended": true,
+    "review": "https://www.technopat.net/sosyal/konu/hollow-knight-silksong-team-cherry-saygiyi-her-konuda-hak-ediyor.4143949/",
+    "note": "Hollow Knight, bağımsız oyun dünyasının en önemli yapımlarından biri olarak kabul edilir bence. Team Cherry'nin 2017 yılında çıkardığı bu Metroidvania oyunu, atmosferi, keşif odaklı yapısı ve zorlu oynanışıyla kısa sürede geniş bir oyuncu kitlesi kazandı. Devam oyunu Silksong ise ilk kez 2019 yılında duyurulmasına rağmen yıllarca süren sessizlik nedeniyle oyun dünyasının en çok beklenen yapımlarından biri haline geldi. Bekleyiş uzadıkça beklentiler de aynı ölçüde büyüdü ve doğal olarak herkesin aklındaki soru aynıydı.",
+    "year": 2025,
+    "developer": "Team Cherry",
+    "favorite": true
+  },
+  {
     "id": "mvh2rqsw",
     "status": "bitirdim",
     "title": "Samson",
