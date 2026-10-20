@@ -1,5 +1,21 @@
 [
   {
+    "id": "mvh2nfhs",
+    "status": "bitirdim",
+    "title": "007 First Light",
+    "image": "https://media.rawg.io/media/games/86f/86f2dc1b9671f25a13ff92e069b51786.jpg",
+    "platform": "PC",
+    "genres": [
+      "Aksiyon"
+    ],
+    "score": 8,
+    "hours": 15,
+    "finished": "2026-05-31",
+    "recommended": true,
+    "review": "https://www.technopat.net/sosyal/konu/007-first-light-hitman-hissiyatiyla-james-bond.4114902/",
+    "note": "Bu oyun konusunda ciddi şüphelerim vardı. Bir yandan IO Interactive gibi oldukça yetenekli bir stüdyonun projeyi üstlenmiş olması güven veriyor, diğer yandan Hitman formülünün James Bond evrenine ne kadar uyum sağlayacağı konusunda soru işaretleri yaratıyordu. Tabii çıkmasını beklediğim oyunlardan da birisiydi."
+  },
+  {
     "id": "mvh15n0w",
     "title": "Ace Combat 8: Wings of Theve",
     "image": "https://media.rawg.io/media/games/541/541d6c97a674635d68ea3d19737f090b.jpg",
