@@ -92,3 +92,14 @@ a.more{display:inline;width:auto;height:auto;font-weight:700}
 .recb.yes{color:var(--yes)}.recb.no{color:var(--no)}
 dialog{scrollbar-width:none}dialog::-webkit-scrollbar{display:none}
 dialog .cover{aspect-ratio:16/7}
+
+/* v5: üst bar düğmeleri */
+.acts{display:flex;gap:10px;align-items:center}
+.btn.ico{display:inline-flex;align-items:center;gap:8px;border-color:var(--acc);color:var(--acc);font-weight:700;text-decoration:none}
+a.btn.ico,a.btn.ico:visited{color:var(--acc)}
+.btn.ico:hover{background:var(--acc);color:var(--accink)}
+a.btn.ico:hover{color:var(--accink)}
+.btn.round{width:42px;height:42px;padding:0;justify-content:center;border-radius:50%}
+.btn.ico{min-height:42px}
+:root[data-theme=dark] .moon,:root[data-theme=light] .sun{display:none}
+@media(max-width:480px){.lbl{display:none}.btn.ico:not(.round){padding:0 12px}}
