@@ -5,5 +5,6 @@ window.CONFIG = {
   owner: "umutmelihakyol",        // GitHub kullanıcı adın
   repo: "umutmelihakyol-oyun",                  // Depo adı
   branch: "main",
-  path: "games.json"
+  path: "games.json",
+  vault: "Umutmelih+-123"                              // admin.html ilk kurulumda üretilen şifreli anahtar
 };
