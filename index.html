@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Oyun Günlüğüm</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700&family=Nunito+Sans:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script src="theme.js"></script>
+<script src="config.js"></script>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <h1 id="title">Oyun Günlüğüm</h1>
+    <button class="btn" onclick="toggleTheme()" aria-label="Açık/koyu temayı değiştir">Tema</button>
+  </header>
+  <div class="stats" id="stats"></div>
+  <div class="tools">
+    <input id="q" type="search" placeholder="Oyun ara…" aria-label="Oyun ara">
+    <select id="flt" aria-label="Filtre">
+      <option value="all">Hepsi</option><option value="yes">Önerdiklerim</option><option value="no">Önermediklerim</option><option value="rev">İncelemesi olanlar</option>
+    </select>
+    <select id="sort" aria-label="Sıralama">
+      <option value="date">En son bitirilen</option><option value="score">En yüksek puan</option><option value="hours">En uzun süre</option><option value="name">A-Z</option>
+    </select>
+  </div>
+  <main class="grid" id="grid"></main>
+</div>
+<script>
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const safeUrl=u=>/^https?:\/\//i.test(u||'')?esc(u):'';
+const fmtDate=d=>d?new Date(d).toLocaleDateString('tr-TR',{year:'numeric',month:'long'}):'—';
+let games=[];
+document.title=$('#title').textContent=(window.CONFIG&&CONFIG.siteTitle)||'Oyun Günlüğüm';
+
+function render(){
+  const q=$('#q').value.trim().toLocaleLowerCase('tr'),f=$('#flt').value,s=$('#sort').value;
+  let list=games.filter(g=>g.title.toLocaleLowerCase('tr').includes(q)&&(f==='all'||(f==='yes'&&g.recommended)||(f==='no'&&!g.recommended)||(f==='rev'&&g.review)));
+  list.sort((a,b)=>s==='score'?b.score-a.score:s==='hours'?b.hours-a.hours:s==='name'?a.title.localeCompare(b.title,'tr'):(b.finished||'').localeCompare(a.finished||''));
+  $('#grid').innerHTML=list.length?list.map(card).join(''):'<p class="empty">Gösterilecek oyun yok.</p>';
+  const n=games.length,h=games.reduce((t,g)=>t+(+g.hours||0),0),avg=n?games.reduce((t,g)=>t+(+g.score||0),0)/n:0,rec=games.filter(g=>g.recommended).length;
+  $('#stats').innerHTML=`<div><b>${n}</b>oyun</div><div><b>${h.toLocaleString('tr')}</b>saat</div><div><b>${avg.toFixed(1)}</b>ortalama puan</div><div><b>${rec}</b>önerilen</div>`;
+}
+function card(g){
+  const img=g.image?`<img src="${safeUrl(g.image)}" alt="${esc(g.title)} kapak görseli" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">`:'';
+  const rv=safeUrl(g.review);
+  return `<article class="card"><div class="cover">${img||''}<span class="score" title="Puanım">${(+g.score).toLocaleString('tr',{maximumFractionDigits:1})}</span></div>
+  <div class="body"><h3>${esc(g.title)}</h3><p class="meta">${esc(g.platform)}</p>
+  <dl class="facts"><dt>Süre</dt><dd>${esc(g.hours)} saat</dd><dt>Bitiş</dt><dd>${fmtDate(g.finished)}</dd></dl>
+  ${g.note?`<p class="note">${esc(g.note)}</p>`:''}
+  <div class="row"><span class="rec ${g.recommended?'yes':'no'}">${g.recommended?'Öneriyorum':'Önermiyorum'}</span>
+  ${rv?`<a href="${rv}" target="_blank" rel="noopener">İncelemeyi oku</a>`:'<span class="none">İnceleme yok</span>'}</div></div></article>`;
+}
+['q','flt','sort'].forEach(i=>$('#'+i).addEventListener('input',render));
+fetch('games.json?'+Date.now()).then(r=>r.json()).then(d=>{games=d;render()}).catch(()=>{$('#grid').innerHTML='<p class="empty">games.json yüklenemedi.</p>'});
+</script>
+</body>
+</html>

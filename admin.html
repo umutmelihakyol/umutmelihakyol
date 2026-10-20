@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Yönetim</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700&family=Nunito+Sans:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script src="theme.js"></script>
+<script src="config.js"></script>
+</head>
+<body>
+<div class="wrap">
+  <header class="top"><h1>Oyun ekle</h1><a class="btn" href="index.html">Siteye dön</a></header>
+
+  <section class="panel">
+    <h2>GitHub bağlantısı</h2>
+    <p class="meta">Kaydettiğin oyunlar bu anahtarla doğrudan siteye yazılır. Anahtar sadece bu tarayıcıda saklanır.</p>
+    <div class="f"><label class="wide">GitHub erişim anahtarı (token)<input id="tok" type="password" autocomplete="off"></label></div>
+    <p><button class="btn" id="saveTok">Anahtarı kaydet</button></p>
+  </section>
+
+  <section class="panel">
+    <h2>Oyun ara (kapak görseli otomatik gelir)</h2>
+    <div class="f"><label class="wide">Oyun adı<input id="s" placeholder="örn. Hades"></label></div>
+    <p><button class="btn" id="go">Ara</button></p>
+    <div class="res" id="res"></div>
+  </section>
+
+  <section class="panel">
+    <h2 id="ft">Oyun bilgileri</h2>
+    <div class="f">
+      <label>Oyun adı<input id="title"></label>
+      <label>Platform<input id="platform" placeholder="PC, PS5, Switch…"></label>
+      <label>Puanım (0-10)<input id="score" type="number" min="0" max="10" step="0.5"></label>
+      <label>Bitirme süresi (saat)<input id="hours" type="number" min="0" step="0.5"></label>
+      <label>Bitirdiğim tarih<input id="finished" type="date"></label>
+      <label>Öneriyor muyum?<select id="rec"><option value="1">Evet</option><option value="0">Hayır</option></select></label>
+      <label class="wide">İnceleme bağlantısı (yoksa boş bırak)<input id="review" type="url" placeholder="https://…"></label>
+      <label class="wide">Kapak görseli adresi<input id="image" type="url" placeholder="Arama ile otomatik dolar"></label>
+      <label class="wide">Kısa not<textarea id="note" rows="2"></textarea></label>
+    </div>
+    <p><button class="btn pri" id="add">Kaydet</button> <button class="btn" id="clr">Formu temizle</button></p>
+    <p class="msg" id="msg" role="status"></p>
+  </section>
+
+  <section class="panel"><h2>Kayıtlı oyunlar</h2><div id="list"></div>
+    <p><button class="btn" id="dl">games.json indir (elle yüklemek için)</button></p></section>
+</div>
+<script>
+const C=window.CONFIG,$=s=>document.querySelector(s),ids=['title','platform','score','hours','finished','review','image','note'];
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+let games=[],sha=null,editId=null;
+const tok=()=>localStorage.getItem('gh_token')||'';
+const api=`https://api.github.com/repos/${C.owner}/${C.repo}/contents/${C.path}`;
+const hdr=()=>({Authorization:'Bearer '+tok(),Accept:'application/vnd.github+json'});
+const say=(t,bad)=>{const m=$('#msg');m.textContent=t;m.style.color=bad?'var(--no)':'var(--yes)'};
+$('#tok').value=tok();
+$('#saveTok').onclick=()=>{localStorage.setItem('gh_token',$('#tok').value.trim());load()};
+
+async function load(){
+  if(tok()){
+    const r=await fetch(`${api}?ref=${C.branch}`,{headers:hdr()});
+    if(r.ok){const j=await r.json();sha=j.sha;games=JSON.parse(new TextDecoder().decode(Uint8Array.from(atob(j.content.replace(/\n/g,'')),c=>c.charCodeAt(0))));return list()}
+    say('GitHub\'a bağlanılamadı. Anahtarı ve config.js ayarlarını kontrol et.',1);
+  }
+  games=await fetch('games.json?'+Date.now()).then(r=>r.json()).catch(()=>[]);list();
+}
+async function persist(){
+  if(!tok()){say('Önce GitHub anahtarını kaydet ya da games.json dosyasını indirip elle yükle.',1);return false}
+  const bytes=new TextEncoder().encode(JSON.stringify(games,null,2));let b='';bytes.forEach(x=>b+=String.fromCharCode(x));
+  const r=await fetch(api,{method:'PUT',headers:hdr(),body:JSON.stringify({message:'Oyun listesi güncellendi',content:btoa(b),branch:C.branch,sha})});
+  if(!r.ok){say('Kaydedilemedi ('+r.status+'). Anahtarın "Contents: Read and write" iznine sahip olmalı.',1);return false}
+  sha=(await r.json()).content.sha;say('Kaydedildi. Site birkaç saniye içinde güncellenir.');return true;
+}
+function list(){
+  $('#list').innerHTML=games.map(g=>`<div class="li"><span>${esc(g.title)} <span class="meta">${esc(g.score)}/10</span></span><span><button class="btn" data-e="${esc(g.id)}">Düzenle</button> <button class="btn del" data-d="${esc(g.id)}">Sil</button></span></div>`).join('')||'<p class="meta">Henüz oyun yok.</p>';
+}
+$('#list').onclick=async e=>{
+  const d=e.target.dataset.d,ed=e.target.dataset.e;
+  if(d&&confirm('Bu oyun silinsin mi?')){const old=games;games=games.filter(g=>g.id!==d);if(await persist())list();else games=old}
+  if(ed){const g=games.find(x=>x.id===ed);editId=ed;ids.forEach(i=>$('#'+i).value=g[i]??'');$('#rec').value=g.recommended?'1':'0';$('#ft').textContent='Oyunu düzenle';scrollTo({top:0,behavior:'smooth'})}
+};
+function clear(){editId=null;ids.forEach(i=>$('#'+i).value='');$('#rec').value='1';$('#ft').textContent='Oyun bilgileri'}
+$('#clr').onclick=clear;
+$('#add').onclick=async()=>{
+  if(!$('#title').value.trim()||$('#score').value===''||$('#hours').value===''||!$('#finished').value)return say('Ad, puan, süre ve tarih zorunlu.',1);
+  const g={id:editId||Date.now().toString(36),title:$('#title').value.trim(),image:$('#image').value.trim(),platform:$('#platform').value.trim(),score:+$('#score').value,hours:+$('#hours').value,finished:$('#finished').value,recommended:$('#rec').value==='1',review:$('#review').value.trim(),note:$('#note').value.trim()};
+  const old=games;games=editId?games.map(x=>x.id===editId?g:x):[g,...games];
+  if(await persist()){clear();list()}else games=old;
+};
+$('#go').onclick=async()=>{
+  const q=$('#s').value.trim();if(!q)return;
+  const r=await fetch(`https://api.rawg.io/api/games?key=${C.rawgKey}&search_precise=true&page_size=6&search=${encodeURIComponent(q)}`).catch(()=>null);
+  if(!r||!r.ok)return $('#res').textContent='Arama başarısız. RAWG anahtarını kontrol et.';
+  const {results}=await r.json();
+  $('#res').innerHTML=results.map((x,i)=>`<button data-i="${i}">${x.background_image?`<img src="${esc(x.background_image)}" alt="">`:''}<span>${esc(x.name)}<br><small>${(x.released||'').slice(0,4)}</small></span></button>`).join('')||'Sonuç yok.';
+  $('#res').onclick=e=>{const b=e.target.closest('button');if(!b)return;const x=results[b.dataset.i];$('#title').value=x.name;$('#image').value=x.background_image||'';$('#platform').value=(x.platforms||[]).map(p=>p.platform.name)[0]||''};
+};
+$('#dl').onclick=()=>{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(games,null,2)],{type:'application/json'}));a.download='games.json';a.click()};
+load();
+</script>
+</body>
+</html>
