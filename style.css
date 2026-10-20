@@ -134,3 +134,15 @@ a.soonc,a.soonc:visited{flex:0 0 auto;display:flex;gap:12px;align-items:center;m
 .sth{width:64px;height:44px;border-radius:8px;object-fit:cover;background:var(--line);flex:none;display:block}
 footer.foot{color:var(--mute);padding:0 0 40px;margin-top:-30px}
 @media(max-width:760px){.c-pl,.c-dt,.c-rc{display:none}}
+
+/* v8: oyun öner, artılar/eksiler */
+.btn.ico[hidden]{display:none}
+.pcs{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.pc{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.pc h4{margin:0 0 6px;font:700 1rem 'Bricolage Grotesque',sans-serif}
+.pc.pro h4{color:var(--yes)}.pc.con h4{color:var(--no)}
+.pc ul{margin:0;padding:0;list-style:none}
+.pc li{position:relative;padding-left:22px;margin:4px 0;font-size:.93rem}
+.pc li::before{position:absolute;left:4px;font-weight:700}
+.pc.pro li::before{content:"+";color:var(--yes)}
+.pc.con li::before{content:"\2013";color:var(--no)}
