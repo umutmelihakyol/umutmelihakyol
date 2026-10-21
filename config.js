@@ -1,0 +1,13 @@
+// Ayarlar. Sadece burayı düzenlemen yeterli.
+window.CONFIG = {
+  siteTitle: "Günlüğüm",
+  rawgKey: "b17cd71e803c48bb8cb4e7b85034cf3b",   // Oyun araması: https://rawg.io/apidocs (ücretsiz)
+  tmdbKey: "",                           // Film ve dizi araması: themoviedb.org > Ayarlar > API > API Anahtarı (v3)
+  owner: "umutmelihakyol",               // GitHub kullanıcı adın
+  repo: "umutmelihakyol-oyun",           // Depo adı
+  branch: "main",
+  tagline: "",                           // Ana sayfa cümlesi (boşsa varsayılan görünür)
+  suggestUrl: "",                        // "Bana öner" düğmesi: Google Forms bağlantısı ya da mailto:adres@ornek.com?subject=Oyun%20önerisi
+  goatcounter: "",                       // GoatCounter kodun, boşsa sayaç kapalı
+  vault: ""                              // admin.html#kurulum ekranında üretilen şifreli anahtar
+};

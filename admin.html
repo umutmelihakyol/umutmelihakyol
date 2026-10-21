@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Yönetim</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700&family=Nunito+Sans:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script src="theme.js"></script>
+<script>document.write('<script src="config.js?'+Date.now()+'"><\/script>')</script>
+<script src="categories.js"></script>
+</head>
+<body>
+<div class="wrap">
+  <header class="top"><h1>Yönetim</h1><span><button class="btn" id="out" hidden>Çıkış</button> <a class="btn" href="index.html">Ana sayfa</a></span></header>
+
+  <section class="panel" id="gate">
+    <div id="login">
+      <h2>Giriş</h2>
+      <div class="f"><label class="wide">Şifre<input id="pw" type="password" autocomplete="current-password"></label></div>
+      <p><button class="btn pri" id="in">Giriş yap</button></p>
+    </div>
+    <div id="setup" hidden>
+      <h2>İlk kurulum</h2>
+      <p class="meta">GitHub anahtarını (token) ve seçtiğin şifreyi gir. Anahtar şifrelenir. Çıkan metni <b>config.js</b> içindeki <b>vault</b> alanına yapıştırıp siteyi yeniden yükle. Şifre en az 12 karakter olsun.</p>
+      <div class="f"><label class="wide">GitHub token<input id="tok" type="password" autocomplete="off"></label>
+      <label>Yeni şifre<input id="pw1" type="password" autocomplete="new-password"></label>
+      <label>Şifre (tekrar)<input id="pw2" type="password" autocomplete="new-password"></label>
+      <label class="wide">Şifreli anahtar<textarea id="vout" rows="3" readonly></textarea></label></div>
+      <p><button class="btn pri" id="mk">Şifreli anahtar oluştur</button></p>
+    </div>
+    <p class="msg" id="gmsg" role="status"></p>
+  </section>
+<div id="app" hidden>
+
+  <section class="panel">
+    <h2>Ne ekliyorsun?</h2>
+    <div class="pills" id="catpills" role="group" aria-label="Kategori" style="margin:0"></div>
+  </section>
+
+  <section class="panel">
+    <h2 id="hs">Ara</h2>
+    <div class="f"><label class="wide">Ad<input id="s"></label></div>
+    <p><button class="btn" id="go">Ara</button></p>
+    <div class="res" id="res"></div>
+  </section>
+
+  <section class="panel">
+    <h2 id="ft">Bilgiler</h2>
+    <div class="f">
+      <label>Durum<select id="status"></select></label>
+      <label><span id="l-title">Adı</span><input id="title"></label>
+      <label><span id="l-plat">Platform</span><input id="platform"></label>
+      <label class="wide">Türler (virgülle ayır)<input id="genres" placeholder="Aksiyon, Macera"></label>
+      <label><span id="l-year">Çıkış yılı</span><input id="year" type="number" min="1880" max="2100"></label>
+      <label><span id="l-person">Geliştirici</span><input id="person"></label>
+      <label>Favorim mi?<select id="fav"><option value="0">Hayır</option><option value="1">Evet</option></select></label>
+      <label>Puanım (0-10, bitirdiysen zorunlu)<input id="score" type="number" min="0" max="10" step="0.5"></label>
+      <label><span id="l-dur">Süre</span><input id="dur" type="number" min="0" step="1"></label>
+      <label id="dur2wrap" hidden><span id="l-dur2">Bölüm sayısı</span><input id="dur2" type="number" min="0" step="1"></label>
+      <label><span id="l-date">Tarih</span><input id="finished" type="date"></label>
+      <label>Öneriyor muyum?<select id="rec"><option value="1">Evet</option><option value="0">Hayır</option><option value="">Belirtme</option></select></label>
+      <label class="wide">İnceleme bağlantısı (yoksa boş bırak)<input id="review" type="url" placeholder="https://…"></label>
+      <label class="wide">Kapak görseli adresi<input id="image" type="url" placeholder="Arama ile otomatik dolar"></label>
+      <label class="wide">Kısa not<textarea id="note" rows="2"></textarea></label>
+      <label>Artılar (her satıra bir madde, isteğe bağlı)<textarea id="pros" rows="3"></textarea></label>
+      <label>Eksiler (her satıra bir madde, isteğe bağlı)<textarea id="cons" rows="3"></textarea></label>
+    </div>
+    <p><button class="btn pri" id="add">Kaydet</button> <button class="btn" id="clr">Formu temizle</button></p>
+    <p class="msg" id="msg" role="status"></p>
+  </section>
+
+  <section class="panel"><h2 id="lh">Kayıtlı kayıtlar</h2><div id="list"></div>
+    <p><button class="btn" id="dl">İndir (yedek)</button></p></section>
+</div>
+</div>
+<script>
+const C=window.CONFIG||{},$=s=>document.querySelector(s),CATS=window.CATS;
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+let cat='oyun';try{cat=localStorage.getItem('admin_cat')||'oyun'}catch{}if(!CATS[cat])cat='oyun';
+const D={},cfg=()=>CATS[cat],data=()=>D[cat]||(D[cat]={games:[],sha:null,loaded:false});
+const ids=['title','platform','score','finished','review','image','note','year','dur','dur2','person'];
+let editId=null;
+let T=sessionStorage.getItem('gh_t')||'';const tok=()=>T;
+const api=c=>`https://api.github.com/repos/${C.owner}/${C.repo}/contents/${CATS[c].file}`;
+const hdr=()=>({Authorization:'Bearer '+tok(),Accept:'application/vnd.github+json'});
+const say=(t,bad)=>{const m=$('#msg');m.textContent=t;m.style.color=bad?'var(--no)':'var(--yes)';m.scrollIntoView({block:'nearest',behavior:'smooth'})};
+const errOf=async r=>{let m='';try{m=(await r.json()).message||''}catch{}const e=new Error(r.status+(m?' ('+m+')':''));e.status=r.status;return e};
+const hint=st=>st===401?' Token geçersiz ya da süresi dolmuş. Yeni token üretip admin.html#kurulum ile vault\'u yenile.':st===403||st===404?' Token bu depoya "Contents: Read and write" izni vermiyor olabilir ya da config.js içindeki owner, repo, branch ayarı yanlış.':'';
+const TR={Action:'Aksiyon',Adventure:'Macera',RPG:'RPG',Strategy:'Strateji',Shooter:'Nişancı',Puzzle:'Bulmaca',Platformer:'Platform',Racing:'Yarış',Sports:'Spor',Simulation:'Simülasyon',Indie:'Bağımsız',Fighting:'Dövüş',Casual:'Rahat',Arcade:'Arcade','Massively Multiplayer':'MMO',Family:'Aile','Board Games':'Masa oyunu',Card:'Kart',Educational:'Eğitici'};
+const AN={Action:'Aksiyon',Adventure:'Macera',Comedy:'Komedi',Drama:'Dram',Fantasy:'Fantastik',Horror:'Korku',Mystery:'Gizem',Romance:'Romantik','Sci-Fi':'Bilim Kurgu','Slice of Life':'Günlük Yaşam',Sports:'Spor',Supernatural:'Doğaüstü',Suspense:'Gerilim',Ecchi:'Ecchi',Mecha:'Mecha',Music:'Müzik',Psychological:'Psikolojik','Avant Garde':'Avangart','Boys Love':'Boys Love','Girls Love':'Girls Love',Gourmet:'Gurme'};
+const enc=new TextEncoder(),dec=new TextDecoder(),b64=u=>btoa(String.fromCharCode(...u)),unb=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
+async function key(pw,salt){const m=await crypto.subtle.importKey('raw',enc.encode(pw.normalize('NFC')),'PBKDF2',false,['deriveKey']);return crypto.subtle.deriveKey({name:'PBKDF2',salt,iterations:250000,hash:'SHA-256'},m,{name:'AES-GCM',length:256},false,['encrypt','decrypt'])}
+async function seal(tk,pw){const salt=crypto.getRandomValues(new Uint8Array(16)),iv=crypto.getRandomValues(new Uint8Array(12));const ct=new Uint8Array(await crypto.subtle.encrypt({name:'AES-GCM',iv},await key(pw,salt),enc.encode(tk)));return [b64(salt),b64(iv),b64(ct)].join('.')}
+async function unseal(v,pw){const [s,i,c]=v.split('.').map(unb);return dec.decode(await crypto.subtle.decrypt({name:'AES-GCM',iv:i},await key(pw,s),c))}
+const gsay=(t,bad)=>{const m=$('#gmsg');m.textContent=t;m.style.color=bad?'var(--no)':'var(--yes)'};
+function unlock(){$('#gate').hidden=true;$('#app').hidden=false;$('#out').hidden=false;load()}
+$('#in').onclick=async()=>{
+  const v=(C.vault||'').trim().replace(/^["']|["']$/g,'');
+  if(v.split('.').length!==3||v.length<60)return gsay('config.js içindeki vault alanında şifreli anahtar yok, kısa bir metin var. Buraya şifreni değil, admin.html#kurulum ekranında üretilen uzun metni yapıştırmalısın.',1);
+  try{T=await unseal(v,$('#pw').value)}
+  catch(e){return gsay(e.name==='OperationError'?'Şifre yanlış ya da config.js içindeki vault başka bir şifreyle üretilmiş. Sayfayı Ctrl+F5 ile yenileyip tekrar dene. Sorun sürerse admin.html#kurulum adresinden yeni vault üret.':'config.js içindeki vault metni bozuk. Metnin tamamını, tırnakların arasına tek satır olarak yapıştırdığından emin ol.',1)}
+  if(!/^[\w-]+$/.test(T)){T='';return gsay('Vault içindeki token geçersiz karakter içeriyor, yani token yanlış kopyalanmış. admin.html#kurulum ile doğru token\'ı girip yeni vault üret.',1)}
+  try{sessionStorage.setItem('gh_t',T)}catch{}
+  unlock();
+};
+$('#pw').addEventListener('keydown',e=>{if(e.key==='Enter')$('#in').click()});
+$('#out').onclick=()=>{sessionStorage.removeItem('gh_t');location.reload()};
+$('#mk').onclick=async()=>{const t=$('#tok').value.trim(),p=$('#pw1').value;
+  if(!t)return gsay('Token boş.',1);if(!/^[\w-]{20,}$/.test(t))return gsay('Bu bir GitHub token\'ına benzemiyor. Token yalnızca harf, rakam, _ ve - içerir (örn. github_pat_11AB…). Boşluk, Türkçe karakter ya da başka bir metin kopyalamış olabilirsin.',1);if(p.length<12)return gsay('Şifre en az 12 karakter olmalı.',1);if(p!==$('#pw2').value)return gsay('Şifreler aynı değil.',1);
+  const v=await seal(t,p);try{await unseal(v,p)}catch{return gsay('Doğrulama başarısız, tekrar dene.',1)}$('#vout').value=v;gsay('Hazır ve doğrulandı. Bu metni config.js içindeki vault alanına yapıştır.')};
+if(!C.owner||!C.repo)gsay('config.js bulunamadı ya da owner/repo alanları boş. config.js dosyasını siteye yükle ve içindeki owner, repo, rawgKey değerlerini doldur.',1);
+if(!C.vault||location.hash==='#kurulum'){$('#login').hidden=true;$('#setup').hidden=false}
+else if(T)unlock();
+
+async function getFile(c){const r=await fetch(`${api(c)}?ref=${C.branch}`,{headers:hdr(),cache:'no-store'});if(r.status===404)return null;if(!r.ok)throw await errOf(r);return r.json()}
+async function load(){applyCat();await ensureLoaded()}
+async function ensureLoaded(){
+  const c=cat,d=data();if(d.loaded)return list();
+  try{
+    const j=await getFile(c);
+    if(!j){d.games=[];say(CATS[c].file+' GitHub\'da henüz yok, ilk kayıtta oluşturulacak.')}
+    else{d.sha=j.sha;d.games=JSON.parse(new TextDecoder().decode(Uint8Array.from(atob(j.content.replace(/\n/g,'')),x=>x.charCodeAt(0))));say('GitHub bağlantısı hazır: '+C.owner+'/'+C.repo)}
+    d.loaded=true;
+  }catch(e){say('GitHub\'a bağlanılamadı: '+e.message+hint(e.status),1);d.games=await fetch(CATS[c].file+'?'+Date.now()).then(r=>r.ok?r.json():[]).catch(()=>[])}
+  if(c===cat)list();
+}
+async function persist(){
+  if(!tok()){say('Oturum açık değil, sayfayı yenileyip tekrar giriş yap.',1);return false}
+  const c=cat,d=data(),btn=$('#add');btn.disabled=true;const lbl=btn.textContent;btn.textContent='Kaydediliyor…';
+  try{
+    const bytes=new TextEncoder().encode(JSON.stringify(d.games,null,2));let b='';bytes.forEach(x=>b+=String.fromCharCode(x));
+    for(let n=0;n<2;n++){
+      if(!d.sha){const j=await getFile(c);d.sha=j?j.sha:null}
+      const body={message:CATS[c].name+' listesi güncellendi',content:btoa(b),branch:C.branch};if(d.sha)body.sha=d.sha;
+      const r=await fetch(api(c),{method:'PUT',headers:hdr(),body:JSON.stringify(body)});
+      if(r.ok){d.sha=(await r.json()).content.sha;d.loaded=true;say('Kaydedildi. Site 1-2 dakika içinde güncellenir.');return true}
+      if((r.status===409||r.status===422)&&n===0){d.sha=null;continue}
+      throw await errOf(r);
+    }
+  }catch(e){say('Kaydedilemedi: '+e.message+hint(e.status),1);return false}
+  finally{btn.disabled=false;btn.textContent=lbl}
+}
+
+/* kategoriye göre form etiketleri */
+function applyCat(){
+  const c=cfg();
+  $('#catpills').innerHTML=Object.entries(CATS).map(([k,v])=>`<button class="pill" data-k="${k}" aria-pressed="${k===cat}">${ICON(k)} ${v.plural}</button>`).join('');
+  $('#hs').textContent=c.name+' ara (görsel ve bilgiler otomatik gelir)';
+  $('#s').placeholder=c.searchPh;$('#s').previousSibling.textContent=c.name+' adı';
+  $('#l-title').textContent=c.name+' adı';
+  $('#l-plat').textContent=c.plat.label+' (birden fazlaysa virgülle)';$('#platform').placeholder=c.plat.ph;
+  $('#l-year').textContent=c.yearLabel;$('#l-person').textContent=c.person.label;
+  $('#l-dur').textContent=c.dur.form;$('#dur').step=c.dur.step;
+  $('#dur2wrap').hidden=!c.dur2;if(c.dur2)$('#l-dur2').textContent=c.dur2.form;
+  $('#l-date').textContent=c.dateForm;
+  $('#status').innerHTML=Object.entries(c.st).map(([k,v])=>`<option value="${k}">${v}</option>`).join('');
+  $('#ft').textContent=editId?c.name+' düzenle':c.name+' bilgileri';
+  $('#lh').textContent='Kayıtlı '+c.plural.toLowerCase();
+  $('#dl').textContent=c.file+' indir (yedek)';
+}
+$('#catpills').addEventListener('click',e=>{
+  const b=e.target.closest('.pill');if(!b||b.dataset.k===cat)return;
+  cat=b.dataset.k;try{localStorage.setItem('admin_cat',cat)}catch{}
+  clear();applyCat();$('#res').innerHTML='';$('#msg').textContent='';ensureLoaded();
+});
+function list(){
+  const c=cfg();
+  $('#list').innerHTML=data().games.map(g=>`<div class="li"><span>${esc(g.title)} <span class="meta">${esc(c.st[g.status||'bitirdim'])}${g.score!=null&&g.score!==''?', '+esc(g.score)+'/10':''}</span></span><span><button class="btn" data-e="${esc(g.id)}">Düzenle</button> <button class="btn del" data-d="${esc(g.id)}">Sil</button></span></div>`).join('')||'<p class="meta">Henüz kayıt yok.</p>';
+}
+$('#list').onclick=async e=>{
+  const d=e.target.dataset.d,ed=e.target.dataset.e,D0=data();
+  if(d&&confirm('Bu kayıt silinsin mi?')){const old=D0.games;D0.games=D0.games.filter(g=>g.id!==d);if(await persist())list();else D0.games=old}
+  if(ed){const g=D0.games.find(x=>x.id===ed),c=cfg();editId=ed;
+    const m={...g,dur:g[c.dur.key],dur2:c.dur2?g[c.dur2.key]:'',person:g[c.person.key]};
+    ids.forEach(i=>$('#'+i).value=m[i]??'');
+    $('#fav').value=g.favorite?'1':'0';$('#pros').value=(g.pros||[]).join('\n');$('#cons').value=(g.cons||[]).join('\n');$('#genres').value=(g.genres||[]).join(', ');
+    $('#status').value=g.status||'bitirdim';$('#rec').value=g.recommended===true?'1':g.recommended===false?'0':'';
+    $('#ft').textContent=c.name+' düzenle';scrollTo({top:0,behavior:'smooth'})}
+};
+function clear(){editId=null;ids.forEach(i=>$('#'+i).value='');$('#genres').value='';$('#pros').value='';$('#cons').value='';$('#fav').value='0';$('#rec').value='1';if($('#status').options.length)$('#status').value='bitirdim';$('#ft').textContent=cfg().name+' bilgileri'}
+$('#clr').onclick=clear;
+$('#add').onclick=async()=>{
+  const c=cfg(),d=data(),stt=$('#status').value,val=i=>$('#'+i).value.trim();
+  if(!val('title'))return say('Ad zorunlu.',1);
+  if(stt==='bitirdim'&&(val('score')===''||!val('finished')||(c.dur.req&&val('dur')==='')))return say(c.dur.req?'Bitirdiklerinde puan, süre ve tarih zorunlu.':'Bitirdiklerinde puan ve tarih zorunlu.',1);
+  const n=i=>val(i)===''?null:+val(i),lines=i=>$('#'+i).value.split('\n').map(x=>x.trim()).filter(Boolean);
+  const g={id:editId||Date.now().toString(36),status:stt,title:val('title'),image:val('image'),platform:val('platform'),genres:val('genres').split(',').map(x=>x.trim()).filter(Boolean),score:n('score'),finished:val('finished')||null,recommended:$('#rec').value===''?null:$('#rec').value==='1',review:val('review'),note:val('note'),year:n('year'),favorite:$('#fav').value==='1',pros:lines('pros'),cons:lines('cons'),updatedAt:new Date().toISOString()};
+  g[c.dur.key]=n('dur');if(c.dur2)g[c.dur2.key]=n('dur2');g[c.person.key]=val('person');
+  const old=d.games;d.games=editId?d.games.map(x=>x.id===editId?g:x):[g,...d.games];
+  if(await persist()){clear();list()}else d.games=old;
+};
+
+/* API aramaları: her sonuç {name,img,year,pick()} döner */
+const TM='https://api.themoviedb.org/3',TI='https://image.tmdb.org/t/p';
+const tmq=(p,x='')=>`${TM}${p}?api_key=${C.tmdbKey}&language=tr-TR${x}`;
+const SEARCH={
+  async oyun(q){
+    const r=await fetch(`https://api.rawg.io/api/games?key=${C.rawgKey}&search_precise=true&page_size=6&search=${encodeURIComponent(q)}`);
+    if(!r.ok)throw new Error('RAWG anahtarını kontrol et ('+r.status+')');
+    return (await r.json()).results.map(x=>({name:x.name,img:x.background_image,year:(x.released||'').slice(0,4),
+      async pick(){let person='';try{const d=await fetch(`https://api.rawg.io/api/games/${x.id}?key=${C.rawgKey}`).then(r=>r.json());person=(d.developers||[]).map(v=>v.name).join(', ')}catch{}
+        return {title:x.name,image:x.background_image||'',year:(x.released||'').slice(0,4),genres:(x.genres||[]).map(t=>TR[t.name]||t.name),platform:(x.platforms||[]).map(p=>p.platform.name)[0]||'',person}}}));
+  },
+  async tmdb(kind,q){
+    if(!C.tmdbKey)throw new Error('config.js içindeki tmdbKey alanı boş. themoviedb.org hesabından ücretsiz API anahtarı alıp yaz.');
+    const r=await fetch(tmq('/search/'+kind,'&query='+encodeURIComponent(q)));
+    if(!r.ok)throw new Error('TMDB anahtarını kontrol et ('+r.status+')');
+    const pic=x=>x.backdrop_path?TI+'/w780'+x.backdrop_path:x.poster_path?TI+'/w500'+x.poster_path:'';
+    return (await r.json()).results.slice(0,6).map(x=>({name:x.title||x.name,img:pic(x),year:(x.release_date||x.first_air_date||'').slice(0,4),
+      async pick(){
+        const d=await fetch(tmq(`/${kind}/${x.id}`,kind==='movie'?'&append_to_response=credits':'')).then(r=>r.json());
+        const base={image:pic(d)||pic(x),genres:(d.genres||[]).map(g=>g.name)};
+        return kind==='movie'
+          ?{...base,title:d.title,year:(d.release_date||'').slice(0,4),person:((d.credits||{}).crew||[]).filter(c=>c.job==='Director').map(c=>c.name).join(', '),dur:d.runtime||''}
+          :{...base,title:d.name,year:(d.first_air_date||'').slice(0,4),person:(d.created_by||[]).map(c=>c.name).join(', '),dur:d.number_of_seasons||'',dur2:d.number_of_episodes||''};
+      }}));
+  },
+  async anime(q){
+    const r=await fetch(`https://api.jikan.moe/v4/anime?q=${encodeURIComponent(q)}&limit=6&sfw=true`);
+    if(!r.ok)throw new Error('Jikan şu an yanıt vermiyor ('+r.status+'), biraz sonra tekrar dene');
+    return (await r.json()).data.map(x=>{const img=((x.images||{}).jpg||{}).large_image_url||'',yr=String(x.year||(x.aired||{}).from||'').slice(0,4),name=x.title_english||x.title;
+      return {name,img,year:yr,async pick(){return {title:name,image:img,year:yr,genres:(x.genres||[]).map(g=>AN[g.name]||g.name),person:(x.studios||[]).map(s=>s.name).join(', '),dur:x.episodes||''}}}});
+  }
+};
+const search=q=>cat==='oyun'?SEARCH.oyun(q):cat==='film'?SEARCH.tmdb('movie',q):cat==='dizi'?SEARCH.tmdb('tv',q):SEARCH.anime(q);
+function applyPick(p){
+  const set=(i,v)=>{if(v!==undefined)$('#'+i).value=v??''};
+  set('title',p.title);set('image',p.image);set('year',p.year);set('genres',(p.genres||[]).join(', '));set('person',p.person);
+  if(p.platform)set('platform',p.platform);if(p.dur!==undefined&&p.dur!=='')set('dur',p.dur);if(p.dur2!==undefined&&p.dur2!=='')set('dur2',p.dur2);
+}
+let results=[];
+$('#go').onclick=async()=>{
+  const q=$('#s').value.trim();if(!q)return;
+  $('#res').textContent='Aranıyor…';
+  try{
+    results=await search(q);
+    $('#res').innerHTML=results.map((x,i)=>`<button data-i="${i}">${x.img?`<img src="${esc(x.img)}" alt="">`:''}<span>${esc(x.name)}<br><small>${esc(x.year)}</small></span></button>`).join('')||'Sonuç yok.';
+  }catch(e){$('#res').textContent='Arama başarısız: '+e.message}
+};
+$('#s').addEventListener('keydown',e=>{if(e.key==='Enter')$('#go').click()});
+$('#res').onclick=async e=>{
+  const b=e.target.closest('button');if(!b)return;
+  try{applyPick(await results[b.dataset.i].pick());say('Bilgiler dolduruldu. Durumu, puanı ve tarihi girip kaydet.');window.scrollTo({top:$('#ft').getBoundingClientRect().top+scrollY-20,behavior:'smooth'})}
+  catch(err){say('Bilgiler alınamadı: '+err.message,1)}
+};
+$('#dl').onclick=()=>{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(data().games,null,2)],{type:'application/json'}));a.download=cfg().file;a.click()};
+</script>
+</body>
+</html>
