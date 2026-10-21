@@ -1,1 +1,41 @@
-[]
+[
+  {
+    "id": "mvilqdck",
+    "status": "bitirdim",
+    "title": "007 First Light",
+    "image": "https://media.rawg.io/media/games/86f/86f2dc1b9671f25a13ff92e069b51786.jpg",
+    "platform": "PC",
+    "genres": [
+      "Aksiyon"
+    ],
+    "score": 8.5,
+    "finished": "2026-05-31",
+    "recommended": true,
+    "review": "https://www.technopat.net/sosyal/konu/007-first-light-hitman-hissiyatiyla-james-bond.4114902/",
+    "note": "Bu oyun konusunda ciddi şüphelerim vardı. Bir yandan IO Interactive gibi oldukça yetenekli bir stüdyonun projeyi üstlenmiş olması güven veriyor, diğer yandan Hitman formülünün James Bond evrenine ne kadar uyum sağlayacağı konusunda soru işaretleri yaratıyordu. Tabii çıkmasını beklediğim oyunlardan da birisiydi.",
+    "year": 2026,
+    "favorite": false,
+    "pros": [],
+    "cons": [],
+    "updatedAt": "2026-10-21T21:05:55.988Z",
+    "hours": 14,
+    "developer": "IO Interactive"
+  },
+  {
+    "id": "ornek-1",
+    "title": "Örnek Oyun (admin sayfasından silebilirsin)",
+    "image": "",
+    "platform": "PC",
+    "score": 8.5,
+    "hours": 32,
+    "finished": "2026-03-14",
+    "recommended": true,
+    "review": "",
+    "note": "Hikayesi ve atmosferi çok iyiydi.",
+    "status": "bitirdim",
+    "genres": [
+      "Aksiyon",
+      "Macera"
+    ]
+  }
+]
