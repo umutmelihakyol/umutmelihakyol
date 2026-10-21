@@ -23,9 +23,12 @@
     "id": "mvimrmmj",
     "status": "bitirdim",
     "title": "Los Bandoleros",
-    "image": "",
+    "image": "https://image.tmdb.org/t/p/w780/q4MG2j8a7QEjg3ksd4hFXwBSNPf.jpg",
     "platform": "Sinema / Dijital",
-    "genres": [],
+    "genres": [
+      "Aksiyon",
+      "Dram"
+    ],
     "score": 7,
     "finished": "2025-03-20",
     "recommended": true,
@@ -35,9 +38,9 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-10-21T21:34:54.169Z",
-    "minutes": 120,
-    "director": ""
+    "updatedAt": "2026-10-21T21:36:14.319Z",
+    "minutes": 20,
+    "director": "Vin Diesel"
   },
   {
     "id": "mvimrmml",
