@@ -1,25 +1,5 @@
 [
   {
-    "id": "mvimrmko",
-    "status": "bitirdim",
-    "title": "The Italian Job",
-    "image": "",
-    "platform": "Sinema / Dijital",
-    "genres": [],
-    "score": 7,
-    "finished": "2024-03-20",
-    "recommended": true,
-    "review": "https://boxd.it/1Y86",
-    "note": "",
-    "year": 2003,
-    "favorite": false,
-    "pros": [],
-    "cons": [],
-    "updatedAt": "2026-10-21T21:34:54.139Z",
-    "minutes": 120,
-    "director": ""
-  },
-  {
     "id": "mvimrmmj",
     "status": "bitirdim",
     "title": "Los Bandoleros",
