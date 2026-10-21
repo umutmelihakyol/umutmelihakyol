@@ -1,1 +1,35 @@
-[]
+[
+  {
+    "id": "mviljqp4",
+    "status": "bitirdim",
+    "title": "The Rookie",
+    "image": "https://image.tmdb.org/t/p/w780/6iNWfGVCEfASDdlNb05TP5nG0ll.jpg",
+    "platform": "HDFilmCehennemi",
+    "genres": [
+      "Suç",
+      "Dram",
+      "Komedi"
+    ],
+    "score": 8.5,
+    "finished": "2026-10-15",
+    "recommended": true,
+    "review": "",
+    "note": "The Rookie, klasik polisiyeyi aksiyon, dram ve mizahla birleştiren sürükleyici bir dizi. Hikâyemiz, 40'lı yaşlarında hayatını yeniden şekillendirmeye karar veren John Nolan'ın Los Angeles Polis Departmanına katılmasıyla başlıyor. Nolan'ın mesleğe yeni başlayan diğer polislerle birlikte yaşadığı olaylar, dizinin en keyifli yanlarından biri.",
+    "year": 2018,
+    "favorite": true,
+    "pros": [
+      "Sürükleyici hikâye ve başarılı karakterler",
+      "Aksiyon, dram ve mizahın dengeli kullanılması",
+      "Karakter gelişiminin başarılı işlenmesi"
+    ],
+    "cons": [
+      "Bazı olayların fazla abartılı olması",
+      "Zaman zaman tahmin edilebilir hikâyeler",
+      "Bazı bölümlerde tempo düşüşü"
+    ],
+    "updatedAt": "2026-10-21T21:00:46.696Z",
+    "seasons": 8,
+    "episodes": 145,
+    "creator": "Alexi Hawley"
+  }
+]
