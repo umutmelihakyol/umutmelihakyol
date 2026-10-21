@@ -20,22 +20,5 @@
     "updatedAt": "2026-10-21T21:05:55.988Z",
     "hours": 14,
     "developer": "IO Interactive"
-  },
-  {
-    "id": "ornek-1",
-    "title": "Örnek Oyun (admin sayfasından silebilirsin)",
-    "image": "",
-    "platform": "PC",
-    "score": 8.5,
-    "hours": 32,
-    "finished": "2026-03-14",
-    "recommended": true,
-    "review": "",
-    "note": "Hikayesi ve atmosferi çok iyiydi.",
-    "status": "bitirdim",
-    "genres": [
-      "Aksiyon",
-      "Macera"
-    ]
   }
 ]
