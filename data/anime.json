@@ -1,5 +1,30 @@
 [
   {
+    "id": "mvk1hq8x",
+    "status": "istek",
+    "title": "Record of Ragnarok III",
+    "image": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx187921-jHCMGThdJtS6.jpg",
+    "platform": "",
+    "genres": [
+      "Aksiyon",
+      "Dram",
+      "Fantastik",
+      "Doğaüstü"
+    ],
+    "score": null,
+    "finished": null,
+    "recommended": true,
+    "review": "",
+    "note": "",
+    "year": 2025,
+    "favorite": false,
+    "pros": [],
+    "cons": [],
+    "updatedAt": "2026-10-22T21:14:52.833Z",
+    "episodes": 15,
+    "studio": "Yumeta Company, MARU animation"
+  },
+  {
     "id": "mvk1hhls",
     "status": "istek",
     "title": "Record of Ragnarok",
