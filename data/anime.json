@@ -1,5 +1,30 @@
 [
   {
+    "id": "mvk1hhls",
+    "status": "istek",
+    "title": "Record of Ragnarok",
+    "image": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx127399-AAH1pevCZLrB.jpg",
+    "platform": "",
+    "genres": [
+      "Aksiyon",
+      "Dram",
+      "Fantastik",
+      "Doğaüstü"
+    ],
+    "score": null,
+    "finished": null,
+    "recommended": true,
+    "review": "",
+    "note": "",
+    "year": 2021,
+    "favorite": false,
+    "pros": [],
+    "cons": [],
+    "updatedAt": "2026-10-22T21:14:41.632Z",
+    "episodes": 12,
+    "studio": "Graphinica"
+  },
+  {
     "id": "mvj3sfoi",
     "status": "bitirdim",
     "title": "Death Note",
