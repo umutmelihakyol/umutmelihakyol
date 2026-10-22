@@ -386,3 +386,59 @@ dialog .tags::-webkit-scrollbar,
   height: 0 !important;
   background: transparent !important;
 }
+
+
+/* Final tag-strip behavior: drag to scroll, no selection, no visible scrollbar. */
+.tags,
+.tags.wrapt,
+.card .sub .tags,
+dialog .tags,
+dialog .tags.wrapt {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap !important;
+  gap: 6px;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  height: 1.8em;
+  max-height: none;
+  margin: 0;
+  padding: 0 0 2px;
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+  white-space: nowrap;
+  overscroll-behavior-x: contain;
+  touch-action: pan-x;
+  cursor: grab;
+  user-select: none !important;
+  -webkit-user-select: none !important;
+  -webkit-touch-callout: none;
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+.tags.is-dragging,
+.tags.wrapt.is-dragging,
+.card .sub .tags.is-dragging,
+dialog .tags.is-dragging {
+  cursor: grabbing;
+}
+.tags span,
+.tags.wrapt span,
+dialog .tags span {
+  flex: 0 0 auto;
+  max-width: none;
+  white-space: nowrap;
+  user-select: none !important;
+  -webkit-user-select: none !important;
+}
+.tags::-webkit-scrollbar,
+.tags.wrapt::-webkit-scrollbar,
+.card .sub .tags::-webkit-scrollbar,
+dialog .tags::-webkit-scrollbar,
+dialog .tags.wrapt::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  background: transparent !important;
+}
