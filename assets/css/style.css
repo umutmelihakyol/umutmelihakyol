@@ -370,3 +370,19 @@ dialog .tags span,
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; }
 }
+
+/* Kaydırma işlevini koru, kaydırma çubuklarını gizle. */
+.card .sub .tags,
+dialog .tags,
+.tags.wrapt {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+.card .sub .tags::-webkit-scrollbar,
+dialog .tags::-webkit-scrollbar,
+.tags.wrapt::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  background: transparent !important;
+}
