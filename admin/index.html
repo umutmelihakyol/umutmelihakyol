@@ -88,7 +88,23 @@
   .backup-controls > * { min-width:0; }
   .backup-file { width:100%; padding:12px; border:1px dashed var(--line); border-radius:10px; background:var(--bg); }
   .backup-note { color:var(--mute); font-size:.88rem; }
-  @media(max-width:760px){ .analytics-grid,.backup-controls { grid-template-columns:1fr; } .bar-row { grid-template-columns:minmax(75px,1fr) minmax(60px,1.2fr) auto; gap:7px; } }
+  .tech-admin-list { display:grid; gap:10px; }
+  .tech-admin-item { display:flex; align-items:flex-start; justify-content:space-between; gap:14px; padding:13px; border:1px solid var(--line); border-radius:10px; background:var(--bg); }
+  .tech-admin-item-main { flex:1; min-width:0; }
+  .tech-admin-item-main strong { display:block; overflow-wrap:anywhere; margin-bottom:4px; }
+  .tech-admin-item-main p { margin:6px 0; color:var(--mute); font-size:.9rem; }
+  .tech-admin-item-main a { overflow-wrap:anywhere; font-size:.85rem; }
+  .tech-admin-actions { display:flex; flex-wrap:wrap; gap:6px; }
+  .tech-admin-actions .btn { white-space:nowrap; }
+  .tech-admin-status { border:1px solid var(--line); border-radius:10px; padding:11px 13px; margin:10px 0; background:var(--bg); }
+  .tech-admin-status[data-state="dirty"] { border-color:var(--acc); }
+  .tech-admin-status[data-state="error"] { color:var(--no); }
+  .tech-admin-status[data-state="success"] { color:var(--yes); }
+  .tech-admin-form-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; }
+  .tech-admin-form-grid > * { min-width:0; }
+  .tech-admin-form-grid .wide { grid-column:1 / -1; }
+  .tech-admin-form-grid textarea { width:100%; box-sizing:border-box; resize:vertical; }
+  @media(max-width:760px){ .analytics-grid,.backup-controls,.tech-admin-form-grid { grid-template-columns:1fr; } .bar-row { grid-template-columns:minmax(75px,1fr) minmax(60px,1.2fr) auto; gap:7px; } .tech-admin-item { flex-direction:column; } .tech-admin-form-grid .wide { grid-column:auto; } }
 </style>
 <script src="../scripts/theme.js"></script>
 <script>document.write('<script src="../scripts/config.js?'+Date.now()+'"><\/script>')</script>
@@ -135,6 +151,7 @@
       <button class="btn tab-btn" role="tab" data-tab="import" aria-selected="false">🔄 Platformdan İçe Aktar</button>
       <button class="btn tab-btn" role="tab" data-tab="stats" aria-selected="false">📊 Genel Bakış & Yedek</button>
       <button class="btn tab-btn" role="tab" data-tab="health" aria-selected="false">🩺 Arşiv Kontrol Merkezi</button>
+      <button class="btn tab-btn" role="tab" data-tab="technopat" aria-selected="false">📝 Technopat İçerikleri</button>
       <button class="btn tab-btn" role="tab" data-tab="settings" aria-selected="false">⚙️ Site & API Ayarları</button>
       <button class="btn tab-btn" role="tab" data-tab="files" aria-selected="false">💻 Dosya & Kod Editörü</button>
     </nav>
@@ -401,7 +418,53 @@
       </section>
     </div>
 
-    <!-- SEKME 5: HAM DOSYA & KOD EDİTÖRÜ -->
+    <!-- SEKME: TECHNOPAT İÇERİK YÖNETİMİ -->
+    <div id="tab-technopat" class="tab-pane" hidden>
+      <section class="panel">
+        <h2>Technopat İçerik Yönetimi</h2>
+        <p class="meta">Ana sayfadaki Technopat bölümünde görünen inceleme ve rehber kartlarını buradan yönetebilirsin. Eklediğin, düzenlediğin veya sildiğin değişiklikler önce bu ekranda tutulur; GitHub'a göndermek için ayrıca kaydetmelisin.</p>
+        <div class="tech-admin-status" id="techAdminStatus" data-state="info" role="status" aria-live="polite">Technopat içeriklerini yüklemek için GitHub'dan Getir düğmesine bas.</div>
+        <div class="toolbar">
+          <label style="flex:1;min-width:190px">Listelenecek bölüm
+            <select id="techListType"><option value="reviews">İncelemeler</option><option value="guides">Rehberler</option></select>
+          </label>
+          <button class="btn" id="loadTechAdminBtn" type="button">GitHub'dan Getir / Yenile</button>
+          <button class="btn pri" id="saveTechAdminBtn" type="button">Değişiklikleri GitHub'a Kaydet</button>
+        </div>
+        <div class="stats-grid" id="techAdminSummary"></div>
+      </section>
+
+      <section class="panel">
+        <h2>Mevcut kartlar</h2>
+        <div id="techAdminList" class="tech-admin-list"><p class="meta">İçerikler henüz yüklenmedi.</p></div>
+      </section>
+
+      <section class="panel" id="techAdminEditorPanel">
+        <h2 id="techAdminFormTitle">Yeni Technopat kartı</h2>
+        <p class="meta">Kart bağlantısı HTTPS üzerinden Technopat alan adına yönlenmelidir. Kategori, kart üzerinde filtre etiketi olarak kullanılır.</p>
+        <div class="tech-admin-form-grid">
+          <label>Yayınlanacak bölüm
+            <select id="techFormType"><option value="reviews">İncelemeler</option><option value="guides">Rehberler</option></select>
+          </label>
+          <label>Kategori
+            <select id="techFormCategory">
+              <option value="Oyun">Oyun</option><option value="Anime">Anime</option><option value="Film">Film</option><option value="Dizi">Dizi</option><option value="Teknoloji">Teknoloji</option><option value="Genel">Genel</option>
+            </select>
+          </label>
+          <label class="wide">Başlık<input id="techFormTitle" maxlength="180" placeholder="Örn. Oyun incelemesi" autocomplete="off"></label>
+          <label class="wide">Açıklama<textarea id="techFormDescription" rows="3" maxlength="600" placeholder="Kartta görünecek kısa açıklama"></textarea></label>
+          <label class="wide">Technopat bağlantısı<input id="techFormUrl" type="url" inputmode="url" placeholder="https://www.technopat.net/sosyal/konu/..."></label>
+          <label class="wide">Kart etiketi<input id="techFormTag" maxlength="60" placeholder="Örn. Oyun incelemesi, Başlangıç rehberi"></label>
+        </div>
+        <p style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn pri" id="applyTechFormBtn" type="button">Kartı Ekle / Güncelle</button>
+          <button class="btn" id="clearTechFormBtn" type="button">Formu Temizle</button>
+        </p>
+        <p class="backup-note">“Kartı Ekle / Güncelle” yalnızca ekrandaki taslağı değiştirir. Değişiklikleri ziyaretçilerin görmesi için üstteki “Değişiklikleri GitHub'a Kaydet” düğmesini kullan.</p>
+      </section>
+    </div>
+
+    <!-- SEKME: HAM DOSYA & KOD EDİTÖRÜ -->
     <div id="tab-files" class="tab-pane" hidden>
       <section class="panel">
         <h2>GitHub Depo Dosya Düzenleyici</h2>
@@ -423,6 +486,7 @@
             <option value="data/movies.json">data/movies.json (Film Kayıtları)</option>
             <option value="data/series.json">data/series.json (Dizi Kayıtları)</option>
             <option value="data/anime.json">data/anime.json (Anime Kayıtları)</option>
+            <option value="data/technopat.json">data/technopat.json (Technopat İnceleme ve Rehber Kartları)</option>
             <option value="README.md">README.md</option>
           </select>
           <input id="customFilePath" placeholder="Veya özel dosya adı (örn: data/games.json)">
@@ -513,7 +577,147 @@ $$('.tab-btn').forEach(btn=>{
     const target=btn.dataset.tab;
     $$('.tab-pane').forEach(p=>p.hidden=(p.id!=='tab-'+target));
     if(target==='stats')renderStats(true);
+    if(target==='technopat')loadTechnopatAdmin(false);
   };
+});
+
+/* TECHNOPAT İÇERİK YÖNETİMİ — data/technopat.json */
+const TECH_DATA_PATH='data/technopat.json';
+const TECH_COLLECTIONS=['reviews','guides'];
+const TECH_CATEGORIES=['Oyun','Anime','Film','Dizi','Teknoloji','Genel'];
+let techAdminData={reviews:[],guides:[]};
+let techAdminSha=null,techAdminLoaded=false,techAdminDirty=false,techAdminEditing=null;
+const techCollectionName=key=>key==='guides'?'Rehberler':'İncelemeler';
+function techStatus(message,state='info'){
+  const el=$('#techAdminStatus');if(!el)return;
+  el.textContent=message;el.dataset.state=state;
+}
+function normalizeTechnopatData(raw){
+  if(!raw||typeof raw!=='object'||Array.isArray(raw))throw new Error('Technopat JSON dosyasının en üst düzeyi bir nesne olmalı.');
+  const clean={reviews:[],guides:[]};
+  for(const key of TECH_COLLECTIONS){
+    const list=raw[key]===undefined?[]:raw[key];
+    if(!Array.isArray(list))throw new Error(`${key} alanı bir dizi olmalı.`);
+    clean[key]=list.map((item,index)=>{
+      if(!item||typeof item!=='object'||Array.isArray(item))throw new Error(`${techCollectionName(key)} listesindeki ${index+1}. kayıt geçersiz.`);
+      return {
+        title:String(item.title??'').trim(),
+        category:String(item.category??'Genel').trim()||'Genel',
+        description:String(item.description??'').trim(),
+        url:String(item.url??'').trim(),
+        tag:String(item.tag??'').trim()
+      };
+    });
+  }
+  return clean;
+}
+function validateTechnopatItem(item){
+  if(!item.title)return 'Başlık alanı zorunludur.';
+  if(item.title.length>180)return 'Başlık 180 karakterden kısa olmalı.';
+  if(!TECH_CATEGORIES.includes(item.category))return 'Geçerli bir kategori seç.';
+  if(item.description.length>600)return 'Açıklama 600 karakterden kısa olmalı.';
+  if(!item.url)return 'Technopat bağlantısı zorunludur.';
+  let url;try{url=new URL(item.url)}catch{return 'Bağlantı geçerli bir URL değil.'}
+  if(url.protocol!=='https:'||!(url.hostname==='technopat.net'||url.hostname.endsWith('.technopat.net')))return 'Bağlantı HTTPS kullanmalı ve technopat.net alan adına ait olmalı.';
+  if(item.tag.length>60)return 'Kart etiketi 60 karakterden kısa olmalı.';
+  return '';
+}
+function updateTechSummary(){
+  const counts=TECH_COLLECTIONS.map(key=>({label:techCollectionName(key),value:techAdminData[key].length}));
+  $('#techAdminSummary').innerHTML=counts.map(item=>`<div class="stat-card"><b>${item.value}</b><div>${esc(item.label)}</div><small class="meta">Kart</small></div>`).join('')+
+    `<div class="stat-card"><b>${techAdminDirty?'Düzenlendi':'Temiz'}</b><div>Durum</div><small class="meta">${techAdminDirty?'Kaydedilmemiş değişiklik var':'Taslak GitHub ile eşleşiyor'}</small></div>`;
+}
+function renderTechnopatAdminList(){
+  const group=$('#techListType').value,items=techAdminData[group]||[];
+  if(!items.length){$('#techAdminList').innerHTML=`<p class="meta">${esc(techCollectionName(group))} bölümünde henüz kart yok. Aşağıdaki formdan yeni kart ekleyebilirsin.</p>`;updateTechSummary();return}
+  $('#techAdminList').innerHTML=items.map((item,index)=>`<article class="tech-admin-item">
+    <div class="tech-admin-item-main"><strong>${esc(item.title||'(Başlıksız kart)')}</strong>
+      <span class="badge">${esc(item.category||'Genel')}</span>${item.tag?` <span class="badge">${esc(item.tag)}</span>`:''}
+      <p>${esc(item.description||'Açıklama girilmemiş.')}</p>
+      <a href="${esc(item.url||'#')}" target="_blank" rel="noopener noreferrer">${esc(item.url||'Bağlantı eklenmemiş')}</a>
+    </div>
+    <div class="tech-admin-actions"><button class="btn" type="button" data-tech-edit="${index}" data-tech-group="${group}">Düzenle</button><button class="btn" type="button" data-tech-delete="${index}" data-tech-group="${group}">Sil</button></div>
+  </article>`).join('');
+  updateTechSummary();
+}
+function markTechnopatDirty(message="Taslak değiştirildi. Değişikliklerin GitHub'a aktarılması gerekiyor."){
+  techAdminDirty=true;updateTechSummary();techStatus(message,'dirty');
+}
+async function loadTechnopatAdmin(force=false){
+  if(techAdminLoaded&&!force){renderTechnopatAdminList();return}
+  if(force&&techAdminDirty&&!confirm('GitHub’dan yeniden yüklemek kaydedilmemiş Technopat değişikliklerini silecek. Devam edilsin mi?'))return;
+  const loadButton=$('#loadTechAdminBtn');if(loadButton)loadButton.disabled=true;
+  techStatus('data/technopat.json GitHub deposundan yükleniyor…');
+  try{
+    const file=await getRepoFile(TECH_DATA_PATH);
+    if(file){techAdminSha=file.sha;techAdminData=normalizeTechnopatData(JSON.parse(b64ToStr(file.content)));}
+    else{techAdminSha=null;techAdminData={reviews:[],guides:[]};}
+    techAdminLoaded=true;techAdminDirty=false;techAdminEditing=null;
+    clearTechnopatForm();renderTechnopatAdminList();
+    techStatus(file?'Technopat kartları GitHub deposundan yüklendi.':'data/technopat.json henüz yok; ilk kayıtta dosya oluşturulacak.','success');
+  }catch(e){techStatus('Technopat kartları yüklenemedi: '+e.message+hint(e.status),'error');}
+  finally{if(loadButton)loadButton.disabled=false}
+}
+function clearTechnopatForm(){
+  techAdminEditing=null;
+  $('#techAdminFormTitle').textContent='Yeni Technopat kartı';
+  $('#techFormType').value=$('#techListType').value||'reviews';
+  $('#techFormCategory').value='Oyun';$('#techFormTitle').value='';$('#techFormDescription').value='';$('#techFormUrl').value='';$('#techFormTag').value='';
+  $('#applyTechFormBtn').textContent='Kartı Ekle';
+}
+$('#loadTechAdminBtn').addEventListener('click',()=>loadTechnopatAdmin(true));
+$('#techListType').addEventListener('change',()=>{renderTechnopatAdminList();if(!techAdminEditing)$('#techFormType').value=$('#techListType').value});
+$('#clearTechFormBtn').addEventListener('click',clearTechnopatForm);
+$('#applyTechFormBtn').addEventListener('click',()=>{
+  if(!techAdminLoaded)return techStatus('Önce GitHub’dan Getir düğmesiyle mevcut verileri yükle.','error');
+  const target=$('#techFormType').value;
+  const item={title:$('#techFormTitle').value.trim(),category:$('#techFormCategory').value,description:$('#techFormDescription').value.trim(),url:$('#techFormUrl').value.trim(),tag:$('#techFormTag').value.trim()};
+  const error=validateTechnopatItem(item);if(error)return techStatus(error,'error');
+  if(techAdminEditing){
+    const prev=techAdminEditing;
+    if(prev.type===target){techAdminData[target][prev.index]=item;}
+    else{techAdminData[prev.type].splice(prev.index,1);techAdminData[target].push(item);$('#techListType').value=target;}
+    techStatus('Kart güncellendi. GitHub’a göndermek için “Değişiklikleri GitHub’a Kaydet” düğmesine bas.','dirty');
+  }else{
+    techAdminData[target].push(item);$('#techListType').value=target;
+    techStatus('Kart taslağa eklendi. GitHub’a göndermek için “Değişiklikleri GitHub’a Kaydet” düğmesine bas.','dirty');
+  }
+  markTechnopatDirty();renderTechnopatAdminList();clearTechnopatForm();
+});
+$('#techAdminList').addEventListener('click',event=>{
+  const edit=event.target.closest('[data-tech-edit]'),del=event.target.closest('[data-tech-delete]');
+  if(edit){
+    const group=edit.dataset.techGroup,index=Number(edit.dataset.techEdit),item=techAdminData[group]?.[index];if(!item)return;
+    techAdminEditing={type:group,index};$('#techFormType').value=group;$('#techFormCategory').value=TECH_CATEGORIES.includes(item.category)?item.category:'Genel';
+    $('#techFormTitle').value=item.title;$('#techFormDescription').value=item.description;$('#techFormUrl').value=item.url;$('#techFormTag').value=item.tag;
+    $('#techAdminFormTitle').textContent='Technopat kartını düzenle';$('#applyTechFormBtn').textContent='Değişiklikleri Uygula';
+    $('#techAdminEditorPanel').scrollIntoView({behavior:'smooth',block:'start'});$('#techFormTitle').focus();
+    return;
+  }
+  if(del){
+    const group=del.dataset.techGroup,index=Number(del.dataset.techDelete),item=techAdminData[group]?.[index];if(!item)return;
+    if(!confirm(`“${item.title}” kartı taslaktan silinsin mi? GitHub'a göndermek için ayrıca kaydetmelisin.`))return;
+    techAdminData[group].splice(index,1);
+    if(techAdminEditing?.type===group){if(techAdminEditing.index===index)clearTechnopatForm();else if(techAdminEditing.index>index)techAdminEditing.index--}
+    markTechnopatDirty('Kart taslaktan silindi. Değişiklik henüz GitHub’a kaydedilmedi.');renderTechnopatAdminList();
+  }
+});
+$('#saveTechAdminBtn').addEventListener('click',async()=>{
+  if(!tok())return techStatus('Kaydetmek için yönetim paneline tekrar giriş yap.','error');
+  if(!techAdminLoaded)return techStatus('Önce GitHub’dan Getir düğmesiyle mevcut verileri yükle.','error');
+  if(!techAdminDirty)return techStatus('Kaydedilecek yeni değişiklik yok.','success');
+  const invalid=[];
+  for(const group of TECH_COLLECTIONS){
+    techAdminData[group].forEach((item,index)=>{const err=validateTechnopatItem(item);if(err)invalid.push(`${techCollectionName(group)} ${index+1}. kart (“${item.title||'başlıksız'}”): ${err}`)});
+  }
+  if(invalid.length)return techStatus('Kaydetmeden önce şu hataları düzelt: '+invalid.slice(0,4).join(' ')+(invalid.length>4?` (+${invalid.length-4} hata daha)`:''),'error');
+  const btn=$('#saveTechAdminBtn');btn.disabled=true;techStatus('Technopat kartları GitHub’a kaydediliyor…');
+  try{
+    const sha=await putRepoFile(TECH_DATA_PATH,JSON.stringify(techAdminData,null,2),'Technopat içerikleri yönetim panelinden güncellendi',techAdminSha);
+    if(!sha)throw new Error('GitHub yeni bir dosya SHA değeri döndürmedi.');
+    techAdminSha=sha;techAdminDirty=false;updateTechSummary();techStatus('Technopat kartları GitHub’a kaydedildi. Yayına yansıması birkaç dakika sürebilir.','success');
+  }catch(e){techStatus('Technopat kartları kaydedilemedi: '+e.message+hint(e.status),'error')}
+  finally{btn.disabled=false}
 });
 
 /* KOD EDİTÖRLERİNDE TAB TUŞU DESTEĞİ */
