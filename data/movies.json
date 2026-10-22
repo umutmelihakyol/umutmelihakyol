@@ -1,29 +1,5 @@
 [
   {
-    "id": "mvinmpih",
-    "status": "bitirdim",
-    "title": "Yıldızlararası",
-    "image": "https://image.tmdb.org/t/p/w780/8sNiAPPYU14PUepFNeSNGUTiHW.jpg",
-    "platform": "Sinema / Dijital",
-    "genres": [
-      "Macera",
-      "Dram",
-      "Bilim-Kurgu"
-    ],
-    "score": 7,
-    "finished": "2023-12-24",
-    "recommended": true,
-    "review": "https://boxd.it/4VZ8",
-    "note": "",
-    "year": 2014,
-    "favorite": false,
-    "pros": [],
-    "cons": [],
-    "updatedAt": "2026-10-21T21:59:04.361Z",
-    "minutes": 169,
-    "director": "Christopher Nolan"
-  },
-  {
     "id": "mvinmpnr",
     "status": "bitirdim",
     "title": "Uçuş Planı",
