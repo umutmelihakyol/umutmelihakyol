@@ -20,7 +20,7 @@ button,input,select,textarea{font:inherit;color:inherit}
 .card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column}
 .cover{position:relative;aspect-ratio:16/10;background:var(--line);display:grid;place-items:center;color:var(--mute)}
 .cover img{width:100%;height:100%;object-fit:cover;display:block}
-.score{position:absolute;left:12px;bottom:-16px;width:52px;height:52px;border-radius:50%;background:var(--acc);color:var(--accink);display:grid;place-items:center;font:700 1.15rem 'Bricolage Grotesque',sans-serif;border:3px solid var(--card)}
+.score{position:absolute;z-index:3;left:12px;bottom:-16px;width:52px;height:52px;border-radius:50%;background:var(--acc);color:var(--accink);display:grid;place-items:center;font:700 1.15rem 'Bricolage Grotesque',sans-serif;border:3px solid var(--card)}
 .body{padding:26px 16px 16px;display:flex;flex-direction:column;gap:8px;flex:1}
 .body h3{font-size:1.15rem}
 .meta{margin:0;color:var(--mute);font-size:.9rem}
@@ -60,11 +60,17 @@ footer.foot a{color:var(--mute)}
 .pill span{color:var(--mute);margin-left:4px}
 .pill[aria-pressed=true]{background:var(--acc);border-color:var(--acc);color:var(--accink);font-weight:700}
 .pill[aria-pressed=true] span{color:inherit}
-.stb{position:absolute;top:10px;right:10px;background:var(--card);color:var(--ink);border-radius:999px;padding:2px 10px;font-size:.8rem;font-weight:700;border:1px solid var(--line)}
+.stb{position:absolute;z-index:3;top:10px;right:10px;background:var(--card);color:var(--ink);border-radius:999px;padding:2px 10px;font-size:.8rem;font-weight:700;border:1px solid var(--line)}
 .s-oynuyorum{color:var(--acc)}.s-biraktim{color:var(--no)}
-.tags{display:flex;gap:6px;margin:0;height:1.7em;overflow:hidden;font-size:.8rem}
-.tags.wrapt{height:auto;flex-wrap:wrap}
-.tags span{background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:0 8px;white-space:nowrap;color:var(--mute)}
+/* Etiketler: kartlarda yatay kaydırma, ayrıntı penceresinde satırlara sarma */
+.tags{display:flex;align-items:center;gap:6px;margin:0;height:1.7em;min-width:0;overflow:hidden;font-size:.8rem}
+.tags.wrapt{height:auto;max-height:7.5rem;overflow-x:hidden;overflow-y:auto;flex-wrap:wrap;align-content:flex-start;padding:2px 3px 5px 0;scrollbar-width:thin;scrollbar-color:var(--line) transparent}
+.tags span{display:inline-flex;align-items:center;flex:0 0 auto;background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:2px 8px;white-space:nowrap;color:var(--mute);line-height:1.35}
+.sub .tags{flex:1;min-width:0;height:100%;overflow-x:auto;overflow-y:hidden;flex-wrap:nowrap;white-space:nowrap;overscroll-behavior-x:contain;scrollbar-width:thin;scrollbar-color:var(--line) transparent;padding-bottom:2px}
+.sub .tags::-webkit-scrollbar{height:4px}
+.sub .tags::-webkit-scrollbar-thumb{background:var(--line);border-radius:999px}
+.sub .tags::-webkit-scrollbar-track{background:transparent}
+.tags.wrapt span{max-width:100%}
 .facts{min-height:3.2em}
 .tl{color:inherit;text-decoration:none}.tl:hover{text-decoration:underline}
 .card{cursor:pointer}
@@ -81,14 +87,13 @@ a.btn,a.btn:visited{color:var(--ink);text-decoration:none}
 .body h3{display:block;-webkit-line-clamp:unset;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-height:0}
 .sub{display:flex;gap:10px;align-items:center;height:1.7em;overflow:hidden}
 .sub .plat{flex:0 1 auto;max-width:55%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--mute);font-size:.9rem}
-.sub .tags{flex:1;min-width:0;height:auto}
 .facts{display:flex;flex-wrap:nowrap;gap:0 16px;min-height:0;white-space:nowrap;overflow:hidden;margin:0;font-size:.9rem}
 .facts i{font-style:normal;color:var(--mute);margin-right:6px}
 .inner .facts{flex-wrap:wrap}
 .note.none{font-style:italic;opacity:.8}
 .row{justify-content:space-between;flex-wrap:nowrap;margin-top:auto}
 a.more{display:inline;width:auto;height:auto;font-weight:700}
-.recb{position:absolute;right:12px;bottom:-14px;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:3px 12px;font-size:.85rem;font-weight:700}
+.recb{position:absolute;z-index:3;right:12px;bottom:-14px;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:3px 12px;font-size:.85rem;font-weight:700}
 .recb.yes{color:var(--yes)}.recb.no{color:var(--no)}
 dialog{scrollbar-width:none}dialog::-webkit-scrollbar{display:none}
 dialog .cover{aspect-ratio:16/7}
@@ -105,7 +110,7 @@ a.btn.ico:hover{color:var(--accink)}
 @media(max-width:480px){.lbl{display:none}.btn.ico:not(.round){padding:0 12px}}
 
 /* v6: favoriler, rastgele */
-.fvb{position:absolute;top:10px;left:10px;width:30px;height:30px;border-radius:50%;background:var(--card);border:1px solid var(--line);display:grid;place-items:center;color:var(--no)}
+.fvb{position:absolute;z-index:3;top:10px;left:10px;width:30px;height:30px;border-radius:50%;background:var(--card);border:1px solid var(--line);display:grid;place-items:center;color:var(--no)}
 .pill.fav{display:inline-flex;align-items:center;gap:6px}
 .pill.fav svg{color:var(--no)}
 .pill.fav[aria-pressed=true] svg{color:inherit}
@@ -163,17 +168,16 @@ a.rc:hover{border-color:var(--acc)}
 footer.foot{line-height:1.6}
 body.home footer.foot{margin-top:0}
 
-/* Ana sayfa */
+/* sade ana sayfa */
 .hero{padding:4px 0 22px}
 .hero h2{font:600 1.15rem 'Nunito Sans',sans-serif;color:var(--mute)}
-
-/* Dört kategori butonu: dengeli 2 x 2 düzen */
+/* Ana sayfa kategori kutuları: sade, ortalanmış 2x2 düzen */
 .tiles{
   display:grid;
   grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:16px;
+  gap:14px;
   width:100%;
-  max-width:100%;
+  max-width:none;
   margin:0 auto 42px;
 }
 a.tile,a.tile:visited{
@@ -230,15 +234,17 @@ a.tile:hover .ticon{transform:scale(1.04);background:color-mix(in srgb,var(--acc
 .tbody h3{font-size:1.1rem;transition:color .2s ease}
 a.tile:hover .tbody h3{color:var(--acc)}
 .tbody p{margin:3px 0 0;color:var(--mute);font-size:.88rem}
-@media(max-width:520px){
-  .tiles{grid-template-columns:1fr;gap:10px;margin-bottom:32px}
+@media(max-width:400px){
+  .tiles{grid-template-columns:1fr;gap:10px;width:min(100%,360px)}
   a.tile,a.tile:visited{min-height:88px;padding:15px 16px;gap:12px}
-  .ticon{width:42px;height:42px}
 }
 @media(prefers-reduced-motion:reduce){
   a.tile,a.tile::before,.ticon,.tbody h3{transition:none}
   a.tile:hover{transform:none}
 }
+@media(max-width:820px){.tiles{grid-template-columns:repeat(2,minmax(0,1fr));width:100%;gap:14px}}
+@media(max-width:480px){.tiles{gap:10px}a.tile,a.tile:visited{min-height:92px;padding:14px;gap:10px}.ticon{width:42px;height:42px}.tbody h3{font-size:1.02rem}.tbody p{font-size:.82rem}}
+@media(prefers-reduced-motion:reduce){a.tile,a.tile::before,.ticon,.tbody h3{transition:none}a.tile:hover{transform:none}}
 
 /* v10: İnceleme Kartı Oluşturucu Stüdyosu */
 .card-gen-btn{background:rgba(111,179,186,.15);border-color:var(--acc);color:var(--acc);font-weight:700}
@@ -252,59 +258,115 @@ a.tile:hover .tbody h3{color:var(--acc)}
 .quick-card-btn:hover{border-color:var(--acc)}
 
 
-/* v13: genel tasarım tutarlılığı, kart yüzeyleri ve daha dengeli geniş ekran yerleşimi */
-.wrap{max-width:1240px;padding-inline:clamp(16px,2.2vw,28px)}
-.btn{transition:background-color .16s ease,border-color .16s ease,color .16s ease,transform .16s ease,box-shadow .16s ease}
-.btn:hover{border-color:color-mix(in srgb,var(--acc) 62%,var(--line));box-shadow:0 3px 12px color-mix(in srgb,var(--acc) 10%,transparent)}
-.btn:active{transform:translateY(1px)}
-.grid{grid-template-columns:repeat(auto-fill,minmax(min(100%,255px),1fr));gap:18px;align-items:stretch}
-.card{min-width:0;height:100%;border-radius:16px;box-shadow:0 3px 14px rgba(0,0,0,.025);transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease}
-.card:hover{border-color:color-mix(in srgb,var(--acc) 60%,var(--line));box-shadow:0 10px 25px rgba(0,0,0,.08)}
-.cover{overflow:hidden;isolation:isolate;aspect-ratio:16/10}
-.cover img{display:block;width:100%;height:100%;object-fit:cover;transform:translateZ(0);transition:transform .28s ease}
-.card:hover .cover img{transform:scale(1.025)}
-.cover.image-missing{background:linear-gradient(135deg,var(--bg),var(--line))}
-.cover.image-missing::after{content:'Görsel yüklenemedi';position:absolute;inset:0;display:grid;place-items:center;color:var(--mute);font-size:.85rem}
-.body{padding:24px 18px 18px;gap:10px}
-.body h3{font-size:1.12rem;line-height:1.35}
-.sub{min-width:0;gap:8px}
-.sub .plat{max-width:48%}
-.tags span{border-radius:999px;padding:1px 9px}
-.facts{gap:5px 14px;font-size:.88rem}
-.note{line-height:1.5}
-.row{gap:9px;flex-wrap:wrap}
-a.more,.row>a{border-radius:6px;text-underline-offset:3px}
-a.more:hover,.row>a:hover{text-decoration:underline}
-.stats{gap:12px clamp(18px,3vw,34px)}
-.tools input:focus-visible,.tools select:focus-visible,.f input:focus-visible,.f select:focus-visible,.f textarea:focus-visible{border-color:var(--acc)}
-.recent{grid-template-columns:repeat(auto-fill,minmax(min(100%,250px),1fr));gap:12px}
-a.rc,a.soonc{min-width:0;transition:border-color .16s ease,transform .16s ease,box-shadow .16s ease}
-a.rc:hover,a.soonc:hover{border-color:var(--acc);transform:translateY(-1px);box-shadow:0 5px 14px rgba(0,0,0,.05)}
-.rc b{max-width:100%}
-.rc span{min-width:0}
-.th,.sth{flex:none;object-fit:cover;aspect-ratio:16/11;background:linear-gradient(135deg,var(--line),var(--bg))}
-.cats{align-items:center}
-.cats a{transition:background-color .16s ease,border-color .16s ease,transform .16s ease}
-.cats a:hover{transform:translateY(-1px)}
-.empty{border:1px dashed var(--line);border-radius:16px;background:var(--card);padding:44px 20px}
-@media(max-width:760px){.wrap{padding-inline:16px}.grid{grid-template-columns:repeat(auto-fill,minmax(min(100%,235px),1fr));gap:14px}.body{padding:20px 15px 16px}}
-@media(max-width:520px){.grid{grid-template-columns:1fr;gap:12px}.cover{aspect-ratio:16/9}.recent{grid-template-columns:1fr}.tools{gap:8px}.tools input,.tools select{min-width:0;width:100%}.stats{padding-bottom:16px}}
-@media(prefers-reduced-motion:reduce){.btn,.card,.cover img,a.rc,a.soonc,.cats a{transition:none!important}.btn:active,.card:hover,.card:hover .cover img,a.rc:hover,a.soonc:hover,.cats a:hover{transform:none}}
+/* Ek dayanıklılık: kalabalık etiketler kartı taşırmasın. */
+.sub{min-width:0}
+.sub .tags span{max-width:none}
+dialog .tags.wrapt{max-width:100%;overscroll-behavior:contain}
 
-/* v14: kapak etiketleri görsel alanının içinde ve üst katmanda kalsın */
-/* Kapak görseli taşmayı kırpar; bu nedenle etiketler kapak sınırları içinde kalmalı. */
-.cover .score{
-  bottom:12px;
-  z-index:3;
+/* Etiket sistemi ve kapak rozetleri için güvenli son düzenleme */
+.cover {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
 }
-.cover .recb{
-  bottom:12px;
-  z-index:3;
+.cover img {
+  position: relative;
+  z-index: 0;
 }
 .cover .stb,
-.cover .fvb{
-  z-index:3;
+.cover .fvb,
+.cover .score,
+.cover .recb {
+  z-index: 2;
 }
-.cover.image-missing::after{
-  z-index:1;
+/* Puan ve öneri rozetlerini kapak alanının içinde tut; kesilmesinler. */
+.cover .score {
+  left: 12px;
+  bottom: 12px;
+}
+.cover .recb {
+  right: 12px;
+  bottom: 12px;
+}
+.cover .stb {
+  top: 10px;
+  right: 10px;
+}
+.cover .fvb {
+  top: 10px;
+  left: 10px;
+}
+/* Kart üzerinde çok etiket varsa yatay kaydırma; kart yüksekliği sabit kalır. */
+.card .sub {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  overflow: hidden;
+}
+.card .sub .plat {
+  flex: 0 1 auto;
+  min-width: 0;
+  max-width: 42%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.card .sub .tags {
+  display: flex;
+  align-items: center;
+  flex: 1 1 auto;
+  min-width: 0;
+  max-width: 100%;
+  height: 1.8em;
+  gap: 6px;
+  margin: 0;
+  padding: 0 0 2px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  flex-wrap: nowrap;
+  white-space: nowrap;
+  overscroll-behavior-x: contain;
+  scrollbar-width: thin;
+  scrollbar-color: var(--line) transparent;
+}
+.card .sub .tags::-webkit-scrollbar { height: 4px; }
+.card .sub .tags::-webkit-scrollbar-thumb { background: var(--line); border-radius: 999px; }
+.card .sub .tags::-webkit-scrollbar-track { background: transparent; }
+.tags span {
+  flex: 0 0 auto;
+  max-width: 100%;
+  padding: 2px 8px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--bg);
+  color: var(--mute);
+  font-size: .78rem;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+/* Ayrıntı penceresinde etiketler alt alta sarılır; uzun listeler kendi içinde kayar. */
+dialog .tags,
+.tags.wrapt {
+  display: flex;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 6px;
+  height: auto;
+  max-height: 8rem;
+  min-width: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  white-space: normal;
+  padding: 2px 3px 6px 0;
+  scrollbar-width: thin;
+  scrollbar-color: var(--line) transparent;
+}
+dialog .tags span,
+.tags.wrapt span {
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; }
 }
