@@ -1,10 +1,3 @@
-<ElicitationsGroup>
-
-Ön yüzdeki inceleme kartı oluşturucunun tasarımsal boşluklarını gideren, kapak görselini kusursuz yerleştiren ve artılar/eksiler kutularını ekleyen güncel **`app.js`** dosyasının tam hali aşağıdadır. 
-
-Mevcut **`app.js`** dosyanın tamamını aşağıdaki kodla değiştirebilirsin:
-
-```javascript
 // Kategori sayfalarının ortak kodu. Hangi kategori olduğunu <body data-cat="..."> belirler.
 const $=s=>document.querySelector(s);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -86,7 +79,7 @@ function openGame(id){
   d.innerHTML=`${cover(g)}<div class="inner"><h2>${esc(g.title)}</h2><p class="meta">${esc(g.platform)}</p>
   <p class="tags wrapt">${chips(g)}</p>${facts(g)}${info(g)}
   ${g.note?`<p class="full">${esc(g.note)}</p>`:''}${proscons(g)}<div class="row">${revHtml(g)}</div>
-  <p>${randomMode?'<button class="btn pri again">Başka birini seç</button> ':''}<button class="btn card-gen-btn" data-id="${esc(g.id)}">📷 İnceleme Kartı İndir</button> <button class="btn copy">Bağlantıyı kopyala</button> <button class="btn" onclick="this.closest('dialog').close()">Kapat</button></p></div>`;
+  <p>${randomMode?'<button class="btn pri again">Başka birini seç</button> ':''}<button class="btn copy">Bağlantıyı kopyala</button> <button class="btn" onclick="this.closest('dialog').close()">Kapat</button></p></div>`;
   if(!d.open)d.showModal();
   if(lastId!==id){lastId=id;try{window.goatcounter&&goatcounter.count&&goatcounter.count({path:CAT+'/'+id,title:g.title,event:true})}catch{}}
 }
@@ -94,123 +87,8 @@ $('#dlg').addEventListener('close',()=>{lastId='';randomMode=false;history.repla
 $('#dlg').addEventListener('click',e=>{
   if(e.target===e.currentTarget)return e.currentTarget.close();
   if(e.target.closest('.again'))return pickRandom();
-  const cardBtn=e.target.closest('.card-gen-btn');
-  if(cardBtn)return generateReviewCard(cardBtn.dataset.id);
   const b=e.target.closest('.copy');if(b)navigator.clipboard.writeText(location.href).then(()=>b.textContent='Kopyalandı',()=>prompt('Bağlantı:',location.href));
 });
-
-/* İNCELEME KARTI (PNG) OLUŞTURUCU */
-async function generateReviewCard(id){
-  const g=games.find(x=>x.id===id);if(!g)return;
-  const canvas=document.createElement('canvas');canvas.width=1080;canvas.height=1080;
-  const ctx=canvas.getContext('2d');
-
-  ctx.fillStyle='#0f141c';ctx.fillRect(0,0,1080,1080);
-
-  let coverImg=null;
-  if(g.image){
-    try{
-      coverImg=await new Promise((res,rej)=>{
-        const im=new Image();im.crossOrigin='anonymous';im.onload=()=>res(im);im.onerror=rej;im.src=g.image;
-      });
-      ctx.save();ctx.globalAlpha=0.2;
-      const r=coverImg.width/coverImg.height;
-      let sw=1080,sh=1080/r,sx=0,sy=(1080-sh)/2;
-      if(sh<1080){sh=1080;sw=1080*r;sx=(1080-sw)/2;sy=0}
-      ctx.drawImage(coverImg,sx,sy,sw,sh);
-      ctx.restore();
-    }catch{}
-  }
-
-  const grad=ctx.createLinearGradient(0,0,0,1080);
-  grad.addColorStop(0,'rgba(15,20,28,0.82)');grad.addColorStop(1,'rgba(15,20,28,0.96)');
-  ctx.fillStyle=grad;ctx.fillRect(0,0,1080,1080);
-
-  ctx.fillStyle='rgba(32,39,46,0.9)';ctx.strokeStyle='rgba(255,255,255,0.12)';ctx.lineWidth=2;
-  ctx.beginPath();ctx.roundRect(50,50,980,980,24);ctx.fill();ctx.stroke();
-
-  let startX=80, contentWidth=920;
-  if(coverImg){
-    try{
-      ctx.save();ctx.beginPath();ctx.roundRect(80,80,240,320,16);ctx.clip();
-      ctx.drawImage(coverImg,80,80,240,320);
-      ctx.restore();
-      ctx.strokeStyle='rgba(255,255,255,0.2)';ctx.lineWidth=2;ctx.strokeRect(80,80,240,320);
-      startX=350; contentWidth=650;
-    }catch{}
-  }
-
-  ctx.fillStyle='#e3e8ec';ctx.font='bold 40px "Bricolage Grotesque", sans-serif';
-  let title=g.title;if(title.length>28)title=title.slice(0,26)+'...';
-  ctx.fillText(title,startX,130);
-
-  ctx.fillStyle='#93a0ab';ctx.font='22px "Nunito Sans", sans-serif';
-  ctx.fillText(g.platform||cfg.name,startX,175);
-  ctx.fillText(`Kategori: ${cfg.plural}  •  Durum: ${ST[stOf(g)]||'Bitirildi'}`,startX,210);
-
-  if(has(g.score)){
-    const scoreX=coverImg?startX:850;
-    const scoreY=coverImg?280:130;
-    ctx.fillStyle='#6fb3ba';ctx.beginPath();ctx.arc(scoreX+40,scoreY,40,0,Math.PI*2);ctx.fill();
-    ctx.fillStyle='#12181c';ctx.font='bold 30px "Bricolage Grotesque", sans-serif';ctx.textAlign='center';
-    ctx.fillText(`${num(g.score)}`,scoreX+40,scoreY+11);ctx.textAlign='left';
-    
-    if(!coverImg){
-      ctx.fillStyle='#93a0ab';ctx.font='16px "Nunito Sans", sans-serif';
-      ctx.fillText('Puanım',scoreX+15,scoreY+55);
-    }
-  }
-
-  ctx.fillStyle='#e3e8ec';ctx.font='24px "Nunito Sans", sans-serif';
-  const noteText=g.note?g.note:'Bu içerik için henüz not eklenmemiş.';
-  const words=noteText.split(' ');let line='';const lines=[];
-  for(let n=0;n<words.length;n++){
-    const testLine=line+words[n]+' ';
-    if(ctx.measureText(testLine).width>contentWidth&&n>0){lines.push(line);line=words[n]+' '}
-    else {line=testLine}
-  }
-  lines.push(line);
-
-  let curY=coverImg?450:280;
-  const maxLines=coverImg?6:8;
-  for(let i=0;i<Math.min(lines.length,maxLines);i++){
-    ctx.fillText(lines[i],80,curY);curY+=36;
-  }
-
-  const pros=(g.pros||[]).slice(0,3);const cons=(g.cons||[]).slice(0,3);
-  if(pros.length||cons.length){
-    curY=Math.max(curY+20, 700);
-    
-    if(pros.length){
-      ctx.fillStyle='rgba(108, 193, 154, 0.08)';ctx.strokeStyle='rgba(108, 193, 154, 0.2)';ctx.lineWidth=1;
-      ctx.beginPath();ctx.roundRect(80,curY,430,160,12);ctx.fill();ctx.stroke();
-
-      ctx.fillStyle='#6cc19a';ctx.font='bold 20px "Bricolage Grotesque", sans-serif';ctx.fillText('(+) Artılar',110,curY+32);
-      ctx.fillStyle='#e3e8ec';ctx.font='18px "Nunito Sans", sans-serif';
-      let pY=curY+65;
-      pros.forEach(p=>{ctx.fillText('• '+p,110,pY);pY+=28;});
-    }
-
-    if(cons.length){
-      ctx.fillStyle='rgba(217, 145, 127, 0.08)';ctx.strokeStyle='rgba(217, 145, 127, 0.2)';ctx.lineWidth=1;
-      ctx.beginPath();ctx.roundRect(530,curY,450,160,12);ctx.fill();ctx.stroke();
-
-      ctx.fillStyle='#d9917f';ctx.font='bold 20px "Bricolage Grotesque", sans-serif';ctx.fillText('(-) Eksiler',560,curY+32);
-      ctx.fillStyle='#e3e8ec';ctx.font='18px "Nunito Sans", sans-serif';
-      let cY=curY+65;
-      cons.forEach(c=>{ctx.fillText('• '+c,560,cY);cY+=28;});
-    }
-  }
-
-  ctx.fillStyle='#93a0ab';ctx.font='16px "Nunito Sans", sans-serif';
-  ctx.fillText(window.CONFIG?.siteTitle||'Günlüğüm',80,985);
-
-  const link=document.createElement('a');
-  link.download=`inceleme-${g.title.toLowerCase().replace(/[^a-z0-9]/g,'-')}.png`;
-  link.href=canvas.toDataURL('image/png');
-  link.click();
-}
-
 $('#grid').addEventListener('click',e=>{
   const c=e.target.closest('.card,tr[data-id]');if(!c||e.target.closest('a[target]'))return;
   e.preventDefault();location.hash=c.dataset.id;openGame(c.dataset.id);
@@ -232,4 +110,3 @@ fetch(cfg.file+'?'+Date.now()).then(r=>r.ok?r.json():[]).catch(()=>[]).then(d=>{
   games=d;fillSel('#plat',cfg.plat.all,d.flatMap(plats));fillSel('#genre','Tüm türler',d.flatMap(g=>g.genres||[]));
   render();soon();foot();if(location.hash)openGame(location.hash.slice(1));
 });
-```
