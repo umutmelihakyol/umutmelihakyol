@@ -1,8 +1,8 @@
 {
   "format": "gunlugum-backup",
   "version": 1,
-  "createdAt": "2026-10-22T21:30:15.309Z",
-  "reason": "Film kaydı öncesi otomatik yedek",
+  "createdAt": "2026-10-22T21:47:30.362Z",
+  "reason": "Anime kaydı öncesi otomatik yedek",
   "repository": "umutmelihakyol/umutmelihakyol",
   "branch": "main",
   "data": {
@@ -169,29 +169,6 @@
         "updatedAt": "2026-10-21T21:55:27.252Z",
         "minutes": 96,
         "director": "Andy Fickman"
-      },
-      {
-        "id": "mvini24z",
-        "status": "bitirdim",
-        "title": "Tetikçi",
-        "image": "https://image.tmdb.org/t/p/w780/zIYROrkHJPYB3VTiW1L9QVgaQO.jpg",
-        "platform": "Sinema / Dijital",
-        "genres": [
-          "Aksiyon",
-          "Komedi"
-        ],
-        "score": 8,
-        "finished": "2023-12-24",
-        "recommended": true,
-        "review": "https://boxd.it/xT8O",
-        "note": "",
-        "year": 2023,
-        "favorite": false,
-        "pros": [],
-        "cons": [],
-        "updatedAt": "2026-10-21T21:55:27.441Z",
-        "minutes": 108,
-        "director": "Pierre Morel"
       },
       {
         "id": "mvini2a7",
