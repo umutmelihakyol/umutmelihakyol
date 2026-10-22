@@ -117,29 +117,6 @@
     "director": "Andy Fickman"
   },
   {
-    "id": "mvini24z",
-    "status": "bitirdim",
-    "title": "Tetikçi",
-    "image": "https://image.tmdb.org/t/p/w780/zIYROrkHJPYB3VTiW1L9QVgaQO.jpg",
-    "platform": "Sinema / Dijital",
-    "genres": [
-      "Aksiyon",
-      "Komedi"
-    ],
-    "score": 8,
-    "finished": "2023-12-24",
-    "recommended": true,
-    "review": "https://boxd.it/xT8O",
-    "note": "",
-    "year": 2023,
-    "favorite": false,
-    "pros": [],
-    "cons": [],
-    "updatedAt": "2026-10-21T21:55:27.441Z",
-    "minutes": 108,
-    "director": "Pierre Morel"
-  },
-  {
     "id": "mvini2a7",
     "status": "bitirdim",
     "title": "Extraction 2",
