@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700&family=Nunito+Sans:wght@400;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../../assets/css/style.css?v=12">
-<link rel="stylesheet" href="../../assets/css/technopat.css?v=1">
+<link rel="stylesheet" href="../../assets/css/technopat.css?v=2">
 <script src="../../scripts/theme.js"></script>
 </head>
 <body data-tech-kind="guides">
@@ -34,12 +34,32 @@
       <a href="../incelemeler/index.html" >İncelemeler</a>
       <a href="../rehberler/index.html" aria-current="page">Rehberler</a>
     </nav>
+    <section class="tech-tools" aria-label="İçerik arama ve sıralama">
+      <label class="tech-search-field" for="techSearch">
+        <span>İçeriklerde ara</span>
+        <input id="techSearch" type="search" placeholder="Başlık, açıklama, kategori veya etiket ara…" autocomplete="off" spellcheck="false">
+      </label>
+      <label class="tech-tool-field" for="techTagFilter">
+        <span>Kart etiketi</span>
+        <select id="techTagFilter"><option value="">Tüm etiketler</option></select>
+      </label>
+      <label class="tech-tool-field" for="techSort">
+        <span>Sıralama</span>
+        <select id="techSort">
+          <option value="default">Varsayılan</option>
+          <option value="title-asc">Başlık (A–Z)</option>
+          <option value="title-desc">Başlık (Z–A)</option>
+          <option value="category">Kategori</option>
+        </select>
+      </label>
+      <button class="tech-clear-btn" id="techClearFilters" type="button">Filtreleri temizle</button>
+    </section>
     <div id="techFilters" class="tech-filters" aria-label="İçerikleri kategoriye göre filtrele"></div>
     <p id="techResultsMeta" class="tech-results-meta" aria-live="polite">İçerikler yükleniyor…</p>
     <section id="techArticles" class="tech-articles" aria-label="Technopat içerikleri"></section>
   </main>
   <footer class="tech-page-footer"><span>Günlüğüm · Technopat yazı arşivi</span><a href="https://www.technopat.net/sosyal/uye/umutmelihakyol.84558/" target="_blank" rel="noopener noreferrer">Technopat Sosyal profilim ↗</a></footer>
 </div>
-<script src="../../scripts/technopat.js?v=1"></script>
+<script src="../../scripts/technopat.js?v=2"></script>
 </body>
 </html>
