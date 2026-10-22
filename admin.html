@@ -240,7 +240,7 @@
           </div>
           <label class="chk-row">
             <input type="checkbox" id="malEnrich" checked>
-            <span><b>Jikan API ile zenginleştir:</b> XML yedeklerinde bulunmayan kapak görsellerini, stüdyo ve tür bilgilerini Jikan API'den otomatik tamamla (Jikan hız sınırına uymak için kayıt başına ~0.6 sn bekler).</span>
+            <span><b>AniList / Jikan API ile zenginleştir:</b> XML yedeklerinde bulunmayan kapak görsellerini, stüdyo ve tür bilgilerini otomatik tamamla.</span>
           </label>
           <p><button class="btn pri" id="malStartBtn">MyAnimeList Verilerini Aktar ve Kaydet</button></p>
         </div>
@@ -373,7 +373,7 @@ const strToB64=str=>b64(enc.encode(str));
 const b64ToStr=b=>dec.decode(unb(b));
 
 const TR={Action:'Aksiyon',Adventure:'Macera',RPG:'RPG',Strategy:'Strateji',Shooter:'Nişancı',Puzzle:'Bulmaca',Platformer:'Platform',Racing:'Yarış',Sports:'Spor',Simulation:'Simülasyon',Indie:'Bağımsız',Fighting:'Dövüş',Casual:'Rahat',Arcade:'Arcade','Massively Multiplayer':'MMO',Family:'Aile','Board Games':'Masa oyunu',Card:'Kart',Educational:'Eğitici'};
-const AN={Action:'Aksiyon',Adventure:'Macera',Comedy:'Komedi',Drama:'Dram',Fantasy:'Fantastik',Horror:'Korku',Mystery:'Gizem',Romance:'Romantik','Sci-Fi':'Bilim Kurgu','Slice of Life':'Günlük Yaşam',Sports:'Spor',Supernatural:'Doğaüstü',Suspense:'Gerilim',Ecchi:'Ecchi',Mecha:'Mecha',Music:'Müzik',Psychological:'Psikolojik','Avant Garde':'Avangart','Boys Love':'Boys Love','Girls Love':'Girls Love',Gourmet:'Gurme'};
+const AN={Action:'Aksiyon',Adventure:'Macera',Comedy:'Komedi',Drama:'Dram',Fantasy:'Fantastik',Horror:'Korku',Mystery:'Gizem',Romance:'Romantik','Sci-Fi':'Bilim Kurgu','Slice of Life':'Günlük Yaşam',Sports:'Spor',Supernatural:'Doğaüstü',Suspense:'Gerilim',Ecchi:'Ecchi',Mecha:'Mecha',Music:'Müzik',Psychological:'Psikolojik',Thriller:'Gerilim','Mahou Shoujo':'Büyülü Kız','Avant Garde':'Avangart','Boys Love':'Boys Love','Girls Love':'Girls Love',Gourmet:'Gurme'};
 
 async function key(pw,salt){const m=await crypto.subtle.importKey('raw',enc.encode(pw.normalize('NFC')),'PBKDF2',false,['deriveKey']);return crypto.subtle.deriveKey({name:'PBKDF2',salt,iterations:250000,hash:'SHA-256'},m,{name:'AES-GCM',length:256},false,['encrypt','decrypt'])}
 async function seal(tk,pw){const salt=crypto.getRandomValues(new Uint8Array(16)),iv=crypto.getRandomValues(new Uint8Array(12));const ct=new Uint8Array(await crypto.subtle.encrypt({name:'AES-GCM',iv},await key(pw,salt),enc.encode(tk)));return [b64(salt),b64(iv),b64(ct)].join('.')}
@@ -648,9 +648,25 @@ $('#add').onclick=async()=>{
   if(await persist()){clear();list()}else d.games=old;
 };
 
-/* API ARAMALARI */
+/* API ARAMALARI (ANILIST + JIKAN + CORS PROXY + TMDB YEDEKLİ) */
 const TM='https://api.themoviedb.org/3',TI='https://image.tmdb.org/t/p';
 const tmq=(p,x='')=>`${TM}${p}?api_key=${C.tmdbKey}&language=tr-TR${x}`;
+
+async function queryAniList(searchStr, malId=null){
+  const query = malId
+    ? `query ($id: Int) { Media(idMal: $id, type: ANIME) { title { english romaji } coverImage { extraLarge large } bannerImage startDate { year } episodes genres studios(isMain: true) { nodes { name } } } }`
+    : `query ($s: String) { Page(page: 1, perPage: 6) { media(search: $s, type: ANIME, isAdult: false) { title { english romaji } coverImage { extraLarge large } bannerImage startDate { year } episodes genres studios(isMain: true) { nodes { name } } } } }`;
+  const variables = malId ? { id: +malId } : { s: searchStr };
+  const r = await fetch('https://graphql.anilist.co', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+    body: JSON.stringify({ query, variables })
+  });
+  if(!r.ok) throw new Error('AniList HTTP '+r.status);
+  const j = await r.json();
+  return malId ? (j.data && j.data.Media ? [j.data.Media] : []) : (((j.data||{}).Page||{}).media||[]);
+}
+
 const SEARCH={
   async oyun(q){
     const r=await fetch(`https://api.rawg.io/api/games?key=${C.rawgKey}&search_precise=true&page_size=6&search=${encodeURIComponent(q)}`);
@@ -674,10 +690,71 @@ const SEARCH={
       }}));
   },
   async anime(q){
-    const r=await fetch(`https://api.jikan.moe/v4/anime?q=${encodeURIComponent(q)}&limit=6&sfw=true`);
-    if(!r.ok)throw new Error('Jikan şu an yanıt vermiyor ('+r.status+')');
-    return (await r.json()).data.map(x=>{const img=((x.images||{}).jpg||{}).large_image_url||'',yr=String(x.year||(x.aired||{}).from||'').slice(0,4),name=x.title_english||x.title;
-      return {name,img,year:yr,async pick(){return {title:name,image:img,year:yr,genres:(x.genres||[]).map(g=>AN[g.name]||g.name),person:(x.studios||[]).map(s=>s.name).join(', '),dur:x.episodes||''}}}});
+    /* 1. Aşama: AniList GraphQL API (Anahtarsız, çok hızlı ve stabil) */
+    try {
+      const media = await queryAniList(q);
+      if (media.length) {
+        return media.map(x => {
+          const name = x.title.english || x.title.romaji;
+          const img = (x.coverImage && (x.coverImage.extraLarge || x.coverImage.large)) || x.bannerImage || '';
+          const yr = String((x.startDate || {}).year || '');
+          const studios = ((x.studios || {}).nodes || []).map(s => s.name).join(', ');
+          return {
+            name, img, year: yr,
+            async pick() {
+              return {
+                title: name,
+                image: img,
+                year: yr,
+                genres: (x.genres || []).map(g => AN[g] || g),
+                person: studios,
+                dur: x.episodes || ''
+              };
+            }
+          };
+        });
+      }
+    } catch (e) {}
+
+    /* 2. Aşama: Jikan API (Doğrudan veya CORS Proxy ile) */
+    try {
+      const jikanUrl = `https://api.jikan.moe/v4/anime?q=${encodeURIComponent(q)}&limit=6&sfw=true`;
+      let r;
+      try {
+        r = await fetch(jikanUrl);
+      } catch {
+        r = await fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(jikanUrl)}`);
+      }
+      if (r && r.ok) {
+        const data = (await r.json()).data || [];
+        if (data.length) {
+          return data.map(x => {
+            const img = ((x.images || {}).jpg || {}).large_image_url || '';
+            const yr = String(x.year || (x.aired || {}).from || '').slice(0, 4);
+            const name = x.title_english || x.title;
+            return {
+              name, img, year: yr,
+              async pick() {
+                return {
+                  title: name,
+                  image: img,
+                  year: yr,
+                  genres: (x.genres || []).map(g => AN[g.name] || g.name),
+                  person: (x.studios || []).map(s => s.name).join(', '),
+                  dur: x.episodes || ''
+                };
+              }
+            };
+          });
+        }
+      }
+    } catch (e) {}
+
+    /* 3. Aşama: TMDB Yedek (Eğer tmdbKey varsa animeyi dizi/TV olarak TMDB'den çeker) */
+    if (C.tmdbKey) {
+      return this.tmdb('tv', q);
+    }
+    throw new Error('Anime sunucularına (AniList / Jikan) ulaşılamadı. İnternet bağlantını veya reklam engelleyiciyi kontrol et.');
   }
 };
 const search=q=>cat==='oyun'?SEARCH.oyun(q):cat==='film'?SEARCH.tmdb('movie',q):cat==='dizi'?SEARCH.tmdb('tv',q):SEARCH.anime(q);
@@ -782,7 +859,6 @@ $('#lbStartBtn').onclick=async()=>{
       }
 
       const yr=r['year']?+r['year']:null;
-      /* Letterboxd 0.5 - 5.0 arası puanı 10'luk sisteme çevir */
       const rawRating=r['rating']?parseFloat(r['rating']):null;
       const score=rawRating!=null&&!isNaN(rawRating)?Math.round(rawRating*2*10)/10:null;
       const watchedDate=r['watched date']||r['date']||new Date().toISOString().slice(0,10);
@@ -913,22 +989,20 @@ $('#malStartBtn').onclick=async()=>{
         if(cCfg.dur2)item[cCfg.dur2.key]=eps||12;
         item[cCfg.person.key]='';
 
-        if(enrich&&malId){
+        if(enrich){
           try{
-            const jr=await fetch(`https://api.jikan.moe/v4/anime/${malId}`);
-            if(jr.ok){
-              const jd=(await jr.json()).data;
-              if(jd){
-                item.title=jd.title_english||jd.title||title;
-                item.image=((jd.images||{}).jpg||{}).large_image_url||'';
-                item.year=+(String(jd.year||(jd.aired||{}).from||'').slice(0,4))||null;
-                item.genres=(jd.genres||[]).map(g=>AN[g.name]||g.name);
-                item[cCfg.person.key]=(jd.studios||[]).map(s=>s.name).join(', ');
-                if(jd.episodes)item[cCfg.dur.key]=jd.episodes;
-              }
+            const aniRes = await queryAniList(title, malId);
+            const hit = aniRes[0];
+            if(hit){
+              item.title = hit.title.english || hit.title.romaji || title;
+              item.image = (hit.coverImage && (hit.coverImage.extraLarge || hit.coverImage.large)) || '';
+              item.year = (hit.startDate && hit.startDate.year) || null;
+              item.genres = (hit.genres || []).map(g => AN[g] || g);
+              item[cCfg.person.key] = ((hit.studios || {}).nodes || []).map(s => s.name).join(', ');
+              if(hit.episodes) item[cCfg.dur.key] = hit.episodes;
             }
-            await sleep(600);
-          }catch(e){ilog(`Jikan detayı alınamadı (${title})`)}
+            await sleep(350);
+          }catch(e){ilog(`AniList detayı alınamadı (${title})`)}
         }
 
         existing.add(normTitle(item.title));
@@ -937,9 +1011,11 @@ $('#malStartBtn').onclick=async()=>{
         ilog(`+ Eklendi [${added.length}]: ${item.title}`);
       }
     }else if(user){
-      ilog(`${user} kullanıcısının MAL profili Jikan üzerinden çekiliyor...`);
-      const r=await fetch(`https://api.jikan.moe/v4/users/${encodeURIComponent(user)}/animelist`);
-      if(!r.ok)throw new Error('MAL kullanıcı listesi alınamadı ('+r.status+'). Profil gizli olabilir veya Jikan uç noktası yanıt vermiyor. XML yedek yüklemeyi deneyin.');
+      ilog(`${user} kullanıcısının MAL profili çekiliyor...`);
+      const jikanUrl=`https://api.jikan.moe/v4/users/${encodeURIComponent(user)}/animelist`;
+      let r;
+      try{r=await fetch(jikanUrl)}catch{r=await fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(jikanUrl)}`)}
+      if(!r||!r.ok)throw new Error('MAL kullanıcı listesi alınamadı. Profil gizli olabilir veya Jikan yanıt vermiyor. XML yedek yüklemeyi deneyin.');
       const listData=(await r.json()).data||[];
       for(let i=0;i<listData.length;i++){
         const entry=listData[i],a=entry.anime||{};
