@@ -173,3 +173,6 @@ a.tile:hover{border-color:var(--acc)}
 .ticon svg{width:22px;height:22px}
 .tbody h3{font-size:1.15rem}
 .tbody p{margin:2px 0 0;color:var(--mute);font-size:.9rem}
+
+.card-gen-btn { background: rgba(111, 179, 186, 0.15); border-color: var(--acc); color: var(--acc); font-weight: 700; }
+.card-gen-btn:hover { background: var(--acc); color: var(--accink); }
