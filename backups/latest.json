@@ -1,8 +1,8 @@
 {
   "format": "gunlugum-backup",
   "version": 1,
-  "createdAt": "2026-10-22T21:15:27.538Z",
-  "reason": "Anime kaydı öncesi otomatik yedek",
+  "createdAt": "2026-10-22T21:30:15.309Z",
+  "reason": "Film kaydı öncesi otomatik yedek",
   "repository": "umutmelihakyol/umutmelihakyol",
   "branch": "main",
   "data": {
@@ -3421,6 +3421,31 @@
       }
     ],
     "anime": [
+      {
+        "id": "mvk1ifbb",
+        "status": "istek",
+        "title": "That Time I Got Reincarnated as a Slime",
+        "image": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx101280-tDxCVJm714nt.jpg",
+        "platform": "",
+        "genres": [
+          "Aksiyon",
+          "Macera",
+          "Komedi",
+          "Fantastik"
+        ],
+        "score": null,
+        "finished": null,
+        "recommended": true,
+        "review": "",
+        "note": "",
+        "year": 2018,
+        "favorite": false,
+        "pros": [],
+        "cons": [],
+        "updatedAt": "2026-10-22T21:15:25.319Z",
+        "episodes": 24,
+        "studio": "8-bit"
+      },
       {
         "id": "mvk1i1bk",
         "status": "istek",
