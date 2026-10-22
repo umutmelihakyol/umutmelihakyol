@@ -2,6 +2,7 @@
 const $=s=>document.querySelector(s);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const safeUrl=u=>/^https?:\/\//i.test(u||'')?esc(u):'';
+const imageSrc=(u,w=500)=>safeUrl(typeof IMAGE_SRC==='function'?IMAGE_SRC(u,w):u);
 const fmtDate=d=>d?new Date(d).toLocaleDateString('tr-TR',{year:'numeric',month:'long'}):'—';
 const num=v=>(+v).toLocaleString('tr',{maximumFractionDigits:1});
 const has=v=>v!==null&&v!==undefined&&v!=='';
@@ -50,7 +51,7 @@ const proscons=g=>{const p=(g.pros||[]).filter(Boolean),c=(g.cons||[]).filter(Bo
   const col=(t,cls,l)=>l.length?`<div class="pc ${cls}"><h4>${t}</h4><ul>${l.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>`:'';
   return `<div class="pcs">${col('Artılar','pro',p)}${col('Eksiler','con',c)}</div>`};
 const chips=g=>(g.genres||[]).map(t=>`<span>${esc(t)}</span>`).join('');
-const cover=g=>`<div class="cover">${g.image?`<img src="${safeUrl(g.image)}" alt="${esc(g.title)} görseli" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">`:''}${g.favorite===true?`<span class="fvb" title="Favorim">${HEART}</span>`:''}<span class="stb s-${stOf(g)}">${ST[stOf(g)]}</span>${has(g.score)?`<span class="score" title="Puanım">${num(g.score)}</span>`:''}${recChip(g)}</div>`;
+const cover=g=>`<div class="cover">${imageSrc(g.image,500)?`<img src="${imageSrc(g.image,500)}" alt="${esc(g.title)} görseli" loading="lazy" decoding="async" fetchpriority="low" referrerpolicy="no-referrer" onerror="this.remove();this.parentElement.classList.add('image-missing')">`:''}${g.favorite===true?`<span class="fvb" title="Favorim">${HEART}</span>`:''}<span class="stb s-${stOf(g)}">${ST[stOf(g)]}</span>${has(g.score)?`<span class="score" title="Puanım">${num(g.score)}</span>`:''}${recChip(g)}</div>`;
 function card(g){
   return `<article class="card" data-id="${esc(g.id)}">${cover(g)}
   <div class="body"><h3><a class="tl" href="#${esc(g.id)}" title="${esc(g.title)}">${esc(g.title)}</a></h3>
@@ -58,7 +59,7 @@ function card(g){
   ${facts(g)}<p class="note${g.note?'':' none'}">${g.note?esc(g.note):'Henüz not eklenmemiş.'}</p>
   <div class="row"><a class="more" href="#${esc(g.id)}">Ayrıntılar</a>${revHtml(g)}</div></div></article>`;
 }
-const thumb=(g,c)=>g.image?`<img class="${c}" src="${safeUrl(g.image)}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">`:`<span class="${c} ph"></span>`;
+const thumb=(g,c)=>imageSrc(g.image,185)?`<img class="${c}" src="${imageSrc(g.image,185)}" alt="" loading="lazy" decoding="async" fetchpriority="low" width="64" height="44" referrerpolicy="no-referrer" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'${c} ph','aria-hidden':'true'}))">`:`<span class="${c} ph" aria-hidden="true"></span>`;
 function table(l){
   const row=g=>`<tr data-id="${esc(g.id)}"><td><div class="nm">${thumb(g,'th')}<a class="tl" href="#${esc(g.id)}">${g.favorite===true?`<span class="hrt">${HEART}</span>`:''}${esc(g.title)}</a></div></td>
   <td class="c-pl">${esc(g.platform)||'—'}</td><td><span class="s-${stOf(g)}">${ST[stOf(g)]}</span></td><td class="sc">${has(g.score)?num(g.score):'—'}</td>
@@ -96,7 +97,7 @@ function loadCorsImage(url){
   return new Promise(res=>{
     if(!url)return res(null);
     const tries=[
-      `https://wsrv.nl/?url=${encodeURIComponent(url)}&output=webp`,
+      `https://wsrv.nl/?url=${encodeURIComponent(url)}&w=1080&output=webp`,
       `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
       url
     ];
@@ -383,7 +384,7 @@ $('.seg').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)
 ['q','plat','genre','flt','sort'].forEach(i=>$('#'+i).addEventListener('input',render));
 addEventListener('resize',()=>games.length&&render());
 foot();
-fetch(new URL(cfg.file, SITE_ROOT).href+'?'+Date.now()).then(r=>r.ok?r.json():[]).catch(()=>[]).then(d=>{
+fetch(new URL(cfg.file, SITE_ROOT).href, {cache:'no-cache'}).then(r=>r.ok?r.json():[]).catch(()=>[]).then(d=>{
   games=d;fillSel('#plat',cfg.plat.all,d.flatMap(plats));fillSel('#genre','Tüm türler',d.flatMap(g=>g.genres||[]));
   render();soon();foot();if(location.hash)openGame(location.hash.slice(1));
 });
