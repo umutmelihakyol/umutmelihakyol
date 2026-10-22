@@ -12,6 +12,23 @@ window.ICON=k=>'<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stro
 const A=(u,t)=>`<a href="${u}" target="_blank" rel="noopener">${t}</a>`;
 const watch=(done,doing,drop,want)=>({bitirdim:done,oynuyorum:doing,biraktim:drop,istek:want});
 window.SITE_ROOT = SITE_ROOT;
+// Bilinen görsel CDN'lerinde kart boyutuna uygun dosya varyantını kullanır.
+// Diğer kaynakların adreslerine dokunmaz; kayıt JSON'undaki özgün URL korunur.
+window.IMAGE_SRC = (raw, width=500) => {
+  try {
+    const url = new URL(String(raw || ''));
+    if (!/^https?:$/.test(url.protocol)) return '';
+    if (url.hostname === 'image.tmdb.org') {
+      const size = width <= 220 ? 'w185' : width <= 400 ? 'w342' : 'w500';
+      url.pathname = url.pathname.replace(/\/t\/p\/(?:w\d+|original)\//, `/t/p/${size}/`);
+    } else if (/^s\d+\.anilist\.co$/.test(url.hostname) && width <= 250) {
+      url.pathname = url.pathname.replace('/cover/large/', '/cover/medium/');
+    }
+    return url.href;
+  } catch {
+    return '';
+  }
+};
 window.CATS={
   oyun:{page:SITE_ROOT+'oyun/index.html',file:'data/games.json',name:'Oyun',noun:'oyun',plural:'Oyunlar',title:'Oyunlarım',
     desc:'Oynadığım oyunlar, puanlarım ve incelemelerim',
