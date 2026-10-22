@@ -79,7 +79,7 @@ function openGame(id){
   d.innerHTML=`${cover(g)}<div class="inner"><h2>${esc(g.title)}</h2><p class="meta">${esc(g.platform)}</p>
   <p class="tags wrapt">${chips(g)}</p>${facts(g)}${info(g)}
   ${g.note?`<p class="full">${esc(g.note)}</p>`:''}${proscons(g)}<div class="row">${revHtml(g)}</div>
-  <p>${randomMode?'<button class="btn pri again">Başka birini seç</button> ':''}<button class="btn copy">Bağlantıyı kopyala</button> <button class="btn" onclick="this.closest('dialog').close()">Kapat</button></p></div>`;
+  <p>${randomMode?'<button class="btn pri again">Başka birini seç</button> ':''}<button class="btn card-gen-btn" data-id="${esc(g.id)}">📷 İnceleme Kartı İndir</button> <button class="btn copy">Bağlantıyı kopyala</button> <button class="btn" onclick="this.closest('dialog').close()">Kapat</button></p></div>`;
   if(!d.open)d.showModal();
   if(lastId!==id){lastId=id;try{window.goatcounter&&goatcounter.count&&goatcounter.count({path:CAT+'/'+id,title:g.title,event:true})}catch{}}
 }
@@ -87,8 +87,257 @@ $('#dlg').addEventListener('close',()=>{lastId='';randomMode=false;history.repla
 $('#dlg').addEventListener('click',e=>{
   if(e.target===e.currentTarget)return e.currentTarget.close();
   if(e.target.closest('.again'))return pickRandom();
+  const cardBtn=e.target.closest('.card-gen-btn');
+  if(cardBtn)return generateReviewCard(cardBtn.dataset.id,cardBtn);
   const b=e.target.closest('.copy');if(b)navigator.clipboard.writeText(location.href).then(()=>b.textContent='Kopyalandı',()=>prompt('Bağlantı:',location.href));
 });
+
+/* CORS Destekli Görsel Yükleyici */
+function loadCorsImage(url){
+  return new Promise(res=>{
+    if(!url)return res(null);
+    const tries=[
+      `https://wsrv.nl/?url=${encodeURIComponent(url)}&output=webp`,
+      `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
+      url
+    ];
+    let idx=0;
+    const next=()=>{
+      if(idx>=tries.length)return res(null);
+      const im=new Image();
+      im.crossOrigin='anonymous';
+      im.onload=()=>res(im);
+      im.onerror=()=>{idx++;next()};
+      im.src=tries[idx];
+    };
+    next();
+  });
+}
+
+function drawImageCover(ctx,img,x,y,w,h){
+  const ir=img.width/img.height,tr=w/h;
+  let sw=img.width,sh=img.height,sx=0,sy=0;
+  if(ir>tr){sw=img.height*tr;sx=(img.width-sw)/2}
+  else{sh=img.width/tr;sy=(img.height-sh)/2}
+  ctx.drawImage(img,sx,sy,sw,sh,x,y,w,h);
+}
+
+function wrapLines(ctx,text,maxW){
+  const paragraphs=String(text||'').split('\n');
+  const out=[];
+  paragraphs.forEach(p=>{
+    const words=p.split(/\s+/).filter(Boolean);
+    if(!words.length){out.push('');return}
+    let line=words[0];
+    for(let i=1;i<words.length;i++){
+      const test=line+' '+words[i];
+      if(ctx.measureText(test).width>maxW){out.push(line);line=words[i]}
+      else line=test;
+    }
+    out.push(line);
+  });
+  return out;
+}
+
+/* TAM KART OLUŞTURUCU */
+async function generateReviewCard(id,btnEl){
+  const g=games.find(x=>x.id===id);if(!g)return;
+  const origTxt=btnEl?btnEl.textContent:'';
+  if(btnEl){btnEl.disabled=true;btnEl.textContent='Hazırlanıyor…'}
+
+  try{
+    const canvas=document.createElement('canvas');
+    const ctx=canvas.getContext('2d');
+    const stKey=stOf(g),W=1080,pad=56,cardW=W-pad*2,coverH=520,innerX=pad+44,innerW=cardW-88;
+
+    ctx.font='700 44px "Bricolage Grotesque", sans-serif';
+    const titleLines=wrapLines(ctx,g.title,innerW);
+    ctx.font='400 26px "Nunito Sans", sans-serif';
+    const noteLines=g.note?wrapLines(ctx,g.note,innerW):[];
+    const pros=(g.pros||[]).filter(Boolean),cons=(g.cons||[]).filter(Boolean);
+    ctx.font='400 22px "Nunito Sans", sans-serif';
+    const proWrapped=pros.map(p=>wrapLines(ctx,p,innerW/2-55));
+    const conWrapped=cons.map(c=>wrapLines(ctx,c,innerW/2-55));
+    const proH=proWrapped.reduce((t,l)=>t+l.length*30+10,0);
+    const conH=conWrapped.reduce((t,l)=>t+l.length*30+10,0);
+    const pcBoxH=(pros.length||cons.length)?Math.max(proH,conH)+76:0;
+
+    let totalH=pad + coverH + 55 + (titleLines.length*52) + 60 + 85;
+    if(noteLines.length)totalH+=noteLines.length*38 + 35;
+    if(pcBoxH)totalH+=pcBoxH + 30;
+    totalH+=75 + pad;
+
+    canvas.width=W;
+    canvas.height=Math.max(1080,totalH);
+
+    const img=await loadCorsImage(g.image);
+
+    ctx.fillStyle='#12161b';
+    ctx.fillRect(0,0,W,canvas.height);
+    if(img){
+      ctx.save();
+      ctx.globalAlpha=0.22;
+      ctx.filter='blur(28px)';
+      drawImageCover(ctx,img,-40,-40,W+80,canvas.height+80);
+      ctx.restore();
+    }
+
+    const cardX=pad,cardY=pad,cardH=canvas.height-pad*2;
+    ctx.save();
+    ctx.fillStyle='#20272e';
+    ctx.strokeStyle='#2f3841';
+    ctx.lineWidth=3;
+    ctx.beginPath();
+    ctx.roundRect(cardX,cardY,cardW,cardH,28);
+    ctx.fill();
+    ctx.stroke();
+    ctx.clip();
+
+    ctx.fillStyle='#171c21';
+    ctx.fillRect(cardX,cardY,cardW,coverH);
+    if(img){
+      drawImageCover(ctx,img,cardX,cardY,cardW,coverH);
+      const cg=ctx.createLinearGradient(0,cardY+coverH-180,0,cardY+coverH);
+      cg.addColorStop(0,'rgba(32,39,46,0)');
+      cg.addColorStop(1,'rgba(32,39,46,0.95)');
+      ctx.fillStyle=cg;
+      ctx.fillRect(cardX,cardY,cardW,coverH);
+    }
+
+    if(g.favorite===true){
+      ctx.fillStyle='#20272e';ctx.strokeStyle='#2f3841';ctx.lineWidth=2;
+      ctx.beginPath();ctx.arc(cardX+48,cardY+48,28,0,Math.PI*2);ctx.fill();ctx.stroke();
+      ctx.fillStyle='#d9917f';ctx.font='28px sans-serif';ctx.textAlign='center';
+      ctx.fillText('♥',cardX+48,cardY+58);ctx.textAlign='left';
+    }
+
+    const stTxt=ST[stKey]||stKey;
+    ctx.font='700 22px "Nunito Sans", sans-serif';
+    const stW=ctx.measureText(stTxt).width+36;
+    ctx.fillStyle='#20272e';ctx.strokeStyle='#2f3841';ctx.lineWidth=2;
+    ctx.beginPath();ctx.roundRect(cardX+cardW-stW-24,cardY+24,stW,44,999);ctx.fill();ctx.stroke();
+    ctx.fillStyle=stKey==='oynuyorum'?'#6fb3ba':stKey==='biraktim'?'#d9917f':'#e3e8ec';
+    ctx.fillText(stTxt,cardX+cardW-stW-6,cardY+53);
+
+    const coverBottom=cardY+coverH;
+    if(has(g.score)){
+      ctx.fillStyle='#6fb3ba';ctx.strokeStyle='#20272e';ctx.lineWidth=8;
+      ctx.beginPath();ctx.arc(innerX+46,coverBottom,48,0,Math.PI*2);ctx.fill();ctx.stroke();
+      ctx.fillStyle='#12181c';ctx.font='700 34px "Bricolage Grotesque", sans-serif';
+      ctx.textAlign='center';ctx.fillText(num(g.score),innerX+46,coverBottom+12);ctx.textAlign='left';
+    }
+
+    if(g.recommended===true||g.recommended===false){
+      const rTxt=g.recommended?'Öneriyorum':'Önermiyorum';
+      ctx.font='700 23px "Nunito Sans", sans-serif';
+      const rW=ctx.measureText(rTxt).width+42;
+      ctx.fillStyle='#20272e';ctx.strokeStyle='#2f3841';ctx.lineWidth=3;
+      ctx.beginPath();ctx.roundRect(cardX+cardW-rW-36,coverBottom-24,rW,48,999);ctx.fill();ctx.stroke();
+      ctx.fillStyle=g.recommended?'#6cc19a':'#d9917f';
+      ctx.fillText(rTxt,cardX+cardW-rW-15,coverBottom+8);
+    }
+
+    let y=coverBottom+68;
+    ctx.fillStyle='#e3e8ec';
+    ctx.font='700 44px "Bricolage Grotesque", sans-serif';
+    titleLines.forEach(l=>{ctx.fillText(l,innerX,y);y+=52});
+    y+=4;
+
+    let tagX=innerX;
+    if(g.platform){
+      ctx.fillStyle='#93a0ab';ctx.font='600 24px "Nunito Sans", sans-serif';
+      ctx.fillText(g.platform,tagX,y);
+      tagX+=ctx.measureText(g.platform).width+24;
+    }
+    ctx.font='600 20px "Nunito Sans", sans-serif';
+    (g.genres||[]).forEach(gn=>{
+      const gw=ctx.measureText(gn).width+24;
+      if(tagX+gw<cardX+cardW-40){
+        ctx.fillStyle='#171c21';ctx.strokeStyle='#2f3841';ctx.lineWidth=1.5;
+        ctx.beginPath();ctx.roundRect(tagX,y-24,gw,34,8);ctx.fill();ctx.stroke();
+        ctx.fillStyle='#93a0ab';ctx.fillText(gn,tagX+12,y-1);
+        tagX+=gw+10;
+      }
+    });
+    y+=44;
+
+    const factsList=[];
+    const dt=durText(g);
+    if(dt)factsList.push([cfg.dur.label||'Süre',dt]);
+    if(g.finished)factsList.push([cfg.dateLabel,fmtDate(g.finished)]);
+    if(has(g.year))factsList.push([cfg.yearLabel,String(g.year)]);
+    if(g[cfg.person.key])factsList.push([cfg.person.label,g[cfg.person.key]]);
+
+    if(factsList.length){
+      ctx.fillStyle='#171c21';ctx.strokeStyle='#2f3841';ctx.lineWidth=1.5;
+      ctx.beginPath();ctx.roundRect(innerX,y-10,innerW,62,14);ctx.fill();ctx.stroke();
+      let fx=innerX+20;
+      ctx.font='600 21px "Nunito Sans", sans-serif';
+      factsList.forEach(([lbl,val])=>{
+        if(fx>innerX+innerW-120)return;
+        ctx.fillStyle='#93a0ab';ctx.fillText(lbl+': ',fx,y+28);
+        fx+=ctx.measureText(lbl+': ').width;
+        ctx.fillStyle='#e3e8ec';ctx.fillText(val,fx,y+28);
+        fx+=ctx.measureText(val).width+28;
+      });
+      y+=82;
+    }
+
+    if(noteLines.length){
+      ctx.fillStyle='#e3e8ec';
+      ctx.font='400 26px "Nunito Sans", sans-serif';
+      noteLines.forEach(l=>{ctx.fillText(l,innerX,y);y+=38});
+      y+=18;
+    }
+
+    if(pros.length||cons.length){
+      const colW=(innerW-24)/2;
+      if(pros.length){
+        ctx.fillStyle='#171c21';ctx.strokeStyle='#2f3841';ctx.lineWidth=2;
+        ctx.beginPath();ctx.roundRect(innerX,y,cons.length?colW:innerW,pcBoxH,16);ctx.fill();ctx.stroke();
+        ctx.fillStyle='#6cc19a';ctx.font='700 24px "Bricolage Grotesque", sans-serif';
+        ctx.fillText('Artılar',innerX+22,y+38);
+        let py=y+72;ctx.font='400 22px "Nunito Sans", sans-serif';
+        proWrapped.forEach(lines=>{
+          ctx.fillStyle='#6cc19a';ctx.fillText('+',innerX+22,py);
+          ctx.fillStyle='#e3e8ec';
+          lines.forEach(ln=>{ctx.fillText(ln,innerX+46,py);py+=30});
+          py+=10;
+        });
+      }
+      if(cons.length){
+        const cx=pros.length?innerX+colW+24:innerX;
+        const cw=pros.length?colW:innerW;
+        ctx.fillStyle='#171c21';ctx.strokeStyle='#2f3841';ctx.lineWidth=2;
+        ctx.beginPath();ctx.roundRect(cx,y,cw,pcBoxH,16);ctx.fill();ctx.stroke();
+        ctx.fillStyle='#d9917f';ctx.font='700 24px "Bricolage Grotesque", sans-serif';
+        ctx.fillText('Eksiler',cx+22,y+38);
+        let cy=y+72;ctx.font='400 22px "Nunito Sans", sans-serif';
+        conWrapped.forEach(lines=>{
+          ctx.fillStyle='#d9917f';ctx.fillText('–',cx+22,cy);
+          ctx.fillStyle='#e3e8ec';
+          lines.forEach(ln=>{ctx.fillText(ln,cx+46,cy);cy+=30});
+          cy+=10;
+        });
+      }
+      y+=pcBoxH+30;
+    }
+
+    ctx.strokeStyle='#2f3841';ctx.lineWidth=1.5;
+    ctx.beginPath();ctx.moveTo(innerX,cardY+cardH-64);ctx.lineTo(innerX+innerW,cardY+cardH-64);ctx.stroke();
+    ctx.fillStyle='#93a0ab';ctx.font='600 20px "Nunito Sans", sans-serif';
+    ctx.fillText((CF.siteTitle||'Günlüğüm')+' • '+cfg.plural,innerX,cardY+cardH-26);
+    ctx.restore();
+
+    const link=document.createElement('a');
+    link.download=`inceleme-${g.title.toLowerCase().replace(/[^a-z0-9ğüşıöç]/g,'-')}.png`;
+    link.href=canvas.toDataURL('image/png');
+    link.click();
+  }finally{
+    if(btnEl){btnEl.disabled=false;btnEl.textContent=origTxt}
+  }
+}
+
 $('#grid').addEventListener('click',e=>{
   const c=e.target.closest('.card,tr[data-id]');if(!c||e.target.closest('a[target]'))return;
   e.preventDefault();location.hash=c.dataset.id;openGame(c.dataset.id);
