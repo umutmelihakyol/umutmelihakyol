@@ -324,15 +324,20 @@
         <div class="toolbar">
           <select id="repoFileSelect">
             <option value="index.html">index.html (Ana Sayfa)</option>
-            <option value="style.css">style.css (Tasarım / Stiller)</option>
-            <option value="app.js">app.js (Ana Betik)</option>
-            <option value="theme.js">theme.js (Tema Betiği)</option>
-            <option value="categories.js">categories.js (Kategori Ayarları)</option>
-            <option value="config.js">config.js (Yapılandırma)</option>
-            <option value="oyun.html">oyun.html</option>
-            <option value="film.html">film.html</option>
-            <option value="dizi.html">dizi.html</option>
-            <option value="anime.html">anime.html</option>
+            <option value="admin/index.html">admin/index.html (Yönetim Paneli)</option>
+            <option value="assets/css/style.css">assets/css/style.css (Tasarım / Stiller)</option>
+            <option value="scripts/app.js">scripts/app.js (Ana Betik)</option>
+            <option value="scripts/theme.js">scripts/theme.js (Tema Betiği)</option>
+            <option value="scripts/categories.js">scripts/categories.js (Kategori Ayarları)</option>
+            <option value="scripts/config.js">scripts/config.js (Yapılandırma)</option>
+            <option value="oyun/index.html">oyun/index.html (Oyunlar)</option>
+            <option value="film/index.html">film/index.html (Filmler)</option>
+            <option value="dizi/index.html">dizi/index.html (Diziler)</option>
+            <option value="anime/index.html">anime/index.html (Animeler)</option>
+            <option value="data/games.json">data/games.json (Oyun Kayıtları)</option>
+            <option value="data/movies.json">data/movies.json (Film Kayıtları)</option>
+            <option value="data/series.json">data/series.json (Dizi Kayıtları)</option>
+            <option value="data/anime.json">data/anime.json (Anime Kayıtları)</option>
             <option value="README.md">README.md</option>
           </select>
           <input id="customFilePath" placeholder="Veya özel dosya adı (örn: data/games.json)">
@@ -1195,7 +1200,7 @@ async function initSettingsForm(){
     if($('#cfg_'+k))$('#cfg_'+k).value=C[k]||'';
   });
   try{
-    const f=await getRepoFile('categories.js');
+    const f=await getRepoFile('scripts/categories.js');
     if(f)$('#catEditor').value=b64ToStr(f.content);
   }catch{}
 }
@@ -1211,17 +1216,17 @@ $('#saveConfigBtn').onclick=async()=>{
   };
   const code=`window.CONFIG = ${JSON.stringify(newCfg,null,2)};\n`;
   try{
-    await putRepoFile('config.js',code,'config.js admin panelinden güncellendi');
+    await putRepoFile('scripts/config.js',code,'scripts/config.js admin panelinden güncellendi');
     Object.assign(C,newCfg);
     say('config.js başarıyla GitHub\'a kaydedildi!');
-  }catch(e){say('config.js kaydedilemedi: '+e.message,1)}
+  }catch(e){say('scripts/config.js kaydedilemedi: '+e.message,1)}
 };
 $('#saveCatsBtn').onclick=async()=>{
   const code=$('#catEditor').value;
   try{
-    await putRepoFile('categories.js',code,'categories.js admin panelinden güncellendi');
-    say('categories.js başarıyla GitHub\'a kaydedildi! Değişikliklerin yansıması için sayfayı yenileyebilirsin.');
-  }catch(e){say('categories.js kaydedilemedi: '+e.message,1)}
+    await putRepoFile('scripts/categories.js',code,'scripts/categories.js admin panelinden güncellendi');
+    say('scripts/categories.js başarıyla GitHub\'a kaydedildi! Değişikliklerin yansıması için sayfayı yenileyebilirsin.');
+  }catch(e){say('scripts/categories.js kaydedilemedi: '+e.message,1)}
 };
 
 /* SEKME 5: HAM DOSYA EDİTÖRÜ */
@@ -1232,7 +1237,7 @@ $('#loadFileBtn').onclick=async()=>{
   say(path+' yükleniyor…');
   try{
     const f=await getRepoFile(path);
-    if(!f){$('#rawFileContent').value='';currentRawSha=null;currentRawPath=path;return say(path+' bulunamadı, kaydedersen yeni dosya olarak oluşturulacak.',1)}
+    if(!f){$('#rawFileContent').value='';currentRawSha=null;currentRawPath=path;return say(path+' GitHub deposunda bulunamadı. Kaydettiğinde bu yolda yeni dosya oluşturulacak.',1)}
     currentRawSha=f.sha;currentRawPath=path;
     $('#rawFileContent').value=b64ToStr(f.content);
     say(path+' yüklendi.');
