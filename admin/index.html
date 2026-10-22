@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="tr"> 
+<html lang="tr">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -134,6 +134,7 @@
       <button class="btn tab-btn" role="tab" data-tab="content" aria-selected="true">📚 İçerik Yönetimi</button>
       <button class="btn tab-btn" role="tab" data-tab="import" aria-selected="false">🔄 Platformdan İçe Aktar</button>
       <button class="btn tab-btn" role="tab" data-tab="stats" aria-selected="false">📊 Genel Bakış & Yedek</button>
+      <button class="btn tab-btn" role="tab" data-tab="health" aria-selected="false">🩺 Arşiv Kontrol Merkezi</button>
       <button class="btn tab-btn" role="tab" data-tab="settings" aria-selected="false">⚙️ Site & API Ayarları</button>
       <button class="btn tab-btn" role="tab" data-tab="files" aria-selected="false">💻 Dosya & Kod Editörü</button>
     </nav>
@@ -340,6 +341,39 @@
           <button class="btn pri" id="restoreFileBtn" type="button" disabled>Seçilen Yedeği Geri Yükle</button>
         </div>
         <p class="backup-note">Geri yükleme öncesinde mevcut arşiv ayrıca yedeklenir. Geri yükleme, yedekte bulunan kategorilerin mevcut kayıtlarını tamamen değiştirir; işlem birden fazla GitHub commit'i oluşturur.</p>
+      </section>
+    </div>
+
+    <!-- SEKME: ARŞİV KONTROL MERKEZİ -->
+    <div id="tab-health" class="tab-pane" hidden>
+      <section class="panel">
+        <h2>Arşiv Kontrol Merkezi</h2>
+        <p class="meta">Oyun, film, dizi ve anime kayıtlarını salt okunur şekilde inceler. Bu kontrol verileri kendiliğinden değiştirmez; sorunlu kayıtları içerik yönetiminde bulmana yardımcı olur.</p>
+        <div class="toolbar">
+          <button class="btn pri" id="runArchiveCheckBtn" type="button">Arşivi Tara</button>
+          <select id="healthCategoryFilter" aria-label="Kategoriye göre filtrele">
+            <option value="">Tüm kategoriler</option>
+            <option value="oyun">Oyunlar</option>
+            <option value="film">Filmler</option>
+            <option value="dizi">Diziler</option>
+            <option value="anime">Animeler</option>
+          </select>
+          <select id="healthSeverityFilter" aria-label="Sorun seviyesine göre filtrele">
+            <option value="">Tüm seviyeler</option>
+            <option value="error">Hata</option>
+            <option value="warning">Uyarı</option>
+            <option value="info">Bilgi</option>
+          </select>
+        </div>
+        <div class="stats-grid" id="healthSummary">
+          <div class="stat-card"><b>—</b><div>İncelenen kayıt</div></div>
+          <div class="stat-card"><b>—</b><div>Hata</div></div>
+          <div class="stat-card"><b>—</b><div>Uyarı</div></div>
+          <div class="stat-card"><b>—</b><div>Bilgi</div></div>
+        </div>
+        <div class="backup-state" id="healthStatus" role="status" aria-live="polite">Arşiv henüz taranmadı. Başlamak için “Arşivi Tara” düğmesine bas.</div>
+        <div id="healthResults" aria-live="polite"><p class="meta">Kontrol sonuçları burada listelenecek.</p></div>
+        <p class="backup-note">Kontrol edilenler: boş veya yinelenen başlıklar/ID'ler, hatalı puanlar ve durumlar, eksik kapak veya temel bilgiler, geçersiz bağlantı biçimleri ve bitirilmiş kayıtlardaki eksik alanlar. Görsel adresinin gerçekten çalışıp çalışmadığı bu kontrolün parçası değildir.</p>
       </section>
     </div>
 
@@ -1350,7 +1384,113 @@ async function renderStats(loadAll=false){
   $('#statsGrid').innerHTML=Object.entries(s.byCat).map(([key,x])=>`<div class="stat-card"><b>${x.items.length}</b><div>${esc(x.cfg.plural)}</div><small class="meta">★ Favori: ${x.favorites.length} · Ort.: ${x.avg===null?'—':x.avg.toLocaleString('tr-TR',{maximumFractionDigits:2})}</small><small class="meta" style="display:block;margin-top:6px">${esc(durationText(key,x.items))}</small><small class="meta" style="display:block">${x.completed.length} tamamlanan · ${x.scores.length} puanlı</small></div>`).join('');
   if(loadAll)setBackupStatus(`İstatistikler güncellendi · ${new Date().toLocaleString('tr-TR')}`);
 }
+
 $('#loadAllStatsBtn').onclick=()=>renderStats(true);
+
+/* ARŞİV KONTROL MERKEZİ — kayıtları değiştirmeden kalite kontrolü yapar */
+let archiveHealthIssues=[];
+const healthSeverityLabel={error:'Hata',warning:'Uyarı',info:'Bilgi'};
+function healthAdd(issues,level,category,item,code,message){
+  issues.push({level,category,id:String(item?.id??''),title:String(item?.title??''),code,message});
+}
+function healthUrlValid(value){
+  if(!value)return true;
+  try{const u=new URL(String(value));return u.protocol==='https:'||u.protocol==='http:'}catch{return false}
+}
+function healthNormalizeTitle(value){return String(value??'').normalize('NFC').trim().replace(/\s+/g,' ').toLocaleLowerCase('tr-TR')}
+function runHealthAnalysis(){
+  const issues=[];let total=0;
+  for(const key of Object.keys(CATS)){
+    const d=D[key],c=CATS[key];
+    if(!d||!d.loaded){
+      healthAdd(issues,'error',key,{id:'',title:''},'load','Kategori GitHub’dan doğrulanarak yüklenemedi. Bağlantıyı ve depo erişimini kontrol et.');
+      continue;
+    }
+    const items=Array.isArray(d.games)?d.games:[];total+=items.length;
+    const idsSeen=new Map(),titlesSeen=new Map();
+    for(const item of items){
+      if(!item||typeof item!=='object'||Array.isArray(item)){
+        healthAdd(issues,'error',key,{id:'',title:''},'record','Kayıt beklenen nesne biçiminde değil.');continue;
+      }
+      const title=String(item.title??'').trim(),id=String(item.id??'').trim();
+      if(!title)healthAdd(issues,'error',key,item,'title-missing','Başlık boş. Kaydın adı olmadan arşivde bulunması zorlaşır.');
+      if(!id)healthAdd(issues,'error',key,item,'id-missing','Kayıt ID alanı boş.');
+      else if(idsSeen.has(id))healthAdd(issues,'error',key,item,'id-duplicate',`ID başka bir kayıtta daha kullanılıyor: ${idsSeen.get(id)}.`);
+      else idsSeen.set(id,title||'(başlıksız)');
+      const nt=healthNormalizeTitle(title);
+      if(nt){if(titlesSeen.has(nt))healthAdd(issues,'warning',key,item,'title-duplicate',`Aynı başlık bu kategoride birden fazla kayıtlı: ${titlesSeen.get(nt)}.`);else titlesSeen.set(nt,title)}
+      if(item.score!==null&&item.score!==undefined&&item.score!==''){
+        const score=Number(item.score);
+        if(!Number.isFinite(score)||score<0||score>10)healthAdd(issues,'error',key,item,'score-invalid','Puan 0–10 aralığında geçerli bir sayı olmalı.');
+      }
+      const validStatuses=Object.keys(c.st||{});
+      if(item.status&&!validStatuses.includes(item.status))healthAdd(issues,'error',key,item,'status-invalid',`Bilinmeyen durum değeri: ${String(item.status)}.`);
+      if(!item.image)healthAdd(issues,'warning',key,item,'image-missing','Kapak görseli adresi boş.');
+      else if(!healthUrlValid(item.image))healthAdd(issues,'warning',key,item,'image-invalid','Kapak görseli HTTP/HTTPS biçiminde geçerli bir URL değil.');
+      if(item.year!==null&&item.year!==undefined&&item.year!==''){
+        const year=Number(item.year),current=new Date().getFullYear();
+        if(!Number.isInteger(year)||year<1880||year>current+10)healthAdd(issues,'warning',key,item,'year-invalid','Çıkış yılı beklenmeyen bir değer içeriyor.');
+      }else healthAdd(issues,'info',key,item,'year-missing','Çıkış yılı girilmemiş.');
+      if(item.review&&!healthUrlValid(item.review))healthAdd(issues,'warning',key,item,'review-invalid','İnceleme bağlantısı geçerli bir HTTP/HTTPS URL değil.');
+      if(item.genres!==undefined&&!Array.isArray(item.genres))healthAdd(issues,'error',key,item,'genres-invalid','Türler alanı bir liste olmalı.');
+      if(item.genres===undefined||Array.isArray(item.genres)&&item.genres.length===0)healthAdd(issues,'info',key,item,'genres-missing','Tür bilgisi girilmemiş.');
+      const done=item.status==='bitirdim';
+      if(done){
+        if(item.score===null||item.score===undefined||item.score==='')healthAdd(issues,'warning',key,item,'score-missing','Tamamlanmış kaydın kişisel puanı girilmemiş.');
+        if(!item.finished)healthAdd(issues,'warning',key,item,'date-missing','Tamamlanmış kaydın bitirme/izleme tarihi girilmemiş.');
+        else if(Number.isNaN(Date.parse(item.finished)))healthAdd(issues,'error',key,item,'date-invalid','Bitiş/izleme tarihi geçerli bir tarih değil.');
+        const durationKey=(c.dur||{}).key;
+        if(durationKey&&c.dur&&c.dur.req&&(item[durationKey]===null||item[durationKey]===undefined||item[durationKey]===''))healthAdd(issues,'warning',key,item,'duration-missing','Tamamlanmış kayıtta süre bilgisi girilmemiş.');
+      }
+      if(item.updatedAt&&Number.isNaN(Date.parse(item.updatedAt)))healthAdd(issues,'warning',key,item,'updated-invalid','Son güncelleme tarihi geçerli biçimde değil.');
+    }
+  }
+  return {issues,total};
+}
+function renderHealthResults(){
+  const category=$('#healthCategoryFilter').value,severity=$('#healthSeverityFilter').value;
+  const filtered=archiveHealthIssues.filter(x=>(!category||x.category===category)&&(!severity||x.level===severity));
+  const count={error:0,warning:0,info:0};archiveHealthIssues.forEach(x=>count[x.level]++);
+  const allRecords=Object.keys(CATS).reduce((n,k)=>n+(D[k]?.loaded&&Array.isArray(D[k].games)?D[k].games.length:0),0);
+  $('#healthSummary').innerHTML=[
+    {value:allRecords,label:'İncelenen kayıt'},
+    {value:count.error,label:'Hata'},
+    {value:count.warning,label:'Uyarı'},
+    {value:count.info,label:'Bilgi'}
+  ].map(x=>`<div class="stat-card"><b>${esc(x.value)}</b><div>${esc(x.label)}</div></div>`).join('');
+  if(!archiveHealthIssues.length){$('#healthResults').innerHTML='<p class="meta">Sorun bulunmadı. Arşiv temel kontrollerden geçti.</p>';return}
+  if(!filtered.length){$('#healthResults').innerHTML='<p class="meta">Bu filtrelerle eşleşen sorun yok.</p>';return}
+  $('#healthResults').innerHTML=`<p class="meta">${filtered.length} sonuç gösteriliyor · Toplam ${archiveHealthIssues.length} bulgu</p>`+filtered.map((x,i)=>`<div class="li-adv">
+    <div class="li-info"><div class="li-text">
+      <div class="li-title"><span class="badge">${esc(healthSeverityLabel[x.level])}</span><span>${esc(x.title||'(Başlıksız kayıt)')}</span><span class="meta">${esc(CATS[x.category]?.plural||x.category)}</span></div>
+      <div class="meta">${esc(x.message)}</div>
+    </div></div>
+    ${x.id?`<div class="li-actions"><button class="btn" type="button" data-health-open="${i}" title="Kaydı içerik yönetiminde bul">Kaydı Bul</button></div>`:''}
+  </div>`).join('');
+}
+async function runArchiveHealthCheck(){
+  const btn=$('#runArchiveCheckBtn');btn.disabled=true;$('#healthStatus').textContent='Kategoriler GitHub’dan yükleniyor ve inceleniyor…';
+  try{
+    for(const key of Object.keys(CATS))await ensureLoaded(key,true);
+    const result=runHealthAnalysis();archiveHealthIssues=result.issues;renderHealthResults();
+    const errors=archiveHealthIssues.filter(x=>x.level==='error').length,warnings=archiveHealthIssues.filter(x=>x.level==='warning').length;
+    const incomplete=Object.keys(CATS).filter(k=>!D[k]?.loaded);
+    $('#healthStatus').textContent=`Tarama tamamlandı: ${result.total} kayıt incelendi, ${errors} hata ve ${warnings} uyarı bulundu.`+(incomplete.length?` Doğrulanamayan kategoriler: ${incomplete.map(k=>CATS[k].plural).join(', ')}.`:'');
+  }catch(e){$('#healthStatus').textContent='Tarama başarısız: '+e.message}
+  finally{btn.disabled=false}
+}
+$('#runArchiveCheckBtn').addEventListener('click',runArchiveHealthCheck);
+$('#healthCategoryFilter').addEventListener('change',renderHealthResults);
+$('#healthSeverityFilter').addEventListener('change',renderHealthResults);
+$('#healthResults').addEventListener('click',async e=>{
+  const btn=e.target.closest('[data-health-open]');if(!btn)return;
+  const visible=archiveHealthIssues.filter(x=>(!$('#healthCategoryFilter').value||x.category===$('#healthCategoryFilter').value)&&(!$('#healthSeverityFilter').value||x.level===$('#healthSeverityFilter').value));
+  const issue=visible[Number(btn.dataset.healthOpen)];if(!issue)return;
+  cat=issue.category;try{localStorage.setItem('admin_cat',cat)}catch{}
+  $$('.tab-btn').forEach(b=>{const active=b.dataset.tab==='content';b.setAttribute('aria-selected',String(active))});$$('.tab-pane').forEach(p=>p.hidden=p.id!=='tab-content');
+  clear();applyCat();await ensureLoaded(cat,true);$('#qFilter').value=issue.title||'';list();$('#list').scrollIntoView({behavior:'smooth',block:'start'});
+});
+
 function downloadJson(payload,filename){
   const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json;charset=utf-8'});
   const url=URL.createObjectURL(blob),a=document.createElement('a');
