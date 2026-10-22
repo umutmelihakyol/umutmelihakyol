@@ -67,3 +67,21 @@ a.tech-hub-card:hover{transform:translateY(-3px);border-color:var(--acc);box-sha
 @media(max-width:850px){.tech-articles{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:620px){.tech-tools{grid-template-columns:1fr;padding:13px}.tech-hub{padding:17px;margin-bottom:30px}.tech-hub-head{align-items:flex-start;flex-direction:column}.tech-hub-grid{grid-template-columns:1fr}.tech-hub-card{padding:16px}.tech-page-top{padding-top:18px}.tech-page-top .acts{justify-content:flex-end}.tech-articles{grid-template-columns:1fr}.tech-article{min-height:0}.tech-hero{padding-top:20px}}
 @media(prefers-reduced-motion:reduce){.tech-hub-card,.tech-article{transition:none}.tech-hub-card:hover,.tech-article:hover{transform:none}}
+
+
+/* v3: Günlüğüm genel kart ve etkileşim diliyle uyum */
+.tech-page{max-width:1240px}
+.tech-hub,.tech-tools{box-shadow:0 4px 18px rgba(0,0,0,.025)}
+a.tech-hub-card,a.tech-hub-card:visited{transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease,background-color .18s ease}
+a.tech-hub-card:hover{box-shadow:0 10px 25px rgba(0,0,0,.08)}
+.tech-filter,.tech-nav a,.tech-clear-btn{transition:background-color .16s ease,border-color .16s ease,color .16s ease,transform .16s ease}
+.tech-filter:hover,.tech-nav a:hover{border-color:var(--acc)}
+.tech-articles{grid-template-columns:repeat(auto-fit,minmax(min(100%,265px),1fr));align-items:stretch;gap:18px}
+.tech-article{height:100%;border-radius:16px;box-shadow:0 3px 14px rgba(0,0,0,.025)}
+.tech-article h2{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;min-height:2.7em}
+.tech-article p{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:4;overflow:hidden}
+.tech-read-link{border-radius:6px;text-underline-offset:3px}
+.tech-read-link:hover{text-decoration:underline}
+.tech-profile-link:focus-visible,.tech-hub-card:focus-visible,.tech-nav a:focus-visible,.tech-search-field input:focus-visible,.tech-tool-field select:focus-visible{outline:3px solid var(--acc);outline-offset:3px}
+@media(max-width:620px){.tech-articles{grid-template-columns:1fr;gap:12px}.tech-article{min-height:0}.tech-hub,.tech-tools{box-shadow:none}}
+@media(prefers-reduced-motion:reduce){.tech-hub-card,.tech-article,.tech-filter,.tech-nav a,.tech-clear-btn{transition:none!important}.tech-hub-card:hover,.tech-article:hover,.tech-filter:hover,.tech-nav a:hover{transform:none}}
