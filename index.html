@@ -5,12 +5,15 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Günlüğüm</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://image.tmdb.org" crossorigin>
+<link rel="dns-prefetch" href="//media.rawg.io">
+<link rel="dns-prefetch" href="//s4.anilist.co">
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700&family=Nunito+Sans:wght@400;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="./assets/css/style.css?v=12">
-<link rel="stylesheet" href="./assets/css/technopat.css?v=1">
+<link rel="stylesheet" href="./assets/css/style.css?v=13">
+<link rel="stylesheet" href="./assets/css/technopat.css?v=3">
 <script src="scripts/theme.js"></script>
 <script src="scripts/config.js"></script>
-<script src="scripts/categories.js"></script>
+<script src="scripts/categories.js?v=2"></script>
 <script>if(window.CONFIG&&CONFIG.goatcounter){var gc=document.createElement('script');gc.async=true;gc.dataset.goatcounter='https://'+CONFIG.goatcounter+'.goatcounter.com/count';gc.src='https://gc.zgo.at/count.js';document.head.appendChild(gc)}</script>
 </head>
 <body class="home">
@@ -103,7 +106,7 @@ function loadCorsImage(url){
   return new Promise(res=>{
     if(!url)return res(null);
     const tries=[
-      `https://wsrv.nl/?url=${encodeURIComponent(url)}&output=webp`,
+      `https://wsrv.nl/?url=${encodeURIComponent(url)}&w=1080&output=webp`,
       `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
       url
     ];
@@ -390,6 +393,7 @@ function populateStudioItems(){
   renderStudioPreview();
 }
 function renderStudioPreview(){
+  if($('#studioSec').hidden)return;
   const k=$('#stCatSel').value,id=$('#stItemSel').value;
   const g=(ALL_DATA[k]||[]).find(x=>x.id===id);
   if(g)drawFullReviewCard($('#cardCanvas'),k,g);
@@ -411,14 +415,14 @@ $('#dlCardBtn').onclick=()=>{
   a.click();
 };
 
-Promise.all(Object.entries(CATS).map(async([k,c])=>[k,await fetch(new URL(c.file, SITE_ROOT).href+'?'+Date.now()).then(r=>r.ok?r.json():[]).catch(()=>[])])).then(res=>{
+Promise.all(Object.entries(CATS).map(async([k,c])=>[k,await fetch(new URL(c.file, SITE_ROOT).href, {cache:'no-cache'}).then(r=>r.ok?r.json():[]).catch(()=>[])])).then(res=>{
   const D=Object.fromEntries(res);ALL_DATA=D;tiles(D);
   $('#stCatSel').innerHTML=Object.entries(CATS).map(([k,c])=>`<option value="${k}">${c.plural} (${(D[k]||[]).length})</option>`).join('');
   populateStudioItems();
 
   const all=res.flatMap(([k,l])=>l.map(g=>({k,g}))).sort((a,b)=>stamp(b.g).localeCompare(stamp(a.g))).slice(0,8);
   $('#recentWrap').hidden=!all.length;
-  $('#recent').innerHTML=all.map(({k,g})=>`<div class="rc-wrap"><a class="rc" href="${CATS[k].page}#${esc(g.id)}">${g.image?`<img class="sth" src="${safeUrl(g.image)}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">`:'<span class="sth ph"></span>'}<span><b>${esc(g.title)}</b><small>${CATS[k].name}${has(g.score)?', puan '+(+g.score).toLocaleString('tr',{maximumFractionDigits:1}):''}</small></span></a><button class="btn quick-card-btn" data-k="${k}" data-id="${esc(g.id)}" title="Bu içeriğin inceleme kartını oluştur">📷</button></div>`).join('');
+  $('#recent').innerHTML=all.map(({k,g})=>`<div class="rc-wrap"><a class="rc" href="${CATS[k].page}#${esc(g.id)}">${typeof IMAGE_SRC==='function'&&IMAGE_SRC(g.image,185)?`<img class="sth" src="${safeUrl(IMAGE_SRC(g.image,185))}" alt="" loading="lazy" decoding="async" fetchpriority="low" width="64" height="44" referrerpolicy="no-referrer" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'sth ph','aria-hidden':'true'}))">`:'<span class="sth ph" aria-hidden="true"></span>'}<span><b>${esc(g.title)}</b><small>${CATS[k].name}${has(g.score)?', puan '+(+g.score).toLocaleString('tr',{maximumFractionDigits:1}):''}</small></span></a><button class="btn quick-card-btn" data-k="${k}" data-id="${esc(g.id)}" title="Bu içeriğin inceleme kartını oluştur">📷</button></div>`).join('');
 
   $('#recent').addEventListener('click',e=>{
     const b=e.target.closest('.quick-card-btn');if(!b)return;
