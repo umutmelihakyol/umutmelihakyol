@@ -174,5 +174,13 @@ a.tile:hover{border-color:var(--acc)}
 .tbody h3{font-size:1.15rem}
 .tbody p{margin:2px 0 0;color:var(--mute);font-size:.9rem}
 
-.card-gen-btn { background: rgba(111, 179, 186, 0.15); border-color: var(--acc); color: var(--acc); font-weight: 700; }
-.card-gen-btn:hover { background: var(--acc); color: var(--accink); }
+/* v10: İnceleme Kartı Oluşturucu Stüdyosu */
+.card-gen-btn{background:rgba(111,179,186,.15);border-color:var(--acc);color:var(--acc);font-weight:700}
+.card-gen-btn:hover{background:var(--acc);color:var(--accink)}
+.studio-wrap{margin-bottom:36px}
+.studio-preview{display:flex;justify-content:center;background:var(--bg);border:1px solid var(--line);border-radius:var(--r);padding:16px;overflow:hidden}
+.studio-preview canvas{max-width:460px;width:100%;height:auto;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,.25)}
+.rc-wrap{display:flex;gap:6px;align-items:stretch}
+.rc-wrap .rc{flex:1;min-width:0}
+.quick-card-btn{padding:0 12px;border-radius:12px;flex:none;display:grid;place-items:center}
+.quick-card-btn:hover{border-color:var(--acc)}
