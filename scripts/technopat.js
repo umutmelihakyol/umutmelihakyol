@@ -171,7 +171,7 @@
     searchInput.focus();
   });
 
-  fetch('../../data/technopat.json', { cache: 'no-store' })
+  fetch('../../data/technopat.json', { cache: 'no-cache' })
     .then(response => {
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
       return response.json();
