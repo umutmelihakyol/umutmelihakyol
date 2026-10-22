@@ -250,3 +250,43 @@ a.tile:hover .tbody h3{color:var(--acc)}
 .rc-wrap .rc{flex:1;min-width:0}
 .quick-card-btn{padding:0 12px;border-radius:12px;flex:none;display:grid;place-items:center}
 .quick-card-btn:hover{border-color:var(--acc)}
+
+
+/* v13: genel tasarım tutarlılığı, kart yüzeyleri ve daha dengeli geniş ekran yerleşimi */
+.wrap{max-width:1240px;padding-inline:clamp(16px,2.2vw,28px)}
+.btn{transition:background-color .16s ease,border-color .16s ease,color .16s ease,transform .16s ease,box-shadow .16s ease}
+.btn:hover{border-color:color-mix(in srgb,var(--acc) 62%,var(--line));box-shadow:0 3px 12px color-mix(in srgb,var(--acc) 10%,transparent)}
+.btn:active{transform:translateY(1px)}
+.grid{grid-template-columns:repeat(auto-fill,minmax(min(100%,255px),1fr));gap:18px;align-items:stretch}
+.card{min-width:0;height:100%;border-radius:16px;box-shadow:0 3px 14px rgba(0,0,0,.025);transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease}
+.card:hover{border-color:color-mix(in srgb,var(--acc) 60%,var(--line));box-shadow:0 10px 25px rgba(0,0,0,.08)}
+.cover{overflow:hidden;isolation:isolate;aspect-ratio:16/10}
+.cover img{display:block;width:100%;height:100%;object-fit:cover;transform:translateZ(0);transition:transform .28s ease}
+.card:hover .cover img{transform:scale(1.025)}
+.cover.image-missing{background:linear-gradient(135deg,var(--bg),var(--line))}
+.cover.image-missing::after{content:'Görsel yüklenemedi';position:absolute;inset:0;display:grid;place-items:center;color:var(--mute);font-size:.85rem}
+.body{padding:24px 18px 18px;gap:10px}
+.body h3{font-size:1.12rem;line-height:1.35}
+.sub{min-width:0;gap:8px}
+.sub .plat{max-width:48%}
+.tags span{border-radius:999px;padding:1px 9px}
+.facts{gap:5px 14px;font-size:.88rem}
+.note{line-height:1.5}
+.row{gap:9px;flex-wrap:wrap}
+a.more,.row>a{border-radius:6px;text-underline-offset:3px}
+a.more:hover,.row>a:hover{text-decoration:underline}
+.stats{gap:12px clamp(18px,3vw,34px)}
+.tools input:focus-visible,.tools select:focus-visible,.f input:focus-visible,.f select:focus-visible,.f textarea:focus-visible{border-color:var(--acc)}
+.recent{grid-template-columns:repeat(auto-fill,minmax(min(100%,250px),1fr));gap:12px}
+a.rc,a.soonc{min-width:0;transition:border-color .16s ease,transform .16s ease,box-shadow .16s ease}
+a.rc:hover,a.soonc:hover{border-color:var(--acc);transform:translateY(-1px);box-shadow:0 5px 14px rgba(0,0,0,.05)}
+.rc b{max-width:100%}
+.rc span{min-width:0}
+.th,.sth{flex:none;object-fit:cover;aspect-ratio:16/11;background:linear-gradient(135deg,var(--line),var(--bg))}
+.cats{align-items:center}
+.cats a{transition:background-color .16s ease,border-color .16s ease,transform .16s ease}
+.cats a:hover{transform:translateY(-1px)}
+.empty{border:1px dashed var(--line);border-radius:16px;background:var(--card);padding:44px 20px}
+@media(max-width:760px){.wrap{padding-inline:16px}.grid{grid-template-columns:repeat(auto-fill,minmax(min(100%,235px),1fr));gap:14px}.body{padding:20px 15px 16px}}
+@media(max-width:520px){.grid{grid-template-columns:1fr;gap:12px}.cover{aspect-ratio:16/9}.recent{grid-template-columns:1fr}.tools{gap:8px}.tools input,.tools select{min-width:0;width:100%}.stats{padding-bottom:16px}}
+@media(prefers-reduced-motion:reduce){.btn,.card,.cover img,a.rc,a.soonc,.cats a{transition:none!important}.btn:active,.card:hover,.card:hover .cover img,a.rc:hover,a.soonc:hover,.cats a:hover{transform:none}}
