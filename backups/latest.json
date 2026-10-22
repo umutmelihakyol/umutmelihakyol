@@ -1,7 +1,7 @@
 {
   "format": "gunlugum-backup",
   "version": 1,
-  "createdAt": "2026-10-22T20:02:27.704Z",
+  "createdAt": "2026-10-22T20:03:09.300Z",
   "reason": "Film kaydı öncesi otomatik yedek",
   "repository": "umutmelihakyol/umutmelihakyol",
   "branch": "main",
@@ -1385,26 +1385,6 @@
         "updatedAt": "2026-10-21T21:55:48.322Z",
         "minutes": 6,
         "director": "David Silverman"
-      },
-      {
-        "id": "mvinij2c",
-        "status": "bitirdim",
-        "title": "WandaVision",
-        "image": "",
-        "platform": "Sinema / Dijital",
-        "genres": [],
-        "score": 9,
-        "finished": "2023-12-24",
-        "recommended": true,
-        "review": "https://boxd.it/sbGW",
-        "note": "",
-        "year": 2021,
-        "favorite": true,
-        "pros": [],
-        "cons": [],
-        "updatedAt": "2026-10-21T21:55:49.327Z",
-        "minutes": 120,
-        "director": ""
       },
       {
         "id": "mviniju0",
