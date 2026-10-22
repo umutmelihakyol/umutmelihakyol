@@ -92,7 +92,6 @@ $('#dlg').addEventListener('click',e=>{
   const b=e.target.closest('.copy');if(b)navigator.clipboard.writeText(location.href).then(()=>b.textContent='Kopyalandı',()=>prompt('Bağlantı:',location.href));
 });
 
-/* CORS Destekli Görsel Yükleyici */
 function loadCorsImage(url){
   return new Promise(res=>{
     if(!url)return res(null);
@@ -139,7 +138,7 @@ function wrapLines(ctx,text,maxW){
   return out;
 }
 
-/* TAM KART OLUŞTURUCU */
+/* HİZALAMALARI VE BOŞLUKLARI DÜZELTİLMİŞ TAM KART OLUŞTURUCU */
 async function generateReviewCard(id,btnEl){
   const g=games.find(x=>x.id===id);if(!g)return;
   const origTxt=btnEl?btnEl.textContent:'';
@@ -148,27 +147,42 @@ async function generateReviewCard(id,btnEl){
   try{
     const canvas=document.createElement('canvas');
     const ctx=canvas.getContext('2d');
-    const stKey=stOf(g),W=1080,pad=56,cardW=W-pad*2,coverH=520,innerX=pad+44,innerW=cardW-88;
+    const stKey=stOf(g),W=1080,pad=48,cardW=W-pad*2,coverH=500,innerX=pad+48,innerW=cardW-96;
 
     ctx.font='700 44px "Bricolage Grotesque", sans-serif';
     const titleLines=wrapLines(ctx,g.title,innerW);
+
     ctx.font='400 26px "Nunito Sans", sans-serif';
-    const noteLines=g.note?wrapLines(ctx,g.note,innerW):[];
+    const noteText=g.note?g.note:'Bu içerik için henüz inceleme notu eklenmemiş.';
+    const noteLines=wrapLines(ctx,noteText,innerW);
+
     const pros=(g.pros||[]).filter(Boolean),cons=(g.cons||[]).filter(Boolean);
     ctx.font='400 22px "Nunito Sans", sans-serif';
     const proWrapped=pros.map(p=>wrapLines(ctx,p,innerW/2-55));
     const conWrapped=cons.map(c=>wrapLines(ctx,c,innerW/2-55));
-    const proH=proWrapped.reduce((t,l)=>t+l.length*30+10,0);
-    const conH=conWrapped.reduce((t,l)=>t+l.length*30+10,0);
-    const pcBoxH=(pros.length||cons.length)?Math.max(proH,conH)+76:0;
+    const proH=proWrapped.reduce((t,l)=>t+l.length*32+10,0);
+    const conH=conWrapped.reduce((t,l)=>t+l.length*32+10,0);
+    const pcBoxH=(pros.length||cons.length)?Math.max(proH,conH)+80:0;
 
-    let totalH=pad + coverH + 55 + (titleLines.length*52) + 60 + 85;
-    if(noteLines.length)totalH+=noteLines.length*38 + 35;
-    if(pcBoxH)totalH+=pcBoxH + 30;
-    totalH+=75 + pad;
+    const factsList=[];
+    const dt=durText(g);
+    if(dt)factsList.push([cfg.dur.label||'Süre',dt]);
+    if(g.finished)factsList.push([cfg.dateLabel,fmtDate(g.finished)]);
+    if(has(g.year))factsList.push([cfg.yearLabel,String(g.year)]);
+    if(g[cfg.person.key])factsList.push([cfg.person.label,g[cfg.person.key]]);
+
+    let simY = pad + coverH + 88;
+    simY += titleLines.length * 52 + 16;
+    simY += 46;
+    if(factsList.length) simY += 64 + 34;
+    simY += noteLines.length * 42 + 32;
+    if(pcBoxH) simY += pcBoxH + 32;
+    const footerH = 74;
+    const cardH = (simY - pad) + footerH;
+    const totalCanvasH = cardH + pad * 2;
 
     canvas.width=W;
-    canvas.height=Math.max(1080,totalH);
+    canvas.height=totalCanvasH;
 
     const img=await loadCorsImage(g.image);
 
@@ -176,13 +190,13 @@ async function generateReviewCard(id,btnEl){
     ctx.fillRect(0,0,W,canvas.height);
     if(img){
       ctx.save();
-      ctx.globalAlpha=0.22;
-      ctx.filter='blur(28px)';
+      ctx.globalAlpha=0.25;
+      ctx.filter='blur(30px)';
       drawImageCover(ctx,img,-40,-40,W+80,canvas.height+80);
       ctx.restore();
     }
 
-    const cardX=pad,cardY=pad,cardH=canvas.height-pad*2;
+    const cardX=pad,cardY=pad;
     ctx.save();
     ctx.fillStyle='#20272e';
     ctx.strokeStyle='#2f3841';
@@ -197,15 +211,15 @@ async function generateReviewCard(id,btnEl){
     ctx.fillRect(cardX,cardY,cardW,coverH);
     if(img){
       drawImageCover(ctx,img,cardX,cardY,cardW,coverH);
-      const cg=ctx.createLinearGradient(0,cardY+coverH-180,0,cardY+coverH);
+      const cg=ctx.createLinearGradient(0,cardY+coverH-170,0,cardY+coverH);
       cg.addColorStop(0,'rgba(32,39,46,0)');
-      cg.addColorStop(1,'rgba(32,39,46,0.95)');
+      cg.addColorStop(1,'rgba(32,39,46,0.96)');
       ctx.fillStyle=cg;
       ctx.fillRect(cardX,cardY,cardW,coverH);
     }
 
     if(g.favorite===true){
-      ctx.fillStyle='#20272e';ctx.strokeStyle='#2f3841';ctx.lineWidth=2;
+      ctx.fillStyle='rgba(32,39,46,0.9)';ctx.strokeStyle='#2f3841';ctx.lineWidth=2;
       ctx.beginPath();ctx.arc(cardX+48,cardY+48,28,0,Math.PI*2);ctx.fill();ctx.stroke();
       ctx.fillStyle='#d9917f';ctx.font='28px sans-serif';ctx.textAlign='center';
       ctx.fillText('♥',cardX+48,cardY+58);ctx.textAlign='left';
@@ -213,82 +227,88 @@ async function generateReviewCard(id,btnEl){
 
     const stTxt=ST[stKey]||stKey;
     ctx.font='700 22px "Nunito Sans", sans-serif';
-    const stW=ctx.measureText(stTxt).width+36;
-    ctx.fillStyle='#20272e';ctx.strokeStyle='#2f3841';ctx.lineWidth=2;
-    ctx.beginPath();ctx.roundRect(cardX+cardW-stW-24,cardY+24,stW,44,999);ctx.fill();ctx.stroke();
+    const stW=ctx.measureText(stTxt).width+38;
+    ctx.fillStyle='rgba(32,39,46,0.9)';ctx.strokeStyle='#2f3841';ctx.lineWidth=2;
+    ctx.beginPath();ctx.roundRect(cardX+cardW-stW-28,cardY+28,stW,44,999);ctx.fill();ctx.stroke();
     ctx.fillStyle=stKey==='oynuyorum'?'#6fb3ba':stKey==='biraktim'?'#d9917f':'#e3e8ec';
-    ctx.fillText(stTxt,cardX+cardW-stW-6,cardY+53);
+    ctx.fillText(stTxt,cardX+cardW-stW-9,cardY+57);
 
     const coverBottom=cardY+coverH;
+
     if(has(g.score)){
+      const r=44,cx=innerX+r,cy=coverBottom-6;
       ctx.fillStyle='#6fb3ba';ctx.strokeStyle='#20272e';ctx.lineWidth=8;
-      ctx.beginPath();ctx.arc(innerX+46,coverBottom,48,0,Math.PI*2);ctx.fill();ctx.stroke();
-      ctx.fillStyle='#12181c';ctx.font='700 34px "Bricolage Grotesque", sans-serif';
-      ctx.textAlign='center';ctx.fillText(num(g.score),innerX+46,coverBottom+12);ctx.textAlign='left';
+      ctx.beginPath();ctx.arc(cx,cy,r,0,Math.PI*2);ctx.fill();ctx.stroke();
+      ctx.fillStyle='#12181c';ctx.font='700 32px "Bricolage Grotesque", sans-serif';
+      ctx.textAlign='center';ctx.textBaseline='middle';
+      ctx.fillText(num(g.score),cx,cy+2);
+      ctx.textAlign='left';ctx.textBaseline='alphabetic';
     }
 
     if(g.recommended===true||g.recommended===false){
       const rTxt=g.recommended?'Öneriyorum':'Önermiyorum';
-      ctx.font='700 23px "Nunito Sans", sans-serif';
-      const rW=ctx.measureText(rTxt).width+42;
+      ctx.font='700 22px "Nunito Sans", sans-serif';
+      const rW=ctx.measureText(rTxt).width+44;
+      const rx=cardX+cardW-rW-44,ry=coverBottom-28;
       ctx.fillStyle='#20272e';ctx.strokeStyle='#2f3841';ctx.lineWidth=3;
-      ctx.beginPath();ctx.roundRect(cardX+cardW-rW-36,coverBottom-24,rW,48,999);ctx.fill();ctx.stroke();
+      ctx.beginPath();ctx.roundRect(rx,ry,rW,46,999);ctx.fill();ctx.stroke();
       ctx.fillStyle=g.recommended?'#6cc19a':'#d9917f';
-      ctx.fillText(rTxt,cardX+cardW-rW-15,coverBottom+8);
+      ctx.textAlign='center';ctx.textBaseline='middle';
+      ctx.fillText(rTxt,rx+rW/2,ry+24);
+      ctx.textAlign='left';ctx.textBaseline='alphabetic';
     }
 
-    let y=coverBottom+68;
+    let y = coverBottom + 88;
+
     ctx.fillStyle='#e3e8ec';
     ctx.font='700 44px "Bricolage Grotesque", sans-serif';
     titleLines.forEach(l=>{ctx.fillText(l,innerX,y);y+=52});
-    y+=4;
+    y+=16;
 
     let tagX=innerX;
     if(g.platform){
-      ctx.fillStyle='#93a0ab';ctx.font='600 24px "Nunito Sans", sans-serif';
+      ctx.fillStyle='#93a0ab';ctx.font='700 23px "Nunito Sans", sans-serif';
       ctx.fillText(g.platform,tagX,y);
-      tagX+=ctx.measureText(g.platform).width+24;
+      tagX+=ctx.measureText(g.platform).width+20;
     }
     ctx.font='600 20px "Nunito Sans", sans-serif';
     (g.genres||[]).forEach(gn=>{
-      const gw=ctx.measureText(gn).width+24;
-      if(tagX+gw<cardX+cardW-40){
+      const gw=ctx.measureText(gn).width+26;
+      if(tagX+gw<=innerX+innerW){
         ctx.fillStyle='#171c21';ctx.strokeStyle='#2f3841';ctx.lineWidth=1.5;
-        ctx.beginPath();ctx.roundRect(tagX,y-24,gw,34,8);ctx.fill();ctx.stroke();
-        ctx.fillStyle='#93a0ab';ctx.fillText(gn,tagX+12,y-1);
+        ctx.beginPath();ctx.roundRect(tagX,y-25,gw,34,8);ctx.fill();ctx.stroke();
+        ctx.fillStyle='#93a0ab';
+        ctx.textAlign='center';ctx.fillText(gn,tagX+gw/2,y-1);ctx.textAlign='left';
         tagX+=gw+10;
       }
     });
-    y+=44;
-
-    const factsList=[];
-    const dt=durText(g);
-    if(dt)factsList.push([cfg.dur.label||'Süre',dt]);
-    if(g.finished)factsList.push([cfg.dateLabel,fmtDate(g.finished)]);
-    if(has(g.year))factsList.push([cfg.yearLabel,String(g.year)]);
-    if(g[cfg.person.key])factsList.push([cfg.person.label,g[cfg.person.key]]);
+    y+=46;
 
     if(factsList.length){
       ctx.fillStyle='#171c21';ctx.strokeStyle='#2f3841';ctx.lineWidth=1.5;
-      ctx.beginPath();ctx.roundRect(innerX,y-10,innerW,62,14);ctx.fill();ctx.stroke();
-      let fx=innerX+20;
+      ctx.beginPath();ctx.roundRect(innerX,y,innerW,64,14);ctx.fill();ctx.stroke();
+      let fx=innerX+24;
       ctx.font='600 21px "Nunito Sans", sans-serif';
+      ctx.textBaseline='middle';
+      const midY=y+33;
       factsList.forEach(([lbl,val])=>{
-        if(fx>innerX+innerW-120)return;
-        ctx.fillStyle='#93a0ab';ctx.fillText(lbl+': ',fx,y+28);
+        const segW=ctx.measureText(lbl+': '+val).width;
+        if(fx+segW>innerX+innerW-16)return;
+        ctx.fillStyle='#93a0ab';ctx.fillText(lbl+': ',fx,midY);
         fx+=ctx.measureText(lbl+': ').width;
-        ctx.fillStyle='#e3e8ec';ctx.fillText(val,fx,y+28);
-        fx+=ctx.measureText(val).width+28;
+        ctx.fillStyle='#e3e8ec';ctx.fillText(val,fx,midY);
+        fx+=ctx.measureText(val).width+32;
       });
-      y+=82;
+      ctx.textBaseline='alphabetic';
+      y+=64+48;
+    }else{
+      y+=16;
     }
 
-    if(noteLines.length){
-      ctx.fillStyle='#e3e8ec';
-      ctx.font='400 26px "Nunito Sans", sans-serif';
-      noteLines.forEach(l=>{ctx.fillText(l,innerX,y);y+=38});
-      y+=18;
-    }
+    ctx.fillStyle=g.note?'#e3e8ec':'#93a0ab';
+    ctx.font=(g.note?'400 ':'italic 400 ')+'26px "Nunito Sans", sans-serif';
+    noteLines.forEach(l=>{ctx.fillText(l,innerX,y);y+=42});
+    y+=16;
 
     if(pros.length||cons.length){
       const colW=(innerW-24)/2;
@@ -296,12 +316,12 @@ async function generateReviewCard(id,btnEl){
         ctx.fillStyle='#171c21';ctx.strokeStyle='#2f3841';ctx.lineWidth=2;
         ctx.beginPath();ctx.roundRect(innerX,y,cons.length?colW:innerW,pcBoxH,16);ctx.fill();ctx.stroke();
         ctx.fillStyle='#6cc19a';ctx.font='700 24px "Bricolage Grotesque", sans-serif';
-        ctx.fillText('Artılar',innerX+22,y+38);
-        let py=y+72;ctx.font='400 22px "Nunito Sans", sans-serif';
+        ctx.fillText('Artılar',innerX+24,y+40);
+        let py=y+76;ctx.font='400 22px "Nunito Sans", sans-serif';
         proWrapped.forEach(lines=>{
-          ctx.fillStyle='#6cc19a';ctx.fillText('+',innerX+22,py);
+          ctx.fillStyle='#6cc19a';ctx.fillText('+',innerX+24,py);
           ctx.fillStyle='#e3e8ec';
-          lines.forEach(ln=>{ctx.fillText(ln,innerX+46,py);py+=30});
+          lines.forEach(ln=>{ctx.fillText(ln,innerX+48,py);py+=32});
           py+=10;
         });
       }
@@ -311,22 +331,30 @@ async function generateReviewCard(id,btnEl){
         ctx.fillStyle='#171c21';ctx.strokeStyle='#2f3841';ctx.lineWidth=2;
         ctx.beginPath();ctx.roundRect(cx,y,cw,pcBoxH,16);ctx.fill();ctx.stroke();
         ctx.fillStyle='#d9917f';ctx.font='700 24px "Bricolage Grotesque", sans-serif';
-        ctx.fillText('Eksiler',cx+22,y+38);
-        let cy=y+72;ctx.font='400 22px "Nunito Sans", sans-serif';
+        ctx.fillText('Eksiler',cx+24,y+40);
+        let cy=y+76;ctx.font='400 22px "Nunito Sans", sans-serif';
         conWrapped.forEach(lines=>{
-          ctx.fillStyle='#d9917f';ctx.fillText('–',cx+22,cy);
+          ctx.fillStyle='#d9917f';ctx.fillText('–',cx+24,cy);
           ctx.fillStyle='#e3e8ec';
-          lines.forEach(ln=>{ctx.fillText(ln,cx+46,cy);cy+=30});
+          lines.forEach(ln=>{ctx.fillText(ln,cx+48,cy);cy+=32});
           cy+=10;
         });
       }
-      y+=pcBoxH+30;
+      y+=pcBoxH+24;
     }
 
+    const footLineY=cardY+cardH-footerH;
     ctx.strokeStyle='#2f3841';ctx.lineWidth=1.5;
-    ctx.beginPath();ctx.moveTo(innerX,cardY+cardH-64);ctx.lineTo(innerX+innerW,cardY+cardH-64);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(innerX,footLineY);ctx.lineTo(innerX+innerW,footLineY);ctx.stroke();
     ctx.fillStyle='#93a0ab';ctx.font='600 20px "Nunito Sans", sans-serif';
-    ctx.fillText((CF.siteTitle||'Günlüğüm')+' • '+cfg.plural,innerX,cardY+cardH-26);
+    ctx.textBaseline='middle';
+    ctx.fillText((CF.siteTitle||'Günlüğüm')+' • '+cfg.plural,innerX,footLineY+footerH/2);
+    if(g.finished){
+      ctx.textAlign='right';
+      ctx.fillText(fmtDate(g.finished),innerX+innerW,footLineY+footerH/2);
+      ctx.textAlign='left';
+    }
+    ctx.textBaseline='alphabetic';
     ctx.restore();
 
     const link=document.createElement('a');
