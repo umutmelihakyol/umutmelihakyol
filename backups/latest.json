@@ -1,7 +1,7 @@
 {
   "format": "gunlugum-backup",
   "version": 1,
-  "createdAt": "2026-10-22T20:03:16.193Z",
+  "createdAt": "2026-10-22T20:03:30.322Z",
   "reason": "Film kaydı öncesi otomatik yedek",
   "repository": "umutmelihakyol/umutmelihakyol",
   "branch": "main",
@@ -1385,26 +1385,6 @@
         "updatedAt": "2026-10-21T21:55:48.322Z",
         "minutes": 6,
         "director": "David Silverman"
-      },
-      {
-        "id": "mviniju0",
-        "status": "bitirdim",
-        "title": "The Falcon and the Winter Soldier",
-        "image": "",
-        "platform": "Sinema / Dijital",
-        "genres": [],
-        "score": 6,
-        "finished": "2023-12-24",
-        "recommended": true,
-        "review": "https://boxd.it/sbH6",
-        "note": "",
-        "year": 2021,
-        "favorite": false,
-        "pros": [],
-        "cons": [],
-        "updatedAt": "2026-10-21T21:55:50.322Z",
-        "minutes": 120,
-        "director": ""
       },
       {
         "id": "mviniklv",
