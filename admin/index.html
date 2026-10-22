@@ -67,6 +67,28 @@
   .imp-log { font-family: monospace; font-size: 0.82rem; background: #0d1117; color: #e6edf3; padding: 10px; border-radius: 8px; max-height: 220px; overflow-y: auto; white-space: pre-wrap; border: 1px solid var(--bd, rgba(128,128,128,0.25)); margin-top: 10px; }
   .chk-row { display: flex; align-items: center; gap: 8px; margin: 10px 0; cursor: pointer; font-size: 0.92rem; }
   .chk-row input[type="checkbox"] { width: 16px; height: 16px; margin: 0; }
+  .analytics-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; margin:16px 0; }
+  .analytics-box { min-width:0; border:1px solid var(--line); background:var(--bg); border-radius:12px; padding:16px; }
+  .analytics-box h3 { font-size:1rem; margin:0 0 12px; }
+  .bar-list { display:grid; gap:10px; }
+  .bar-row { display:grid; grid-template-columns:minmax(90px, 1fr) minmax(80px, 2fr) auto; align-items:center; gap:10px; font-size:.88rem; }
+  .bar-label { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .bar-track { height:9px; border-radius:99px; overflow:hidden; background:rgba(128,128,128,.16); }
+  .bar-fill { height:100%; border-radius:99px; background:var(--acc); min-width:0; }
+  .bar-value { color:var(--mute); font-variant-numeric:tabular-nums; }
+  .rating-list { display:grid; gap:8px; }
+  .rating-row { display:flex; align-items:center; gap:10px; padding:9px 0; border-bottom:1px solid var(--line); }
+  .rating-row:last-child { border-bottom:0; }
+  .rating-score { min-width:48px; padding:4px 8px; border-radius:8px; background:var(--card); border:1px solid var(--line); text-align:center; font-weight:800; color:var(--acc); }
+  .rating-title { min-width:0; flex:1; }
+  .rating-title b { display:block; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .rating-title small { display:block; color:var(--mute); }
+  .backup-state { border:1px solid var(--line); border-radius:10px; background:var(--bg); padding:12px 14px; margin:12px 0; font-size:.92rem; }
+  .backup-controls { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; }
+  .backup-controls > * { min-width:0; }
+  .backup-file { width:100%; padding:12px; border:1px dashed var(--line); border-radius:10px; background:var(--bg); }
+  .backup-note { color:var(--mute); font-size:.88rem; }
+  @media(max-width:760px){ .analytics-grid,.backup-controls { grid-template-columns:1fr; } .bar-row { grid-template-columns:minmax(75px,1fr) minmax(60px,1.2fr) auto; gap:7px; } }
 </style>
 <script src="../scripts/theme.js"></script>
 <script>document.write('<script src="../scripts/config.js?'+Date.now()+'"><\/script>')</script>
@@ -282,13 +304,42 @@
       </section>
     </div>
 
-    <!-- SEKME 3: GENEL BAKIŞ & İSTATİSTİKLER -->
+    <!-- SEKME 3: GELİŞMİŞ İSTATİSTİKLER VE YEDEKLEME -->
     <div id="tab-stats" class="tab-pane" hidden>
       <section class="panel">
-        <h2>Tüm Kategoriler Özeti</h2>
-        <p class="meta">Sitedeki tüm JSON verilerinin anlık özeti ve toplu yedekleme merkezi.</p>
+        <h2>Gelişmiş İstatistikler</h2>
+        <p class="meta">Tüm kategori kayıtları, puanlar, tamamlanan yapımlar, favoriler ve tüketim alışkanlıklarının özeti.</p>
+        <div class="stats-grid" id="summaryStatsGrid"></div>
+        <div class="analytics-grid">
+          <section class="analytics-box"><h3>Durum dağılımı</h3><div id="statusStats" class="bar-list"><p class="meta">Veriler analiz edildiğinde burada görünecek.</p></div></section>
+          <section class="analytics-box"><h3>En çok kaydedilen türler</h3><div id="genreStats" class="bar-list"><p class="meta">Veriler analiz edildiğinde burada görünecek.</p></div></section>
+          <section class="analytics-box"><h3>Yıllara göre tamamlananlar</h3><div id="yearStats" class="bar-list"><p class="meta">Veriler analiz edildiğinde burada görünecek.</p></div></section>
+          <section class="analytics-box"><h3>En yüksek puan verdiklerin</h3><div id="topRated" class="rating-list"><p class="meta">Veriler analiz edildiğinde burada görünecek.</p></div></section>
+        </div>
+        <h3 style="margin:18px 0 10px">Kategori detayları</h3>
         <div class="stats-grid" id="statsGrid"></div>
-        <p><button class="btn pri" id="loadAllStatsBtn">Tüm Kategorileri Analiz Et</button> <button class="btn" id="dlAllBtn">Tüm Verileri Tek JSON Olarak İndir</button></p>
+        <p><button class="btn pri" id="loadAllStatsBtn">İstatistikleri Yenile</button> <button class="btn" id="dlAllBtn">Yedek JSON İndir</button></p>
+        <p class="backup-note">Not: İstatistikler arşivindeki JSON kayıtlarından hesaplanır. Kaydı olmayan alanlar sıfır kabul edilmez; mevcut veri üzerinden değerlendirilir.</p>
+      </section>
+
+      <section class="panel" id="backupPanel">
+        <h2>Otomatik Yedekleme ve Geri Yükleme</h2>
+        <p class="meta">Her kayıt işleminden önce mevcut arşivin güvenlik kopyası alınabilir. GitHub'daki <code>backups/latest.json</code> dosyası son otomatik kopyayı tutar; önceki sürümler de GitHub commit geçmişinde kalır.</p>
+        <label class="chk-row"><input type="checkbox" id="autoBackupToggle" checked> Her GitHub kaydından önce otomatik yedek al (önerilen)</label>
+        <div class="backup-state" id="backupStatus" role="status" aria-live="polite">Otomatik yedekleme etkin. İlk kayıt öncesinde yedek oluşturulacak.</div>
+        <div class="toolbar">
+          <button class="btn" id="loadRemoteBackupBtn" type="button">GitHub'daki Son Yedeği Getir</button>
+          <button class="btn" id="restoreRemoteBackupBtn" type="button" disabled>Son Yedeği Geri Yükle</button>
+          <button class="btn" id="downloadLocalBackupBtn" type="button">Tarayıcıdaki Yedeği İndir</button>
+        </div>
+        <div class="analytics-box" style="margin:12px 0">
+          <h3>Yedekten geri yükle</h3>
+          <p class="backup-note">Daha önce indirdiğin Günlüğüm JSON yedeğini seçebilirsin. Yedekte bulunan kategoriler GitHub'a geri yazılır; dosyada bulunmayan kategoriler değiştirilmez.</p>
+          <input class="backup-file" type="file" id="backupFileInput" accept=".json,application/json">
+          <p id="backupPreview" class="meta" aria-live="polite">Henüz bir yedek seçilmedi.</p>
+          <button class="btn pri" id="restoreFileBtn" type="button" disabled>Seçilen Yedeği Geri Yükle</button>
+        </div>
+        <p class="backup-note">Geri yükleme öncesinde mevcut arşiv ayrıca yedeklenir. Geri yükleme, yedekte bulunan kategorilerin mevcut kayıtlarını tamamen değiştirir; işlem birden fazla GitHub commit'i oluşturur.</p>
       </section>
     </div>
 
@@ -427,7 +478,7 @@ $$('.tab-btn').forEach(btn=>{
     btn.setAttribute('aria-selected','true');
     const target=btn.dataset.tab;
     $$('.tab-pane').forEach(p=>p.hidden=(p.id!=='tab-'+target));
-    if(target==='stats')renderStats();
+    if(target==='stats')renderStats(true);
   };
 });
 
@@ -494,6 +545,7 @@ async function persist(targetCat=cat){
   const d=D[targetCat]||(D[targetCat]={games:[],sha:null,loaded:false});
   const btn=$('#add');if(btn)btn.disabled=true;
   try{
+    await createPreSaveBackup(targetCat);
     const newSha=await putRepoFile(CATS[targetCat].file,JSON.stringify(d.games,null,2),CATS[targetCat].name+' listesi güncellendi',d.sha);
     if(newSha){d.sha=newSha;d.loaded=true;say(CATS[targetCat].plural+' kaydedildi! Site 1-2 dakika içinde güncellenir.');return true}
   }catch(e){say('Kaydedilemedi: '+e.message+hint(e.status),1);return false}
@@ -1166,33 +1218,238 @@ $('#stStartBtn').onclick=async()=>{
   }
 };
 
-/* SEKME 3: İSTATİSTİKLER VE TOPLU YEDEK */
-async function renderStats(loadAll=false){
-  if(loadAll){
-    for(const k of Object.keys(CATS))await ensureLoaded(k);
+/* SEKME 3: GELİŞMİŞ İSTATİSTİKLER, YEDEKLEME VE GERİ YÜKLEME */
+const AUTO_BACKUP_PATH='backups/latest.json';
+const LOCAL_BACKUP_KEY='gunlugum_local_backups_v1';
+let pendingFileBackup=null,pendingRemoteBackup=null;
+
+function setBackupStatus(message,isBad=false){
+  const el=$('#backupStatus');
+  if(el){el.textContent=message;el.style.borderColor=isBad?'var(--no)':'var(--line)';el.style.color=isBad?'var(--no)':'var(--ink)'}
+}
+function backupToggleEnabled(){return $('#autoBackupToggle') ? $('#autoBackupToggle').checked : true}
+function makeBackupEnvelope(data,reason='Kullanıcı yedeği'){
+  return {format:'gunlugum-backup',version:1,createdAt:new Date().toISOString(),reason,repository:`${C.owner||''}/${C.repo||''}`,branch:C.branch||'main',data};
+}
+function rememberLocalBackup(snapshot){
+  try{
+    const old=JSON.parse(localStorage.getItem(LOCAL_BACKUP_KEY)||'[]');
+    const entries=Array.isArray(old)?old:[];
+    entries.unshift(snapshot);
+    localStorage.setItem(LOCAL_BACKUP_KEY,JSON.stringify(entries.slice(0,3)));
+  }catch(e){console.warn('Tarayıcı içi yedek kaydedilemedi:',e)}
+}
+async function readCurrentRemoteSnapshot(reason='Otomatik kayıt öncesi'){
+  const data={};
+  for(const [key,cfg] of Object.entries(CATS)){
+    const remote=await getRepoFile(cfg.file);
+    if(remote){
+      const parsed=JSON.parse(b64ToStr(remote.content));
+      if(!Array.isArray(parsed))throw new Error(cfg.file+' bir JSON kayıt dizisi değil; güvenlik yedeği oluşturulmadı.');
+      data[key]=parsed;
+    }else{
+      const cached=D[key];
+      data[key]=cached&&cached.loaded&&Array.isArray(cached.games)?cached.games:[];
+    }
   }
-  const html=Object.entries(CATS).map(([k,v])=>{
-    const items=(D[k]&&D[k].games)||[];
-    const favs=items.filter(x=>x.favorite).length;
-    const scored=items.filter(x=>x.score!=null&&x.score!=='');
-    const avg=scored.length?(scored.reduce((a,b)=>a+(+b.score),0)/scored.length).toFixed(1):'-';
-    return `<div class="stat-card">
-      <b>${items.length}</b>
-      <div>${esc(v.plural)}</div>
-      <small class="meta">★ ${favs} Favori • Ort: ${avg}</small>
-    </div>`;
-  }).join('');
-  $('#statsGrid').innerHTML=html;
+  return makeBackupEnvelope(data,reason);
+}
+async function writeBackupToGithub(snapshot,commitMessage='Günlüğüm otomatik veri yedeği'){
+  const sha=await putRepoFile(AUTO_BACKUP_PATH,JSON.stringify(snapshot,null,2),commitMessage);
+  if(!sha)throw new Error('GitHub yedek dosyası kaydedilemedi. Token ve depo izinlerini kontrol et.');
+  return sha;
+}
+async function createPreSaveBackup(targetCat=cat){
+  // Her yedek, mevcut kayıtlar GitHub'a yazılmadan önce uzak depodan okunur.
+  const snapshot=await readCurrentRemoteSnapshot(`${CATS[targetCat]?.name||targetCat} kaydı öncesi otomatik yedek`);
+  rememberLocalBackup(snapshot);
+  if(backupToggleEnabled()){
+    await writeBackupToGithub(snapshot,`Otomatik yedek: ${new Date().toISOString()}`);
+    setBackupStatus(`Son otomatik yedek: ${new Date(snapshot.createdAt).toLocaleString('tr-TR')} · backups/latest.json`);
+  }else{
+    setBackupStatus(`Otomatik GitHub yedeği kapalı. Tarayıcıda yerel güvenlik kopyası tutuldu (${new Date(snapshot.createdAt).toLocaleString('tr-TR')}).`);
+  }
+  return snapshot;
+}
+function numberOrNull(value){
+  if(value===null||value===undefined||value==='')return null;
+  const n=Number(value);return Number.isFinite(n)?n:null;
+}
+function durationText(key,items){
+  const sum=fn=>items.reduce((n,x)=>n+(numberOrNull(fn(x))||0),0);
+  if(key==='oyun')return `${sum(x=>x.hours).toLocaleString('tr-TR',{maximumFractionDigits:1})} saat oynama süresi`;
+  if(key==='film')return `${(sum(x=>x.minutes)/60).toLocaleString('tr-TR',{maximumFractionDigits:1})} saat film süresi`;
+  if(key==='dizi')return `${sum(x=>x.seasons)} sezon · ${sum(x=>x.episodes)} bölüm`;
+  return `${sum(x=>x.episodes)} bölüm`;
+}
+function renderBarList(targetId,entries,emptyText='Yeterli veri yok'){
+  const host=$('#'+targetId);if(!host)return;
+  if(!entries.length){host.innerHTML=`<p class="meta">${esc(emptyText)}</p>`;return}
+  const max=Math.max(1,...entries.map(x=>x.value));
+  host.innerHTML=entries.map(x=>`<div class="bar-row"><span class="bar-label" title="${esc(x.label)}">${esc(x.label)}</span><span class="bar-track"><span class="bar-fill" style="display:block;width:${Math.max(0,Math.min(100,x.value/max*100))}%"></span></span><span class="bar-value">${esc(x.display??x.value)}</span></div>`).join('');
+}
+function collectStats(){
+  const byCat={};
+  const all=[];
+  for(const [key,cfg] of Object.entries(CATS)){
+    const raw=(D[key]&&D[key].games)||[];
+    const items=raw.filter(x=>x&&typeof x==='object'&&!Array.isArray(x));
+    const scores=items.map(x=>numberOrNull(x.score)).filter(x=>x!==null);
+    const completed=items.filter(x=>x.status==='bitirdim');
+    const favorites=items.filter(x=>x.favorite===true);
+    byCat[key]={key,cfg,items,scores,completed,favorites,avg:scores.length?scores.reduce((a,b)=>a+b,0)/scores.length:null};
+    items.forEach(item=>all.push({...item,__category:key,__categoryName:cfg.name}));
+  }
+  const scores=all.map(x=>numberOrNull(x.score)).filter(x=>x!==null);
+  const completed=all.filter(x=>x.status==='bitirdim');
+  const favorites=all.filter(x=>x.favorite===true);
+  const current=all.filter(x=>x.status==='oynuyorum');
+  const totalAvg=scores.length?scores.reduce((a,b)=>a+b,0)/scores.length:null;
+  const statuses=[
+    {key:'bitirdim',label:'Tamamlandı / izlendi'},
+    {key:'oynuyorum',label:'Devam ediyor'},
+    {key:'biraktim',label:'Yarım bırakıldı'},
+    {key:'istek',label:'İstek listesi'}
+  ].map(s=>({label:s.label,value:all.filter(x=>x.status===s.key).length})).filter(x=>x.value>0);
+  const genreCounts={};
+  all.forEach(item=>{
+    const gs=Array.isArray(item.genres)?item.genres:(typeof item.genres==='string'?item.genres.split(','):[]);
+    gs.map(x=>String(x).trim()).filter(Boolean).forEach(g=>genreCounts[g]=(genreCounts[g]||0)+1);
+  });
+  const years={};
+  completed.forEach(item=>{
+    const year=String(item.finished||'').slice(0,4);
+    if(/^\d{4}$/.test(year))years[year]=(years[year]||0)+1;
+  });
+  const topGenres=Object.entries(genreCounts).map(([label,value])=>({label,value})).sort((a,b)=>b.value-a.value||a.label.localeCompare(b.label,'tr')).slice(0,8);
+  const topYears=Object.entries(years).map(([label,value])=>({label,value})).sort((a,b)=>a.label.localeCompare(b.label)).slice(-8);
+  const rated=all.filter(x=>numberOrNull(x.score)!==null).sort((a,b)=>numberOrNull(b.score)-numberOrNull(a.score)||String(a.title||'').localeCompare(String(b.title||''),'tr')).slice(0,8);
+  return {byCat,all,scores,completed,favorites,current,totalAvg,statuses,topGenres,topYears,rated};
+}
+async function renderStats(loadAll=false){
+  const refresh=$('#loadAllStatsBtn');
+  if(loadAll){
+    if(refresh)refresh.disabled=true;
+    setBackupStatus('İstatistikler GitHub verilerinden yenileniyor…');
+    try{for(const k of Object.keys(CATS))await ensureLoaded(k,true)}
+    finally{if(refresh)refresh.disabled=false}
+  }
+  const s=collectStats();
+  const metrics=[
+    {value:s.all.length,label:'Toplam kayıt',meta:'Dört kategorinin toplamı'},
+    {value:s.completed.length,label:'Tamamlanan',meta:'Bitirildi / izlendi durumundaki'},
+    {value:s.totalAvg===null?'—':s.totalAvg.toLocaleString('tr-TR',{maximumFractionDigits:2}),label:'Genel puan ortalaması',meta:`${s.scores.length} puanlı kayıt`},
+    {value:s.favorites.length,label:'Favoriler',meta:'Favori olarak işaretlenen'},
+    {value:s.current.length,label:'Devam eden',meta:'Şu anda oynanan / izlenen'}
+  ];
+  $('#summaryStatsGrid').innerHTML=metrics.map(x=>`<div class="stat-card"><b>${esc(x.value)}</b><div>${esc(x.label)}</div><small class="meta">${esc(x.meta)}</small></div>`).join('');
+  renderBarList('statusStats',s.statuses);
+  renderBarList('genreStats',s.topGenres);
+  renderBarList('yearStats',s.topYears,'Tamamlanan kayıtların bitiş tarihi bulunamadı.');
+  $('#topRated').innerHTML=s.rated.length?s.rated.map(x=>`<div class="rating-row"><span class="rating-score">★ ${numberOrNull(x.score).toLocaleString('tr-TR',{maximumFractionDigits:1})}</span><span class="rating-title"><b title="${esc(x.title||'İsimsiz kayıt')}">${esc(x.title||'İsimsiz kayıt')}</b><small>${esc(x.__categoryName)}${x.year?' · '+esc(x.year):''}</small></span></div>`).join(''):'<p class="meta">Henüz puanlanmış kayıt yok.</p>';
+  $('#statsGrid').innerHTML=Object.entries(s.byCat).map(([key,x])=>`<div class="stat-card"><b>${x.items.length}</b><div>${esc(x.cfg.plural)}</div><small class="meta">★ Favori: ${x.favorites.length} · Ort.: ${x.avg===null?'—':x.avg.toLocaleString('tr-TR',{maximumFractionDigits:2})}</small><small class="meta" style="display:block;margin-top:6px">${esc(durationText(key,x.items))}</small><small class="meta" style="display:block">${x.completed.length} tamamlanan · ${x.scores.length} puanlı</small></div>`).join('');
+  if(loadAll)setBackupStatus(`İstatistikler güncellendi · ${new Date().toLocaleString('tr-TR')}`);
 }
 $('#loadAllStatsBtn').onclick=()=>renderStats(true);
+function downloadJson(payload,filename){
+  const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json;charset=utf-8'});
+  const url=URL.createObjectURL(blob),a=document.createElement('a');
+  a.href=url;a.download=filename;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);
+}
 $('#dlAllBtn').onclick=async()=>{
-  await renderStats(true);
-  const allData={};
-  Object.entries(CATS).forEach(([k,v])=>{allData[k]=(D[k]&&D[k].games)||[]});
-  const a=document.createElement('a');
-  a.href=URL.createObjectURL(new Blob([JSON.stringify(allData,null,2)],{type:'application/json'}));
-  a.download=`tum-arsiv-yedek-${new Date().toISOString().slice(0,10)}.json`;a.click();
+  $('#dlAllBtn').disabled=true;
+  try{
+    await renderStats(true);
+    const data={};Object.keys(CATS).forEach(k=>data[k]=(D[k]&&D[k].games)||[]);
+    const snapshot=makeBackupEnvelope(data,'Kullanıcı tarafından indirilen yedek');
+    downloadJson(snapshot,`gunlugum-yedek-${new Date().toISOString().slice(0,10)}.json`);
+    setBackupStatus(`Yedek dosyası indirildi · ${new Date().toLocaleString('tr-TR')}`);
+  }catch(e){say('Yedek indirilemedi: '+e.message,1)}
+  finally{$('#dlAllBtn').disabled=false}
 };
+function normalizeBackup(raw){
+  if(!raw||typeof raw!=='object'||Array.isArray(raw))throw new Error('Dosyanın en üst düzeyi JSON nesnesi olmalı.');
+  const payload=raw.data&&typeof raw.data==='object'&&!Array.isArray(raw.data)?raw.data:raw;
+  const data={};
+  for(const key of Object.keys(CATS)){
+    if(!Object.prototype.hasOwnProperty.call(payload,key))continue;
+    if(!Array.isArray(payload[key]))throw new Error(`${key} alanı bir kayıt dizisi değil.`);
+    if(payload[key].some(x=>!x||typeof x!=='object'||Array.isArray(x)))throw new Error(`${key} içinde geçersiz bir kayıt var.`);
+    data[key]=payload[key];
+  }
+  const keys=Object.keys(data);
+  if(!keys.length)throw new Error('Yedekte tanınan kategori bulunamadı. Beklenen alanlar: oyun, film, dizi, anime.');
+  return {data,createdAt:raw.createdAt||null,repository:raw.repository||null,reason:raw.reason||'JSON yedeği',format:raw.format||'legacy'};
+}
+function previewBackup(backup,source){
+  const groups=Object.entries(backup.data).map(([k,items])=>`${CATS[k].plural}: ${items.length} kayıt`);
+  const missing=Object.keys(CATS).filter(k=>!Object.prototype.hasOwnProperty.call(backup.data,k));
+  const date=backup.createdAt?` · Oluşturulma: ${new Date(backup.createdAt).toLocaleString('tr-TR')}`:'';
+  const note=missing.length?` · Dosyada yok: ${missing.map(k=>CATS[k].plural).join(', ')} (değiştirilmeyecek)`:'';
+  $('#backupPreview').textContent=`${source}: ${groups.join(' · ')}${date}${note}`;
+}
+$('#autoBackupToggle').checked=(()=>{try{return localStorage.getItem('gunlugum_auto_backup')!=='false'}catch{return true}})();
+$('#autoBackupToggle').addEventListener('change',()=>{
+  try{localStorage.setItem('gunlugum_auto_backup',$('#autoBackupToggle').checked?'true':'false')}catch{}
+  setBackupStatus($('#autoBackupToggle').checked?'Otomatik GitHub yedeklemesi etkin. Sonraki kayıt işleminden önce backups/latest.json güncellenecek.':'Otomatik GitHub yedeklemesi kapalı. Ön-kayıt kopyaları yalnızca bu tarayıcıda tutulacak.');
+});
+$('#backupFileInput').addEventListener('change',async e=>{
+  pendingFileBackup=null;$('#restoreFileBtn').disabled=true;
+  const file=e.target.files&&e.target.files[0];if(!file){$('#backupPreview').textContent='Henüz bir yedek seçilmedi.';return}
+  if(file.size>20*1024*1024){$('#backupPreview').textContent='Dosya 20 MB sınırını aşıyor.';return}
+  try{
+    const raw=JSON.parse(await file.text());pendingFileBackup=normalizeBackup(raw);
+    previewBackup(pendingFileBackup,`Seçilen dosya (${file.name})`);$('#restoreFileBtn').disabled=false;
+  }catch(err){$('#backupPreview').textContent='Yedek okunamadı: '+err.message}
+});
+$('#downloadLocalBackupBtn').onclick=()=>{
+  try{
+    const backups=JSON.parse(localStorage.getItem(LOCAL_BACKUP_KEY)||'[]');
+    if(!Array.isArray(backups)||!backups.length)throw new Error('Bu tarayıcıda henüz yerel yedek yok.');
+    const latest=backups[0];
+    downloadJson(latest,`gunlugum-yerel-yedek-${new Date(latest.createdAt||Date.now()).toISOString().slice(0,10)}.json`);
+    setBackupStatus('Tarayıcıdaki en yeni yerel yedek indirildi.');
+  }catch(e){setBackupStatus(e.message,true)}
+};
+$('#loadRemoteBackupBtn').onclick=async()=>{
+  $('#loadRemoteBackupBtn').disabled=true;pendingRemoteBackup=null;$('#restoreRemoteBackupBtn').disabled=true;
+  setBackupStatus('GitHub yedeği aranıyor…');
+  try{
+    const remote=await getRepoFile(AUTO_BACKUP_PATH);
+    if(!remote)throw new Error('backups/latest.json henüz oluşturulmamış. Önce en az bir kayıt işlemiyle otomatik yedek al.');
+    pendingRemoteBackup=normalizeBackup(JSON.parse(b64ToStr(remote.content)));
+    previewBackup(pendingRemoteBackup,'GitHub son otomatik yedeği');$('#restoreRemoteBackupBtn').disabled=false;
+    setBackupStatus('GitHub yedeği yüklendi. Geri yüklemeden önce mevcut arşiv de yedeklenecek.');
+  }catch(e){setBackupStatus('Yedek alınamadı: '+e.message,true)}
+  finally{$('#loadRemoteBackupBtn').disabled=false}
+};
+async function restoreBackup(backup,source){
+  if(!backup||!Object.keys(backup.data).length)return;
+  const keys=Object.keys(backup.data),summary=keys.map(k=>`${CATS[k].plural}: ${backup.data[k].length}`).join(', ');
+  const warning=`${source} geri yüklenecek.\n\n${summary}\n\nBu kategorilerdeki mevcut kayıtlar yedekteki kayıtlarla değiştirilecek. İşlemden önce mevcut arşiv yedeklenecek. Devam edilsin mi?`;
+  if(!confirm(warning))return;
+  if(!tok())return say('Geri yüklemek için yönetim paneline giriş yapmalısın.',1);
+  $('#restoreFileBtn').disabled=true;$('#restoreRemoteBackupBtn').disabled=true;
+  try{
+    setBackupStatus('Geri yükleme öncesi güvenlik yedeği oluşturuluyor…');
+    const before=await readCurrentRemoteSnapshot('Geri yükleme öncesi güvenlik yedeği');
+    rememberLocalBackup(before);
+    await writeBackupToGithub(before,'Geri yükleme öncesi otomatik güvenlik yedeği');
+    for(const key of keys){
+      const filePath=CATS[key].file;
+      const sha=await putRepoFile(filePath,JSON.stringify(backup.data[key],null,2),`${CATS[key].plural} yedekten geri yüklendi`);
+      if(!sha)throw new Error(`${filePath} kaydedilemedi; işlem kısmen tamamlanmış olabilir.`);
+      D[key]={games:backup.data[key],sha,loaded:true};
+      if(key===cat)list();
+    }
+    await renderStats(false);
+    setBackupStatus(`Geri yükleme tamamlandı · ${keys.map(k=>CATS[k].plural).join(', ')} · ${new Date().toLocaleString('tr-TR')}`);
+    say('Yedek başarıyla GitHub deposuna geri yüklendi. Sitenin yayınlanması birkaç dakika sürebilir.');
+  }catch(e){setBackupStatus('Geri yükleme sırasında hata: '+e.message,true);say('Geri yükleme tamamlanamadı: '+e.message,1)}
+  finally{$('#restoreFileBtn').disabled=!pendingFileBackup;$('#restoreRemoteBackupBtn').disabled=!pendingRemoteBackup}
+}
+$('#restoreFileBtn').onclick=()=>restoreBackup(pendingFileBackup,'Seçilen JSON yedeği');
+$('#restoreRemoteBackupBtn').onclick=()=>restoreBackup(pendingRemoteBackup,'GitHub son otomatik yedeği');
 
 /* SEKME 4: SİTE & KATEGORİ AYARLARI */
 async function initSettingsForm(){
