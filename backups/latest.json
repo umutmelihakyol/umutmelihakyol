@@ -1,8 +1,8 @@
 {
   "format": "gunlugum-backup",
   "version": 1,
-  "createdAt": "2026-10-22T20:03:30.322Z",
-  "reason": "Film kaydı öncesi otomatik yedek",
+  "createdAt": "2026-10-22T21:14:43.833Z",
+  "reason": "Anime kaydı öncesi otomatik yedek",
   "repository": "umutmelihakyol/umutmelihakyol",
   "branch": "main",
   "data": {
@@ -53,30 +53,6 @@
       }
     ],
     "film": [
-      {
-        "id": "mvinmpih",
-        "status": "bitirdim",
-        "title": "Yıldızlararası",
-        "image": "https://image.tmdb.org/t/p/w780/8sNiAPPYU14PUepFNeSNGUTiHW.jpg",
-        "platform": "Sinema / Dijital",
-        "genres": [
-          "Macera",
-          "Dram",
-          "Bilim-Kurgu"
-        ],
-        "score": 7,
-        "finished": "2023-12-24",
-        "recommended": true,
-        "review": "https://boxd.it/4VZ8",
-        "note": "",
-        "year": 2014,
-        "favorite": false,
-        "pros": [],
-        "cons": [],
-        "updatedAt": "2026-10-21T21:59:04.361Z",
-        "minutes": 169,
-        "director": "Christopher Nolan"
-      },
       {
         "id": "mvinmpnr",
         "status": "bitirdim",
