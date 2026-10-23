@@ -1,7 +1,7 @@
 {
   "format": "gunlugum-backup",
   "version": 1,
-  "createdAt": "2026-10-23T20:24:41.490Z",
+  "createdAt": "2026-10-23T20:29:30.890Z",
   "reason": "Oyun kaydı öncesi otomatik yedek",
   "repository": "umutmelihakyol/umutmelihakyol",
   "branch": "main",
@@ -25,9 +25,17 @@
         "favorite": false,
         "pros": [],
         "cons": [],
-        "updatedAt": "2026-10-22T18:52:07.380Z",
+        "updatedAt": "2026-10-23T20:24:39.352Z",
         "hours": 15,
-        "developer": "Capcom"
+        "developer": "Capcom",
+        "acquisitionType": "other",
+        "purchasePrice": 0,
+        "purchaseCurrency": "TRY",
+        "purchaseStore": "DODI",
+        "purchaseDate": null,
+        "listPrice": null,
+        "ownershipStatus": null,
+        "purchaseNote": "DODI üzerinden korsan oynandı."
       },
       {
         "id": "mvilqdck",
