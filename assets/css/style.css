@@ -132,7 +132,25 @@ a.btn.ico:hover{color:var(--accink)}
 .hrt{color:var(--no);margin-right:6px;display:inline-flex;vertical-align:-2px}
 .soonwrap{margin:0 0 22px}
 .soonwrap h2{font-size:1.1rem;margin-bottom:10px}
-.soon{display:flex;gap:12px;overflow-x:auto;padding-bottom:6px}
+.soon{
+  display:flex;
+  gap:12px;
+  overflow-x:auto;
+  overflow-y:hidden;
+  padding:0 0 6px;
+  scrollbar-width:none;
+  -ms-overflow-style:none;
+  overscroll-behavior-x:contain;
+  touch-action:pan-x;
+  cursor:grab;
+  user-select:none;
+  -webkit-user-select:none;
+  -webkit-touch-callout:none;
+}
+.soon::-webkit-scrollbar{display:none!important;width:0!important;height:0!important;background:transparent!important}
+.soon.is-dragging,.soon.is-dragging *{cursor:grabbing!important}
+.soon,.soon *{user-select:none;-webkit-user-select:none}
+.soonc,.soonc img{-webkit-user-drag:none}
 a.soonc,a.soonc:visited{flex:0 0 auto;display:flex;gap:12px;align-items:center;max-width:300px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:8px 16px 8px 8px;text-decoration:none;color:var(--ink)}
 .soonc b{display:block;max-width:190px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .soonc small{display:block;color:var(--mute)}
@@ -442,3 +460,10 @@ dialog .tags.wrapt::-webkit-scrollbar {
   height: 0 !important;
   background: transparent !important;
 }
+
+
+/* Şu an izlediklerim / yakında bitireceklerim: çubuk görünmeden sürükle-kaydır. */
+.soon{scrollbar-width:none!important;-ms-overflow-style:none!important}
+.soon::-webkit-scrollbar,.soon::-webkit-scrollbar-track,.soon::-webkit-scrollbar-thumb{display:none!important;width:0!important;height:0!important;background:transparent!important}
+.soon a.soonc{user-select:none!important;-webkit-user-select:none!important;-webkit-user-drag:none}
+.soon a.soonc img{user-select:none!important;-webkit-user-select:none!important;-webkit-user-drag:none}
