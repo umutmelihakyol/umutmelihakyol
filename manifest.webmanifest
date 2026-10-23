@@ -1,0 +1,55 @@
+{
+  "id": "./",
+  "name": "Günlüğüm",
+  "short_name": "Günlüğüm",
+  "description": "Oyun, film, dizi ve anime arşivin.",
+  "lang": "tr-TR",
+  "start_url": "./index.html?source=installed-app",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
+  "orientation": "any",
+  "background_color": "#171d22",
+  "theme_color": "#171d22",
+  "categories": ["entertainment", "lifestyle"],
+  "icons": [
+    {
+      "src": "./assets/icons/gunlugum-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./assets/icons/gunlugum-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./assets/icons/gunlugum-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Oyunlarım",
+      "short_name": "Oyunlar",
+      "url": "./oyun/index.html",
+      "icons": [{ "src": "./assets/icons/gunlugum-192.png", "sizes": "192x192", "type": "image/png" }]
+    },
+    {
+      "name": "Filmlerim",
+      "short_name": "Filmler",
+      "url": "./film/index.html",
+      "icons": [{ "src": "./assets/icons/gunlugum-192.png", "sizes": "192x192", "type": "image/png" }]
+    },
+    {
+      "name": "Animelerim",
+      "short_name": "Animeler",
+      "url": "./anime/index.html",
+      "icons": [{ "src": "./assets/icons/gunlugum-192.png", "sizes": "192x192", "type": "image/png" }]
+    }
+  ]
+}
