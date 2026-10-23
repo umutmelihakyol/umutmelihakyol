@@ -624,3 +624,17 @@ a.tile.has-cover .ticon {
 @media (hover: none), (pointer: coarse) {
   html, body, body * { cursor: auto; }
 }
+
+/* Anime kapakları: görselin tamamını kırpmadan göster */
+body.cat-anime #grid .cover {
+  background: var(--bg);
+  overflow: hidden;
+}
+
+body.cat-anime #grid .cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain !important;
+  object-position: center !important;
+  background: transparent;
+}
