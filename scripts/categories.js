@@ -2,7 +2,7 @@
 (function(){
 const SITE_ROOT = new URL('../', document.currentScript.src).href;
 const P={
-  oyun:'<rect x="2" y="7" width="20" height="11" rx="5"/><path d="M7 10v5M4.5 12.5h5"/><circle cx="16" cy="11.5" r=".8"/><circle cx="18.5" cy="14" r=".8"/>',
+ oyun:'<path d="M6 11h4"/><path d="M8 9v4"/><path d="M15 12h.01"/><path d="M18 10h.01"/><path d="M17.32 5H6.68a4 4 0 0 0-3.978 3.59l-.5 4.5a4 4 0 0 0 6.72 3.68l1.47-1.33a2.25 2.25 0 0 1 3.22 0l1.47 1.33a4 4 0 0 0 6.72-3.68l-.5-4.5A4 4 0 0 0 17.32 5Z"/>', 
   film:'<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 4v16M17 4v16M3 9h4M3 15h4M17 9h4M17 15h4"/>',
   dizi:'<rect x="3" y="6" width="18" height="12" rx="2"/><path d="M8 21h8M12 18v3M9 3l3 3 3-3"/>',
   anime:'<path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/><path d="M19 17v4M17 19h4"/>',
