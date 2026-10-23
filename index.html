@@ -2,11 +2,6 @@
 <html lang="tr">
 <head>
 <meta charset="utf-8">
-  
-<meta name="theme-color" content="#171d22">
-<link rel="manifest" href="./manifest.webmanifest">
-<link rel="apple-touch-icon" href="./assets/icons/gunlugum-180.png">
-  
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <script>
 (() => {
@@ -37,7 +32,7 @@
 <link rel="dns-prefetch" href="//media.rawg.io">
 <link rel="dns-prefetch" href="//s4.anilist.co">
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700&family=Nunito+Sans:wght@400;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="./assets/css/style.css?v=13">
+<link rel="stylesheet" href="./assets/css/style.css?v=14">
 <link rel="stylesheet" href="./assets/css/technopat.css?v=3">
 <script src="scripts/theme.js"></script>
 <script src="scripts/config.js"></script>
@@ -46,9 +41,6 @@
 
 <link rel="stylesheet" href="./assets/css/intro-loader.css?v=1">
 <script src="./scripts/intro-loader.js?v=1" defer></script>
-
-  <script src="./scripts/pwa.js?v=1" defer></script>
-  
 </head>
 <body class="home">
 <div class="site-intro-loader" id="siteIntroLoader" role="status" aria-live="polite" aria-label="Günlüğüm hazırlanıyor">
@@ -141,9 +133,63 @@ if(CF.suggestUrl){const a=$('#suggest');a.href=CF.suggestUrl;a.hidden=false;if(!
 const stamp=g=>g.updatedAt||g.finished||'';
 let ALL_DATA={};
 
+function getTileCoverUrl(record){
+  if(!record || !record.image) return '';
+  const raw = typeof IMAGE_SRC === 'function' ? IMAGE_SRC(record.image, 500) : record.image;
+  if(!raw) return '';
+  try {
+    const url = new URL(raw, location.href);
+    if(url.protocol !== 'https:' && url.protocol !== 'http:') return '';
+    return url.href;
+  } catch (_) {
+    return '';
+  }
+}
+function isFavoriteRecord(record){
+  return record && (record.favorite === true || record.favorite === 1 || record.favorite === 'true');
+}
 function tiles(D){
-  $('#tiles').innerHTML=Object.entries(CATS).map(([k,c])=>{const l=D[k];
-    return `<a class="tile" href="${c.page}"><span class="ticon">${ICON(k)}</span><span class="tbody"><h3>${c.plural}</h3><p>${l?(l.length?l.length+' '+c.noun:'Henüz kayıt yok'):'Yükleniyor…'}</p></span></a>`}).join('');
+  const host = $('#tiles');
+  host.replaceChildren();
+  Object.entries(CATS).forEach(([k,c]) => {
+    const records = Array.isArray(D[k]) ? D[k] : null;
+    const featured = records
+      ? records
+          .map(record => ({ record, url: getTileCoverUrl(record) }))
+          .filter(item => item.url)
+          .sort((a,b) => {
+            const favoriteOrder = Number(isFavoriteRecord(b.record)) - Number(isFavoriteRecord(a.record));
+            if(favoriteOrder) return favoriteOrder;
+            return String(stamp(b.record)).localeCompare(String(stamp(a.record)));
+          })[0]
+      : null;
+
+    const tile = document.createElement('a');
+    tile.className = 'tile';
+    tile.href = c.page;
+    if(featured && featured.url){
+      tile.classList.add('has-cover');
+      // URL nesnesi ve protokol kontrolüyle yalnızca HTTP(S) görsellerine izin verilir.
+      tile.style.setProperty('--tile-cover', `url("${featured.url.replace(/["\\\n\r]/g, '\\$&')}")`);
+    }
+
+    const icon = document.createElement('span');
+    icon.className = 'ticon';
+    icon.innerHTML = ICON(k);
+
+    const body = document.createElement('span');
+    body.className = 'tbody';
+    const title = document.createElement('h3');
+    title.textContent = c.plural;
+    const count = document.createElement('p');
+    count.textContent = records
+      ? (records.length ? `${records.length} ${c.noun}` : 'Henüz kayıt yok')
+      : 'Yükleniyor…';
+
+    body.append(title, count);
+    tile.append(icon, body);
+    host.append(tile);
+  });
 }
 tiles({});
 

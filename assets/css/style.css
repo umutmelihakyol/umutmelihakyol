@@ -20,7 +20,7 @@ button,input,select,textarea{font:inherit;color:inherit}
 .card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column}
 .cover{position:relative;aspect-ratio:16/10;background:var(--line);display:grid;place-items:center;color:var(--mute)}
 .cover img{width:100%;height:100%;object-fit:cover;display:block}
-.score{position:absolute;left:12px;bottom:-16px;width:52px;height:52px;border-radius:50%;background:var(--acc);color:var(--accink);display:grid;place-items:center;font:700 1.15rem 'Bricolage Grotesque',sans-serif;border:3px solid var(--card)}
+.score{position:absolute;z-index:3;left:12px;bottom:-16px;width:52px;height:52px;border-radius:50%;background:var(--acc);color:var(--accink);display:grid;place-items:center;font:700 1.15rem 'Bricolage Grotesque',sans-serif;border:3px solid var(--card)}
 .body{padding:26px 16px 16px;display:flex;flex-direction:column;gap:8px;flex:1}
 .body h3{font-size:1.15rem}
 .meta{margin:0;color:var(--mute);font-size:.9rem}
@@ -60,11 +60,17 @@ footer.foot a{color:var(--mute)}
 .pill span{color:var(--mute);margin-left:4px}
 .pill[aria-pressed=true]{background:var(--acc);border-color:var(--acc);color:var(--accink);font-weight:700}
 .pill[aria-pressed=true] span{color:inherit}
-.stb{position:absolute;top:10px;right:10px;background:var(--card);color:var(--ink);border-radius:999px;padding:2px 10px;font-size:.8rem;font-weight:700;border:1px solid var(--line)}
+.stb{position:absolute;z-index:3;top:10px;right:10px;background:var(--card);color:var(--ink);border-radius:999px;padding:2px 10px;font-size:.8rem;font-weight:700;border:1px solid var(--line)}
 .s-oynuyorum{color:var(--acc)}.s-biraktim{color:var(--no)}
-.tags{display:flex;gap:6px;margin:0;height:1.7em;overflow:hidden;font-size:.8rem}
-.tags.wrapt{height:auto;flex-wrap:wrap}
-.tags span{background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:0 8px;white-space:nowrap;color:var(--mute)}
+/* Etiketler: kartlarda yatay kaydırma, ayrıntı penceresinde satırlara sarma */
+.tags{display:flex;align-items:center;gap:6px;margin:0;height:1.7em;min-width:0;overflow:hidden;font-size:.8rem}
+.tags.wrapt{height:auto;max-height:7.5rem;overflow-x:hidden;overflow-y:auto;flex-wrap:wrap;align-content:flex-start;padding:2px 3px 5px 0;scrollbar-width:thin;scrollbar-color:var(--line) transparent}
+.tags span{display:inline-flex;align-items:center;flex:0 0 auto;background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:2px 8px;white-space:nowrap;color:var(--mute);line-height:1.35}
+.sub .tags{flex:1;min-width:0;height:100%;overflow-x:auto;overflow-y:hidden;flex-wrap:nowrap;white-space:nowrap;overscroll-behavior-x:contain;scrollbar-width:thin;scrollbar-color:var(--line) transparent;padding-bottom:2px}
+.sub .tags::-webkit-scrollbar{height:4px}
+.sub .tags::-webkit-scrollbar-thumb{background:var(--line);border-radius:999px}
+.sub .tags::-webkit-scrollbar-track{background:transparent}
+.tags.wrapt span{max-width:100%}
 .facts{min-height:3.2em}
 .tl{color:inherit;text-decoration:none}.tl:hover{text-decoration:underline}
 .card{cursor:pointer}
@@ -81,14 +87,13 @@ a.btn,a.btn:visited{color:var(--ink);text-decoration:none}
 .body h3{display:block;-webkit-line-clamp:unset;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-height:0}
 .sub{display:flex;gap:10px;align-items:center;height:1.7em;overflow:hidden}
 .sub .plat{flex:0 1 auto;max-width:55%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--mute);font-size:.9rem}
-.sub .tags{flex:1;min-width:0;height:auto}
 .facts{display:flex;flex-wrap:nowrap;gap:0 16px;min-height:0;white-space:nowrap;overflow:hidden;margin:0;font-size:.9rem}
 .facts i{font-style:normal;color:var(--mute);margin-right:6px}
 .inner .facts{flex-wrap:wrap}
 .note.none{font-style:italic;opacity:.8}
 .row{justify-content:space-between;flex-wrap:nowrap;margin-top:auto}
 a.more{display:inline;width:auto;height:auto;font-weight:700}
-.recb{position:absolute;right:12px;bottom:-14px;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:3px 12px;font-size:.85rem;font-weight:700}
+.recb{position:absolute;z-index:3;right:12px;bottom:-14px;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:3px 12px;font-size:.85rem;font-weight:700}
 .recb.yes{color:var(--yes)}.recb.no{color:var(--no)}
 dialog{scrollbar-width:none}dialog::-webkit-scrollbar{display:none}
 dialog .cover{aspect-ratio:16/7}
@@ -105,7 +110,7 @@ a.btn.ico:hover{color:var(--accink)}
 @media(max-width:480px){.lbl{display:none}.btn.ico:not(.round){padding:0 12px}}
 
 /* v6: favoriler, rastgele */
-.fvb{position:absolute;top:10px;left:10px;width:30px;height:30px;border-radius:50%;background:var(--card);border:1px solid var(--line);display:grid;place-items:center;color:var(--no)}
+.fvb{position:absolute;z-index:3;top:10px;left:10px;width:30px;height:30px;border-radius:50%;background:var(--card);border:1px solid var(--line);display:grid;place-items:center;color:var(--no)}
 .pill.fav{display:inline-flex;align-items:center;gap:6px}
 .pill.fav svg{color:var(--no)}
 .pill.fav[aria-pressed=true] svg{color:inherit}
@@ -127,7 +132,25 @@ a.btn.ico:hover{color:var(--accink)}
 .hrt{color:var(--no);margin-right:6px;display:inline-flex;vertical-align:-2px}
 .soonwrap{margin:0 0 22px}
 .soonwrap h2{font-size:1.1rem;margin-bottom:10px}
-.soon{display:flex;gap:12px;overflow-x:auto;padding-bottom:6px}
+.soon{
+  display:flex;
+  gap:12px;
+  overflow-x:auto;
+  overflow-y:hidden;
+  padding:0 0 6px;
+  scrollbar-width:none;
+  -ms-overflow-style:none;
+  overscroll-behavior-x:contain;
+  touch-action:pan-x;
+  cursor:grab;
+  user-select:none;
+  -webkit-user-select:none;
+  -webkit-touch-callout:none;
+}
+.soon::-webkit-scrollbar{display:none!important;width:0!important;height:0!important;background:transparent!important}
+.soon.is-dragging,.soon.is-dragging *{cursor:grabbing!important}
+.soon,.soon *{user-select:none;-webkit-user-select:none}
+.soonc,.soonc img{-webkit-user-drag:none}
 a.soonc,a.soonc:visited{flex:0 0 auto;display:flex;gap:12px;align-items:center;max-width:300px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:8px 16px 8px 8px;text-decoration:none;color:var(--ink)}
 .soonc b{display:block;max-width:190px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .soonc small{display:block;color:var(--mute)}
@@ -252,122 +275,248 @@ a.tile:hover .tbody h3{color:var(--acc)}
 .quick-card-btn{padding:0 12px;border-radius:12px;flex:none;display:grid;place-items:center}
 .quick-card-btn:hover{border-color:var(--acc)}
 
-/* Platform adı sabit kalsın; tür etiketleri kendi alanında yatay kaydırılsın. */
-.sub {
+
+/* Ek dayanıklılık: kalabalık etiketler kartı taşırmasın. */
+.sub{min-width:0}
+.sub .tags span{max-width:none}
+dialog .tags.wrapt{max-width:100%;overscroll-behavior:contain}
+
+/* Etiket sistemi ve kapak rozetleri için güvenli son düzenleme */
+.cover {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+.cover img {
+  position: relative;
+  z-index: 0;
+}
+.cover .stb,
+.cover .fvb,
+.cover .score,
+.cover .recb {
+  z-index: 2;
+}
+/* Puan ve öneri rozetlerini kapak alanının içinde tut; kesilmesinler. */
+.cover .score {
+  left: 12px;
+  bottom: 12px;
+}
+.cover .recb {
+  right: 12px;
+  bottom: 12px;
+}
+.cover .stb {
+  top: 10px;
+  right: 10px;
+}
+.cover .fvb {
+  top: 10px;
+  left: 10px;
+}
+/* Kart üzerinde çok etiket varsa yatay kaydırma; kart yüksekliği sabit kalır. */
+.card .sub {
   display: flex;
   align-items: center;
   gap: 8px;
   min-width: 0;
-  overflow: visible;
+  overflow: hidden;
 }
-
-.sub .plat {
-  flex: 0 0 auto;
-  width: max-content;
+.card .sub .plat {
+  flex: 0 1 auto;
   min-width: 0;
   max-width: 42%;
   overflow: hidden;
-  text-overflow: ellipsis;
   white-space: nowrap;
+  text-overflow: ellipsis;
 }
-
-.sub > .tags {
+.card .sub .tags {
   display: flex;
-  flex: 1 1 0%;
+  align-items: center;
+  flex: 1 1 auto;
   min-width: 0;
   max-width: 100%;
-  height: 1.7em;
+  height: 1.8em;
   gap: 6px;
-  flex-wrap: nowrap;
+  margin: 0;
+  padding: 0 0 2px;
   overflow-x: auto;
   overflow-y: hidden;
-  white-space: nowrap;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-  overscroll-behavior-x: contain;
-  cursor: grab;
-  user-select: none;
-  -webkit-user-select: none;
-}
-
-.sub > .tags::-webkit-scrollbar {
-  display: none;
-  width: 0;
-  height: 0;
-}
-
-.sub > .tags > span {
-  flex: 0 0 auto;
-  max-width: none;
-  white-space: nowrap;
-}
-
-.sub > .tags.is-dragging,
-.sub > .tags.is-dragging * {
-  cursor: grabbing !important;
-  user-select: none !important;
-  -webkit-user-select: none !important;
-}
-
-
-/* Şu an izlediklerim şeridi: gizli çubuk, seçilemeyen ve fareyle sürüklenebilir kartlar */
-.soonwrap #soonList,
-.soonwrap .soon,
-#soonList {
-  display: flex;
   flex-wrap: nowrap;
-  align-items: stretch;
-  gap: 12px;
-  min-width: 0;
-  max-width: 100%;
-  overflow-x: auto !important;
-  overflow-y: hidden !important;
-  scroll-behavior: auto !important;
+  white-space: nowrap;
   overscroll-behavior-x: contain;
-  touch-action: pan-x;
-  cursor: grab;
+  scrollbar-width: thin;
+  scrollbar-color: var(--line) transparent;
+}
+.card .sub .tags::-webkit-scrollbar { height: 4px; }
+.card .sub .tags::-webkit-scrollbar-thumb { background: var(--line); border-radius: 999px; }
+.card .sub .tags::-webkit-scrollbar-track { background: transparent; }
+.tags span {
+  flex: 0 0 auto;
+  max-width: 100%;
+  padding: 2px 8px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--bg);
+  color: var(--mute);
+  font-size: .78rem;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+/* Ayrıntı penceresinde etiketler alt alta sarılır; uzun listeler kendi içinde kayar. */
+dialog .tags,
+.tags.wrapt {
+  display: flex;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 6px;
+  height: auto;
+  max-height: 8rem;
+  min-width: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  white-space: normal;
+  padding: 2px 3px 6px 0;
+  scrollbar-width: thin;
+  scrollbar-color: var(--line) transparent;
+}
+dialog .tags span,
+.tags.wrapt span {
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; }
+}
+
+/* Kaydırma işlevini koru, kaydırma çubuklarını gizle. */
+.card .sub .tags,
+dialog .tags,
+.tags.wrapt {
   scrollbar-width: none !important;
   -ms-overflow-style: none !important;
-  user-select: none !important;
-  -webkit-user-select: none !important;
 }
-
-.soonwrap #soonList::-webkit-scrollbar,
-.soonwrap .soon::-webkit-scrollbar,
-#soonList::-webkit-scrollbar {
+.card .sub .tags::-webkit-scrollbar,
+dialog .tags::-webkit-scrollbar,
+.tags.wrapt::-webkit-scrollbar {
   display: none !important;
   width: 0 !important;
   height: 0 !important;
   background: transparent !important;
 }
 
-#soonList > .soonc,
-.soonwrap .soon > .soonc {
-  flex: 0 0 auto;
-  user-select: none !important;
-  -webkit-user-select: none !important;
-  -webkit-user-drag: none !important;
+
+/* Final tag-strip behavior: drag to scroll, no selection, no visible scrollbar. */
+.tags,
+.tags.wrapt,
+.card .sub .tags,
+dialog .tags,
+dialog .tags.wrapt {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap !important;
+  gap: 6px;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  height: 1.8em;
+  max-height: none;
+  margin: 0;
+  padding: 0 0 2px;
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+  white-space: nowrap;
+  overscroll-behavior-x: contain;
   touch-action: pan-x;
+  cursor: grab;
+  user-select: none !important;
+  -webkit-user-select: none !important;
+  -webkit-touch-callout: none;
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
 }
-
-#soonList img,
-.soonwrap .soon img {
-  -webkit-user-drag: none !important;
+.tags.is-dragging,
+.tags.wrapt.is-dragging,
+.card .sub .tags.is-dragging,
+dialog .tags.is-dragging {
+  cursor: grabbing;
+}
+.tags span,
+.tags.wrapt span,
+dialog .tags span {
+  flex: 0 0 auto;
+  max-width: none;
+  white-space: nowrap;
   user-select: none !important;
   -webkit-user-select: none !important;
 }
-
-#soonList.is-mouse-dragging,
-#soonList.is-mouse-dragging *,
-.soonwrap .soon.is-mouse-dragging,
-.soonwrap .soon.is-mouse-dragging * {
-  cursor: grabbing !important;
-  user-select: none !important;
-  -webkit-user-select: none !important;
+.tags::-webkit-scrollbar,
+.tags.wrapt::-webkit-scrollbar,
+.card .sub .tags::-webkit-scrollbar,
+dialog .tags::-webkit-scrollbar,
+dialog .tags.wrapt::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  background: transparent !important;
 }
 
-#soonList.is-mouse-dragging .soonc:hover,
-.soonwrap .soon.is-mouse-dragging .soonc:hover {
-  transform: none !important;
-  box-shadow: none !important;
+
+/* Şu an izlediklerim / yakında bitireceklerim: çubuk görünmeden sürükle-kaydır. */
+.soon{scrollbar-width:none!important;-ms-overflow-style:none!important}
+.soon::-webkit-scrollbar,.soon::-webkit-scrollbar-track,.soon::-webkit-scrollbar-thumb{display:none!important;width:0!important;height:0!important;background:transparent!important}
+.soon a.soonc{user-select:none!important;-webkit-user-select:none!important;-webkit-user-drag:none}
+.soon a.soonc img{user-select:none!important;-webkit-user-select:none!important;-webkit-user-drag:none}
+
+
+/* v14: ana sayfa kategori kartlarında arşiv kapakları */
+a.tile.has-cover,
+a.tile.has-cover:visited {
+  background-color: var(--card);
+  background-image:
+    linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--card) 100%, transparent) 0%,
+      color-mix(in srgb, var(--card) 98%, transparent) 34%,
+      color-mix(in srgb, var(--card) 87%, transparent) 56%,
+      color-mix(in srgb, var(--card) 62%, transparent) 78%,
+      color-mix(in srgb, var(--card) 38%, transparent) 100%
+    ),
+    var(--tile-cover);
+  background-repeat: no-repeat;
+  background-position: center, right 3% center;
+  background-size: 100% 100%, auto 205%;
+}
+
+a.tile.has-cover:hover {
+  background-image:
+    linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--card) 100%, transparent) 0%,
+      color-mix(in srgb, var(--card) 96%, transparent) 32%,
+      color-mix(in srgb, var(--card) 81%, transparent) 54%,
+      color-mix(in srgb, var(--card) 50%, transparent) 76%,
+      color-mix(in srgb, var(--card) 25%, transparent) 100%
+    ),
+    var(--tile-cover);
+}
+
+a.tile.has-cover .ticon {
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter: blur(4px);
+}
+
+@media (max-width: 520px) {
+  a.tile.has-cover,
+  a.tile.has-cover:visited {
+    background-size: 100% 100%, auto 190%;
+    background-position: center, right center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  a.tile.has-cover,
+  a.tile.has-cover:hover {
+    transition: none;
+  }
 }
