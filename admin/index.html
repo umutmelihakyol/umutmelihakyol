@@ -154,7 +154,7 @@
     <div id="login">
       <h2>Giriş</h2>
       <div class="f"><label class="wide">Şifre<input id="pw" type="password" autocomplete="current-password"></label></div>
-      <p><button class="btn pri" id="in">Giriş yap</button> <button class="btn" id="goSetupBtn" type="button">Vault / Kurulum</button></p>
+      <p><button class="btn pri" id="in">Giriş yap</button> <button class="btn" id="goSetupBtn" type="button" hidden>Vault / Kurulum</button></p>
     </div>
     <div id="setup" hidden>
       <h2>İlk kurulum / Anahtar Yenileme</h2>
@@ -533,6 +533,11 @@
 
 <script>
 const C=window.CONFIG||{},$=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s),CATS=window.CATS;
+// Vault yalnızca geçerli şifreli anahtar mevcutsa kurulmuş kabul edilir.
+const configuredVault=String(C.vault||'').trim().replace(/^['"]|['"]$/g,'');
+const vaultReady=configuredVault.split('.').length===3&&configuredVault.length>=60;
+const setupButton=$('#goSetupBtn');
+if(setupButton) setupButton.hidden=vaultReady;
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 let cat='oyun';try{cat=localStorage.getItem('admin_cat')||'oyun'}catch{}if(!CATS[cat])cat='oyun';
 const D={},cfg=()=>CATS[cat],data=()=>D[cat]||(D[cat]={games:[],sha:null,loaded:false});
@@ -594,7 +599,7 @@ $('#mk').onclick=async()=>{
 };
 
 if(!C.owner||!C.repo)gsay('config.js bulunamadı ya da owner/repo alanları boş.',1);
-if(!C.vault||location.hash==='#kurulum'){$('#login').hidden=true;$('#setup').hidden=false}
+if(!vaultReady||location.hash==='#kurulum'){$('#login').hidden=true;$('#setup').hidden=false}
 else if(T)unlock();
 
 /* SEKME GEÇİŞLERİ */
