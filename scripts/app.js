@@ -12,6 +12,7 @@ const plats=g=>String(g.platform||'').split(',').map(x=>x.trim()).filter(Boolean
 let games=[],st='all',favOnly=false,vis=[],randomMode=false,view='card',lastId='';
 try{view=localStorage.getItem('view')||'card'}catch{}
 
+
 /* başlık, gezinme, sabit metinler */
 document.title=cfg.title+' - '+(CF.siteTitle||'Günlüğüm');
 $('#title').textContent=cfg.title;
