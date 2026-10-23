@@ -8,5 +8,5 @@ window.CONFIG = {
   "tagline": "",
   "suggestUrl": "",
   "goatcounter": "",
-  "vault": ""
+  "vault": "Zzy5Rk0FLTinv11zHMiH0A==.68paoQ39vCo7vt4Y.IJR+Hqg6UWp+PzSCAj/Fvh4HtvkN2Z4YxvKDgcbPcTiSNnwY6UEEcdOPCkKAFAbgS0UJ8B7TYamdTSQPr/0nDoQTpIJnUxcCgy28yFvvw2qQYeW3lSHqrw1iYJYVqfCMq+ZJmM6pB38WCnxW9w=="
 };
