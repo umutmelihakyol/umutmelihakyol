@@ -1,8 +1,8 @@
-/* Günlüğüm Service Worker — cache v2: ağ varken güncel CSS/JS/HTML kullan. */
+/* Günlüğüm Service Worker — cache v3: ağ varken güncel CSS/JS/HTML kullan. */
 'use strict';
 
 const CACHE_PREFIX = 'gunlugum-pwa-';
-const CACHE_VERSION = 'v2';
+const CACHE_VERSION = 'v3';
 const APP_CACHE = `${CACHE_PREFIX}app-${CACHE_VERSION}`;
 const IMAGE_CACHE = `${CACHE_PREFIX}images-${CACHE_VERSION}`;
 const APP_ROOT = new URL('./', self.registration.scope);
@@ -18,7 +18,8 @@ const CORE_FILES = [
   'technopat/incelemeler/index.html', 'technopat/rehberler/index.html'
 ];
 
-const IMAGE_HOSTS = new Set(['image.tmdb.org', 'media.rawg.io', 's4.anilist.co']);
+// Üçüncü taraf kapak görselleri Cache API'de opaque hata yanıtları olarak saklanmasın.
+// Bunları tarayıcı doğrudan yükler; aynı origin görselleri aşağıda önbelleğe alınmaya devam eder.
 
 async function cacheIfOkay(cache, request, response) {
   if (!response || !(response.ok || response.type === 'opaque') || response.status === 206) return;
@@ -111,12 +112,9 @@ self.addEventListener('fetch', (event) => {
   if (request.method !== 'GET') return;
 
   const requestURL = new URL(request.url);
-  if (requestURL.origin !== self.location.origin) {
-    if (request.destination === 'image' && IMAGE_HOSTS.has(requestURL.hostname)) {
-      event.respondWith(imageWithCacheFirst(request, event, IMAGE_CACHE));
-    }
-    return;
-  }
+  // Harici kapak görsellerini Service Worker üzerinden geçirme.
+  // Opaque yanıtlar hata durumunu saklayamadığından bozuk CDN yanıtları önbelleğe alınabiliyordu.
+  if (requestURL.origin !== self.location.origin) return;
 
   const rootPath = new URL(self.registration.scope).pathname;
   if (!requestURL.pathname.startsWith(rootPath)) return;
