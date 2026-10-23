@@ -1,30 +1,39 @@
-/* Günlüğüm PWA: kurulum düğmesi ve Service Worker kaydı. */
+/* Günlüğüm PWA: yükleme düğmesi, güncel Service Worker ve PWA stili. */
 (() => {
   'use strict';
 
-  const thisScript = document.currentScript;
-  if (!thisScript || !thisScript.src) return;
+  const currentScript = document.currentScript;
+  if (!currentScript || !currentScript.src) return;
 
-  const scriptURL = new URL(thisScript.src, window.location.href);
+  const scriptURL = new URL(currentScript.src, window.location.href);
   const rootURL = new URL('../', scriptURL);
-  const swURL = new URL('service-worker.js', rootURL);
-  const cssURL = new URL('assets/css/pwa.css', rootURL);
+  const serviceWorkerURL = new URL('service-worker.js', rootURL);
+  const pwaCssURL = new URL('assets/css/pwa.css', rootURL);
 
-  // PWA CSS'ini, her sayfada doğru depo yolundan yükle.
   if (!document.querySelector('link[data-gunlugum-pwa-css]')) {
-    const css = document.createElement('link');
-    css.rel = 'stylesheet';
-    css.href = `${cssURL.href}?v=1`;
-    css.dataset.gunlugumPwaCss = 'true';
-    document.head.appendChild(css);
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = `${pwaCssURL.href}?v=2`;
+    link.dataset.gunlugumPwaCss = 'true';
+    document.head.appendChild(link);
   }
 
-  // Service Worker kapsamı depo köküdür; alt sayfalar da bu kapsamda kalır.
+  // Kayıt kök kapsamlıdır; aynı kapsamı her kayıtta koru ve SW dosyasını HTTP önbelleğinden alma.
   if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register(swURL.href, { scope: rootURL.pathname })
-        .catch((error) => console.warn('Günlüğüm çevrimdışı desteği başlatılamadı:', error));
-    }, { once: true });
+    const register = () => navigator.serviceWorker.register(serviceWorkerURL.href, {
+      scope: rootURL.pathname,
+      updateViaCache: 'none'
+    }).then((registration) => {
+      // Bu çağrı güncellenmiş Service Worker'ın beklemeden kontrol edilmesini sağlar.
+      registration.update().catch(() => {});
+      return registration;
+    }).catch((error) => {
+      console.warn('Günlüğüm çevrimdışı desteği başlatılamadı:', error);
+      return null;
+    });
+
+    if (document.readyState === 'complete') register();
+    else window.addEventListener('load', register, { once: true });
   }
 
   const standalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
@@ -35,7 +44,7 @@
 
   const button = document.createElement('button');
   button.type = 'button';
-  button.className = 'btn pwa-install-btn';
+  button.className = 'btn ico pwa-install-btn';
   button.title = 'Günlüğüm uygulamasını yükle';
   button.setAttribute('aria-label', 'Günlüğüm uygulamasını yükle');
   button.innerHTML = `
@@ -64,44 +73,54 @@
     const ua = navigator.userAgent || '';
     const isAppleMobile = /iPhone|iPad|iPod/i.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
     const isAndroid = /Android/i.test(ua);
-    let heading = 'Günlüğüm’ü uygulama olarak yükle';
+    const heading = 'Günlüğüm’ü uygulama olarak yükle';
     let instructions;
 
     if (isAppleMobile) {
-      instructions = [
-        'Bu sayfayı Safari tarayıcısında aç.',
-        'Paylaş düğmesine dokun.',
-        '“Ana Ekrana Ekle” seçeneğini seçip Ekle’ye dokun.'
-      ];
+      instructions = ['Bu sayfayı Safari tarayıcısında aç.', 'Paylaş düğmesine dokun.', '“Ana Ekrana Ekle” seçeneğini seçip Ekle’ye dokun.'];
     } else if (isAndroid) {
-      instructions = [
-        'Chrome menüsünü (⋮) aç.',
-        '“Uygulamayı yükle” veya “Ana ekrana ekle” seçeneğine dokun.',
-        'Onay ekranında Yükle seçeneğini kullan.'
-      ];
+      instructions = ['Chrome menüsünü (⋮) aç.', '“Uygulamayı yükle” veya “Ana ekrana ekle” seçeneğine dokun.', 'Onay ekranında Yükle seçeneğini kullan.'];
     } else {
       instructions = [
         'Chrome’da adres çubuğundaki yükleme simgesini veya menüde “Uygulamayı yükle” seçeneğini kullan.',
         'Microsoft Edge’de menü → Uygulamalar → Bu siteyi uygulama olarak yükle yolunu izle.',
-        'Seçenek görünmüyorsa siteyi HTTPS üzerinden açıp birkaç saniye bekle.'
+        'Seçenek görünmüyorsa sayfanın HTTPS üzerinden açıldığını ve manifestin yüklendiğini kontrol et.'
       ];
     }
 
     helpOverlay = document.createElement('div');
     helpOverlay.className = 'pwa-help-overlay';
-    helpOverlay.innerHTML = `
-      <section class="pwa-help-dialog" role="dialog" aria-modal="true" aria-labelledby="pwaHelpTitle">
-        <h2 id="pwaHelpTitle">${heading}</h2>
-        <p>Tarayıcına göre şu adımları izle:</p>
-        <ol>${instructions.map((item) => `<li>${item}</li>`).join('')}</ol>
-        <div class="pwa-help-actions"><button type="button" class="btn pwa-help-close">Kapat</button></div>
-      </section>`;
+    const dialog = document.createElement('section');
+    dialog.className = 'pwa-help-dialog';
+    dialog.setAttribute('role', 'dialog');
+    dialog.setAttribute('aria-modal', 'true');
+    dialog.setAttribute('aria-labelledby', 'pwaHelpTitle');
+    const title = document.createElement('h2');
+    title.id = 'pwaHelpTitle';
+    title.textContent = heading;
+    const paragraph = document.createElement('p');
+    paragraph.textContent = 'Tarayıcına göre şu adımları izle:';
+    const list = document.createElement('ol');
+    instructions.forEach((instruction) => {
+      const li = document.createElement('li');
+      li.textContent = instruction;
+      list.appendChild(li);
+    });
+    const actions = document.createElement('div');
+    actions.className = 'pwa-help-actions';
+    const close = document.createElement('button');
+    close.type = 'button';
+    close.className = 'btn pwa-help-close';
+    close.textContent = 'Kapat';
+    actions.appendChild(close);
+    dialog.append(title, paragraph, list, actions);
+    helpOverlay.appendChild(dialog);
     document.body.appendChild(helpOverlay);
-    helpOverlay.querySelector('.pwa-help-close').addEventListener('click', closeHelp);
+    close.addEventListener('click', closeHelp);
     helpOverlay.addEventListener('click', (event) => {
       if (event.target === helpOverlay) closeHelp();
     });
-    helpOverlay.querySelector('.pwa-help-close').focus();
+    close.focus();
   }
 
   window.addEventListener('beforeinstallprompt', (event) => {

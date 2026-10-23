@@ -1,15 +1,13 @@
-/* Günlüğüm Service Worker: çevrimdışı kabuk, önbellek ve görsel desteği. */
+/* Günlüğüm Service Worker — cache v2: ağ varken güncel CSS/JS/HTML kullan. */
 'use strict';
 
 const CACHE_PREFIX = 'gunlugum-pwa-';
-const CACHE_VERSION = 'v1';
+const CACHE_VERSION = 'v2';
 const APP_CACHE = `${CACHE_PREFIX}app-${CACHE_VERSION}`;
 const IMAGE_CACHE = `${CACHE_PREFIX}images-${CACHE_VERSION}`;
 const APP_ROOT = new URL('./', self.registration.scope);
 const OFFLINE_URL = new URL('offline.html', APP_ROOT).href;
 
-// Önbelleğe alınması yararlı olan çekirdek dosyalar. İsteğe bağlı dosyalar
-// yoksa kurulum başarısız olmaz; depo sürümleri farklı olabilir.
 const CORE_FILES = [
   'index.html', 'offline.html', 'manifest.webmanifest',
   'assets/css/style.css', 'assets/css/technopat.css', 'assets/css/intro-loader.css', 'assets/css/pwa.css',
@@ -23,8 +21,13 @@ const CORE_FILES = [
 const IMAGE_HOSTS = new Set(['image.tmdb.org', 'media.rawg.io', 's4.anilist.co']);
 
 async function cacheIfOkay(cache, request, response) {
-  if (!response || !(response.ok || response.type === 'opaque')) return;
+  if (!response || !(response.ok || response.type === 'opaque') || response.status === 206) return;
   try { await cache.put(request, response.clone()); } catch (_) {}
+}
+
+async function findCached(cache, request) {
+  // Önce tam URL/sürüm eşleşmesi; query'siz kopya yalnızca çevrimdışı yedek olarak kullanılır.
+  return (await cache.match(request)) || (await cache.match(request, { ignoreSearch: true })) || null;
 }
 
 self.addEventListener('install', (event) => {
@@ -36,7 +39,7 @@ self.addEventListener('install', (event) => {
         const response = await fetch(requestURL.href, { cache: 'reload' });
         await cacheIfOkay(cache, requestURL.href, response);
       } catch (_) {
-        // Ağ veya isteğe bağlı dosya hatası PWA kurulumunu durdurmasın.
+        // Dosya bulunmaması/bağlantı problemi kurulumun tamamını durdurmasın.
       }
     }));
     await self.skipWaiting();
@@ -46,48 +49,61 @@ self.addEventListener('install', (event) => {
 self.addEventListener('activate', (event) => {
   event.waitUntil((async () => {
     const names = await caches.keys();
-    await Promise.all(names.filter((name) => name.startsWith(CACHE_PREFIX) && ![APP_CACHE, IMAGE_CACHE].includes(name)).map((name) => caches.delete(name)));
+    await Promise.all(names
+      .filter((name) => name.startsWith(CACHE_PREFIX) && name !== APP_CACHE && name !== IMAGE_CACHE)
+      .map((name) => caches.delete(name)));
     await self.clients.claim();
   })());
 });
 
-async function networkFirst(request) {
+async function networkFirst(request, { offlinePage = false } = {}) {
   const cache = await caches.open(APP_CACHE);
   try {
-    const response = await fetch(request);
-    if (response && response.ok) await cacheIfOkay(cache, request, response);
+    // CSS, JS, manifest, HTML ve JSON için HTTP önbelleğini de yeniden doğrula.
+    const response = await fetch(request, { cache: 'no-cache' });
+    if (response && response.ok) {
+      await cacheIfOkay(cache, request, response);
+      return response;
+    }
+    const cached = await findCached(cache, request);
+    if (cached) return cached;
     return response;
   } catch (_) {
-    const cached = await cache.match(request, { ignoreSearch: true });
+    const cached = await findCached(cache, request);
     if (cached) return cached;
-    const offline = await cache.match(OFFLINE_URL);
-    if (offline) return offline;
-    const home = await cache.match(new URL('index.html', APP_ROOT).href, { ignoreSearch: true });
-    if (home) return home;
-    return new Response('Günlüğüm çevrimdışı. Daha önce açılmamış bu sayfaya ulaşmak için internet bağlantısı gerekiyor.', {
-      status: 503, headers: { 'Content-Type': 'text/plain; charset=utf-8' }
+    if (offlinePage) {
+      const offline = await cache.match(OFFLINE_URL);
+      if (offline) return offline;
+      const home = await cache.match(new URL('index.html', APP_ROOT).href, { ignoreSearch: true });
+      if (home) return home;
+    }
+    return new Response('Günlüğüm çevrimdışı. Bu dosya önbelleğe alınmadıysa internet bağlantısı gerekir.', {
+      status: 503,
+      headers: { 'Content-Type': 'text/plain; charset=utf-8' }
     });
   }
 }
 
-async function staleWhileRevalidate(request) {
-  const cache = await caches.open(APP_CACHE);
-  const cached = await cache.match(request, { ignoreSearch: true });
-  const refresh = fetch(request).then(async (response) => {
-    if (response && response.ok) await cacheIfOkay(cache, request, response);
-    return response;
-  }).catch(() => null);
-  return cached || await refresh || new Response('', { status: 504, statusText: 'Offline' });
-}
+function imageWithCacheFirst(request, event, cacheName) {
+  const cachePromise = caches.open(cacheName);
+  const cachedPromise = cachePromise.then((cache) => cache.match(request));
+  const refreshPromise = cachePromise
+    .then((cache) => fetch(request, { cache: 'no-cache' }).then(async (response) => {
+      await cacheIfOkay(cache, request, response);
+      return response;
+    }))
+    .catch(() => null);
 
-async function remoteImage(request) {
-  const cache = await caches.open(IMAGE_CACHE);
-  const cached = await cache.match(request);
-  const refresh = fetch(request).then(async (response) => {
-    if (response && (response.ok || response.type === 'opaque')) await cacheIfOkay(cache, request, response);
-    return response;
-  }).catch(() => null);
-  return cached || await refresh || new Response('', { status: 504, statusText: 'Image unavailable' });
+  // waitUntil çağrısı event süresi dolmadan, senkron olarak yapılır.
+  event.waitUntil(refreshPromise.then(() => undefined));
+  // Önbellekteki görsel varsa hızlıca döndür; yoksa ağ yanıtını bekle.
+  return cachedPromise.then((cached) => {
+    if (cached) return cached;
+    return refreshPromise.then((response) => response || new Response('', {
+      status: 504,
+      statusText: 'Image unavailable'
+    }));
+  });
 }
 
 self.addEventListener('fetch', (event) => {
@@ -97,7 +113,7 @@ self.addEventListener('fetch', (event) => {
   const requestURL = new URL(request.url);
   if (requestURL.origin !== self.location.origin) {
     if (request.destination === 'image' && IMAGE_HOSTS.has(requestURL.hostname)) {
-      event.respondWith(remoteImage(request));
+      event.respondWith(imageWithCacheFirst(request, event, IMAGE_CACHE));
     }
     return;
   }
@@ -106,20 +122,28 @@ self.addEventListener('fetch', (event) => {
   if (!requestURL.pathname.startsWith(rootPath)) return;
   const relativePath = requestURL.pathname.slice(rootPath.length);
 
-  // Yönetim panelini önbelleğe alma veya çevrimdışı fallback ile sunma.
+  // Yönetim panelini Service Worker önbelleğiyle sunma.
   if (relativePath === 'admin' || relativePath.startsWith('admin/')) return;
 
   if (request.mode === 'navigate') {
-    event.respondWith(networkFirst(request));
+    event.respondWith(networkFirst(request, { offlinePage: true }));
     return;
   }
 
+  // JSON her zaman ağdan doğrulanır; yalnızca ağ yoksa kayıtlı kopyaya dönülür.
   if (relativePath.startsWith('data/')) {
     event.respondWith(networkFirst(request));
     return;
   }
 
-  if (['script', 'style', 'font', 'image'].includes(request.destination) || relativePath === 'manifest.webmanifest') {
-    event.respondWith(staleWhileRevalidate(request));
+  // Bu kural eski CSS/JS'in cache-first gibi kalmasına izin vermez.
+  if (['script', 'style', 'font'].includes(request.destination) || relativePath === 'manifest.webmanifest') {
+    event.respondWith(networkFirst(request));
+    return;
+  }
+
+  // Yerel görsellerde cache-first + arka planda yenileme performansı korur.
+  if (request.destination === 'image') {
+    event.respondWith(imageWithCacheFirst(request, event, APP_CACHE));
   }
 });
