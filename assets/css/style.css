@@ -624,3 +624,63 @@ a.tile.has-cover .ticon {
 @media (hover: none), (pointer: coarse) {
   html, body, body * { cursor: auto; }
 }
+
+
+/* === Anime kapakları: afiş oranını koru, gereksiz kırpmayı kaldır === */
+body.cat-anime #grid .card > .cover {
+  aspect-ratio: 4 / 5 !important;
+  height: auto !important;
+  min-height: 0 !important;
+  overflow: hidden;
+  background: var(--bg, #171c21) !important;
+  display: grid;
+  place-items: center;
+}
+
+body.cat-anime #grid .card > .cover > img {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain !important;
+  object-position: center center !important;
+  background: var(--bg, #171c21);
+}
+
+/* Puan, favori ve durum rozetlerini afişin üzerinde tut */
+body.cat-anime #grid .card > .cover > .score,
+body.cat-anime #grid .card > .cover > .stb,
+body.cat-anime #grid .card > .cover > .fvb,
+body.cat-anime #grid .card > .cover > .recb {
+  z-index: 4;
+}
+
+/* Ayrıntı penceresinde görselin tamamını göster, çok uzun pencere oluşturma */
+body.cat-anime dialog .cover {
+  aspect-ratio: 3 / 2 !important;
+  height: auto !important;
+  min-height: 0 !important;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  background: var(--bg, #171c21) !important;
+}
+
+body.cat-anime dialog .cover > img {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain !important;
+  object-position: center center !important;
+  background: var(--bg, #171c21);
+}
+
+body.cat-anime dialog .cover > .score,
+body.cat-anime dialog .cover > .stb,
+body.cat-anime dialog .cover > .fvb,
+body.cat-anime dialog .cover > .recb {
+  z-index: 4;
+}
