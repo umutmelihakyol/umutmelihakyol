@@ -309,13 +309,30 @@ a.tile:hover .tbody h3{color:var(--acc)}
   -webkit-user-select: none !important;
 }
 
-/* Şu an izlediklerim: kaydırma çubuğunu tamamen gizle */
+
+/* Şu an izlediklerim şeridi: gizli çubuk, seçilemeyen ve fareyle sürüklenebilir kartlar */
+.soonwrap #soonList,
 .soonwrap .soon,
 #soonList {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  gap: 12px;
+  min-width: 0;
+  max-width: 100%;
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+  scroll-behavior: auto !important;
+  overscroll-behavior-x: contain;
+  touch-action: pan-x;
+  cursor: grab;
   scrollbar-width: none !important;
   -ms-overflow-style: none !important;
+  user-select: none !important;
+  -webkit-user-select: none !important;
 }
 
+.soonwrap #soonList::-webkit-scrollbar,
 .soonwrap .soon::-webkit-scrollbar,
 #soonList::-webkit-scrollbar {
   display: none !important;
@@ -324,10 +341,33 @@ a.tile:hover .tbody h3{color:var(--acc)}
   background: transparent !important;
 }
 
-.soonwrap .soon::-webkit-scrollbar-track,
-.soonwrap .soon::-webkit-scrollbar-thumb,
-#soonList::-webkit-scrollbar-track,
-#soonList::-webkit-scrollbar-thumb {
-  background: transparent !important;
-  border: none !important;
+#soonList > .soonc,
+.soonwrap .soon > .soonc {
+  flex: 0 0 auto;
+  user-select: none !important;
+  -webkit-user-select: none !important;
+  -webkit-user-drag: none !important;
+  touch-action: pan-x;
+}
+
+#soonList img,
+.soonwrap .soon img {
+  -webkit-user-drag: none !important;
+  user-select: none !important;
+  -webkit-user-select: none !important;
+}
+
+#soonList.is-mouse-dragging,
+#soonList.is-mouse-dragging *,
+.soonwrap .soon.is-mouse-dragging,
+.soonwrap .soon.is-mouse-dragging * {
+  cursor: grabbing !important;
+  user-select: none !important;
+  -webkit-user-select: none !important;
+}
+
+#soonList.is-mouse-dragging .soonc:hover,
+.soonwrap .soon.is-mouse-dragging .soonc:hover {
+  transform: none !important;
+  box-shadow: none !important;
 }
