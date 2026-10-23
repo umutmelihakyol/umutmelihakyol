@@ -132,6 +132,15 @@
   .tech-admin-form-grid input:focus,
   .tech-admin-form-grid select:focus,
   .tech-admin-form-grid textarea:focus { outline:2px solid var(--acc); outline-offset:1px; border-color:var(--acc); }
+  .game-cost-panel { grid-column:1 / -1; min-width:0; margin:8px 0 2px; padding:15px; border:1px solid var(--line); border-radius:12px; background:var(--bg); }
+  .game-cost-panel legend { padding:0 8px; color:var(--ink); font-weight:800; }
+  .game-cost-panel p { margin:4px 0 12px; }
+  .game-cost-panel .f { margin-top:12px; }
+  .game-cost-panel label { display:flex; flex-direction:column; gap:5px; color:var(--mute); font-size:.9rem; }
+  .game-cost-panel input,.game-cost-panel select,.game-cost-panel textarea { width:100%; min-width:0; box-sizing:border-box; padding:9px 11px; border:1px solid var(--line); border-radius:9px; background:var(--card); color:var(--ink); font:inherit; }
+  .game-cost-panel select option { background:var(--card); color:var(--ink); }
+  .game-cost-panel textarea { resize:vertical; }
+  .game-cost-panel .wide { grid-column:1 / -1; }
   @media(max-width:760px){ .analytics-grid,.backup-controls,.tech-admin-form-grid { grid-template-columns:1fr; } .bar-row { grid-template-columns:minmax(75px,1fr) minmax(60px,1.2fr) auto; gap:7px; } .tech-admin-item { flex-direction:column; } .tech-admin-form-grid .wide { grid-column:auto; } }
 </style>
 <script src="../scripts/theme.js"></script>
@@ -230,6 +239,61 @@
           <label>Artılar (her satıra bir madde)<textarea id="pros" rows="3"></textarea></label>
           <label>Eksiler (her satıra bir madde)<textarea id="cons" rows="3"></textarea></label>
         </div>
+
+        <fieldset id="gameCostPanel" class="game-cost-panel" hidden>
+          <legend>💰 Oyun maliyeti ve kütüphane takibi</legend>
+          <p class="meta">Bu alan yalnızca Oyunlar kategorisinde kullanılır. Tutarlar seçtiğin para birimiyle kaydedilir; farklı para birimleri birbirine çevrilmez.</p>
+          <div class="f">
+            <label>Edinme türü
+              <select id="acquisitionType">
+                <option value="">Belirtilmedi</option>
+                <option value="purchase">Satın alındı</option>
+                <option value="free">Ücretsiz</option>
+                <option value="subscription">Abonelik</option>
+                <option value="gift">Hediye</option>
+                <option value="bundle">Paket / Bundle</option>
+                <option value="key">Kod / Anahtar</option>
+                <option value="other">Diğer</option>
+              </select>
+            </label>
+            <label>Ödenen fiyat
+              <input id="purchasePrice" type="number" min="0" step="0.01" inputmode="decimal" placeholder="Örn. 499,00">
+            </label>
+            <label>Para birimi
+              <select id="purchaseCurrency">
+                <option value="TRY">TRY — Türk lirası (₺)</option>
+                <option value="USD">USD — ABD doları ($)</option>
+                <option value="EUR">EUR — Euro (€)</option>
+                <option value="GBP">GBP — İngiliz sterlini (£)</option>
+                <option value="JPY">JPY — Japon yeni (¥)</option>
+                <option value="CAD">CAD — Kanada doları</option>
+                <option value="AUD">AUD — Avustralya doları</option>
+              </select>
+            </label>
+            <label>Mağaza / kaynak
+              <input id="purchaseStore" maxlength="100" placeholder="Steam, Epic Games Store, GOG…">
+            </label>
+            <label>Satın alma tarihi
+              <input id="purchaseDate" type="date">
+            </label>
+            <label>İndirimsiz fiyat (isteğe bağlı)
+              <input id="listPrice" type="number" min="0" step="0.01" inputmode="decimal" placeholder="İndirim öncesi fiyat">
+            </label>
+            <label>Kütüphane durumu
+              <select id="ownershipStatus">
+                <option value="">Belirtilmedi</option>
+                <option value="owned">Kalıcı kütüphanemde</option>
+                <option value="subscription">Abonelik erişimi</option>
+                <option value="wishlist">İstek listemde</option>
+                <option value="removed">Kütüphaneden kaldırıldı</option>
+                <option value="not-owned">Kütüphanemde değil</option>
+              </select>
+            </label>
+            <label class="wide">Satın alma notu (isteğe bağlı)
+              <textarea id="purchaseNote" rows="2" maxlength="1000" placeholder="Örn. indirim dönemi, paket adı veya lisans notu"></textarea>
+            </label>
+          </div>
+        </fieldset>
         <p>
           <button class="btn pri" id="add">Kaydet</button>
           <button class="btn" id="clr">Formu Temizle</button>
@@ -538,10 +602,13 @@ const configuredVault=String(C.vault||'').trim().replace(/^['"]|['"]$/g,'');
 const vaultReady=configuredVault.split('.').length===3&&configuredVault.length>=60;
 const setupButton=$('#goSetupBtn');
 if(setupButton) setupButton.hidden=vaultReady;
-const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const esc=s=>String(s??'').replace(/[&<>\"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',"'":'&#39;'}[c]));
+const acquisitionLabels={purchase:'Satın alındı',free:'Ücretsiz',subscription:'Abonelik',gift:'Hediye',bundle:'Paket / Bundle',key:'Kod / Anahtar',other:'Diğer'};
+const formatCost=(value,currency='TRY')=>{const code=/^(TRY|USD|EUR|GBP|JPY|CAD|AUD)$/.test(String(currency||''))?String(currency):'TRY';try{return new Intl.NumberFormat('tr-TR',{style:'currency',currency:code,maximumFractionDigits:2}).format(Number(value))}catch{return `${Number(value).toLocaleString('tr-TR')} ${code}`}};
+const gameCostBadge=g=>{if(g.purchasePrice!==null&&g.purchasePrice!==undefined&&g.purchasePrice!==''&&Number.isFinite(Number(g.purchasePrice)))return ` • <b>${esc(formatCost(g.purchasePrice,g.purchaseCurrency||'TRY'))}</b>`;if(g.acquisitionType)return ` • ${esc(acquisitionLabels[g.acquisitionType]||g.acquisitionType)}`;return ''};
 let cat='oyun';try{cat=localStorage.getItem('admin_cat')||'oyun'}catch{}if(!CATS[cat])cat='oyun';
 const D={},cfg=()=>CATS[cat],data=()=>D[cat]||(D[cat]={games:[],sha:null,loaded:false});
-const ids=['title','platform','score','finished','review','image','note','year','dur','dur2','person'];
+const ids=['title','platform','score','finished','review','image','note','year','dur','dur2','person','acquisitionType','purchasePrice','purchaseCurrency','purchaseStore','purchaseDate','listPrice','ownershipStatus','purchaseNote'];
 let editId=null;
 let T=sessionStorage.getItem('gh_t')||'';const tok=()=>T;
 const apiPath=path=>`https://api.github.com/repos/${C.owner}/${C.repo}/contents/${path}`;
@@ -826,6 +893,7 @@ async function persist(targetCat=cat){
 /* KATEGORİ ETİKETLERİ VE FİLTRELER */
 function applyCat(){
   const c=cfg();
+  const costPanel=$('#gameCostPanel');if(costPanel)costPanel.hidden=cat!=='oyun';
   $('#catpills').innerHTML=Object.entries(CATS).map(([k,v])=>`<button class="pill" data-k="${k}" aria-pressed="${k===cat}">${typeof ICON==='function'?ICON(k):''} ${v.plural}</button>`).join('');
   $('#hs').textContent=c.name+' ara (görsel ve bilgiler otomatik gelir)';
   $('#s').placeholder=c.searchPh;$('#s').previousSibling.textContent=c.name+' adı';
@@ -896,7 +964,7 @@ function list(){
             <span class="badge">${esc(c.st[g.status||'bitirdim']||g.status)}</span>
             ${g.score!=null&&g.score!==''?` • <b>${esc(g.score)}/10</b>`:''}
             ${durVal?` • ${esc(durVal)} ${esc(c.dur.unit||'')}`:''}
-            ${g.platform?` • ${esc(g.platform)}`:''}
+            ${g.platform?` • ${esc(g.platform)}`:''}${cat==='oyun'?gameCostBadge(g):''}
           </div>
         </div>
       </div>
@@ -941,6 +1009,7 @@ $('#list').onclick=async e=>{
     $('#imgPrev').src=g.image||defaultSvg;
     $('#fav').value=g.favorite?'1':'0';$('#pros').value=(g.pros||[]).join('\n');$('#cons').value=(g.cons||[]).join('\n');$('#genres').value=(g.genres||[]).join(', ');
     $('#status').value=g.status||'bitirdim';$('#rec').value=g.recommended===true?'1':g.recommended===false?'0':'';
+    if(cat==='oyun'&&!g.purchaseCurrency)$('#purchaseCurrency').value='TRY';
     $('#ft').textContent=c.name+' düzenle: '+g.title;
     $('#ft').scrollIntoView({behavior:'smooth'});
   }
@@ -949,7 +1018,7 @@ $('#list').onclick=async e=>{
 function clear(){
   editId=null;ids.forEach(i=>$('#'+i).value='');
   $('#imgPrev').src=defaultSvg;
-  $('#genres').value='';$('#pros').value='';$('#cons').value='';$('#fav').value='0';$('#rec').value='1';
+  $('#genres').value='';$('#pros').value='';$('#cons').value='';$('#fav').value='0';$('#rec').value='1';if($('#purchaseCurrency'))$('#purchaseCurrency').value='TRY';
   if($('#status').options.length)$('#status').value='bitirdim';
   $('#ft').textContent=cfg().name+' bilgileri';
 }
@@ -962,6 +1031,11 @@ $('#add').onclick=async()=>{
   if(stt==='bitirdim'&&(val('score')===''||!val('finished')||(c.dur.req&&val('dur')==='')))
     return say(c.dur.req?'Bitirdiklerinde puan, süre ve tarih zorunlu.':'Bitirdiklerinde puan ve tarih zorunlu.',1);
   const n=i=>val(i)===''?null:+val(i),lines=i=>$('#'+i).value.split('\n').map(x=>x.trim()).filter(Boolean);
+  if(cat==='oyun'){
+    for(const id of ['purchasePrice','listPrice']){
+      if(val(id)!==''&&(!Number.isFinite(Number(val(id)))||Number(val(id))<0))return say('Fiyat alanları sıfır veya daha büyük bir sayı olmalı.',1);
+    }
+  }
   const g={
     id:editId||Date.now().toString(36),status:stt,title:val('title'),image:val('image'),
     platform:val('platform'),genres:val('genres').split(',').map(x=>x.trim()).filter(Boolean),
@@ -972,6 +1046,16 @@ $('#add').onclick=async()=>{
     updatedAt:new Date().toISOString()
   };
   g[c.dur.key]=n('dur');if(c.dur2)g[c.dur2.key]=n('dur2');g[c.person.key]=val('person');
+  if(cat==='oyun'){
+    g.acquisitionType=val('acquisitionType')||null;
+    g.purchasePrice=n('purchasePrice');
+    g.purchaseCurrency=val('purchaseCurrency')||'TRY';
+    g.purchaseStore=val('purchaseStore');
+    g.purchaseDate=val('purchaseDate')||null;
+    g.listPrice=n('listPrice');
+    g.ownershipStatus=val('ownershipStatus')||null;
+    g.purchaseNote=val('purchaseNote');
+  }
   const old=d.games;d.games=editId?d.games.map(x=>x.id===editId?g:x):[g,...d.games];
   if(await persist()){clear();list()}else d.games=old;
 };

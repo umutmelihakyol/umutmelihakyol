@@ -47,6 +47,37 @@ const durText=g=>[cfg.dur,cfg.dur2].filter(Boolean).filter(d=>has(g[d.key])).map
 const facts=g=>{const p=[],dt=durText(g);if(dt)p.push(`<span>${cfg.dur.label?`<i>${cfg.dur.label}</i>`:''}${dt}</span>`);if(g.finished)p.push(`<span><i>${cfg.dateLabel}</i>${fmtDate(g.finished)}</span>`);return `<p class="facts">${p.join('')||`<span>${cfg.nof[stOf(g)]}</span>`}</p>`};
 const HEART='<svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor" aria-hidden="true"><path d="M12 21s-7.5-4.6-9.6-9.3C.9 8.3 2.7 4.5 6.3 4.5c2.1 0 3.6 1.1 4.5 2.6l1.2 1.8 1.2-1.8c.9-1.5 2.4-2.6 4.5-2.6 3.6 0 5.4 3.8 3.9 7.2C19.500 16.400 12 21 12 21z"/></svg>';
 const info=g=>{const p=[];if(has(g.year))p.push(`<span><i>${cfg.yearLabel}</i>${esc(g.year)}</span>`);const pv=g[cfg.person.key];if(pv)p.push(`<span><i>${cfg.person.label}</i>${esc(pv)}</span>`);return p.length?`<p class="facts">${p.join('')}</p>`:''};
+
+const ACQUISITION_LABELS={purchase:'Satın alındı',free:'Ücretsiz',subscription:'Abonelik',gift:'Hediye',bundle:'Paket / Bundle',key:'Kod / Anahtar',other:'Diğer'};
+const OWNERSHIP_LABELS={owned:'Kalıcı kütüphanemde',subscription:'Abonelik erişimi',wishlist:'İstek listemde',removed:'Kütüphaneden kaldırıldı','not-owned':'Kütüphanemde değil'};
+const validMoney=v=>v!==null&&v!==undefined&&v!==''&&Number.isFinite(Number(v));
+function moneyLabel(value,currency='TRY'){
+  const code=/^(TRY|USD|EUR|GBP|JPY|CAD|AUD)$/.test(String(currency||''))?String(currency):'TRY';
+  try{return new Intl.NumberFormat('tr-TR',{style:'currency',currency:code,maximumFractionDigits:2}).format(Number(value))}
+  catch{return `${Number(value).toLocaleString('tr-TR',{maximumFractionDigits:2})} ${code}`}
+}
+function purchaseMini(g){
+  const parts=[];
+  if(validMoney(g.purchasePrice))parts.push(`Ödenen: ${moneyLabel(g.purchasePrice,g.purchaseCurrency||'TRY')}`);
+  else if(g.acquisitionType==='free')parts.push('Ücretsiz edinildi');
+  else if(g.acquisitionType)parts.push(ACQUISITION_LABELS[g.acquisitionType]||g.acquisitionType);
+  if(g.ownershipStatus==='subscription'&&!parts.some(x=>x==='Abonelik'))parts.push('Abonelik erişimi');
+  return parts.length?`<p class="meta purchase-mini" style="margin:0;font-size:.86rem;overflow-wrap:anywhere">💰 ${parts.map(esc).join(' · ')}</p>`:'';
+}
+function purchaseDetails(g){
+  const rows=[];
+  if(g.acquisitionType)rows.push(['Edinme türü',ACQUISITION_LABELS[g.acquisitionType]||g.acquisitionType]);
+  if(validMoney(g.purchasePrice))rows.push(['Ödenen fiyat',moneyLabel(g.purchasePrice,g.purchaseCurrency||'TRY')]);
+  if(validMoney(g.listPrice))rows.push(['İndirimsiz fiyat',moneyLabel(g.listPrice,g.purchaseCurrency||'TRY')]);
+  if(g.acquisitionType&&['purchase','bundle','key'].includes(g.acquisitionType)&&validMoney(g.purchasePrice)&&validMoney(g.listPrice)&&Number(g.listPrice)>Number(g.purchasePrice))
+    rows.push(['Fiyat farkı',moneyLabel(Number(g.listPrice)-Number(g.purchasePrice),g.purchaseCurrency||'TRY')]);
+  if(g.purchaseStore)rows.push(['Mağaza / kaynak',g.purchaseStore]);
+  if(g.purchaseDate)rows.push(['Satın alma tarihi',fmtDate(g.purchaseDate)]);
+  if(g.ownershipStatus)rows.push(['Kütüphane durumu',OWNERSHIP_LABELS[g.ownershipStatus]||g.ownershipStatus]);
+  if(!rows.length&&!g.purchaseNote)return '';
+  return `<section class="purchase-detail" style="border:1px solid var(--line);border-radius:10px;background:var(--bg);padding:12px 14px;margin:4px 0"><h3 style="font-size:1rem;margin:0 0 10px">Satın alma ve kütüphane</h3>${rows.length?`<dl style="display:grid;grid-template-columns:minmax(105px,auto) 1fr;gap:5px 12px;margin:0;font-size:.92rem">${rows.map(([k,v])=>`<dt style="color:var(--mute)">${esc(k)}</dt><dd style="margin:0;overflow-wrap:anywhere;font-weight:600">${esc(v)}</dd>`).join('')}</dl>`:''}${g.purchaseNote?`<p class="meta" style="margin:10px 0 0;white-space:pre-wrap">${esc(g.purchaseNote)}</p>`:''}</section>`;
+}
+
 const proscons=g=>{const p=(g.pros||[]).filter(Boolean),c=(g.cons||[]).filter(Boolean);if(!p.length&&!c.length)return '';
   const col=(t,cls,l)=>l.length?`<div class="pc ${cls}"><h4>${t}</h4><ul>${l.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>`:'';
   return `<div class="pcs">${col('Artılar','pro',p)}${col('Eksiler','con',c)}</div>`};
@@ -56,7 +87,7 @@ function card(g){
   return `<article class="card" data-id="${esc(g.id)}">${cover(g)}
   <div class="body"><h3><a class="tl" href="#${esc(g.id)}" title="${esc(g.title)}">${esc(g.title)}</a></h3>
   <div class="sub"><span class="plat">${esc(g.platform)}</span><span class="tags">${chips(g)}</span></div>
-  ${facts(g)}<p class="note${g.note?'':' none'}">${g.note?esc(g.note):'Henüz not eklenmemiş.'}</p>
+  ${facts(g)}${CAT==='oyun'?purchaseMini(g):''}<p class="note${g.note?'':' none'}">${g.note?esc(g.note):'Henüz not eklenmemiş.'}</p>
   <div class="row"><a class="more" href="#${esc(g.id)}">Ayrıntılar</a>${revHtml(g)}</div></div></article>`;
 }
 const thumb=(g,c)=>imageSrc(g.image,185)?`<img class="${c}" src="${imageSrc(g.image,185)}" alt="" loading="lazy" decoding="async" fetchpriority="low" width="64" height="44" referrerpolicy="no-referrer" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'${c} ph','aria-hidden':'true'}))">`:`<span class="${c} ph" aria-hidden="true"></span>`;
@@ -78,7 +109,7 @@ function foot(){
 function openGame(id){
   const g=games.find(x=>x.id===id),d=$('#dlg');if(!g)return d.open&&d.close();
   d.innerHTML=`${cover(g)}<div class="inner"><h2>${esc(g.title)}</h2><p class="meta">${esc(g.platform)}</p>
-  <p class="tags wrapt">${chips(g)}</p>${facts(g)}${info(g)}
+  <p class="tags wrapt">${chips(g)}</p>${facts(g)}${info(g)}${CAT==='oyun'?purchaseDetails(g):''}
   ${g.note?`<p class="full">${esc(g.note)}</p>`:''}${proscons(g)}<div class="row">${revHtml(g)}</div>
   <p>${randomMode?'<button class="btn pri again">Başka birini seç</button> ':''}<button class="btn card-gen-btn" data-id="${esc(g.id)}">📷 İnceleme Kartı İndir</button> <button class="btn copy">Bağlantıyı kopyala</button> <button class="btn" onclick="this.closest('dialog').close()">Kapat</button></p></div>`;
   if(!d.open)d.showModal();
