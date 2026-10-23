@@ -1,8 +1,8 @@
 {
   "format": "gunlugum-backup",
   "version": 1,
-  "createdAt": "2026-10-23T20:29:30.890Z",
-  "reason": "Oyun kaydı öncesi otomatik yedek",
+  "createdAt": "2026-10-23T23:36:07.492Z",
+  "reason": "Anime kaydı öncesi otomatik yedek",
   "repository": "umutmelihakyol/umutmelihakyol",
   "branch": "main",
   "data": {
@@ -55,9 +55,17 @@
         "favorite": false,
         "pros": [],
         "cons": [],
-        "updatedAt": "2026-10-21T21:05:55.988Z",
+        "updatedAt": "2026-10-23T20:29:28.386Z",
         "hours": 14,
-        "developer": "IO Interactive"
+        "developer": "IO Interactive",
+        "acquisitionType": "purchase",
+        "purchasePrice": 1900,
+        "purchaseCurrency": "TRY",
+        "purchaseStore": "Steam",
+        "purchaseDate": "2026-04-26",
+        "listPrice": null,
+        "ownershipStatus": "owned",
+        "purchaseNote": ""
       }
     ],
     "film": [
