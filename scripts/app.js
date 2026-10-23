@@ -12,7 +12,6 @@ const plats=g=>String(g.platform||'').split(',').map(x=>x.trim()).filter(Boolean
 let games=[],st='all',favOnly=false,vis=[],randomMode=false,view='card',lastId='';
 try{view=localStorage.getItem('view')||'card'}catch{}
 
-
 /* başlık, gezinme, sabit metinler */
 document.title=cfg.title+' - '+(CF.siteTitle||'Günlüğüm');
 $('#title').textContent=cfg.title;
@@ -390,84 +389,116 @@ fetch(new URL(cfg.file, SITE_ROOT).href, {cache:'no-cache'}).then(r=>r.ok?r.json
   render();soon();foot();if(location.hash)openGame(location.hash.slice(1));
 });
 
-// Şu an izlediklerim ve yakında bitireceklerim:
-// Fareyle sürükleyerek kaydırma.
-let soonDragState = null;
 
+// Etiket gruplarını fareyle sürükleyerek kaydır; yazı seçimini ve kart açılmasını engelle.
+let tagDragState = null;
 document.addEventListener('pointerdown', (event) => {
   if (event.pointerType !== 'mouse' || event.button !== 0) return;
-
-  const scroller = event.target.closest('.soon');
+  const scroller = event.target.closest('.tags');
   if (!scroller || scroller.scrollWidth <= scroller.clientWidth + 1) return;
-
-  soonDragState = {
+  tagDragState = {
     element: scroller,
     pointerId: event.pointerId,
     startX: event.clientX,
     startScrollLeft: scroller.scrollLeft,
     moved: false
   };
-
   scroller.classList.add('is-dragging');
-
-  try {
-    scroller.setPointerCapture(event.pointerId);
-  } catch (_) {}
+  try { scroller.setPointerCapture(event.pointerId); } catch (_) {}
 }, true);
 
 document.addEventListener('pointermove', (event) => {
-  if (!soonDragState ||
-      event.pointerId !== soonDragState.pointerId) return;
-
-  const deltaX = event.clientX - soonDragState.startX;
-
-  if (Math.abs(deltaX) > 4) {
-    soonDragState.moved = true;
-  }
-
-  if (!soonDragState.moved) return;
-
+  if (!tagDragState || event.pointerId !== tagDragState.pointerId) return;
+  const deltaX = event.clientX - tagDragState.startX;
+  if (Math.abs(deltaX) > 4) tagDragState.moved = true;
+  if (!tagDragState.moved) return;
   event.preventDefault();
-
-  soonDragState.element.scrollLeft =
-    soonDragState.startScrollLeft - deltaX;
+  tagDragState.element.scrollLeft = tagDragState.startScrollLeft - deltaX;
 }, { capture: true, passive: false });
 
-function finishSoonDrag(event) {
-  if (!soonDragState) return;
-
-  if (
-    event.pointerId !== undefined &&
-    event.pointerId !== soonDragState.pointerId
-  ) return;
-
-  const state = soonDragState;
-
+function finishTagDrag(event) {
+  if (!tagDragState || (event.pointerId !== undefined && event.pointerId !== tagDragState.pointerId)) return;
+  const state = tagDragState;
   state.element.classList.remove('is-dragging');
-
-  if (state.moved) {
-    state.element.dataset.suppressSoonClick = 'true';
-
-    setTimeout(() => {
-      delete state.element.dataset.suppressSoonClick;
-    }, 500);
-  }
-
-  soonDragState = null;
+  if (state.moved) state.element.dataset.suppressTagClick = 'true';
+  tagDragState = null;
 }
-
-document.addEventListener('pointerup', finishSoonDrag, true);
-document.addEventListener('pointercancel', finishSoonDrag, true);
-
+document.addEventListener('pointerup', finishTagDrag, true);
+document.addEventListener('pointercancel', finishTagDrag, true);
 document.addEventListener('click', (event) => {
-  const scroller = event.target.closest('.soon');
-
-  if (!scroller ||
-      scroller.dataset.suppressSoonClick !== 'true') return;
-
-  delete scroller.dataset.suppressSoonClick;
-
+  const scroller = event.target.closest('.tags');
+  if (!scroller || scroller.dataset.suppressTagClick !== 'true') return;
+  delete scroller.dataset.suppressTagClick;
   event.preventDefault();
   event.stopPropagation();
   event.stopImmediatePropagation();
 }, true);
+
+
+/* Şu an izlediklerim şeridi: kartları fareyle tutup sürükleyerek kaydır. */
+(() => {
+  if (window.__soonCardDragReady) return;
+  window.__soonCardDragReady = true;
+
+  let drag = null;
+  const getStrip = (target) => {
+    if (!(target instanceof Element)) return null;
+    return target.closest('#soonList, .soonwrap .soon');
+  };
+
+  document.addEventListener('mousedown', (event) => {
+    if (event.button !== 0) return;
+    const strip = getStrip(event.target);
+    if (!strip || strip.scrollWidth <= strip.clientWidth + 2) return;
+
+    drag = {
+      strip,
+      startX: event.clientX,
+      startScrollLeft: strip.scrollLeft,
+      moved: false
+    };
+    strip.classList.add('is-mouse-dragging');
+  }, true);
+
+  document.addEventListener('mousemove', (event) => {
+    if (!drag) return;
+    const deltaX = event.clientX - drag.startX;
+    if (Math.abs(deltaX) > 4) drag.moved = true;
+    if (!drag.moved) return;
+
+    // Metin seçimini önle ve şeridi fareyle hareket ettir.
+    event.preventDefault();
+    drag.strip.scrollLeft = drag.startScrollLeft - deltaX;
+  }, { capture: true, passive: false });
+
+  document.addEventListener('mouseup', () => {
+    if (!drag) return;
+    const finished = drag;
+    drag = null;
+    finished.strip.classList.remove('is-mouse-dragging');
+
+    // Sürükleme sonunda bağlantının tıklanmasını engelle.
+    if (finished.moved) {
+      finished.strip.dataset.dragMoved = 'true';
+      window.setTimeout(() => {
+        if (finished.strip.dataset.dragMoved === 'true') {
+          delete finished.strip.dataset.dragMoved;
+        }
+      }, 500);
+    }
+  }, true);
+
+  document.addEventListener('click', (event) => {
+    const strip = getStrip(event.target);
+    if (!strip || strip.dataset.dragMoved !== 'true') return;
+    delete strip.dataset.dragMoved;
+    event.preventDefault();
+    event.stopPropagation();
+    event.stopImmediatePropagation();
+  }, true);
+
+  // Kart kapakları tarayıcı tarafından ayrı bir resim gibi sürüklenmesin.
+  document.addEventListener('dragstart', (event) => {
+    if (getStrip(event.target)) event.preventDefault();
+  }, true);
+})();
