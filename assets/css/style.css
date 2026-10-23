@@ -308,3 +308,26 @@ a.tile:hover .tbody h3{color:var(--acc)}
   user-select: none !important;
   -webkit-user-select: none !important;
 }
+
+/* Şu an izlediklerim: kaydırma çubuğunu tamamen gizle */
+.soonwrap .soon,
+#soonList {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+.soonwrap .soon::-webkit-scrollbar,
+#soonList::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  background: transparent !important;
+}
+
+.soonwrap .soon::-webkit-scrollbar-track,
+.soonwrap .soon::-webkit-scrollbar-thumb,
+#soonList::-webkit-scrollbar-track,
+#soonList::-webkit-scrollbar-thumb {
+  background: transparent !important;
+  border: none !important;
+}
