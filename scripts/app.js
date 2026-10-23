@@ -387,6 +387,8 @@ foot();
 fetch(new URL(cfg.file, SITE_ROOT).href, {cache:'no-cache'}).then(r=>r.ok?r.json():[]).catch(()=>[]).then(d=>{
   games=d;fillSel('#plat',cfg.plat.all,d.flatMap(plats));fillSel('#genre','Tüm türler',d.flatMap(g=>g.genres||[]));
   render();soon();foot();if(location.hash)openGame(location.hash.slice(1));
+  window.__gunlugumContentReady = true;
+  window.dispatchEvent(new Event('gunlugum:content-ready'));
 });
 
 

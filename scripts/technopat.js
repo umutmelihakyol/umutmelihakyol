@@ -184,9 +184,13 @@
       const heading = document.querySelector('#techPageTitle');
       if (heading) heading.textContent = titleText;
       refreshResults();
+      window.__gunlugumContentReady = true;
+      window.dispatchEvent(new Event('gunlugum:content-ready'));
     })
     .catch(() => {
       resultsLabel.textContent = 'İçerikler yüklenemedi';
       articlesRoot.innerHTML = '<div class="tech-empty"><strong>İçerik listesi yüklenemedi.</strong><code>data/technopat.json</code> dosyasının GitHub deponuzda bulunduğunu ve adresinin doğru olduğunu kontrol edin.</div>';
+      window.__gunlugumContentReady = true;
+      window.dispatchEvent(new Event('gunlugum:content-ready'));
     });
 })();

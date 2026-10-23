@@ -3,6 +3,29 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<script>
+(() => {
+  const root = document.documentElement;
+  try {
+    if (sessionStorage.getItem('gunlugum:intro-seen') === '1') {
+      root.classList.add('intro-loader-skip');
+      return;
+    }
+    sessionStorage.setItem('gunlugum:intro-seen', '1');
+  } catch (_) {}
+  root.classList.add('intro-loader-active');
+  window.__gunlugumLoaderStart = performance.now();
+  // Diğer betik yüklenmezse de ekran açık kalmasın.
+  window.__gunlugumLoaderFallback = window.setTimeout(() => {
+    root.classList.add('intro-loader-fade');
+    root.classList.remove('intro-loader-active');
+    window.setTimeout(() => {
+      document.getElementById('siteIntroLoader')?.remove();
+      root.classList.remove('intro-loader-fade');
+    }, 240);
+  }, 1500);
+})();
+</script>
 <meta name="theme-color" content="#3d7f86">
 <meta name="description" content="Oyun ve diğer eğlence içerikleri üzerine hazırladığım incelemeler. Kategorilerden seçim yaparak ilgili yazıya Technopat Sosyal üzerinden ulaşabilirsin.">
 <title>İncelemelerim · Technopat | Günlüğüm</title>
@@ -12,8 +35,22 @@
 <link rel="stylesheet" href="../../assets/css/style.css?v=13">
 <link rel="stylesheet" href="../../assets/css/technopat.css?v=3">
 <script src="../../scripts/theme.js"></script>
+
+<link rel="stylesheet" href="../../assets/css/intro-loader.css?v=1">
+<script src="../../scripts/intro-loader.js?v=1" defer></script>
 </head>
 <body data-tech-kind="reviews">
+<div class="site-intro-loader" id="siteIntroLoader" role="status" aria-live="polite" aria-label="Günlüğüm hazırlanıyor">
+  <div class="site-intro-loader__content">
+    <div class="site-intro-loader__mark" aria-hidden="true">G</div>
+    <div>
+      <h1 class="site-intro-loader__title">Günlüğüm</h1>
+      <p class="site-intro-loader__caption">Arşivin hazırlanıyor</p>
+    </div>
+    <div class="site-intro-loader__track" aria-hidden="true"></div>
+  </div>
+</div>
+
 <div class="wrap tech-page">
   <header class="tech-page-top">
     <a class="btn" href="../../index.html">← Ana sayfa</a>
