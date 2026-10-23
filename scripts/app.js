@@ -388,3 +388,85 @@ fetch(new URL(cfg.file, SITE_ROOT).href, {cache:'no-cache'}).then(r=>r.ok?r.json
   games=d;fillSel('#plat',cfg.plat.all,d.flatMap(plats));fillSel('#genre','Tüm türler',d.flatMap(g=>g.genres||[]));
   render();soon();foot();if(location.hash)openGame(location.hash.slice(1));
 });
+
+// Şu an izlediklerim ve yakında bitireceklerim:
+// Fareyle sürükleyerek kaydırma.
+let soonDragState = null;
+
+document.addEventListener('pointerdown', (event) => {
+  if (event.pointerType !== 'mouse' || event.button !== 0) return;
+
+  const scroller = event.target.closest('.soon');
+  if (!scroller || scroller.scrollWidth <= scroller.clientWidth + 1) return;
+
+  soonDragState = {
+    element: scroller,
+    pointerId: event.pointerId,
+    startX: event.clientX,
+    startScrollLeft: scroller.scrollLeft,
+    moved: false
+  };
+
+  scroller.classList.add('is-dragging');
+
+  try {
+    scroller.setPointerCapture(event.pointerId);
+  } catch (_) {}
+}, true);
+
+document.addEventListener('pointermove', (event) => {
+  if (!soonDragState ||
+      event.pointerId !== soonDragState.pointerId) return;
+
+  const deltaX = event.clientX - soonDragState.startX;
+
+  if (Math.abs(deltaX) > 4) {
+    soonDragState.moved = true;
+  }
+
+  if (!soonDragState.moved) return;
+
+  event.preventDefault();
+
+  soonDragState.element.scrollLeft =
+    soonDragState.startScrollLeft - deltaX;
+}, { capture: true, passive: false });
+
+function finishSoonDrag(event) {
+  if (!soonDragState) return;
+
+  if (
+    event.pointerId !== undefined &&
+    event.pointerId !== soonDragState.pointerId
+  ) return;
+
+  const state = soonDragState;
+
+  state.element.classList.remove('is-dragging');
+
+  if (state.moved) {
+    state.element.dataset.suppressSoonClick = 'true';
+
+    setTimeout(() => {
+      delete state.element.dataset.suppressSoonClick;
+    }, 500);
+  }
+
+  soonDragState = null;
+}
+
+document.addEventListener('pointerup', finishSoonDrag, true);
+document.addEventListener('pointercancel', finishSoonDrag, true);
+
+document.addEventListener('click', (event) => {
+  const scroller = event.target.closest('.soon');
+
+  if (!scroller ||
+      scroller.dataset.suppressSoonClick !== 'true') return;
+
+  delete scroller.dataset.suppressSoonClick;
+
+  event.preventDefault();
+  event.stopPropagation();
+  event.stopImmediatePropagation();
+}, true);
