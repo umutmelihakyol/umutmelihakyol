@@ -118,3 +118,359 @@
   .card.cx,.cx-media img,.poster .cx-more{transition:none}
   .cx-st[data-s=oynuyorum]::before{animation:none}
 }
+
+
+/* Günlüğüm — ortak detay penceresi tasarımı.
+   Yalnızca açılan kayıt penceresine uygulanır; liste kartlarını etkilemez. */
+dialog.detail-redesign {
+  width: min(860px, 94vw);
+  max-width: 860px;
+  max-height: min(92vh, 940px);
+  max-height: min(92dvh, 940px);
+  padding: 0;
+  overflow: auto;
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  background: var(--card);
+  color: var(--ink);
+  box-shadow: 0 28px 90px rgba(0,0,0,.42);
+  scrollbar-width: thin;
+  scrollbar-color: var(--line) transparent;
+}
+dialog.detail-redesign::backdrop {
+  background: rgba(7,11,14,.72);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+dialog.detail-redesign > .cover {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 7;
+  min-height: 230px;
+  max-height: 360px;
+  overflow: hidden;
+  isolation: isolate;
+  background: linear-gradient(135deg, color-mix(in srgb,var(--acc) 20%,var(--bg)), var(--bg));
+}
+dialog.detail-redesign > .cover > img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  object-fit: cover;
+  object-position: center 35%;
+}
+dialog.detail-redesign > .cover::after {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  height: auto;
+  pointer-events: none;
+  background: linear-gradient(180deg,rgba(7,11,14,.06) 0%,rgba(7,11,14,.04) 38%,rgba(7,11,14,.65) 100%);
+}
+dialog.detail-redesign > .cover .stb {
+  top: 16px;
+  right: 18px;
+  z-index: 3;
+  padding: 5px 12px;
+  border: 1px solid rgba(255,255,255,.22);
+  border-radius: 999px;
+  color: #fff;
+  background: rgba(12,18,22,.66);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+dialog.detail-redesign > .cover .fvb {
+  top: 16px;
+  left: 18px;
+  z-index: 3;
+  background: rgba(12,18,22,.66);
+  border-color: rgba(255,255,255,.22);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+dialog.detail-redesign > .cover .score {
+  left: 20px;
+  bottom: 18px;
+  z-index: 3;
+  width: 52px;
+  height: 52px;
+  border: 2px solid rgba(255,255,255,.72);
+  background: rgba(248,249,250,.96);
+  color: #182027;
+  box-shadow: 0 5px 18px rgba(0,0,0,.2);
+}
+dialog.detail-redesign > .cover .recb {
+  right: 18px;
+  bottom: 20px;
+  z-index: 3;
+  max-width: calc(100% - 112px);
+  white-space: normal;
+  text-align: center;
+  padding: 6px 13px;
+  border: 1px solid rgba(255,255,255,.2);
+  background: rgba(12,18,22,.72);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+dialog.detail-redesign > .inner {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  min-width: 0;
+  padding: clamp(18px,3.2vw,30px);
+}
+dialog.detail-redesign > .inner > h2 {
+  margin: 0;
+  color: var(--ink);
+  font-size: clamp(1.5rem,3.5vw,2.15rem);
+  line-height: 1.15;
+  letter-spacing: -.04em;
+  overflow-wrap: anywhere;
+}
+dialog.detail-redesign > .inner > .meta:not(.purchase-mini) {
+  width: fit-content;
+  max-width: 100%;
+  margin: -8px 0 0;
+  padding: 4px 10px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--mute);
+  background: color-mix(in srgb,var(--bg) 72%,var(--card));
+  font-size: .86rem;
+  overflow-wrap: anywhere;
+}
+dialog.detail-redesign > .inner > .tags.wrapt {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 7px;
+  height: auto;
+  max-height: none;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  overflow: visible;
+}
+dialog.detail-redesign > .inner > .tags.wrapt span {
+  max-width: 100%;
+  padding: 5px 10px;
+  border: 1px solid color-mix(in srgb,var(--acc) 18%,var(--line));
+  border-radius: 999px;
+  color: var(--acc);
+  background: color-mix(in srgb,var(--acc) 9%,var(--card));
+  white-space: normal;
+  overflow-wrap: anywhere;
+  line-height: 1.25;
+}
+dialog.detail-redesign > .inner > .facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(min(100%,205px),1fr));
+  align-items: stretch;
+  gap: 9px;
+  min-height: 0;
+  margin: 0;
+  overflow: visible;
+  white-space: normal;
+  font-size: .9rem;
+}
+dialog.detail-redesign > .inner > .facts > span {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 5px 7px;
+  min-width: 0;
+  padding: 11px 12px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: color-mix(in srgb,var(--card) 58%,var(--bg));
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+dialog.detail-redesign > .inner > .facts i {
+  color: var(--mute);
+  font-size: .82rem;
+  font-style: normal;
+  margin-right: 0;
+}
+dialog.detail-redesign .purchase-detail {
+  margin: 0 !important;
+  padding: 17px 18px !important;
+  border: 1px solid var(--line) !important;
+  border-radius: 16px !important;
+  background: color-mix(in srgb,var(--card) 78%,var(--bg)) !important;
+}
+dialog.detail-redesign .purchase-detail h3 {
+  margin: 0 0 12px !important;
+  color: var(--ink);
+  font-size: 1rem !important;
+}
+dialog.detail-redesign .purchase-detail dl {
+  grid-template-columns: minmax(110px,.75fr) minmax(0,1.25fr) !important;
+  gap: 8px 15px !important;
+  font-size: .9rem !important;
+}
+dialog.detail-redesign .purchase-detail dt { color: var(--mute); }
+dialog.detail-redesign .purchase-detail dd { color: var(--ink); overflow-wrap: anywhere; }
+dialog.detail-redesign .purchase-detail p {
+  padding-top: 10px;
+  border-top: 1px solid var(--line);
+  color: var(--mute);
+  font-size: .9rem;
+  overflow-wrap: anywhere;
+}
+dialog.detail-redesign > .inner > .full {
+  margin: 0;
+  padding: 16px 18px;
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--acc);
+  border-radius: 13px;
+  background: color-mix(in srgb,var(--acc) 5%,var(--card));
+  color: var(--ink);
+  line-height: 1.75;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+dialog.detail-redesign .pcs {
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(min(100%,220px),1fr));
+  gap: 10px;
+  margin: 0;
+}
+dialog.detail-redesign .pc {
+  min-width: 0;
+  margin: 0;
+  border-radius: 14px;
+  background: color-mix(in srgb,var(--card) 70%,var(--bg));
+}
+dialog.detail-redesign .pc h4 { margin-top: 0; }
+dialog.detail-redesign > .inner > .row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  font-size: .92rem;
+}
+dialog.detail-redesign > .inner > .row a,
+dialog.detail-redesign > .inner > .row a:visited {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--acc);
+  font-weight: 700;
+  text-underline-offset: 3px;
+}
+dialog.detail-redesign > .inner > .row .none { color: var(--mute); }
+dialog.detail-redesign .media-extras {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+  min-width: 0;
+}
+dialog.detail-redesign .media-extra-section {
+  min-width: 0;
+  padding: 15px 16px;
+  border: 1px solid var(--line);
+  border-radius: 15px;
+  background: color-mix(in srgb,var(--card) 78%,var(--bg));
+}
+dialog.detail-redesign .media-extra-section > h3 {
+  margin: 0 0 6px;
+  font-size: 1rem;
+  line-height: 1.3;
+}
+dialog.detail-redesign .media-extra-muted { margin: 0 0 10px; color: var(--mute); font-size: .86rem; }
+dialog.detail-redesign .media-provider-list { display: grid; grid-template-columns: repeat(auto-fit,minmax(min(100%,230px),1fr)); gap: 8px; }
+dialog.detail-redesign .media-provider,
+dialog.detail-redesign .media-provider:visited {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  padding: 11px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--card);
+  color: var(--ink);
+  text-decoration: none;
+}
+dialog.detail-redesign .media-provider-copy { display: grid; gap: 3px; min-width: 0; flex: 1; }
+dialog.detail-redesign .media-provider-copy strong,
+dialog.detail-redesign .media-provider-copy small { overflow-wrap: anywhere; }
+dialog.detail-redesign .install-profile { min-width: 0; padding: 12px 0; border-top: 1px solid var(--line); }
+dialog.detail-redesign .install-profile:first-of-type { border-top: 0; padding-top: 3px; }
+dialog.detail-redesign .install-profile-head { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 8px; }
+dialog.detail-redesign .install-profile-head h4 { margin: 0; font-size: .98rem; }
+dialog.detail-redesign .install-profile-field {
+  display: grid;
+  grid-template-columns: minmax(115px,.7fr) minmax(0,1.3fr) auto;
+  align-items: start;
+  gap: 10px;
+  padding: 8px 0;
+  border-top: 1px dashed var(--line);
+}
+dialog.detail-redesign .install-profile-label { color: var(--mute); font-size: .85rem; }
+dialog.detail-redesign .install-profile-value { min-width: 0; margin: 0; color: var(--ink); font: inherit; font-size: .9rem; white-space: pre-wrap; overflow-wrap: anywhere; }
+dialog.detail-redesign .install-profile-field .btn,
+dialog.detail-redesign .media-extra-copy { align-self: start; font-size: .78rem; padding: 5px 8px; white-space: nowrap; }
+dialog.detail-redesign > .inner > p:last-child {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 9px;
+  margin: 0;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+}
+dialog.detail-redesign > .inner > p:last-child .btn {
+  min-height: 42px;
+  margin: 0;
+  white-space: normal;
+}
+@media (max-width: 600px) {
+  dialog.detail-redesign {
+    width: 96vw;
+    max-width: 96vw;
+    max-height: 94vh;
+    max-height: 94dvh;
+    border-radius: 19px;
+  }
+  dialog.detail-redesign > .cover {
+    aspect-ratio: 16 / 9;
+    min-height: 180px;
+    max-height: 245px;
+  }
+  dialog.detail-redesign > .cover .stb { top: 12px; right: 12px; }
+  dialog.detail-redesign > .cover .fvb { top: 12px; left: 12px; }
+  dialog.detail-redesign > .cover .score { left: 13px; bottom: 12px; width: 46px; height: 46px; }
+  dialog.detail-redesign > .cover .recb { right: 12px; bottom: 15px; max-width: calc(100% - 88px); }
+  dialog.detail-redesign > .inner { gap: 13px; padding: 17px 15px 18px; }
+  dialog.detail-redesign > .inner > h2 { font-size: clamp(1.35rem,6vw,1.8rem); }
+  dialog.detail-redesign > .inner > .facts { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 7px; }
+  dialog.detail-redesign > .inner > .facts > span { padding: 9px 10px; }
+  dialog.detail-redesign .purchase-detail { padding: 14px 13px !important; }
+  dialog.detail-redesign .purchase-detail dl { grid-template-columns: minmax(88px,.7fr) minmax(0,1.3fr) !important; gap: 7px 10px !important; }
+  dialog.detail-redesign .media-extra-section { padding: 13px; }
+  dialog.detail-redesign .install-profile-field { grid-template-columns: minmax(0,1fr) auto; gap: 4px 8px; }
+  dialog.detail-redesign .install-profile-label { grid-column: 1 / -1; }
+  dialog.detail-redesign > .inner > p:last-child { gap: 8px; }
+  dialog.detail-redesign > .inner > p:last-child .btn { flex: 1 1 auto; min-height: 40px; padding: 8px 11px; font-size: .88rem; }
+}
+@media (max-width: 360px) {
+  dialog.detail-redesign > .inner { padding: 14px 12px 15px; }
+  dialog.detail-redesign > .inner > .facts { grid-template-columns: minmax(0,1fr); }
+  dialog.detail-redesign .purchase-detail dl { grid-template-columns: minmax(0,1fr) !important; gap: 3px !important; }
+  dialog.detail-redesign .purchase-detail dd { margin-bottom: 6px !important; }
+  dialog.detail-redesign .install-profile-field { grid-template-columns: minmax(0,1fr); }
+  dialog.detail-redesign .install-profile-label { grid-column: auto; }
+}
+@media (prefers-reduced-motion: reduce) {
+  dialog.detail-redesign { animation: none; }
+}

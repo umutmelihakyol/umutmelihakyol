@@ -133,33 +133,10 @@ function foot(){
 function openGame(id){
   const g=games.find(x=>x.id===id),d=$('#dlg');if(!g)return d.open&&d.close();
   d.classList.add('detail-redesign');
-  const image=imageSrc(g.image,1000);
-  const statusLabel=ST[stOf(g)]||stOf(g);
-  const scoreBadge=has(g.score)?`<span class="detail-score">${num(g.score)}<small>/10</small></span>`:'';
-  const favoriteBadge=g.favorite===true?`<span class="detail-favorite">${HEART} Favorilerimde</span>`:'';
-  const purchase=purchaseDetails(g);
-  const related=(g.links||g.relatedLinks||[]).filter(x=>x&&x.url&&/^https?:\/\//i.test(x.url)).map(x=>`<a class="detail-link" href="${safeUrl(x.url)}" target="_blank" rel="noopener"><span class="detail-link-icon">↗</span><span><b>${esc(x.title||x.label||'Bağlantı')}</b><small>${esc(x.description||'Bağlantıyı aç')}</small></span><span class="detail-link-arrow">↗</span></a>`).join('');
-  const profiles=Array.isArray(g.profiles)?g.profiles:[];
-  d.innerHTML=`
-  <header class="detail-hero">
-    ${image?`<img class="detail-hero-image" src="${image}" alt="${esc(g.title)} kapak görseli" onerror="this.style.display='none'">`:''}
-    <div class="detail-hero-shade"></div>
-    <span class="detail-status">${esc(statusLabel)}</span>
-    <div class="detail-hero-content"><span class="detail-eyebrow">${CAT==='oyun'?'OYUN ARŞİVİM':cfg.plural.toLocaleUpperCase('tr-TR')}</span><h2>${esc(g.title)}</h2>${g.platform?`<p>${esc(g.platform)}</p>`:''}<div class="detail-hero-badges">${scoreBadge}${favoriteBadge}${g.recommended===true?'<span class="detail-recommend yes">✓ Öneriyorum</span>':g.recommended===false?'<span class="detail-recommend no">Önermiyorum</span>':''}</div></div>
-  </header>
-  <div class="detail-content">
-    <section class="detail-section detail-overview"><div class="detail-section-head"><span class="detail-section-icon">✦</span><div><h3>Genel bakış</h3><p>${esc(g.title)} hakkında bilgiler</p></div></div>
-      ${chips(g)?`<div class="detail-tags">${chips(g)}</div>`:''}
-      <div class="detail-facts">${durText(g)?`<div class="detail-fact"><small>${esc(cfg.dur.label||'Süre')}</small><b>${durText(g)}</b></div>`:''}${g.finished?`<div class="detail-fact"><small>${esc(cfg.dateLabel||'Tamamlanma')}</small><b>${fmtDate(g.finished)}</b></div>`:''}${has(g.year)?`<div class="detail-fact"><small>${esc(cfg.yearLabel||'Yıl')}</small><b>${esc(g.year)}</b></div>`:''}${g[cfg.person.key]?`<div class="detail-fact"><small>${esc(cfg.person.label)}</small><b>${esc(g[cfg.person.key])}</b></div>`:''}</div>
-    </section>
-    ${purchase?`<section class="detail-section"><div class="detail-section-head"><span class="detail-section-icon">▤</span><div><h3>Satın alma ve kütüphane</h3><p>Edinme ve sahiplik bilgileri</p></div></div>${purchase}</section>`:''}
-    ${g.note?`<section class="detail-section detail-note"><div class="detail-section-head"><span class="detail-section-icon">✎</span><div><h3>Notlarım</h3><p>Kişisel değerlendirmem</p></div></div><p class="full">${esc(g.note)}</p></section>`:''}
-    ${proscons(g)?`<section class="detail-section"><div class="detail-section-head"><span class="detail-section-icon">＋</span><div><h3>Artılar ve eksiler</h3><p>Öne çıkan noktalar</p></div></div>${proscons(g)}</section>`:''}
-    ${g.review&&safeUrl(g.review)?`<a class="detail-review-link" href="${safeUrl(g.review)}" target="_blank" rel="noopener">İncelemeyi oku <span>↗</span></a>`:stOf(g)!=='istek'?`<p class="none detail-no-review">İnceleme henüz eklenmedi.</p>`:''}
-    ${related?`<section class="detail-section"><div class="detail-section-head"><span class="detail-section-icon">↗</span><div><h3>İlgili bağlantılar</h3><p>Bu kayıtla ilişkili bağlantılar</p></div></div><div class="detail-links">${related}</div></section>`:''}
-    ${profiles.length?`<section class="detail-section"><div class="detail-section-head"><span class="detail-section-icon">▦</span><div><h3>Kurulum profilleri</h3><p>Kayıtlı uyumluluk ve ayarlar</p></div></div></section>`:''}
-    <footer class="detail-actions">${randomMode?'<button class="btn pri again">Başka birini seç</button>':''}<button class="btn card-gen-btn" data-id="${esc(g.id)}">📷 İnceleme kartı indir</button><button class="btn copy">Bağlantıyı kopyala</button><button class="btn" onclick="this.closest('dialog').close()">Kapat</button></footer>
-  </div>`;
+  d.innerHTML=`${cover(g)}<div class="inner"><h2>${esc(g.title)}</h2><p class="meta">${esc(g.platform)}</p>
+  <p class="tags wrapt">${chips(g)}</p>${facts(g)}${info(g)}${CAT==='oyun'?purchaseDetails(g):''}
+  ${g.note?`<p class="full">${esc(g.note)}</p>`:''}${proscons(g)}<div class="row">${revHtml(g)}</div>
+  <p>${randomMode?'<button class="btn pri again">Başka birini seç</button> ':''}<button class="btn card-gen-btn" data-id="${esc(g.id)}">📷 İnceleme Kartı İndir</button> <button class="btn copy">Bağlantıyı kopyala</button> <button class="btn" onclick="this.closest('dialog').close()">Kapat</button></p></div>`;
   if(!d.open)d.showModal();
   if(lastId!==id){lastId=id;try{window.goatcounter&&goatcounter.count&&goatcounter.count({path:CAT+'/'+id,title:g.title,event:true})}catch{}}
 }
