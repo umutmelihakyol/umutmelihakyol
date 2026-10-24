@@ -150,6 +150,23 @@
   .media-feature-panel .example { padding:10px 12px; border-radius:8px; background:var(--card); overflow-wrap:anywhere; font:12px/1.45 ui-monospace,SFMono-Regular,Consolas,monospace; white-space:pre-wrap; }
 
   @media(max-width:760px){ .analytics-grid,.backup-controls,.tech-admin-form-grid { grid-template-columns:1fr; } .bar-row { grid-template-columns:minmax(75px,1fr) minmax(60px,1.2fr) auto; gap:7px; } .tech-admin-item { flex-direction:column; } .tech-admin-form-grid .wide { grid-column:auto; } }
+
+  /* JSON yerine satır bazlı bağlantı ve kurulum profili editörleri */
+  .media-form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:12px 0}
+  .media-form-grid label{display:grid;gap:6px;min-width:0;font-size:.92rem;font-weight:650}
+  .media-form-grid .wide{grid-column:1/-1}
+  .media-form-grid input,.media-form-grid select,.media-form-grid textarea{width:100%;min-width:0;box-sizing:border-box;border:1px solid var(--line,var(--bd,rgba(128,128,128,.3)));border-radius:9px;background:var(--card,var(--bg,#11161d));color:var(--ink,var(--fg,#e6edf3));padding:10px 12px;font:inherit;font-weight:400}
+  .media-form-grid select option{background:var(--card,#20272e);color:var(--ink,#e3e8ec)}
+  .media-form-grid textarea{resize:vertical}
+  .media-form-actions{display:flex;justify-content:flex-start;gap:8px;margin:8px 0 12px}
+  .media-editor-list{display:grid;gap:8px;min-width:0}
+  .media-editor-row{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;min-width:0;padding:10px 12px;border:1px solid var(--line,var(--bd,rgba(128,128,128,.2)));border-radius:10px;background:color-mix(in srgb,var(--card,#20272e) 82%,transparent)}
+  .media-editor-row__copy{display:grid;gap:3px;min-width:0;flex:1}
+  .media-editor-row__copy strong{overflow-wrap:anywhere}
+  .media-editor-row__copy small{color:var(--mute,#93a0ab);overflow-wrap:anywhere}
+  .media-editor-row__remove{flex:0 0 auto;padding:5px 9px}
+  .media-editor-empty{padding:12px;border:1px dashed var(--line,var(--bd,rgba(128,128,128,.25)));border-radius:9px;color:var(--mute,#93a0ab);font-size:.88rem}
+  @media(max-width:650px){.media-form-grid{grid-template-columns:minmax(0,1fr)}.media-form-grid .wide{grid-column:auto}.media-editor-row{gap:8px}}
 </style>
 <script src="../scripts/theme.js"></script>
 <script>document.write('<script src="../scripts/config.js?'+Date.now()+'"><\/script>')</script>
@@ -303,22 +320,75 @@
           </div>
         </fieldset>
 
-        <fieldset id="availabilityPanel" class="media-feature-panel">
-          <legend>📺 Nerede izlenir veya oynanır?</legend>
-          <p class="meta">Bu kayda ait izleme servislerini, oyun mağazalarını veya erişim platformlarını ekle. Alan JSON dizisidir; boş bırakılırsa sağlayıcı listesi boş kaydedilir. Yalnızca herkese açık HTTPS bağlantıları kullan.</p>
-          <label>Platform / sağlayıcı listesi (JSON)
-            <textarea id="availabilityJson" rows="5" spellcheck="false" placeholder='[{"name":"Netflix","type":"streaming","url":"https://www.netflix.com/","note":"Abonelik gerekir"}]'></textarea>
-          </label>
-          <p class="meta">Her öğede <code>name</code> ve <code>url</code> gerekir. <code>type</code>: streaming, rental, purchase, store, platform veya free olabilir. <code>note</code> isteğe bağlıdır.</p>
+        <fieldset id="relatedLinksPanel" class="media-feature-panel">
+          <legend>🔗 İlgili bağlantılar</legend>
+          <p class="meta">JSON yazmadan bağlantı ekle. Türünü seç, adresi yapıştır ve listeye ekle. Bu alan yayın servisi kataloğu değildir; resmî site, mağaza, fragman, wiki, mod/yama, destek ve topluluk bağlantıları içindir.</p>
+          <div class="media-form-grid">
+            <label>Bağlantı türü
+              <select id="linkType">
+                <option value="official">Resmî site</option>
+                <option value="store">Mağaza sayfası</option>
+                <option value="trailer">Fragman / tanıtım</option>
+                <option value="wiki">Wiki / rehber</option>
+                <option value="mods">Mod / yama</option>
+                <option value="support">Destek sayfası</option>
+                <option value="community">Topluluk</option>
+                <option value="other">Diğer</option>
+              </select>
+            </label>
+            <label>Bağlantı başlığı (isteğe bağlı)
+              <input id="linkName" type="text" maxlength="120" placeholder="Örn. Resmî oyun sayfası">
+            </label>
+            <label class="wide">Bağlantı adresi
+              <input id="linkUrl" type="url" inputmode="url" placeholder="https://..." autocomplete="url">
+            </label>
+            <label class="wide">Not (isteğe bağlı)
+              <input id="linkNote" type="text" maxlength="240" placeholder="Örn. Kurulum ve destek bilgileri">
+            </label>
+          </div>
+          <div class="media-form-actions"><button class="btn" id="addLinkItem" type="button">＋ Bağlantıyı ekle</button></div>
+          <div id="linksEditorList" class="media-editor-list" aria-live="polite"></div>
+          <textarea id="availabilityJson" hidden aria-hidden="true" tabindex="-1">[]</textarea>
         </fieldset>
 
         <fieldset id="installProfilesPanel" class="media-feature-panel" hidden>
           <legend>🖥️ PC oyunu kurulum profilleri</legend>
-          <p class="meta">Yalnızca Oyunlar kategorisinde kullanılır. Bir oyuna birden fazla profil ekleyebilirsin. Profil bilgileri oyun kaydıyla birlikte <code>data/games.json</code> dosyasına kaydedilir.</p>
-          <label>Kurulum profilleri (JSON dizisi)
-            <textarea id="installProfilesJson" rows="9" spellcheck="false" placeholder='[{"name":"CachyOS - Proton Experimental","version":"Steam güncel sürüm","platform":"CachyOS / Linux","compatibility":"Proton Experimental","launchOptions":"gamemoderun %command%","graphicsSettings":"1440p, FSR açık","mods":"Mod A\nMod B","notes":"Oyunu ilk kez başlatırken shader derlemesini bekle."}]'></textarea>
-          </label>
-          <p class="meta">Kullanılabilen alanlar: name, version, platform, compatibility, launchOptions, graphicsSettings, mods ve notes. Mods metin veya dizi olabilir.</p>
+          <p class="meta">Yalnızca Oyunlar kategorisinde kullanılır. Profilleri JSON yazmadan aşağıdaki formdan ekleyebilirsin. Her profil, oyun kaydıyla birlikte <code>data/games.json</code> dosyasına kaydedilir.</p>
+          <div class="media-form-grid">
+            <label>Profil adı
+              <input id="profileName" type="text" maxlength="120" placeholder="Örn. CachyOS - Proton Experimental">
+            </label>
+            <label>Oyun sürümü
+              <input id="profileVersion" type="text" maxlength="120" placeholder="Örn. Steam güncel sürüm">
+            </label>
+            <label>İşletim sistemi / platform
+              <select id="profilePlatform">
+                <option value="">Seç (isteğe bağlı)</option>
+                <option>Windows</option><option>CachyOS / Linux</option><option>SteamOS / Steam Deck</option><option>Linux (diğer dağıtım)</option><option>macOS</option><option>Diğer</option>
+              </select>
+            </label>
+            <label>Uyumluluk katmanı
+              <select id="profileCompatibility">
+                <option value="">Seç (isteğe bağlı)</option>
+                <option>Yerel / Native</option><option>Proton Experimental</option><option>Proton Stable</option><option>GE-Proton</option><option>Wine</option><option>DXVK</option><option>Vulkan</option><option>Diğer</option>
+              </select>
+            </label>
+            <label class="wide">Başlatma seçenekleri
+              <input id="profileLaunchOptions" type="text" maxlength="1000" placeholder="Örn. gamemoderun %command%">
+            </label>
+            <label class="wide">Grafik ayarları
+              <textarea id="profileGraphicsSettings" rows="2" maxlength="2000" placeholder="Örn. 1440p, FSR açık, yüksek doku kalitesi"></textarea>
+            </label>
+            <label class="wide">Modlar (her satıra bir mod)
+              <textarea id="profileMods" rows="3" maxlength="5000" placeholder="Mod adı veya bağlantısı"></textarea>
+            </label>
+            <label class="wide">Kurulum notları
+              <textarea id="profileNotes" rows="3" maxlength="3000" placeholder="Kurulum, uyumluluk veya sorun giderme notları"></textarea>
+            </label>
+          </div>
+          <div class="media-form-actions"><button class="btn" id="addInstallProfile" type="button">＋ Profili listeye ekle</button></div>
+          <div id="installProfilesEditorList" class="media-editor-list" aria-live="polite"></div>
+          <textarea id="installProfilesJson" hidden aria-hidden="true" tabindex="-1">[]</textarea>
         </fieldset>
 
         <p>
@@ -1035,7 +1105,7 @@ $('#list').onclick=async e=>{
     const m={...g,dur:g[c.dur.key],dur2:c.dur2?g[c.dur2.key]:'',person:g[c.person.key]};
     ids.forEach(i=>$('#'+i).value=m[i]??'');
     $('#imgPrev').src=g.image||defaultSvg;
-    $('#availabilityJson').value=JSON.stringify(Array.isArray(g.availability)?g.availability:[],null,2);
+    $('#availabilityJson').value=JSON.stringify(Array.isArray(g.links)?g.links:[],null,2);
     $('#installProfilesJson').value=JSON.stringify(Array.isArray(g.installProfiles)?g.installProfiles:[],null,2);
     $('#fav').value=g.favorite?'1':'0';$('#pros').value=(g.pros||[]).join('\n');$('#cons').value=(g.cons||[]).join('\n');$('#genres').value=(g.genres||[]).join(', ');
     $('#status').value=g.status||'bitirdim';$('#rec').value=g.recommended===true?'1':g.recommended===false?'0':'';
@@ -1067,17 +1137,20 @@ $('#add').onclick=async()=>{
     if(!Array.isArray(parsed))return {error:`${label} bir JSON dizisi olmalı (ör. []).`};
     return parsed;
   };
-  const availabilityRaw=parseArrayField('availabilityJson','Platform / sağlayıcı listesi');
-  if(availabilityRaw.error)return say(availabilityRaw.error,1);
-  const availability=[];
-  for(let i=0;i<availabilityRaw.length;i++){
-    const item=availabilityRaw[i];
-    if(!item||typeof item!=='object'||Array.isArray(item))return say(`Platform listesi ${i+1}. öğe bir nesne olmalı.`,1);
-    const name=String(item.name||item.provider||'').trim(),url=String(item.url||'').trim();
-    if(!name||!url)return say(`Platform listesi ${i+1}. öğede name ve url zorunlu.`,1);
-    let parsedUrl;try{parsedUrl=new URL(url)}catch{return say(`Platform listesi ${i+1}. URL geçersiz.`,1)}
-    if(parsedUrl.protocol!=='https:')return say(`Platform listesi ${i+1}. bağlantı HTTPS olmalı.`,1);
-    availability.push({name,type:String(item.type||'platform').trim(),url:parsedUrl.href,note:String(item.note||'').trim()});
+  const linksRaw=parseArrayField('availabilityJson','İlgili bağlantı listesi');
+  if(linksRaw.error)return say(linksRaw.error,1);
+  const links=[];
+  const allowedLinkTypes=new Set(['official','store','trailer','wiki','mods','support','community','other']);
+  for(let i=0;i<linksRaw.length;i++){
+    const item=linksRaw[i];
+    if(!item||typeof item!=='object'||Array.isArray(item))return say(`Bağlantı ${i+1}. öğesi geçersiz.`,1);
+    const name=String(item.name||'').trim(),url=String(item.url||'').trim();
+    if(!name||!url)return say(`Bağlantı ${i+1}. öğesinde başlık ve URL zorunlu.`,1);
+    let parsedUrl;try{parsedUrl=new URL(url)}catch{return say(`Bağlantı ${i+1}. URL geçersiz.`,1)}
+    if(parsedUrl.protocol!=='https:')return say(`Bağlantı ${i+1}. adresi HTTPS olmalı.`,1);
+    const type=String(item.type||'other').trim();
+    if(!allowedLinkTypes.has(type))return say(`Bağlantı ${i+1}. türü geçersiz.`,1);
+    links.push({name,type,url:parsedUrl.href,note:String(item.note||'').trim()});
   }
   let installProfiles=[];
   if(cat==='oyun'){
@@ -1112,7 +1185,7 @@ $('#add').onclick=async()=>{
     recommended:$('#rec').value===''?null:$('#rec').value==='1',
     review:val('review'),note:val('note'),year:n('year'),
     favorite:$('#fav').value==='1',pros:lines('pros'),cons:lines('cons'),
-    availability,
+    links,
     updatedAt:new Date().toISOString()
   };
   if(cat==='oyun')g.installProfiles=installProfiles;
@@ -2044,5 +2117,115 @@ $('#saveRawFileBtn').onclick=async()=>{
   }catch(e){say('Dosya kaydedilemedi: '+e.message,1)}
 };
 </script>
+<script>
+/* JSON alanlarını arayüzde göstermeden seçmeli bağlantı ve kurulum profili düzenleyicileri. */
+(() => {
+  'use strict';
+  const $ = (s) => document.querySelector(s);
+  const linkTypeNames = {
+    official: 'Resmî site', store: 'Mağaza sayfası', trailer: 'Fragman / tanıtım',
+    wiki: 'Wiki / rehber', mods: 'Mod / yama', support: 'Destek sayfası',
+    community: 'Topluluk', other: 'Diğer'
+  };
+  let formLinks = [];
+  let formProfiles = [];
+  const parseHidden = (id) => {
+    try { const value = JSON.parse($('#' + id)?.value || '[]'); return Array.isArray(value) ? value : []; }
+    catch (_) { return []; }
+  };
+  const setHidden = (id, items) => { const field = $('#' + id); if (field) field.value = JSON.stringify(items); };
+  const node = (tag, className, text) => {
+    const item = document.createElement(tag);
+    if (className) item.className = className;
+    if (text !== undefined) item.textContent = text;
+    return item;
+  };
+  function syncHidden() {
+    setHidden('availabilityJson', formLinks);
+    setHidden('installProfilesJson', formProfiles);
+  }
+  function renderLinks() {
+    const host = $('#linksEditorList'); if (!host) return;
+    host.replaceChildren();
+    if (!formLinks.length) { host.appendChild(node('div','media-editor-empty','Henüz bağlantı eklenmedi.')); return; }
+    formLinks.forEach((item, index) => {
+      const row = node('div','media-editor-row');
+      const copy = node('div','media-editor-row__copy');
+      copy.append(node('strong','',item.name || linkTypeNames[item.type] || 'Bağlantı'));
+      copy.append(node('small','',`${linkTypeNames[item.type] || 'Diğer'} · ${item.url || ''}${item.note ? ' · ' + item.note : ''}`));
+      const remove = node('button','btn media-editor-row__remove','Kaldır');
+      remove.type = 'button'; remove.dataset.removeLink = String(index); remove.setAttribute('aria-label',`${item.name || 'Bağlantı'} bağlantısını kaldır`);
+      row.append(copy, remove); host.appendChild(row);
+    });
+  }
+  function renderProfiles() {
+    const host = $('#installProfilesEditorList'); if (!host) return;
+    host.replaceChildren();
+    if (!formProfiles.length) { host.appendChild(node('div','media-editor-empty','Henüz kurulum profili eklenmedi.')); return; }
+    formProfiles.forEach((profile, index) => {
+      const row = node('div','media-editor-row');
+      const copy = node('div','media-editor-row__copy');
+      copy.append(node('strong','',profile.name || `Profil ${index + 1}`));
+      const details = [profile.platform, profile.compatibility, profile.version].filter(Boolean).join(' · ');
+      copy.append(node('small','',details || 'Ek kurulum bilgileri mevcut'));
+      const remove = node('button','btn media-editor-row__remove','Kaldır');
+      remove.type = 'button'; remove.dataset.removeProfile = String(index); remove.setAttribute('aria-label',`${profile.name || 'Profil'} kaydını kaldır`);
+      row.append(copy, remove); host.appendChild(row);
+    });
+  }
+  function loadFromHidden() {
+    formLinks = parseHidden('availabilityJson').filter(x => x && typeof x === 'object' && x.url && x.name);
+    formProfiles = parseHidden('installProfilesJson').filter(x => x && typeof x === 'object' && x.name);
+    renderLinks(); renderProfiles(); syncHidden();
+  }
+  $('#addLinkItem')?.addEventListener('click', () => {
+    const type = $('#linkType').value;
+    const rawUrl = $('#linkUrl').value.trim();
+    if (!rawUrl) { $('#linkUrl').focus(); return alert('Önce bağlantı adresini gir.'); }
+    let parsed;
+    try { parsed = new URL(rawUrl); } catch (_) { $('#linkUrl').focus(); return alert('Geçerli bir URL gir.'); }
+    if (parsed.protocol !== 'https:') { $('#linkUrl').focus(); return alert('Güvenlik için bağlantı HTTPS ile başlamalı.'); }
+    const name = $('#linkName').value.trim() || linkTypeNames[type] || 'Bağlantı';
+    formLinks.push({ name, type, url: parsed.href, note: $('#linkNote').value.trim() });
+    $('#linkName').value = ''; $('#linkUrl').value = ''; $('#linkNote').value = '';
+    syncHidden(); renderLinks(); $('#linkUrl').focus();
+  });
+  $('#linksEditorList')?.addEventListener('click', (event) => {
+    const button = event.target.closest('[data-remove-link]'); if (!button) return;
+    formLinks.splice(Number(button.dataset.removeLink), 1); syncHidden(); renderLinks();
+  });
+  $('#addInstallProfile')?.addEventListener('click', () => {
+    const val = id => ($('#' + id)?.value || '').trim();
+    const name = val('profileName');
+    if (!name) { $('#profileName').focus(); return alert('Kurulum profiline bir ad ver.'); }
+    formProfiles.push({
+      name,
+      version: val('profileVersion'),
+      platform: val('profilePlatform'),
+      compatibility: val('profileCompatibility'),
+      launchOptions: val('profileLaunchOptions'),
+      graphicsSettings: val('profileGraphicsSettings'),
+      mods: val('profileMods'),
+      notes: val('profileNotes')
+    });
+    ['profileName','profileVersion','profileLaunchOptions','profileGraphicsSettings','profileMods','profileNotes'].forEach(id => { const field = $('#'+id); if (field) field.value=''; });
+    $('#profilePlatform').value=''; $('#profileCompatibility').value='';
+    syncHidden(); renderProfiles(); $('#profileName').focus();
+  });
+  $('#installProfilesEditorList')?.addEventListener('click', (event) => {
+    const button = event.target.closest('[data-remove-profile]'); if (!button) return;
+    formProfiles.splice(Number(button.dataset.removeProfile), 1); syncHidden(); renderProfiles();
+  });
+  // Capture phase: arrays are serialized before the existing save handler reads them.
+  document.addEventListener('click', (event) => {
+    if (event.target.closest('#add')) syncHidden();
+  }, true);
+  $('#clr')?.addEventListener('click', () => { window.setTimeout(loadFromHidden, 0); });
+  const title = $('#ft');
+  if (title) new MutationObserver(() => window.setTimeout(loadFromHidden, 0)).observe(title, { childList: true, characterData: true, subtree: true });
+  loadFromHidden();
+})();
+</script>
+
 </body>
 </html>

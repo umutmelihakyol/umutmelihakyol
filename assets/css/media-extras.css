@@ -1,4 +1,4 @@
-/* Günlüğüm: yayın bulunabilirliği, PC profilleri ve QR kodu */
+/* Günlüğüm: ilgili bağlantılar, PC profilleri ve isteğe bağlı QR kodu */
 .media-extras{display:grid;gap:12px;margin:18px 0;padding:0;color:var(--ink)}
 .media-extra-section{min-width:0;padding:14px;border:1px solid var(--line);border-radius:13px;background:color-mix(in srgb,var(--card) 78%,var(--bg))}
 .media-extra-section>h3{margin:0 0 5px;font-size:1.03rem;line-height:1.3}
@@ -29,3 +29,8 @@
 .media-qr-details p{flex-basis:100%}
 @media(max-width:560px){.install-profile-field{grid-template-columns:1fr;gap:4px}.media-qr-row{grid-template-columns:120px minmax(0,1fr)}.media-qr-image-link{min-height:120px}.media-qr-image{max-width:106px}.media-qr-details .btn{width:100%}}
 @media(prefers-reduced-motion:reduce){.media-provider{transition:none}.media-provider:hover{transform:none}}
+
+/* QR kodu, kullanıcı isteyince üretilir; boşken resim alanı yer kaplamaz. */
+.media-qr-image-link[hidden],.media-qr-image[hidden],.media-qr-unavailable[hidden]{display:none!important}
+.media-qr-generate{white-space:nowrap}
+.media-extra-section{content-visibility:auto;contain-intrinsic-size:auto 220px}
