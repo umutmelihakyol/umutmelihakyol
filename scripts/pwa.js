@@ -1,30 +1,49 @@
-/* Günlüğüm PWA: yükleme düğmesi, güncel Service Worker ve PWA stili. */
+/* Günlüğüm PWA: kurulum durumunu hatırla, kuruluysa yükleme düğmesini gösterme. */
 (() => {
   'use strict';
 
   const currentScript = document.currentScript;
   if (!currentScript || !currentScript.src) return;
 
+  const INSTALLED_KEY = 'gunlugum:pwa-installed-v1';
   const scriptURL = new URL(currentScript.src, window.location.href);
   const rootURL = new URL('../', scriptURL);
   const serviceWorkerURL = new URL('service-worker.js', rootURL);
   const pwaCssURL = new URL('assets/css/pwa.css', rootURL);
 
+  function isStandalone() {
+    return window.matchMedia('(display-mode: standalone)').matches ||
+      window.matchMedia('(display-mode: fullscreen)').matches ||
+      window.navigator.standalone === true;
+  }
+
+  function wasMarkedInstalled() {
+    try { return window.localStorage.getItem(INSTALLED_KEY) === '1'; }
+    catch (_) { return false; }
+  }
+
+  function markInstalled() {
+    try { window.localStorage.setItem(INSTALLED_KEY, '1'); }
+    catch (_) {}
+  }
+
+  // Yüklü uygulama kendi penceresinde açıldıysa sonraki tarayıcı ziyaretlerinde de hatırla.
+  if (isStandalone()) markInstalled();
+
   if (!document.querySelector('link[data-gunlugum-pwa-css]')) {
     const link = document.createElement('link');
     link.rel = 'stylesheet';
-    link.href = `${pwaCssURL.href}?v=2`;
+    link.href = `${pwaCssURL.href}?v=3`;
     link.dataset.gunlugumPwaCss = 'true';
     document.head.appendChild(link);
   }
 
-  // Kayıt kök kapsamlıdır; aynı kapsamı her kayıtta koru ve SW dosyasını HTTP önbelleğinden alma.
+  // Service Worker kaydı her ziyaretçi sayfasında yapılır; güncelleme kontrolü önbelleksizdir.
   if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
     const register = () => navigator.serviceWorker.register(serviceWorkerURL.href, {
       scope: rootURL.pathname,
       updateViaCache: 'none'
     }).then((registration) => {
-      // Bu çağrı güncellenmiş Service Worker'ın beklemeden kontrol edilmesini sağlar.
       registration.update().catch(() => {});
       return registration;
     }).catch((error) => {
@@ -36,8 +55,8 @@
     else window.addEventListener('load', register, { once: true });
   }
 
-  const standalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
-  if (standalone) return;
+  // Kurulu uygulamanın kendisinde veya kurulum daha önce kaydedildiyse düğme ekleme.
+  if (isStandalone() || wasMarkedInstalled()) return;
 
   const actionBar = document.querySelector('.top .acts, .tech-page-top .acts, header .acts');
   if (!actionBar || actionBar.querySelector('.pwa-install-btn')) return;
@@ -66,6 +85,13 @@
     helpOverlay.remove();
     helpOverlay = null;
     button.focus();
+  }
+
+  function completeInstall() {
+    markInstalled();
+    button.hidden = true;
+    installPrompt = null;
+    closeHelp();
   }
 
   function showHelp() {
@@ -129,11 +155,8 @@
     button.classList.add('pwa-install-ready');
   });
 
-  window.addEventListener('appinstalled', () => {
-    button.hidden = true;
-    installPrompt = null;
-    closeHelp();
-  });
+  // Bu olay kurulum bu sayfadayken gerçekleşirse durum kalıcı olarak kaydedilir.
+  window.addEventListener('appinstalled', completeInstall);
 
   button.addEventListener('click', async () => {
     if (!installPrompt) {
@@ -145,7 +168,7 @@
     try {
       await promptEvent.prompt();
       const choice = await promptEvent.userChoice;
-      if (choice && choice.outcome === 'accepted') button.hidden = true;
+      if (choice && choice.outcome === 'accepted') completeInstall();
     } catch (error) {
       console.warn('Uygulama kurulum istemi açılamadı:', error);
       showHelp();
