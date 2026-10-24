@@ -35,7 +35,6 @@ function render(){
   if(!l.length){G.className='grid';G.innerHTML='<p class="empty">Gösterilecek kayıt yok.</p>'}
   else if(view==='list'){G.className='listwrap';G.innerHTML=table(l)}
   else{G.className='grid';G.innerHTML=l.map(card).join('')}
-  G.querySelectorAll('.card').forEach(c=>{const n=c.querySelector('.note');if(n.scrollHeight>n.clientHeight+1)c.querySelector('.more').textContent='Devamını oku'});
   $('#pills').innerHTML=['all',...Object.keys(ST)].map(k=>`<button class="pill" data-k="${k}" aria-pressed="${st===k}">${k==='all'?'Hepsi':ST[k]} <span>${k==='all'?games.length:games.filter(g=>stOf(g)===k).length}</span></button>`).join('')+`<button class="pill fav" data-fav="1" aria-pressed="${favOnly}">${HEART} Favoriler <span>${games.filter(g=>g.favorite===true).length}</span></button>`;
   const fin=games.filter(g=>stOf(g)==='bitirdim'),sc=games.filter(g=>has(g.score));
   const tot=fin.reduce((t,g)=>t+(+g[cfg.tot.key]||0),0)/cfg.tot.div,avg=sc.length?sc.reduce((t,g)=>t+ +g.score,0)/sc.length:0;
@@ -83,12 +82,37 @@ const proscons=g=>{const p=(g.pros||[]).filter(Boolean),c=(g.cons||[]).filter(Bo
   return `<div class="pcs">${col('Artılar','pro',p)}${col('Eksiler','con',c)}</div>`};
 const chips=g=>(g.genres||[]).map(t=>`<span>${esc(t)}</span>`).join('');
 const cover=g=>`<div class="cover">${imageSrc(g.image,500)?`<img src="${imageSrc(g.image,500)}" alt="${esc(g.title)} görseli" loading="lazy" decoding="async" fetchpriority="low" referrerpolicy="no-referrer" onerror="this.remove();this.parentElement.classList.add('image-missing')">`:''}${g.favorite===true?`<span class="fvb" title="Favorim">${HEART}</span>`:''}<span class="stb s-${stOf(g)}">${ST[stOf(g)]}</span>${has(g.score)?`<span class="score" title="Puanım">${num(g.score)}</span>`:''}${recChip(g)}</div>`;
+const THUMB_UP='<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 11v9H4v-9zM7 11l4-8a2 2 0 0 1 2 2v4h6a2 2 0 0 1 2 2.3l-1.2 7A2 2 0 0 1 17.8 20H7"/></svg>';
+const THUMB_DN='<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 13V4h3v9zM17 13l-4 8a2 2 0 0 1-2-2v-4H5a2 2 0 0 1-2-2.300l1.200-7A2 2 0 0 1 6.200 4H17"/></svg>';
+const tier=v=>v>=8?'hi':v>=6?'mid':'lo';
+function cardMedia(g){
+  const s=stOf(g),img=imageSrc(g.image,500),sc=has(g.score)?Math.max(0,Math.min(10,+g.score)):null;
+  const ph=esc(String(g.title||'?').trim().charAt(0).toUpperCase());
+  return `<div class="cx-media${img?'':' image-missing'}" data-ph="${ph}">${img?`<img src="${img}" alt="${esc(g.title)} görseli" loading="lazy" decoding="async" fetchpriority="low" referrerpolicy="no-referrer" onerror="this.remove();this.parentElement.classList.add('image-missing')">`:''}
+    <div class="cx-top"><div class="cx-l">${sc!==null?`<span class="cx-ring" data-t="${tier(sc)}" style="--p:${sc*10}" title="Puanım: ${num(sc)}/10"><b>${num(sc)}</b></span>`:''}${g.favorite===true?`<span class="cx-ico fav" title="Favorim">${HEART}</span>`:''}${CAT!=='oyun'&&g.recommended!==undefined&&g.recommended!==null&&g.recommended!==''?`<span class="cx-ico ${g.recommended?'yes':'no'}" title="${g.recommended?'Öneriyorum':'Önermiyorum'}">${g.recommended?THUMB_UP:THUMB_DN}</span>`:''}</div>
+    <span class="cx-st" data-s="${esc(s)}">${esc(ST[s]||s)}</span></div></div>`;
+}
+function cardFacts(g){
+  const s=stOf(g),p=[],dt=durText(g);
+  if(dt)p.push(`<span>${dt}</span>`);
+  if(g.finished)p.push(`<span>${cfg.dateLabel}: ${fmtDate(g.finished)}</span>`);
+  const pv=g[cfg.person.key];if(pv)p.push(`<span>${esc(pv)}</span>`);
+  return `<p class="cx-facts">${p.join('')||`<span>${esc(cfg.nof[s]||'')}</span>`}</p>`;
+}
 function card(g){
-  return `<article class="card" data-id="${esc(g.id)}">${cover(g)}
-  <div class="body"><h3><a class="tl" href="#${esc(g.id)}" title="${esc(g.title)}">${esc(g.title)}</a></h3>
-  <div class="sub"><span class="plat">${esc(g.platform)}</span><span class="tags">${chips(g)}</span></div>
-  ${facts(g)}${CAT==='oyun'?purchaseMini(g):''}<p class="note${g.note?'':' none'}">${g.note?esc(g.note):'Henüz not eklenmemiş.'}</p>
-  <div class="row"><a class="more" href="#${esc(g.id)}">Ayrıntılar</a>${revHtml(g)}</div></div></article>`;
+  const poster=CAT!=='oyun',id=esc(g.id);
+  const pl=plats(g).filter(x=>x.toLowerCase()!==cfg.name.toLowerCase());
+  const meta=[has(g.year)?esc(g.year):'',...pl.slice(0,2).map(esc)].filter(Boolean).join(' · ');
+  const gen=(g.genres||[]).filter(Boolean),chips=gen.slice(0,5).map(t=>`<span>${esc(t)}</span>`).join('');
+  const more=(g.note||'').length>(poster?90:80)?'Devamını oku':'Ayrıntılar';
+  const rec=g.recommended===true?`<span class="cx-rec yes">${THUMB_UP} Öneriyorum</span>`:g.recommended===false?`<span class="cx-rec no">${THUMB_DN} Önermiyorum</span>`:'';
+  const note=(poster&&!g.note)?'':`<p class="cx-note${g.note?'':' none'}">${g.note?esc(g.note):'Henüz not eklenmemiş.'}</p>`;
+  const head=`<h3 class="cx-title"><a class="tl" href="#${id}" title="${esc(g.title)}">${esc(g.title)}</a></h3>${meta?`<p class="cx-meta">${meta}</p>`:''}${chips?`<div class="cx-chips">${chips}</div>`:''}`;
+  if(poster)return `<article class="card cx poster" data-id="${id}">${cardMedia(g)}
+  <div class="cx-body">${head}<div class="cx-more"><div>${cardFacts(g)}${note}<div class="cx-foot"><span class="l">${rec}</span><a class="more" href="#${id}">${more}</a></div></div></div></div></article>`;
+  return `<article class="card cx" data-id="${id}">${cardMedia(g)}
+  <div class="cx-body">${head}${cardFacts(g)}${purchaseMini(g).replace(/<p class="meta purchase-mini"[^>]*>/,'<p class="cx-pur">')}${note}
+  <div class="cx-foot"><span class="l">${rec}${revHtml(g)}</span><a class="more" href="#${id}">${more}</a></div></div></article>`;
 }
 const thumb=(g,c)=>imageSrc(g.image,185)?`<img class="${c}" src="${imageSrc(g.image,185)}" alt="" loading="lazy" decoding="async" fetchpriority="low" width="64" height="44" referrerpolicy="no-referrer" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'${c} ph','aria-hidden':'true'}))">`:`<span class="${c} ph" aria-hidden="true"></span>`;
 function table(l){
