@@ -1,7 +1,7 @@
 {
   "format": "gunlugum-backup",
   "version": 1,
-  "createdAt": "2026-10-24T11:05:19.467Z",
+  "createdAt": "2026-10-24T11:35:46.513Z",
   "reason": "Oyun kaydı öncesi otomatik yedek",
   "repository": "umutmelihakyol/umutmelihakyol",
   "branch": "main",
@@ -25,7 +25,16 @@
         "favorite": false,
         "pros": [],
         "cons": [],
-        "updatedAt": "2026-10-24T00:03:55.463Z",
+        "availability": [
+          {
+            "name": "Steam",
+            "type": "store",
+            "url": "https://store.steampowered.com/app/4435490/Call_of_Duty_Modern_Warfare_4/",
+            "note": "PC"
+          }
+        ],
+        "updatedAt": "2026-10-24T11:05:17.426Z",
+        "installProfiles": [],
         "hours": null,
         "developer": "Activision",
         "acquisitionType": null,
