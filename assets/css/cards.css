@@ -1,476 +1,304 @@
-/* Günlüğüm — kart tasarımı v2. modern.css'ten SONRA yüklenir.
-   Film / Dizi / Anime: afiş kartı (.poster). Oyun: yatay kapaklı kart. */
+/* ==========================================================================
+   CARDS.CSS - Kategori ve Medya Kartları Stilleri
+   (Açık / Koyu Tema Uyumlu ve Yüksek Kontrastlı İkon Desteği)
+   ========================================================================== */
 
-/* ---------- Izgara ---------- */
-.grid{gap:20px}
-.cat-oyun .grid{grid-template-columns:repeat(auto-fill,minmax(320px,1fr))}
-.cat-film .grid,.cat-dizi .grid,.cat-anime .grid{grid-template-columns:repeat(auto-fill,minmax(210px,1fr))}
-
-/* ---------- Kart iskeleti ---------- */
-.card.cx{
-  --chip-bg:color-mix(in srgb,var(--acc) 11%,var(--card));--chip-ink:var(--acc);
-  position:relative;isolation:isolate;display:flex;flex-direction:column;overflow:hidden;
-  border:0;border-radius:22px;background:var(--card);box-shadow:var(--sh1);cursor:pointer;
-  transition:transform .35s var(--ease),box-shadow .35s var(--ease)
-}
-.card.cx:hover{transform:translateY(-6px);border-color:transparent;box-shadow:var(--sh2)}
-.card.cx:focus-within{outline:2px solid var(--acc);outline-offset:3px}
-
-/* ---------- Görsel alanı ---------- */
-.cx-media{position:relative;display:block;overflow:hidden;
-  background:linear-gradient(135deg,color-mix(in srgb,var(--acc) 28%,var(--card)),var(--card))}
-.card.cx:not(.poster) .cx-media{aspect-ratio:16/9}
-.cx-media img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .7s var(--ease)}
-.card.cx:hover .cx-media img{transform:scale(1.06)}
-.cx-media::after{content:"";position:absolute;inset:0;pointer-events:none;
-  background:linear-gradient(to bottom,rgba(8,12,15,.5),transparent 30%,transparent 58%,rgba(8,12,15,.5))}
-.cx-media.image-missing::before{content:attr(data-ph);position:absolute;inset:0;display:grid;place-items:center;
-  font:800 3.4rem 'Plus Jakarta Sans',sans-serif;color:color-mix(in srgb,var(--acc) 55%,transparent)}
-
-/* ---------- Üst satır: puan, favori, öneri, durum ---------- */
-.cx-top{position:absolute;inset:12px 12px auto;z-index:3;display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
-.cx-l{display:flex;align-items:center;gap:6px}
-.cx-ring{--c:var(--acc);position:relative;flex:none;width:46px;height:46px;border-radius:50%;display:grid;place-items:center;color:#fff;
-  background:conic-gradient(var(--c) calc(var(--p)*1%),rgba(255,255,255,.22) 0)}
-.cx-ring::before{content:"";position:absolute;inset:4px;border-radius:50%;background:rgba(12,18,22,.84)}
-.cx-ring b{position:relative;font:800 .92rem/1 'Plus Jakarta Sans',sans-serif;letter-spacing:-.03em}
-.cx-ring[data-t=hi]{--c:#5fd3a0}.cx-ring[data-t=mid]{--c:#7cc4cc}.cx-ring[data-t=lo]{--c:#e8a08f}
-.cx-ico{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;color:#fff;
-  background:rgba(12,18,22,.62);border:1px solid rgba(255,255,255,.18);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
-.cx-ico.fav{color:#ff8fa3}.cx-ico.yes{color:#7dffc0}.cx-ico.no{color:#ff9aa0}
-.cx-st{display:inline-flex;align-items:center;gap:6px;padding:5px 11px;border-radius:999px;color:#fff;white-space:nowrap;
-  font:700 .74rem/1.2 'Plus Jakarta Sans',sans-serif;background:rgba(12,18,22,.62);border:1px solid rgba(255,255,255,.18);
-  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
-.cx-st::before{content:"";width:7px;height:7px;border-radius:50%;background:#aab4bc}
-.cx-st[data-s=bitirdim]::before{background:#5fd3a0}
-.cx-st[data-s=oynuyorum]::before{background:#7cc4cc;animation:cxPulse 1.8s ease-out infinite}
-.cx-st[data-s=biraktim]::before{background:#e8a08f}
-.cx-st[data-s=istek]::before{background:#e6c46a}
-@keyframes cxPulse{0%{box-shadow:0 0 0 0 rgba(124,196,204,.7)}100%{box-shadow:0 0 0 8px rgba(124,196,204,0)}}
-
-/* ---------- Metin alanı (ortak) ---------- */
-.cx-title{margin:0;font:800 1.08rem/1.25 'Plus Jakarta Sans',sans-serif;letter-spacing:-.02em;color:var(--ink);
-  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.cx-title a{color:inherit;text-decoration:none}
-.cx-title a:hover{text-decoration:none}
-.cx-title a:focus-visible{outline:0}
-.cx-meta{margin:0;font-size:.82rem;color:var(--mute);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.cx-chips{display:flex;flex-wrap:wrap;gap:6px;max-height:1.75em;overflow:hidden}
-.cx-chips span{flex:none;padding:3px 10px;border-radius:999px;font-size:.73rem;font-weight:600;white-space:nowrap;
-  background:var(--chip-bg);color:var(--chip-ink)}
-.cx-facts{margin:0;display:flex;flex-wrap:wrap;gap:2px 14px;font-size:.8rem;color:var(--mute)}
-.cx-pur{margin:0;font-size:.8rem;color:var(--mute)}
-.cx-note{margin:0;font-size:.88rem;line-height:1.5;color:var(--mute);display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
-.cx-note.none{font-style:italic;opacity:.75}
-.cx-foot{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px 10px;font-size:.82rem}
-.cx-foot a,.cx-foot .none{white-space:nowrap}
-.cx-foot .l{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;min-width:0}
-.cx-rec{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:999px;font-weight:700;font-size:.76rem;white-space:nowrap}
-.cx-rec.yes{background:color-mix(in srgb,var(--yes) 15%,transparent);color:var(--yes)}
-.cx-rec.no{background:color-mix(in srgb,var(--no) 15%,transparent);color:var(--no)}
-.card.cx .cx-foot a{color:var(--acc);font-weight:700;text-decoration:none}
-.card.cx .cx-foot a.more{display:inline-flex;align-items:center;gap:4px;height:auto;width:auto;white-space:nowrap}
-.card.cx .cx-foot a.more::after{content:"→";transition:transform .25s var(--ease)}
-.card.cx:hover .cx-foot a.more::after{transform:translateX(3px)}
-.cx-foot .none{color:var(--mute)}
-
-/* ---------- Oyun kartı: görsel üstte, bilgi altta ---------- */
-.card.cx:not(.poster) .cx-body{display:flex;flex-direction:column;gap:9px;flex:1;padding:16px 18px 16px}
-.card.cx:not(.poster) .cx-note{-webkit-line-clamp:2;min-height:3em}
-.card.cx:not(.poster) .cx-foot{margin-top:auto;padding-top:12px;border-top:1px solid var(--line)}
-
-/* ---------- Afiş kartı: film / dizi / anime ---------- */
-.card.cx.poster{--chip-bg:rgba(255,255,255,.15);--chip-ink:#fff;aspect-ratio:2/3;background:#0d1215;color:#fff}
-.poster .cx-media{position:absolute;inset:0}
-.poster .cx-media::after{background:linear-gradient(to bottom,rgba(8,12,15,.55),transparent 26%)}
-.poster .cx-body{position:absolute;inset:auto 0 0;z-index:2;display:flex;flex-direction:column;gap:6px;padding:64px 14px 14px;
-  background:linear-gradient(to top,rgba(8,12,15,.97) 28%,rgba(8,12,15,.8) 60%,transparent)}
-.poster .cx-title{color:#fff;font-size:1.04rem}
-.poster .cx-meta,.poster .cx-facts{color:rgba(255,255,255,.72)}
-.poster .cx-chips span{backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.12)}
-.poster .cx-note{color:rgba(255,255,255,.82)}
-.poster .cx-rec.yes{background:rgba(95,211,160,.18);color:#7dffc0}
-.poster .cx-rec.no{background:rgba(232,160,143,.2);color:#ff9aa0}
-.card.cx.poster .cx-foot a{color:#fff}
-.poster .cx-more{display:grid;grid-template-rows:0fr;opacity:0;transition:grid-template-rows .38s var(--ease),opacity .3s}
-.poster .cx-more>div{min-height:0;overflow:hidden;padding-right:6px;margin-right:-6px;display:flex;flex-direction:column;gap:8px}
-@media(hover:hover){.poster:hover .cx-more,.poster:focus-within .cx-more{grid-template-rows:1fr;opacity:1}}
-@media(hover:none){.poster .cx-more{grid-template-rows:1fr;opacity:1}.poster .cx-note{display:none}}
-
-/* ---------- Mobil ---------- */
-@media(max-width:600px){
-  .grid{gap:12px}
-  .cat-oyun .grid{grid-template-columns:1fr}
-  .cat-film .grid,.cat-dizi .grid,.cat-anime .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .card.cx{border-radius:18px}
-  .poster .cx-body{padding:52px 10px 10px}
-  .poster .cx-title{font-size:.92rem}
-  .poster .cx-chips span:nth-child(n+3){display:none}
-  .poster .cx-facts{font-size:.74rem}
-  .cx-top{inset:8px 8px auto}
-  .cx-ring{width:40px;height:40px}.cx-ring b{font-size:.82rem}
-  .cx-ico{width:26px;height:26px}
-  .poster .cx-ico.yes,.poster .cx-ico.no{display:none}
-  .cx-l{gap:5px;min-width:0}
-  .cx-st{padding:4px 9px;font-size:.68rem}
-}
-@media(prefers-reduced-motion:reduce){
-  .card.cx,.cx-media img,.poster .cx-more{transition:none}
-  .cx-st[data-s=oynuyorum]::before{animation:none}
+/* --- 1. Değişkenler & Tema Temelleri --- */
+:root {
+    --card-radius: 18px;
+    --card-badge-radius: 12px;
+    --card-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    
+    /* Koyu Tema Varsayılanları */
+    --card-badge-bg: rgba(15, 23, 42, 0.65);
+    --card-badge-border: rgba(255, 255, 255, 0.12);
+    --card-badge-icon: #ffffff;
+    --card-text-title: #ffffff;
+    --card-text-subtitle: rgba(255, 255, 255, 0.7);
+    --card-overlay: linear-gradient(180deg, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.85) 100%);
 }
 
+/* Açık (Beyaz) Tema Değişkenleri */
+[data-theme="light"],
+body.light-theme,
+body.light,
+html[data-theme="light"] {
+    --card-badge-bg: rgba(255, 255, 255, 0.92);
+    --card-badge-border: rgba(15, 23, 42, 0.12);
+    --card-badge-icon: #0f172a; /* İkonların beyaz temada kaybolmasını engelleyen koyu antrasit */
+    --card-badge-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
 
-/* Günlüğüm — ortak detay penceresi tasarımı.
-   Yalnızca açılan kayıt penceresine uygulanır; liste kartlarını etkilemez. */
-dialog.detail-redesign {
-  width: min(860px, 94vw);
-  max-width: 860px;
-  max-height: min(92vh, 940px);
-  max-height: min(92dvh, 940px);
-  padding: 0;
-  overflow: auto;
-  border: 1px solid var(--line);
-  border-radius: 24px;
-  background: var(--card);
-  color: var(--ink);
-  box-shadow: 0 28px 90px rgba(0,0,0,.42);
-  scrollbar-width: thin;
-  scrollbar-color: var(--line) transparent;
+/* --- 2. Kategori Kartları Grid & Kapsayıcı --- */
+.categories-grid,
+.category-grid,
+.cards-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.25rem;
+    margin: 1.5rem 0 3rem 0;
+    width: 100%;
 }
-dialog.detail-redesign::backdrop {
-  background: rgba(7,11,14,.72);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+
+@media (min-width: 1024px) {
+    .categories-grid,
+    .category-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
 }
-dialog.detail-redesign > .cover {
-  position: relative;
-  display: block;
-  width: 100%;
-  aspect-ratio: 16 / 7;
-  min-height: 230px;
-  max-height: 360px;
-  overflow: hidden;
-  isolation: isolate;
-  background: linear-gradient(135deg, color-mix(in srgb,var(--acc) 20%,var(--bg)), var(--bg));
+
+/* --- 3. Kategori Kartı (Category Card) --- */
+.category-card,
+.cat-card {
+    position: relative;
+    height: 190px;
+    border-radius: var(--card-radius);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 1.25rem;
+    text-decoration: none;
+    background-color: #1e293b;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+    transition: var(--card-transition);
+    isolation: isolate;
 }
-dialog.detail-redesign > .cover > img {
-  position: absolute;
-  inset: 0;
-  display: block;
-  width: 100%;
-  height: 100%;
-  max-width: 100%;
-  object-fit: cover;
-  object-position: center 35%;
+
+/* Görsel Üzeri Gradient Karartma */
+.category-card::before,
+.cat-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--card-overlay);
+    z-index: 1;
+    transition: var(--card-transition);
 }
-dialog.detail-redesign > .cover::after {
-  content: "";
-  position: absolute;
-  z-index: 1;
-  inset: 0;
-  height: auto;
-  pointer-events: none;
-  background: linear-gradient(180deg,rgba(7,11,14,.06) 0%,rgba(7,11,14,.04) 38%,rgba(7,11,14,.65) 100%);
+
+.category-card:hover,
+.cat-card:hover {
+    transform: translateY(-4px) scale(1.01);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.2);
 }
-dialog.detail-redesign > .cover .stb {
-  top: 16px;
-  right: 18px;
-  z-index: 3;
-  padding: 5px 12px;
-  border: 1px solid rgba(255,255,255,.22);
-  border-radius: 999px;
-  color: #fff;
-  background: rgba(12,18,22,.66);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+
+.category-card:hover::before,
+.cat-card:hover::before {
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.05) 0%, rgba(0, 0, 0, 0.92) 100%);
 }
-dialog.detail-redesign > .cover .fvb {
-  top: 16px;
-  left: 18px;
-  z-index: 3;
-  background: rgba(12,18,22,.66);
-  border-color: rgba(255,255,255,.22);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+
+/* --- 4. Sol Üst İkon Rozeti (Icon Badge) --- */
+.card-icon,
+.category-icon,
+.card-badge,
+.category-card .icon-box,
+.cat-card .icon-wrapper {
+    position: relative;
+    z-index: 2;
+    width: 44px;
+    height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--card-badge-radius);
+    background: var(--card-badge-bg);
+    border: 1px solid var(--card-badge-border);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    color: var(--card-badge-icon);
+    transition: var(--card-transition);
 }
-dialog.detail-redesign > .cover .score {
-  left: 20px;
-  bottom: 18px;
-  z-index: 3;
-  width: 52px;
-  height: 52px;
-  border: 2px solid rgba(255,255,255,.72);
-  background: rgba(248,249,250,.96);
-  color: #182027;
-  box-shadow: 0 5px 18px rgba(0,0,0,.2);
+
+/* Açık Temada İkon Rozeti Görünümü */
+[data-theme="light"] .card-icon,
+[data-theme="light"] .category-icon,
+[data-theme="light"] .card-badge,
+[data-theme="light"] .category-card .icon-box,
+body.light-theme .card-icon,
+body.light-theme .category-icon,
+body.light .card-icon {
+    background: rgba(255, 255, 255, 0.94) !important;
+    border-color: rgba(0, 0, 0, 0.08) !important;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
 }
-dialog.detail-redesign > .cover .recb {
-  right: 18px;
-  bottom: 20px;
-  z-index: 3;
-  max-width: calc(100% - 112px);
-  white-space: normal;
-  text-align: center;
-  padding: 6px 13px;
-  border: 1px solid rgba(255,255,255,.2);
-  background: rgba(12,18,22,.72);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+
+/* --- 5. Rozet İçerisindeki SVG / İkon Renkleri (Kritik Düzeltme) --- */
+.card-icon svg,
+.category-icon svg,
+.card-badge svg,
+.category-card .icon-box svg,
+.cat-card .icon-wrapper svg,
+.card-icon i,
+.category-icon i {
+    width: 20px;
+    height: 20px;
+    display: block;
+    color: var(--card-badge-icon);
+    transition: var(--card-transition);
 }
-dialog.detail-redesign > .inner {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  min-width: 0;
-  padding: clamp(18px,3.2vw,30px);
+
+/* Açık Temada SVG Çizgi ve Dolgu Renklerini Koyu Renge Zorlama */
+[data-theme="light"] .card-icon svg,
+[data-theme="light"] .category-icon svg,
+[data-theme="light"] .card-badge svg,
+[data-theme="light"] .category-card .icon-box svg,
+[data-theme="light"] .cat-card .icon-wrapper svg,
+body.light-theme .card-icon svg,
+body.light-theme .category-icon svg,
+body.light .card-icon svg {
+    color: #0f172a !important;
+    stroke: #0f172a !important;
 }
-dialog.detail-redesign > .inner > h2 {
-  margin: 0;
-  color: var(--ink);
-  font-size: clamp(1.5rem,3.5vw,2.15rem);
-  line-height: 1.15;
-  letter-spacing: -.04em;
-  overflow-wrap: anywhere;
+
+/* İkon fill (dolgu) tipindeyse koyulaştır */
+[data-theme="light"] .card-icon svg:not([fill="none"]),
+[data-theme="light"] .category-icon svg:not([fill="none"]),
+[data-theme="light"] .card-badge svg:not([fill="none"]),
+body.light-theme .card-icon svg:not([fill="none"]) {
+    fill: #0f172a !important;
 }
-dialog.detail-redesign > .inner > .meta:not(.purchase-mini) {
-  width: fit-content;
-  max-width: 100%;
-  margin: -8px 0 0;
-  padding: 4px 10px;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  color: var(--mute);
-  background: color-mix(in srgb,var(--bg) 72%,var(--card));
-  font-size: .86rem;
-  overflow-wrap: anywhere;
+
+/* İkon stroke (çizgi) tipindeyse stroke rengini uygula */
+[data-theme="light"] .card-icon svg path,
+[data-theme="light"] .category-icon svg path,
+[data-theme="light"] .card-badge svg path,
+[data-theme="light"] .card-icon svg circle,
+[data-theme="light"] .card-icon svg rect,
+body.light-theme .card-icon svg path {
+    stroke: #0f172a !important;
 }
-dialog.detail-redesign > .inner > .tags.wrapt {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 7px;
-  height: auto;
-  max-height: none;
-  min-width: 0;
-  margin: 0;
-  padding: 0;
-  overflow: visible;
+
+/* Koyu Temada İkon Renk Güvencesi */
+[data-theme="dark"] .card-icon svg,
+[data-theme="dark"] .category-icon svg,
+body:not([data-theme="light"]):not(.light-theme):not(.light) .card-icon svg {
+    color: #ffffff !important;
+    stroke: #ffffff;
 }
-dialog.detail-redesign > .inner > .tags.wrapt span {
-  max-width: 100%;
-  padding: 5px 10px;
-  border: 1px solid color-mix(in srgb,var(--acc) 18%,var(--line));
-  border-radius: 999px;
-  color: var(--acc);
-  background: color-mix(in srgb,var(--acc) 9%,var(--card));
-  white-space: normal;
-  overflow-wrap: anywhere;
-  line-height: 1.25;
+
+/* --- 6. Kart İçi Başlık ve Bilgi Metinleri --- */
+.category-card .card-content,
+.cat-card .card-info,
+.category-info {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
 }
-dialog.detail-redesign > .inner > .facts {
-  display: grid;
-  grid-template-columns: repeat(auto-fit,minmax(min(100%,205px),1fr));
-  align-items: stretch;
-  gap: 9px;
-  min-height: 0;
-  margin: 0;
-  overflow: visible;
-  white-space: normal;
-  font-size: .9rem;
+
+.category-card h3,
+.category-card .card-title,
+.cat-card .title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--card-text-title);
+    margin: 0;
+    letter-spacing: -0.01em;
 }
-dialog.detail-redesign > .inner > .facts > span {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 5px 7px;
-  min-width: 0;
-  padding: 11px 12px;
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  background: color-mix(in srgb,var(--card) 58%,var(--bg));
-  overflow-wrap: anywhere;
-  white-space: normal;
+
+.category-card p,
+.category-card .card-count,
+.cat-card .count,
+.category-card span {
+    font-size: 0.85rem;
+    font-weight: 400;
+    color: var(--card-text-subtitle);
+    margin: 0;
 }
-dialog.detail-redesign > .inner > .facts i {
-  color: var(--mute);
-  font-size: .82rem;
-  font-style: normal;
-  margin-right: 0;
+
+/* --- 7. Standart Medya / Liste Kartları (Anime, Film, Dizi, Oyun) --- */
+.media-grid,
+.items-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 1.5rem;
+    margin: 1.5rem 0;
 }
-dialog.detail-redesign .purchase-detail {
-  margin: 0 !important;
-  padding: 17px 18px !important;
-  border: 1px solid var(--line) !important;
-  border-radius: 16px !important;
-  background: color-mix(in srgb,var(--card) 78%,var(--bg)) !important;
+
+.media-card {
+    position: relative;
+    border-radius: var(--card-radius);
+    background: #1e293b;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: var(--card-transition);
+    border: 1px solid rgba(255, 255, 255, 0.05);
 }
-dialog.detail-redesign .purchase-detail h3 {
-  margin: 0 0 12px !important;
-  color: var(--ink);
-  font-size: 1rem !important;
+
+[data-theme="light"] .media-card,
+body.light-theme .media-card {
+    background: #ffffff;
+    border-color: rgba(0, 0, 0, 0.08);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
 }
-dialog.detail-redesign .purchase-detail dl {
-  grid-template-columns: minmax(110px,.75fr) minmax(0,1.25fr) !important;
-  gap: 8px 15px !important;
-  font-size: .9rem !important;
+
+.media-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
 }
-dialog.detail-redesign .purchase-detail dt { color: var(--mute); }
-dialog.detail-redesign .purchase-detail dd { color: var(--ink); overflow-wrap: anywhere; }
-dialog.detail-redesign .purchase-detail p {
-  padding-top: 10px;
-  border-top: 1px solid var(--line);
-  color: var(--mute);
-  font-size: .9rem;
-  overflow-wrap: anywhere;
+
+.media-card .poster-wrapper {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 2 / 3;
+    overflow: hidden;
+    background: #0f172a;
 }
-dialog.detail-redesign > .inner > .full {
-  margin: 0;
-  padding: 16px 18px;
-  border: 1px solid var(--line);
-  border-left: 3px solid var(--acc);
-  border-radius: 13px;
-  background: color-mix(in srgb,var(--acc) 5%,var(--card));
-  color: var(--ink);
-  line-height: 1.75;
-  white-space: pre-wrap;
-  overflow-wrap: anywhere;
+
+.media-card .poster-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
 }
-dialog.detail-redesign .pcs {
-  display: grid;
-  grid-template-columns: repeat(auto-fit,minmax(min(100%,220px),1fr));
-  gap: 10px;
-  margin: 0;
+
+.media-card:hover .poster-wrapper img {
+    transform: scale(1.05);
 }
-dialog.detail-redesign .pc {
-  min-width: 0;
-  margin: 0;
-  border-radius: 14px;
-  background: color-mix(in srgb,var(--card) 70%,var(--bg));
+
+.media-card .badge-rating {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 4px 8px;
+    border-radius: 8px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    background: rgba(15, 23, 42, 0.75);
+    color: #fbbf24;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(6px);
 }
-dialog.detail-redesign .pc h4 { margin-top: 0; }
-dialog.detail-redesign > .inner > .row {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 10px;
-  margin: 0;
-  padding: 0;
-  font-size: .92rem;
+
+.media-card .card-details {
+    padding: 0.85rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
 }
-dialog.detail-redesign > .inner > .row a,
-dialog.detail-redesign > .inner > .row a:visited {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  color: var(--acc);
-  font-weight: 700;
-  text-underline-offset: 3px;
+
+.media-card .media-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #f8fafc;
 }
-dialog.detail-redesign > .inner > .row .none { color: var(--mute); }
-dialog.detail-redesign .media-extras {
-  display: grid;
-  gap: 12px;
-  margin: 0;
-  min-width: 0;
+
+[data-theme="light"] .media-card .media-title,
+body.light-theme .media-card .media-title {
+    color: #0f172a;
 }
-dialog.detail-redesign .media-extra-section {
-  min-width: 0;
-  padding: 15px 16px;
-  border: 1px solid var(--line);
-  border-radius: 15px;
-  background: color-mix(in srgb,var(--card) 78%,var(--bg));
-}
-dialog.detail-redesign .media-extra-section > h3 {
-  margin: 0 0 6px;
-  font-size: 1rem;
-  line-height: 1.3;
-}
-dialog.detail-redesign .media-extra-muted { margin: 0 0 10px; color: var(--mute); font-size: .86rem; }
-dialog.detail-redesign .media-provider-list { display: grid; grid-template-columns: repeat(auto-fit,minmax(min(100%,230px),1fr)); gap: 8px; }
-dialog.detail-redesign .media-provider,
-dialog.detail-redesign .media-provider:visited {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  min-width: 0;
-  padding: 11px;
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  background: var(--card);
-  color: var(--ink);
-  text-decoration: none;
-}
-dialog.detail-redesign .media-provider-copy { display: grid; gap: 3px; min-width: 0; flex: 1; }
-dialog.detail-redesign .media-provider-copy strong,
-dialog.detail-redesign .media-provider-copy small { overflow-wrap: anywhere; }
-dialog.detail-redesign .install-profile { min-width: 0; padding: 12px 0; border-top: 1px solid var(--line); }
-dialog.detail-redesign .install-profile:first-of-type { border-top: 0; padding-top: 3px; }
-dialog.detail-redesign .install-profile-head { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 8px; }
-dialog.detail-redesign .install-profile-head h4 { margin: 0; font-size: .98rem; }
-dialog.detail-redesign .install-profile-field {
-  display: grid;
-  grid-template-columns: minmax(115px,.7fr) minmax(0,1.3fr) auto;
-  align-items: start;
-  gap: 10px;
-  padding: 8px 0;
-  border-top: 1px dashed var(--line);
-}
-dialog.detail-redesign .install-profile-label { color: var(--mute); font-size: .85rem; }
-dialog.detail-redesign .install-profile-value { min-width: 0; margin: 0; color: var(--ink); font: inherit; font-size: .9rem; white-space: pre-wrap; overflow-wrap: anywhere; }
-dialog.detail-redesign .install-profile-field .btn,
-dialog.detail-redesign .media-extra-copy { align-self: start; font-size: .78rem; padding: 5px 8px; white-space: nowrap; }
-dialog.detail-redesign > .inner > p:last-child {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 9px;
-  margin: 0;
-  padding-top: 16px;
-  border-top: 1px solid var(--line);
-}
-dialog.detail-redesign > .inner > p:last-child .btn {
-  min-height: 42px;
-  margin: 0;
-  white-space: normal;
-}
-@media (max-width: 600px) {
-  dialog.detail-redesign {
-    width: 96vw;
-    max-width: 96vw;
-    max-height: 94vh;
-    max-height: 94dvh;
-    border-radius: 19px;
-  }
-  dialog.detail-redesign > .cover {
-    aspect-ratio: 16 / 9;
-    min-height: 180px;
-    max-height: 245px;
-  }
-  dialog.detail-redesign > .cover .stb { top: 12px; right: 12px; }
-  dialog.detail-redesign > .cover .fvb { top: 12px; left: 12px; }
-  dialog.detail-redesign > .cover .score { left: 13px; bottom: 12px; width: 46px; height: 46px; }
-  dialog.detail-redesign > .cover .recb { right: 12px; bottom: 15px; max-width: calc(100% - 88px); }
-  dialog.detail-redesign > .inner { gap: 13px; padding: 17px 15px 18px; }
-  dialog.detail-redesign > .inner > h2 { font-size: clamp(1.35rem,6vw,1.8rem); }
-  dialog.detail-redesign > .inner > .facts { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 7px; }
-  dialog.detail-redesign > .inner > .facts > span { padding: 9px 10px; }
-  dialog.detail-redesign .purchase-detail { padding: 14px 13px !important; }
-  dialog.detail-redesign .purchase-detail dl { grid-template-columns: minmax(88px,.7fr) minmax(0,1.3fr) !important; gap: 7px 10px !important; }
-  dialog.detail-redesign .media-extra-section { padding: 13px; }
-  dialog.detail-redesign .install-profile-field { grid-template-columns: minmax(0,1fr) auto; gap: 4px 8px; }
-  dialog.detail-redesign .install-profile-label { grid-column: 1 / -1; }
-  dialog.detail-redesign > .inner > p:last-child { gap: 8px; }
-  dialog.detail-redesign > .inner > p:last-child .btn { flex: 1 1 auto; min-height: 40px; padding: 8px 11px; font-size: .88rem; }
-}
-@media (max-width: 360px) {
-  dialog.detail-redesign > .inner { padding: 14px 12px 15px; }
-  dialog.detail-redesign > .inner > .facts { grid-template-columns: minmax(0,1fr); }
-  dialog.detail-redesign .purchase-detail dl { grid-template-columns: minmax(0,1fr) !important; gap: 3px !important; }
-  dialog.detail-redesign .purchase-detail dd { margin-bottom: 6px !important; }
-  dialog.detail-redesign .install-profile-field { grid-template-columns: minmax(0,1fr); }
-  dialog.detail-redesign .install-profile-label { grid-column: auto; }
-}
-@media (prefers-reduced-motion: reduce) {
-  dialog.detail-redesign { animation: none; }
+
+.media-card .media-meta {
+    font-size: 0.8rem;
+    color: #94a3b8;
+    display: flex;
+    justify-content: space-between;
 }
