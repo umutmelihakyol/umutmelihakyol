@@ -1,8 +1,8 @@
 {
   "format": "gunlugum-backup",
   "version": 1,
-  "createdAt": "2026-10-23T23:36:36.962Z",
-  "reason": "Anime kaydı öncesi otomatik yedek",
+  "createdAt": "2026-10-24T00:03:57.394Z",
+  "reason": "Oyun kaydı öncesi otomatik yedek",
   "repository": "umutmelihakyol/umutmelihakyol",
   "branch": "main",
   "data": {
@@ -3968,31 +3968,6 @@
         "updatedAt": "2026-10-22T21:51:03.687Z",
         "episodes": 24,
         "studio": "8-bit"
-      },
-      {
-        "id": "mvk1i1bk",
-        "status": "istek",
-        "title": "Record of Ragnarok II",
-        "image": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx138056-r6wKvl71ddar.jpg",
-        "platform": "",
-        "genres": [
-          "Aksiyon",
-          "Dram",
-          "Fantastik",
-          "Doğaüstü"
-        ],
-        "score": null,
-        "finished": null,
-        "recommended": null,
-        "review": "",
-        "note": "",
-        "year": 2023,
-        "favorite": false,
-        "pros": [],
-        "cons": [],
-        "updatedAt": "2026-10-22T21:47:28.251Z",
-        "episodes": 10,
-        "studio": "Graphinica, Yumeta Company"
       },
       {
         "id": "mvj3sfoi",
