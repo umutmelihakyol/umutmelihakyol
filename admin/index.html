@@ -141,6 +141,14 @@
   .game-cost-panel select option { background:var(--card); color:var(--ink); }
   .game-cost-panel textarea { resize:vertical; }
   .game-cost-panel .wide { grid-column:1 / -1; }
+
+  .media-feature-panel { grid-column:1 / -1; min-width:0; margin:8px 0 2px; padding:15px; border:1px solid var(--line); border-radius:12px; background:var(--bg); }
+  .media-feature-panel legend { padding:0 8px; color:var(--ink); font-weight:800; }
+  .media-feature-panel p { margin:4px 0 12px; }
+  .media-feature-panel label { display:flex; flex-direction:column; gap:5px; color:var(--mute); font-size:.9rem; }
+  .media-feature-panel textarea { width:100%; min-width:0; box-sizing:border-box; padding:10px 12px; border:1px solid var(--line); border-radius:9px; background:var(--card); color:var(--ink); font:13px/1.5 ui-monospace,SFMono-Regular,Consolas,monospace; resize:vertical; }
+  .media-feature-panel .example { padding:10px 12px; border-radius:8px; background:var(--card); overflow-wrap:anywhere; font:12px/1.45 ui-monospace,SFMono-Regular,Consolas,monospace; white-space:pre-wrap; }
+
   @media(max-width:760px){ .analytics-grid,.backup-controls,.tech-admin-form-grid { grid-template-columns:1fr; } .bar-row { grid-template-columns:minmax(75px,1fr) minmax(60px,1.2fr) auto; gap:7px; } .tech-admin-item { flex-direction:column; } .tech-admin-form-grid .wide { grid-column:auto; } }
 </style>
 <script src="../scripts/theme.js"></script>
@@ -294,6 +302,25 @@
             </label>
           </div>
         </fieldset>
+
+        <fieldset id="availabilityPanel" class="media-feature-panel">
+          <legend>📺 Nerede izlenir veya oynanır?</legend>
+          <p class="meta">Bu kayda ait izleme servislerini, oyun mağazalarını veya erişim platformlarını ekle. Alan JSON dizisidir; boş bırakılırsa sağlayıcı listesi boş kaydedilir. Yalnızca herkese açık HTTPS bağlantıları kullan.</p>
+          <label>Platform / sağlayıcı listesi (JSON)
+            <textarea id="availabilityJson" rows="5" spellcheck="false" placeholder='[{"name":"Netflix","type":"streaming","url":"https://www.netflix.com/","note":"Abonelik gerekir"}]'></textarea>
+          </label>
+          <p class="meta">Her öğede <code>name</code> ve <code>url</code> gerekir. <code>type</code>: streaming, rental, purchase, store, platform veya free olabilir. <code>note</code> isteğe bağlıdır.</p>
+        </fieldset>
+
+        <fieldset id="installProfilesPanel" class="media-feature-panel" hidden>
+          <legend>🖥️ PC oyunu kurulum profilleri</legend>
+          <p class="meta">Yalnızca Oyunlar kategorisinde kullanılır. Bir oyuna birden fazla profil ekleyebilirsin. Profil bilgileri oyun kaydıyla birlikte <code>data/games.json</code> dosyasına kaydedilir.</p>
+          <label>Kurulum profilleri (JSON dizisi)
+            <textarea id="installProfilesJson" rows="9" spellcheck="false" placeholder='[{"name":"CachyOS - Proton Experimental","version":"Steam güncel sürüm","platform":"CachyOS / Linux","compatibility":"Proton Experimental","launchOptions":"gamemoderun %command%","graphicsSettings":"1440p, FSR açık","mods":"Mod A\nMod B","notes":"Oyunu ilk kez başlatırken shader derlemesini bekle."}]'></textarea>
+          </label>
+          <p class="meta">Kullanılabilen alanlar: name, version, platform, compatibility, launchOptions, graphicsSettings, mods ve notes. Mods metin veya dizi olabilir.</p>
+        </fieldset>
+
         <p>
           <button class="btn pri" id="add">Kaydet</button>
           <button class="btn" id="clr">Formu Temizle</button>
@@ -608,7 +635,7 @@ const formatCost=(value,currency='TRY')=>{const code=/^(TRY|USD|EUR|GBP|JPY|CAD|
 const gameCostBadge=g=>{if(g.purchasePrice!==null&&g.purchasePrice!==undefined&&g.purchasePrice!==''&&Number.isFinite(Number(g.purchasePrice)))return ` • <b>${esc(formatCost(g.purchasePrice,g.purchaseCurrency||'TRY'))}</b>`;if(g.acquisitionType)return ` • ${esc(acquisitionLabels[g.acquisitionType]||g.acquisitionType)}`;return ''};
 let cat='oyun';try{cat=localStorage.getItem('admin_cat')||'oyun'}catch{}if(!CATS[cat])cat='oyun';
 const D={},cfg=()=>CATS[cat],data=()=>D[cat]||(D[cat]={games:[],sha:null,loaded:false});
-const ids=['title','platform','score','finished','review','image','note','year','dur','dur2','person','acquisitionType','purchasePrice','purchaseCurrency','purchaseStore','purchaseDate','listPrice','ownershipStatus','purchaseNote'];
+const ids=['title','platform','score','finished','review','image','note','year','dur','dur2','person','acquisitionType','purchasePrice','purchaseCurrency','purchaseStore','purchaseDate','listPrice','ownershipStatus','purchaseNote','availabilityJson','installProfilesJson'];
 let editId=null;
 let T=sessionStorage.getItem('gh_t')||'';const tok=()=>T;
 const apiPath=path=>`https://api.github.com/repos/${C.owner}/${C.repo}/contents/${path}`;
@@ -842,15 +869,9 @@ async function getRepoFile(path){
 async function putRepoFile(path,contentStr,commitMsg,knownSha=null){
   if(!tok()){say('Oturum açık değil, tekrar giriş yap.',1);return null}
   let sha=knownSha;
-  // GitHub'ın tanıdığı resmi Gemini AI Bot kimliği ile Co-author imzası:
-  const fullMsg = `${commitMsg}\n\nCo-authored-by: gemini-code-assist[bot] <176961590+gemini-code-assist[bot]@users.noreply.github.com>`;
   for(let n=0;n<2;n++){
     if(!sha){const existing=await getRepoFile(path);sha=existing?existing.sha:null}
-    const body={
-      message: fullMsg,
-      content: strToB64(contentStr),
-      branch: C.branch||'main'
-    };
+    const body={message:commitMsg,content:strToB64(contentStr),branch:C.branch||'main'};
     if(sha)body.sha=sha;
     const r=await fetch(apiPath(path),{method:'PUT',headers:hdr(),body:JSON.stringify(body)});
     if(r.ok)return (await r.json()).content.sha;
@@ -900,6 +921,7 @@ async function persist(targetCat=cat){
 function applyCat(){
   const c=cfg();
   const costPanel=$('#gameCostPanel');if(costPanel)costPanel.hidden=cat!=='oyun';
+  const profilePanel=$('#installProfilesPanel');if(profilePanel)profilePanel.hidden=cat!=='oyun';
   $('#catpills').innerHTML=Object.entries(CATS).map(([k,v])=>`<button class="pill" data-k="${k}" aria-pressed="${k===cat}">${typeof ICON==='function'?ICON(k):''} ${v.plural}</button>`).join('');
   $('#hs').textContent=c.name+' ara (görsel ve bilgiler otomatik gelir)';
   $('#s').placeholder=c.searchPh;$('#s').previousSibling.textContent=c.name+' adı';
@@ -1013,6 +1035,8 @@ $('#list').onclick=async e=>{
     const m={...g,dur:g[c.dur.key],dur2:c.dur2?g[c.dur2.key]:'',person:g[c.person.key]};
     ids.forEach(i=>$('#'+i).value=m[i]??'');
     $('#imgPrev').src=g.image||defaultSvg;
+    $('#availabilityJson').value=JSON.stringify(Array.isArray(g.availability)?g.availability:[],null,2);
+    $('#installProfilesJson').value=JSON.stringify(Array.isArray(g.installProfiles)?g.installProfiles:[],null,2);
     $('#fav').value=g.favorite?'1':'0';$('#pros').value=(g.pros||[]).join('\n');$('#cons').value=(g.cons||[]).join('\n');$('#genres').value=(g.genres||[]).join(', ');
     $('#status').value=g.status||'bitirdim';$('#rec').value=g.recommended===true?'1':g.recommended===false?'0':'';
     if(cat==='oyun'&&!g.purchaseCurrency)$('#purchaseCurrency').value='TRY';
@@ -1022,9 +1046,9 @@ $('#list').onclick=async e=>{
 };
 
 function clear(){
-  editId=null;ids.forEach(i=>$('#'+i).value='');
+  editId=null;ids.forEach(i=>$('#'+i).value='');$('#availabilityJson').value='[]';$('#installProfilesJson').value='[]';
   $('#imgPrev').src=defaultSvg;
-  $('#genres').value='';$('#pros').value='';$('#cons').value='';$('#fav').value='0';$('#rec').value='1';if($('#purchaseCurrency'))$('#purchaseCurrency').value='TRY';
+  $('#genres').value='';$('#pros').value='';$('#cons').value='';$('#availabilityJson').value='[]';$('#installProfilesJson').value='[]';$('#fav').value='0';$('#rec').value='1';if($('#purchaseCurrency'))$('#purchaseCurrency').value='TRY';
   if($('#status').options.length)$('#status').value='bitirdim';
   $('#ft').textContent=cfg().name+' bilgileri';
 }
@@ -1037,6 +1061,45 @@ $('#add').onclick=async()=>{
   if(stt==='bitirdim'&&(val('score')===''||!val('finished')||(c.dur.req&&val('dur')==='')))
     return say(c.dur.req?'Bitirdiklerinde puan, süre ve tarih zorunlu.':'Bitirdiklerinde puan ve tarih zorunlu.',1);
   const n=i=>val(i)===''?null:+val(i),lines=i=>$('#'+i).value.split('\n').map(x=>x.trim()).filter(Boolean);
+  const parseArrayField=(id,label)=>{
+    const raw=val(id);if(!raw)return [];
+    let parsed;try{parsed=JSON.parse(raw)}catch{return {error:`${label} geçerli JSON değil.`}}
+    if(!Array.isArray(parsed))return {error:`${label} bir JSON dizisi olmalı (ör. []).`};
+    return parsed;
+  };
+  const availabilityRaw=parseArrayField('availabilityJson','Platform / sağlayıcı listesi');
+  if(availabilityRaw.error)return say(availabilityRaw.error,1);
+  const availability=[];
+  for(let i=0;i<availabilityRaw.length;i++){
+    const item=availabilityRaw[i];
+    if(!item||typeof item!=='object'||Array.isArray(item))return say(`Platform listesi ${i+1}. öğe bir nesne olmalı.`,1);
+    const name=String(item.name||item.provider||'').trim(),url=String(item.url||'').trim();
+    if(!name||!url)return say(`Platform listesi ${i+1}. öğede name ve url zorunlu.`,1);
+    let parsedUrl;try{parsedUrl=new URL(url)}catch{return say(`Platform listesi ${i+1}. URL geçersiz.`,1)}
+    if(parsedUrl.protocol!=='https:')return say(`Platform listesi ${i+1}. bağlantı HTTPS olmalı.`,1);
+    availability.push({name,type:String(item.type||'platform').trim(),url:parsedUrl.href,note:String(item.note||'').trim()});
+  }
+  let installProfiles=[];
+  if(cat==='oyun'){
+    const profilesRaw=parseArrayField('installProfilesJson','PC kurulum profilleri');
+    if(profilesRaw.error)return say(profilesRaw.error,1);
+    for(let i=0;i<profilesRaw.length;i++){
+      const item=profilesRaw[i];
+      if(!item||typeof item!=='object'||Array.isArray(item))return say(`Kurulum profili ${i+1}. öğe bir nesne olmalı.`,1);
+      const name=String(item.name||'').trim();
+      if(!name)return say(`Kurulum profili ${i+1}. öğede name zorunlu.`,1);
+      installProfiles.push({
+        name,
+        version:String(item.version||'').trim(),
+        platform:String(item.platform||'').trim(),
+        compatibility:String(item.compatibility||'').trim(),
+        launchOptions:String(item.launchOptions||'').trim(),
+        graphicsSettings:String(item.graphicsSettings||'').trim(),
+        mods:Array.isArray(item.mods)?item.mods.map(x=>String(x).trim()).filter(Boolean).join('\n'):String(item.mods||'').trim(),
+        notes:String(item.notes||'').trim()
+      });
+    }
+  }
   if(cat==='oyun'){
     for(const id of ['purchasePrice','listPrice']){
       if(val(id)!==''&&(!Number.isFinite(Number(val(id)))||Number(val(id))<0))return say('Fiyat alanları sıfır veya daha büyük bir sayı olmalı.',1);
@@ -1049,8 +1112,10 @@ $('#add').onclick=async()=>{
     recommended:$('#rec').value===''?null:$('#rec').value==='1',
     review:val('review'),note:val('note'),year:n('year'),
     favorite:$('#fav').value==='1',pros:lines('pros'),cons:lines('cons'),
+    availability,
     updatedAt:new Date().toISOString()
   };
+  if(cat==='oyun')g.installProfiles=installProfiles;
   g[c.dur.key]=n('dur');if(c.dur2)g[c.dur2.key]=n('dur2');g[c.person.key]=val('person');
   if(cat==='oyun'){
     g.acquisitionType=val('acquisitionType')||null;
