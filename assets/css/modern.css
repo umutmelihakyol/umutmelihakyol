@@ -227,27 +227,3 @@ body.home a.tile:hover .ticon{transform:translateY(-2px);background:color-mix(in
 }
 @media(prefers-reduced-motion:reduce){body.home a.tile,body.home a.tile::after,body.home .ticon{transition:none}body.home a.tile:hover{transform:none}}
 
-/* Oyun detay penceresi: tek kapak katmanı, dengeli içerik ve mobil uyum */
-dialog.game-detail{box-sizing:border-box;width:min(760px,calc(100vw - 32px));max-width:760px;max-height:92dvh;padding:0;overflow-x:hidden;overflow-y:auto;background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:24px}
-dialog.game-detail .detail-hero{position:relative;display:block;height:clamp(210px,34vw,300px);overflow:hidden;background:#182129;isolation:isolate}
-dialog.game-detail .detail-hero>.cover{position:absolute!important;inset:0!important;display:block!important;width:100%!important;height:100%!important;min-height:0!important;aspect-ratio:auto!important;margin:0!important;border:0!important;border-radius:0!important;overflow:hidden!important;z-index:0}
-dialog.game-detail .detail-hero>.cover img{position:absolute!important;inset:0!important;display:block!important;width:100%!important;height:100%!important;object-fit:cover!important;object-position:center 35%;border-radius:0!important}
-dialog.game-detail .detail-hero>.cover:after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(0deg,rgba(12,17,22,.88) 0%,rgba(12,17,22,.18) 58%,rgba(12,17,22,.08) 100%)}
-dialog.game-detail .detail-hero>.cover .stb,dialog.game-detail .detail-hero>.cover .score,dialog.game-detail .detail-hero>.cover .recb,dialog.game-detail .detail-hero>.cover .fvb{position:absolute;z-index:3}
-dialog.game-detail .detail-hero-shade{position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(0deg,rgba(12,17,22,.45),transparent 65%)}
-dialog.game-detail .detail-hero-title{position:absolute;z-index:4;left:clamp(18px,4vw,30px);right:20px;bottom:20px;color:#fff;pointer-events:none}
-dialog.game-detail .detail-eyebrow{display:block;font-size:.7rem;font-weight:800;letter-spacing:.13em;color:#9fe2dc}
-dialog.game-detail .detail-hero-title h2{margin:6px 0 0;color:#fff;font-size:clamp(1.55rem,4vw,2.25rem);line-height:1.12}
-dialog.game-detail .detail-hero-title p{margin:5px 0 0;color:rgba(255,255,255,.82);font-size:.9rem}
-dialog.game-detail .inner{display:flex;flex-direction:column;gap:15px;padding:clamp(16px,3.5vw,27px)}
-dialog.game-detail .detail-heading{display:none}
-dialog.game-detail .tags{display:flex;flex-wrap:wrap;gap:7px;margin:0}
-dialog.game-detail .facts,dialog.game-detail .inner>.row{display:flex;flex-wrap:wrap;gap:8px 12px}
-dialog.game-detail .facts span{border:1px solid var(--line);background:color-mix(in srgb,var(--acc) 5%,var(--card));padding:8px 11px;border-radius:12px;font-size:.88rem}
-dialog.game-detail .purchase-detail{box-sizing:border-box;width:100%;padding:15px!important;border:1px solid var(--line)!important;border-radius:15px!important;background:color-mix(in srgb,var(--bg) 55%,var(--card))!important}
-dialog.game-detail .purchase-detail h3{margin:0 0 10px;font-size:1rem!important}
-dialog.game-detail .full{line-height:1.7;font-size:.96rem;margin:0}
-dialog.game-detail .pcs{gap:12px}
-dialog.game-detail .inner>p:last-child{display:flex;flex-wrap:wrap;gap:8px;margin:2px 0 0}
-dialog.game-detail .inner>p:last-child .btn{min-height:42px}
-@media(max-width:520px){dialog.game-detail{width:calc(100vw - 16px);max-height:94dvh;border-radius:19px}dialog.game-detail .detail-hero{height:clamp(190px,58vw,235px)}dialog.game-detail .detail-hero-title{left:16px;right:16px;bottom:15px}dialog.game-detail .inner{padding:15px;gap:13px}dialog.game-detail .facts span{font-size:.82rem;padding:7px 9px}dialog.game-detail .purchase-detail dl{grid-template-columns:minmax(88px,auto) minmax(0,1fr)!important;font-size:.84rem!important}dialog.game-detail .inner>p:last-child .btn{flex:1 1 auto;font-size:.82rem;padding:9px 10px}}
