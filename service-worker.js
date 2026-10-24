@@ -1,8 +1,8 @@
-/* Günlüğüm Service Worker — cache v3: ağ varken güncel CSS/JS/HTML kullan. */
+/* Günlüğüm Service Worker — cache v4: sayfalar arası stilleri ve kaynakları güncel tut. */
 'use strict';
 
 const CACHE_PREFIX = 'gunlugum-pwa-';
-const CACHE_VERSION = 'v3';
+const CACHE_VERSION = 'v4';
 const APP_CACHE = `${CACHE_PREFIX}app-${CACHE_VERSION}`;
 const IMAGE_CACHE = `${CACHE_PREFIX}images-${CACHE_VERSION}`;
 const APP_ROOT = new URL('./', self.registration.scope);
