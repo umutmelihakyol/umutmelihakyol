@@ -132,7 +132,8 @@ function foot(){
 }
 function openGame(id){
   const g=games.find(x=>x.id===id),d=$('#dlg');if(!g)return d.open&&d.close();
-  d.innerHTML=`${cover(g)}<div class="inner"><h2>${esc(g.title)}</h2><p class="meta">${esc(g.platform)}</p>
+  d.classList.toggle('game-detail',CAT==='oyun');
+  d.innerHTML=`<div class="detail-hero">${cover(g)}<div class="detail-hero-shade"></div><div class="detail-hero-title"><span class="detail-eyebrow">${CAT==='oyun'?'OYUN KÜTÜPHANEM':'ARŞİVİM'}</span><h2>${esc(g.title)}</h2><p>${esc(g.platform||'')}</p></div></div><div class="inner"><div class="detail-heading"><h2>${esc(g.title)}</h2><p class="meta">${esc(g.platform)}</p></div>
   <p class="tags wrapt">${chips(g)}</p>${facts(g)}${info(g)}${CAT==='oyun'?purchaseDetails(g):''}
   ${g.note?`<p class="full">${esc(g.note)}</p>`:''}${proscons(g)}<div class="row">${revHtml(g)}</div>
   <p>${randomMode?'<button class="btn pri again">Başka birini seç</button> ':''}<button class="btn card-gen-btn" data-id="${esc(g.id)}">📷 İnceleme Kartı İndir</button> <button class="btn copy">Bağlantıyı kopyala</button> <button class="btn" onclick="this.closest('dialog').close()">Kapat</button></p></div>`;
