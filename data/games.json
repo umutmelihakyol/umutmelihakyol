@@ -86,7 +86,27 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-10-23T20:29:28.386Z",
+    "links": [
+      {
+        "name": "Steam Sayfası",
+        "type": "store",
+        "url": "https://store.steampowered.com/app/3768760/007_First_Light/",
+        "note": ""
+      }
+    ],
+    "updatedAt": "2026-10-24T11:35:44.484Z",
+    "installProfiles": [
+      {
+        "name": "Windows",
+        "version": "Steam Güncel",
+        "platform": "Windows",
+        "compatibility": "Yerel / Native",
+        "launchOptions": "",
+        "graphicsSettings": "1440p, Ultra ayarlar",
+        "mods": "",
+        "notes": ""
+      }
+    ],
     "hours": 14,
     "developer": "IO Interactive",
     "acquisitionType": "purchase",
