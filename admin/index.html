@@ -167,6 +167,27 @@
   .media-editor-row__remove{flex:0 0 auto;padding:5px 9px}
   .media-editor-empty{padding:12px;border:1px dashed var(--line,var(--bd,rgba(128,128,128,.25)));border-radius:9px;color:var(--mute,#93a0ab);font-size:.88rem}
   @media(max-width:650px){.media-form-grid{grid-template-columns:minmax(0,1fr)}.media-form-grid .wide{grid-column:auto}.media-editor-row{gap:8px}}
+
+  /* Toplu yönetim ve geri alınabilir silme */
+  .bulk-toolbar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:12px;border:1px solid var(--line,var(--bd,rgba(128,128,128,.22)));border-radius:12px;margin:10px 0 14px;background:color-mix(in srgb,var(--card,#20272e) 74%,transparent)}
+  .bulk-toolbar select{min-width:155px;max-width:100%;padding:9px 11px;border:1px solid var(--line,var(--bd,rgba(128,128,128,.25)));border-radius:9px;background:var(--bg,#11161d);color:var(--ink,#e6edf3);font:inherit}
+  .bulk-toolbar .meta{margin:0;flex:1 1 150px}
+  .bulk-select-all,.record-select{width:18px;height:18px;accent-color:var(--acc,#65b6be);cursor:pointer;flex:0 0 auto}
+  .li-adv{align-items:flex-start}
+  .record-check-wrap{display:flex;align-items:center;padding-top:12px}
+  .li-thumb{object-position:center}
+  .trash-panel{margin-top:16px}
+  .trash-list{display:grid;gap:9px}
+  .trash-item{display:flex;align-items:center;gap:10px;padding:10px;border:1px solid var(--line,var(--bd,rgba(128,128,128,.2)));border-radius:10px;background:var(--bg,#11161d);min-width:0}
+  .trash-item img{width:42px;height:56px;object-fit:cover;border-radius:6px;flex:0 0 auto;background:rgba(128,128,128,.12)}
+  .trash-copy{flex:1;min-width:0}
+  .trash-copy strong{display:block;overflow-wrap:anywhere}
+  .trash-copy small{display:block;color:var(--mute,#93a0ab);margin-top:3px}
+  .trash-actions{display:flex;gap:6px;flex-wrap:wrap;flex:0 0 auto}
+  .trash-actions .btn{white-space:nowrap}
+  .empty-trash{padding:13px;border:1px dashed var(--line,var(--bd,rgba(128,128,128,.25)));border-radius:10px;color:var(--mute,#93a0ab)}
+  @media(max-width:650px){.bulk-toolbar{align-items:stretch}.bulk-toolbar select,.bulk-toolbar button{flex:1 1 100%}.trash-item{align-items:flex-start;flex-wrap:wrap}.trash-copy{flex-basis:calc(100% - 65px)}.trash-actions{width:100%}.trash-actions .btn{flex:1}}
+
 </style>
 <script src="../scripts/theme.js"></script>
 <script>document.write('<script src="../scripts/config.js?'+Date.now()+'"><\/script>')</script>
@@ -421,7 +442,28 @@
           </select>
         </div>
 
+        <div class="bulk-toolbar" role="group" aria-label="Toplu kayıt işlemleri">
+          <label style="display:flex;align-items:center;gap:8px;white-space:nowrap"><input class="bulk-select-all" id="selectAllFiltered" type="checkbox"> Görünenlerin tümünü seç</label>
+          <p class="meta" id="selectedCount" aria-live="polite">0 kayıt seçildi</p>
+          <select id="bulkAction" aria-label="Toplu işlem">
+            <option value="status">Durumunu değiştir</option>
+            <option value="favorite-on">Favorilere ekle</option>
+            <option value="favorite-off">Favorilerden çıkar</option>
+            <option value="delete">Son silinenlere taşı</option>
+          </select>
+          <select id="bulkStatus" aria-label="Yeni durum"></select>
+          <button class="btn pri" type="button" id="applyBulkAction">Seçilenlere uygula</button>
+          <button class="btn" type="button" id="clearSelection">Seçimi kaldır</button>
+        </div>
         <div id="list"></div>
+        <section class="panel trash-panel" id="trashPanel">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">
+            <h2 style="margin:0">🗑️ Son silinenler</h2>
+            <button class="btn" id="emptyTrashBtn" type="button">Silinen listesini temizle</button>
+          </div>
+          <p class="meta">Son silinen kayıtlar bu tarayıcıda en fazla 60 gün tutulur. Buradan geri yükleyebilirsin. Bu liste başka cihazlarla eşitlenmez.</p>
+          <div id="trashList" class="trash-list" aria-live="polite"></div>
+        </section>
         <hr style="border:0;border-top:1px solid var(--bd,rgba(128,128,128,0.2));margin:16px 0">
         <p style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
           <button class="btn" id="dl">JSON İndir (Yedek)</button>
@@ -1006,12 +1048,13 @@ function applyCat(){
   $('#ft').textContent=editId?c.name+' düzenle':c.name+' bilgileri';
   $('#lh').textContent='Kayıtlı '+c.plural.toLowerCase();
   $('#dl').textContent=c.file+' indir (yedek)';
+  fillBulkStatuses();
 }
 
 $('#catpills').addEventListener('click',e=>{
   const b=e.target.closest('.pill');if(!b||b.dataset.k===cat)return;
   cat=b.dataset.k;try{localStorage.setItem('admin_cat',cat)}catch{}
-  clear();applyCat();$('#res').innerHTML='';$('#msg').textContent='';ensureLoaded();
+  selectedRecordIds.clear();clear();applyCat();$('#res').innerHTML='';$('#msg').textContent='';ensureLoaded();
 });
 
 /* GÖRSEL ÖNİZLEME */
@@ -1020,6 +1063,60 @@ $('#image').addEventListener('input',()=>{
   const u=$('#image').value.trim();
   $('#imgPrev').src=u||defaultSvg;
 });
+
+/* GERİ ALINABİLİR SİLME VE TOPLU İŞLEMLER */
+const ADMIN_TRASH_KEY='gunlugum_admin_recently_deleted_v1';
+const TRASH_MAX_ITEMS=100,TRASH_MAX_AGE_DAYS=60;
+const selectedRecordIds=new Set();
+function readAdminTrash(){
+  try{
+    const parsed=JSON.parse(localStorage.getItem(ADMIN_TRASH_KEY)||'[]');
+    if(!Array.isArray(parsed))return [];
+    const cutoff=Date.now()-TRASH_MAX_AGE_DAYS*86400000;
+    const kept=parsed.filter(x=>x&&x.key&&x.category&&x.record&&Date.parse(x.deletedAt||'')>=cutoff).slice(0,TRASH_MAX_ITEMS);
+    if(kept.length!==parsed.length)localStorage.setItem(ADMIN_TRASH_KEY,JSON.stringify(kept));
+    return kept;
+  }catch{return []}
+}
+function writeAdminTrash(items){
+  try{localStorage.setItem(ADMIN_TRASH_KEY,JSON.stringify(items.slice(0,TRASH_MAX_ITEMS)));return true}
+  catch(e){console.warn('Son silinenler listesi kaydedilemedi:',e);return false}
+}
+function stashAdminTrash(record,category,index){
+  const items=readAdminTrash();
+  const item={key:`${Date.now().toString(36)}-${Math.random().toString(36).slice(2,9)}`,category,index,deletedAt:new Date().toISOString(),record:JSON.parse(JSON.stringify(record))};
+  if(!writeAdminTrash([item,...items]))return null;
+  return item.key;
+}
+function removeAdminTrashKeys(keys){return writeAdminTrash(readAdminTrash().filter(x=>!keys.includes(x.key)))}
+function renderAdminTrash(){
+  const host=$('#trashList');if(!host)return;
+  const items=readAdminTrash();
+  if(!items.length){host.innerHTML='<div class="empty-trash">Son silinenlerde kayıt yok.</div>';return}
+  host.innerHTML=items.map(item=>{
+    const c=CATS[item.category]||{plural:item.category||'Kategori'};
+    const title=String(item.record.title||'Başlıksız kayıt');
+    const date=item.deletedAt?new Date(item.deletedAt).toLocaleString('tr-TR'):'Tarih bilinmiyor';
+    return `<div class="trash-item">
+      ${item.record.image?`<img src="${esc(item.record.image)}" alt="" loading="lazy">`:''}
+      <div class="trash-copy"><strong>${esc(title)}</strong><small>${esc(c.plural||item.category)} · ${esc(date)}</small></div>
+      <div class="trash-actions"><button class="btn pri" type="button" data-restore-trash="${esc(item.key)}">Geri yükle</button><button class="btn del" type="button" data-purge-trash="${esc(item.key)}">Tamamen kaldır</button></div>
+    </div>`;
+  }).join('');
+}
+function syncBulkControls(){
+  const count=$('#selectedCount');if(count)count.textContent=`${selectedRecordIds.size} kayıt seçildi`;
+  const action=$('#bulkAction')?.value||'status';
+  const status=$('#bulkStatus');if(status)status.hidden=action!=='status';
+  const visible=[...document.querySelectorAll('#list [data-select-record]')];
+  const checked=visible.filter(x=>x.checked).length;
+  const all=$('#selectAllFiltered');if(all){all.checked=visible.length>0&&checked===visible.length;all.indeterminate=checked>0&&checked<visible.length;all.disabled=visible.length===0}
+}
+function fillBulkStatuses(){
+  const target=$('#bulkStatus');if(!target)return;
+  target.innerHTML=Object.entries(cfg().st).map(([k,v])=>`<option value="${esc(k)}">${esc(v)}</option>`).join('');
+  syncBulkControls();
+}
 
 /* GELİŞMİŞ LİSTELEME, ARAMA VE SIRALAMA */
 function list(){
@@ -1049,7 +1146,9 @@ function list(){
 
   $('#list').innerHTML=filtered.map(g=>{
     const durVal=g[c.dur.key];
+    const selected=selectedRecordIds.has(String(g.id));
     return `<div class="li-adv">
+      <div class="record-check-wrap"><input class="record-select" type="checkbox" data-select-record="${esc(g.id)}" aria-label="${esc(g.title)} kaydını seç" ${selected?'checked':''}></div>
       <div class="li-info">
         ${g.image?`<img class="li-thumb" src="${esc(g.image)}" alt="" loading="lazy">`:`<div class="li-thumb"></div>`}
         <div class="li-text">
@@ -1074,9 +1173,97 @@ function list(){
       </div>
     </div>`;
   }).join('')||'<p class="meta">Eşleşen kayıt bulunamadı.</p>';
+  syncBulkControls();
+  renderAdminTrash();
 }
 
 ['qFilter','stFilter','favFilter','sortFilter'].forEach(id=>$('#'+id).addEventListener('input',list));
+$('#bulkAction').addEventListener('change',syncBulkControls);
+$('#selectAllFiltered').addEventListener('change',e=>{
+  document.querySelectorAll('#list [data-select-record]').forEach(input=>{
+    const id=String(input.dataset.selectRecord||'');
+    if(e.target.checked){selectedRecordIds.add(id);input.checked=true}
+    else{selectedRecordIds.delete(id);input.checked=false}
+  });
+  syncBulkControls();
+});
+$('#list').addEventListener('change',e=>{
+  const input=e.target.closest('[data-select-record]');if(!input)return;
+  const id=String(input.dataset.selectRecord||'');
+  if(input.checked)selectedRecordIds.add(id);else selectedRecordIds.delete(id);
+  syncBulkControls();
+});
+$('#clearSelection').addEventListener('click',()=>{selectedRecordIds.clear();list()});
+$('#emptyTrashBtn').addEventListener('click',()=>{
+  if(!readAdminTrash().length)return say('Son silinenler listesi zaten boş.');
+  if(!confirm('Son silinenler listesi tamamen temizlensin mi? Bu işlem buradaki geri yükleme imkânını kaldırır.'))return;
+  if(writeAdminTrash([])){renderAdminTrash();say('Son silinenler listesi temizlendi.')}else say('Liste temizlenemedi. Tarayıcı depolamasını kontrol et.',1);
+});
+$('#trashList').addEventListener('click',async e=>{
+  const btn=e.target.closest('button');if(!btn)return;
+  const restoreKey=btn.dataset.restoreTrash,purgeKey=btn.dataset.purgeTrash;
+  const items=readAdminTrash();
+  if(purgeKey){
+    const item=items.find(x=>x.key===purgeKey);if(!item)return;
+    if(!confirm(`“${item.record.title||'Başlıksız kayıt'}” son silinenler listesinden de tamamen kaldırılsın mı?`))return;
+    if(writeAdminTrash(items.filter(x=>x.key!==purgeKey))){renderAdminTrash();say('Kayıt son silinenler listesinden kaldırıldı.')}else say('Silinenler listesi güncellenemedi.',1);
+    return;
+  }
+  if(!restoreKey)return;
+  const item=items.find(x=>x.key===restoreKey);if(!item)return;
+  if(!CATS[item.category])return say('Kayıdın kategorisi tanınmıyor; geri yükleme yapılmadı.',1);
+  if(!confirm(`“${item.record.title||'Başlıksız kayıt'}” yeniden ${CATS[item.category].plural.toLocaleLowerCase('tr-TR')} listesine eklensin mi?`))return;
+  btn.disabled=true;btn.textContent='Yükleniyor…';
+  const d=await ensureLoaded(item.category,true);
+  const current=(d.games||[]).find(x=>String(x.id)===String(item.record.id));
+  if(current){btn.disabled=false;btn.textContent='Geri yükle';return say('Aynı ID ile bir kayıt zaten mevcut. Silinen kopyayı geri yüklemedim.',1)}
+  const old=d.games;
+  const next=[...d.games];const index=Math.max(0,Math.min(Number.isInteger(item.index)?item.index:next.length,next.length));
+  next.splice(index,0,JSON.parse(JSON.stringify(item.record)));d.games=next;
+  if(await persist(item.category)){
+    writeAdminTrash(readAdminTrash().filter(x=>x.key!==restoreKey));
+    if(item.category===cat)list();else renderAdminTrash();
+    say(`“${item.record.title||'Kayıt'}” geri yüklendi.`);
+  }else{d.games=old;btn.disabled=false;btn.textContent='Geri yükle'}
+});
+
+$('#applyBulkAction').addEventListener('click',async()=>{
+  const selected=[...selectedRecordIds];
+  if(!selected.length)return say('Önce listeden en az bir kayıt seç.',1);
+  const action=$('#bulkAction').value;
+  const map=new Map((data().games||[]).map((g,i)=>[String(g.id),{g,i}]));
+  const records=selected.map(id=>map.get(id)).filter(Boolean);
+  if(!records.length){selectedRecordIds.clear();list();return say('Seçili kayıtlar listede bulunamadı; seçim temizlendi.',1)}
+  const verb=action==='delete'?'son silinenlere taşı':action==='status'?'durumunu değiştir':action==='favorite-on'?'favorilere ekle':'favorilerden çıkar';
+  if(!confirm(`${records.length} kayıt için “${verb}” işlemi uygulansın mı?`))return;
+  const d=data(),old=d.games;
+  if(action==='delete'){
+    const trashKeys=[];
+    for(const {g,i} of records){
+      const key=stashAdminTrash(g,cat,i);
+      if(!key){removeAdminTrashKeys(trashKeys);return say('Silinenler listesine güvenlik kopyası kaydedilemedi. Hiçbir kayıt silinmedi; tarayıcı depolamasını kontrol et.',1)}
+      trashKeys.push(key);
+    }
+    const idsToDelete=new Set(records.map(x=>String(x.g.id)));
+    d.games=old.filter(g=>!idsToDelete.has(String(g.id)));
+    if(await persist()){
+      records.forEach(x=>selectedRecordIds.delete(String(x.g.id)));
+      list();say(`${records.length} kayıt son silinenlere taşındı. İstersen aşağıdan geri yükleyebilirsin.`);
+    }else{d.games=old;removeAdminTrashKeys(trashKeys)}
+    return;
+  }
+  d.games=old.map(g=>{
+    if(!selected.includes(String(g.id)))return g;
+    const changed={...g,updatedAt:new Date().toISOString()};
+    if(action==='status')changed.status=$('#bulkStatus').value;
+    if(action==='favorite-on')changed.favorite=true;
+    if(action==='favorite-off')changed.favorite=false;
+    return changed;
+  });
+  if(await persist()){
+    selectedRecordIds.clear();list();say(`${records.length} kayda toplu işlem uygulandı.`);
+  }else d.games=old;
+});
 
 $('#list').onclick=async e=>{
   const btn=e.target.closest('button');if(!btn)return;
@@ -1096,9 +1283,14 @@ $('#list').onclick=async e=>{
       if(await persist())list();
     }
   }
-  if(d&&confirm('Bu kayıt kalıcı olarak silinsin mi?')){
-    const old=D0.games;D0.games=D0.games.filter(g=>g.id!==d);
-    if(await persist())list();else D0.games=old;
+  if(d&&confirm('Bu kayıt son silinenlere taşınsın mı? Buradan 60 gün içinde geri yükleyebilirsin.')){
+    const idx=D0.games.findIndex(g=>String(g.id)===String(d));
+    if(idx<0)return;
+    const target=D0.games[idx],trashKey=stashAdminTrash(target,cat,idx);
+    if(!trashKey)return say('Geri yükleme kopyası kaydedilemedi; kayıt silinmedi. Tarayıcı depolamasını kontrol et.',1);
+    const old=D0.games;D0.games=old.filter(g=>String(g.id)!==String(d));
+    if(await persist()){selectedRecordIds.delete(String(d));list();say(`“${target.title}” son silinenlere taşındı.`)}
+    else{D0.games=old;removeAdminTrashKeys([trashKey])}
   }
   if(ed){
     const g=D0.games.find(x=>x.id===ed),c=cfg();editId=ed;
