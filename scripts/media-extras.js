@@ -7,7 +7,7 @@
   const script = document.currentScript;
   if (!script || !script.src) return;
   const rootURL = new URL('../', script.src);
-  const cssURL = new URL('assets/css/media-extras.css?v=2', rootURL);
+  const cssURL = new URL('assets/css/media-extras.css?v=3', rootURL);
   if (!document.querySelector('link[data-media-extras-css]')) {
     const css = document.createElement('link');
     css.rel = 'stylesheet';
@@ -121,25 +121,57 @@
     });
     host.appendChild(box);
   }
+  let localQrPromise = null;
+  function loadLocalQrLibrary() {
+    if (window.GunlugumQrCore) return Promise.resolve(window.GunlugumQrCore);
+    if (localQrPromise) return localQrPromise;
+    localQrPromise = new Promise((resolve, reject) => {
+      const qrScript = document.createElement('script');
+      qrScript.src = new URL('scripts/qrcode-local.js?v=1', rootURL).href;
+      qrScript.async = true;
+      qrScript.onload = () => window.GunlugumQrCore
+        ? resolve(window.GunlugumQrCore)
+        : reject(new Error('QR modülü yüklenemedi.'));
+      qrScript.onerror = () => reject(new Error('Yerel QR dosyasına ulaşılamadı.'));
+      document.head.appendChild(qrScript);
+    }).catch(error => {
+      localQrPromise = null;
+      throw error;
+    });
+    return localQrPromise;
+  }
+  function createLocalQrDataUrl(qrCore, text) {
+    const qr = new qrCore.QRCode(-1, qrCore.ErrorCorrectLevel.L);
+    qr.addData(text);
+    qr.make();
+    const count = qr.getModuleCount();
+    const quietZone = 4;
+    const targetPixels = 320;
+    const scale = Math.max(3, Math.floor(targetPixels / (count + quietZone * 2)));
+    const size = (count + quietZone * 2) * scale;
+    const canvas = document.createElement('canvas');
+    canvas.width = size;
+    canvas.height = size;
+    const context = canvas.getContext('2d');
+    if (!context) throw new Error('Bu tarayıcı QR görseli oluşturamıyor.');
+    context.fillStyle = '#ffffff';
+    context.fillRect(0, 0, size, size);
+    context.fillStyle = '#000000';
+    for (let row = 0; row < count; row += 1) {
+      for (let col = 0; col < count; col += 1) {
+        if (qr.isDark(row, col)) {
+          context.fillRect((col + quietZone) * scale, (row + quietZone) * scale, scale, scale);
+        }
+      }
+    }
+    return canvas.toDataURL('image/png');
+  }
   function renderQr(record, category) {
     const config = window.CATS && window.CATS[category];
     const box = section('Bu içeriğin QR kodu', 'QR görseli yalnızca istediğinde yüklenir.');
     const url = new URL(config && config.page ? config.page : location.href, rootURL);
     url.hash = record.id;
     const publicURL = url.href;
-    // İlk servis yanıt vermezse ikinci servise geçilir; uzak görselin takılması
-    // QR düğmesinin sonsuza kadar yükleniyor görünmesine neden olmamalı.
-    const quickChartURL = new URL('https://quickchart.io/qr');
-    quickChartURL.searchParams.set('text', publicURL);
-    quickChartURL.searchParams.set('size', '260');
-    quickChartURL.searchParams.set('margin', '2');
-    const qrServerURL = new URL('https://api.qrserver.com/v1/create-qr-code/');
-    qrServerURL.searchParams.set('size', '260x260');
-    qrServerURL.searchParams.set('margin', '2');
-    qrServerURL.searchParams.set('format', 'png');
-    qrServerURL.searchParams.set('data', publicURL);
-    const qrSources = [quickChartURL.href, qrServerURL.href];
-    let activeQrURL = qrSources[0];
     const row = el('div', 'media-qr-row');
     const imageLink = el('a', 'media-qr-image-link');
     imageLink.href = publicURL;
@@ -149,13 +181,12 @@
     const image = el('img', 'media-qr-image');
     image.alt = `${safeText(record.title)} QR kodu`;
     image.loading = 'lazy';
-    image.referrerPolicy = 'no-referrer';
     image.hidden = true;
-    const unavailable = el('span', 'media-qr-unavailable', 'QR servislerine ulaşılamadı. Tekrar deneyebilirsin.');
+    const unavailable = el('span', 'media-qr-unavailable', 'QR kodu oluşturulamadı. Yeniden deneyebilirsin.');
     unavailable.hidden = true;
     imageLink.append(image, unavailable);
     const details = el('div', 'media-qr-details');
-    details.append(el('p', 'media-extra-muted', 'QR üretildiğinde hizmet sağlayıcısına yalnızca bu kaydın herkese açık bağlantısı gönderilir.'));
+    details.append(el('p', 'media-extra-muted', 'QR kodu bu tarayıcıda oluşturulur; bağlantı herhangi bir QR hizmetine gönderilmez.'));
     addCopyButton(details, publicURL, 'İçerik bağlantısını kopyala');
     const showQr = el('button', 'btn pri media-qr-generate', 'QR kodunu oluştur');
     showQr.type = 'button';
@@ -163,74 +194,52 @@
     download.type = 'button';
     download.disabled = true;
     let qrLoaded = false;
-    let requestToken = 0;
-    let loadTimer = null;
-    function attemptQrSource(index, token) {
-      if (token !== requestToken) return;
-      if (loadTimer) { clearTimeout(loadTimer); loadTimer = null; }
-      if (index >= qrSources.length) {
-        qrLoaded = false;
-        unavailable.hidden = false;
-        image.hidden = true;
-        imageLink.hidden = false;
-        showQr.textContent = 'Tekrar dene';
-        showQr.disabled = false;
-        image.removeAttribute('src');
-        return;
-      }
-      activeQrURL = qrSources[index];
-      showQr.textContent = index === 0 ? 'QR yükleniyor…' : 'Diğer servis deneniyor…';
+    let generating = false;
+    const downloadName = `gunlugum-qr-${String(record.title || 'icerik').normalize('NFKD').replace(/[^a-zA-Z0-9_-]+/g, '-').replace(/^-|-$/g, '').slice(0, 50) || 'icerik'}.png`;
+
+    showQr.addEventListener('click', async () => {
+      if (qrLoaded || generating) return;
+      generating = true;
       showQr.disabled = true;
-      image.onload = () => {
-        if (token !== requestToken) return;
-        if (loadTimer) { clearTimeout(loadTimer); loadTimer = null; }
-        qrLoaded = true;
-        unavailable.hidden = true;
+      showQr.textContent = 'QR oluşturuluyor…';
+      unavailable.hidden = true;
+      image.hidden = true;
+      imageLink.hidden = true;
+      download.disabled = true;
+      try {
+        const qrCore = await loadLocalQrLibrary();
+        const dataUrl = createLocalQrDataUrl(qrCore, publicURL);
+        image.src = dataUrl;
+        imageLink.href = publicURL;
         image.hidden = false;
+        unavailable.hidden = true;
         imageLink.hidden = false;
+        qrLoaded = true;
         download.disabled = false;
         showQr.textContent = 'QR hazır';
         showQr.disabled = true;
-      };
-      image.onerror = () => {
-        if (token !== requestToken) return;
-        attemptQrSource(index + 1, token);
-      };
-      // Bazı ağ/filtre durumlarında resim isteği ne load ne de error üretir.
-      // Sekiz saniye sonra diğer servise geçerek kalıcı yüklenme durumunu önle.
-      loadTimer = setTimeout(() => {
-        if (token === requestToken) attemptQrSource(index + 1, token);
-      }, 8000);
-      image.src = activeQrURL;
-    }
-    showQr.addEventListener('click', () => {
-      if (qrLoaded) return;
-      requestToken += 1;
-      if (loadTimer) { clearTimeout(loadTimer); loadTimer = null; }
-      unavailable.hidden = true;
-      imageLink.hidden = true;
-      image.hidden = true;
-      download.disabled = true;
-      attemptQrSource(0, requestToken);
+      } catch (error) {
+        console.error('[Günlüğüm] QR kodu oluşturulamadı:', error);
+        unavailable.hidden = false;
+        imageLink.hidden = false;
+        image.hidden = true;
+        showQr.textContent = 'Tekrar dene';
+        showQr.disabled = false;
+      } finally {
+        generating = false;
+      }
     });
-    download.addEventListener('click', async () => {
-      if (!qrLoaded) { showQr.click(); return; }
-      const old = download.textContent;
-      download.disabled = true; download.textContent = 'Hazırlanıyor…';
-      try {
-        const response = await fetch(activeQrURL, { mode: 'cors', cache: 'force-cache' });
-        if (!response.ok) throw new Error('QR indirilemedi');
-        const blob = await response.blob();
-        const objectURL = URL.createObjectURL(blob);
-        const a = document.createElement('a'); a.href = objectURL;
-        a.download = `gunlugum-qr-${String(record.title || 'icerik').normalize('NFKD').replace(/[^a-zA-Z0-9_-]+/g, '-').replace(/^-|-$/g, '').slice(0, 50) || 'icerik'}.png`;
-        document.body.appendChild(a); a.click(); a.remove();
-        setTimeout(() => URL.revokeObjectURL(objectURL), 1000);
-      } catch (_) {
-        window.open(activeQrURL, '_blank', 'noopener');
-        download.textContent = 'QR görseli açıldı';
-        setTimeout(() => { if (download.isConnected) download.textContent = old; }, 2200);
-      } finally { download.disabled = false; if (download.textContent === 'Hazırlanıyor…') download.textContent = old; }
+    download.addEventListener('click', () => {
+      if (!qrLoaded || !image.src) {
+        showQr.click();
+        return;
+      }
+      const anchor = document.createElement('a');
+      anchor.href = image.src;
+      anchor.download = downloadName;
+      document.body.appendChild(anchor);
+      anchor.click();
+      anchor.remove();
     });
     details.append(showQr, download);
     row.append(imageLink, details);
