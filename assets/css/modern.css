@@ -37,7 +37,7 @@ a.btn.ico,a.btn.ico:visited{color:var(--ink)}a.btn.ico:hover{color:var(--accink)
 /* Ana sayfa: hero + bento kutular */
 .hero{padding:44px 0 26px}
 .hero h2{font:800 clamp(1.9rem,5vw,3.4rem)/1.08 'Plus Jakarta Sans',sans-serif;letter-spacing:-.04em;color:var(--ink);max-width:16ch}
-.tiles{grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-bottom:56px}
+.tiles{grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin-bottom:56px}
 a.tile,a.tile:visited{flex-direction:column;align-items:flex-start;justify-content:flex-end;min-height:230px;padding:20px;border:0;border-radius:var(--r);color:#fff;
   background:linear-gradient(160deg,color-mix(in srgb,var(--acc) 55%,#0f1a1d),#0f1a1d);box-shadow:var(--sh1)}
 a.tile.has-cover{background:linear-gradient(to top,rgba(11,17,20,.92) 8%,rgba(11,17,20,.15) 65%),var(--tile-cover) center/cover}
@@ -48,7 +48,6 @@ a.tile:hover .ticon{background:rgba(255,255,255,.28)}
 .tbody h3{font-size:1.4rem;color:#fff}a.tile:hover .tbody h3{color:#fff}
 .tbody p{color:rgba(255,255,255,.75)}
 @media(max-width:900px){.tiles{grid-template-columns:repeat(2,minmax(0,1fr))}a.tile,a.tile:visited{min-height:190px}}
-@media(max-width:400px){.tiles{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}a.tile,a.tile:visited{min-height:150px;padding:14px}.tbody h3{font-size:1.05rem}.tbody p{font-size:.78rem}}
 @media(max-width:400px){.tiles{width:100%}}
 
 /* Kategori sekmeleri, filtreler, giriş alanları */
@@ -92,138 +91,42 @@ a.tech-hub-card:hover,.tech-article:hover{box-shadow:var(--sh2)!important}
 @keyframes rise{from{opacity:0;transform:translateY(14px)}}
 @media(max-width:600px){.wrap{padding:0 16px}header.top{margin:0 -16px;padding:12px 16px}}
 
-/* v2: Ana sayfa kategori kartları — görsel odaklı, dengeli ve mobil uyumlu */
-body.home .tiles{
-  display:grid;
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:clamp(10px,1.8vw,18px);
-  width:100%;
-  margin:0 auto 42px;
+/* Tema uyumlu ikonlar: açık temada soluk/beyaz ikonların kontrastını düzeltir. */
+.btn svg,
+.cats a svg,
+.pill svg,
+.seg button svg,
+.tech-page-top .btn svg,
+.media-provider-icon svg {
+  color: inherit;
+  flex: 0 0 auto;
+  vertical-align: middle;
 }
-body.home a.tile,
-body.home a.tile:visited{
-  --tile-accent:var(--acc);
-  position:relative;
-  display:flex;
-  flex-direction:column;
-  align-items:flex-start;
-  justify-content:flex-end;
-  gap:0;
-  min-width:0;
-  min-height:clamp(165px,20vw,245px);
-  padding:clamp(14px,2.2vw,24px);
-  overflow:hidden;
-  isolation:isolate;
-  border:1px solid color-mix(in srgb,var(--tile-accent) 22%,var(--line));
-  border-radius:22px;
-  color:#fff;
-  background:linear-gradient(145deg,color-mix(in srgb,var(--tile-accent) 40%,#172126),#11191e 82%);
-  box-shadow:0 5px 18px rgba(0,0,0,.10);
-  transition:transform .24s var(--ease),box-shadow .24s var(--ease),border-color .24s ease;
-}
-body.home .tiles > a.tile:nth-child(1){--tile-accent:#6fb3ba}
-body.home .tiles > a.tile:nth-child(2){--tile-accent:#d39b65}
-body.home .tiles > a.tile:nth-child(3){--tile-accent:#8d9ee8}
-body.home .tiles > a.tile:nth-child(4){--tile-accent:#c28bd8}
-body.home a.tile.has-cover,
-body.home a.tile.has-cover:visited{
-  background-image:linear-gradient(180deg,rgba(8,13,17,.08) 0%,rgba(8,13,17,.18) 32%,rgba(8,13,17,.88) 100%),var(--tile-cover);
-  background-position:center,center;
-  background-repeat:no-repeat;
-  background-size:cover;
-}
-body.home a.tile::before{
-  content:"";
-  display:block;
-  position:absolute;
-  inset:0;
-  z-index:-1;
-  opacity:.5;
-  background:linear-gradient(135deg,color-mix(in srgb,var(--tile-accent) 28%,transparent),transparent 58%);
-  transform:none;
-  pointer-events:none;
-}
-body.home a.tile::after{
-  content:"↗";
-  position:absolute;
-  right:clamp(13px,2vw,22px);
-  bottom:clamp(15px,2vw,23px);
-  display:grid;
-  place-items:center;
-  width:30px;height:30px;
-  border:1px solid rgba(255,255,255,.28);
-  border-radius:50%;
-  color:#fff;
-  background:rgba(8,13,17,.25);
-  font-size:17px;
-  opacity:.85;
-  transition:transform .22s ease,background .22s ease;
-}
-body.home .ticon{
-  position:relative;
-  top:auto;left:auto;
-  display:grid;
-  place-items:center;
-  width:42px;height:42px;
-  margin-bottom:clamp(14px,2.3vw,24px);
-  border:1px solid rgba(255,255,255,.24);
-  border-radius:14px;
-  color:#fff;
-  background:color-mix(in srgb,var(--tile-accent) 55%,rgba(12,18,22,.72));
-  box-shadow:0 5px 18px rgba(0,0,0,.14);
-  backdrop-filter:blur(12px);
-  -webkit-backdrop-filter:blur(12px);
-}
-body.home .ticon svg{width:21px;height:21px}
-body.home .tbody{display:block;width:100%;min-width:0;padding-right:28px}
-body.home .tbody h3{
-  margin:0;
-  color:#fff;
-  font-size:clamp(1.08rem,2.1vw,1.48rem);
-  line-height:1.2;
-  font-weight:800;
-  letter-spacing:-.035em;
-  overflow-wrap:anywhere;
-}
-body.home .tbody p{
-  display:inline-flex;
-  align-items:center;
-  max-width:100%;
-  margin:8px 0 0;
-  padding:4px 9px;
-  border:1px solid rgba(255,255,255,.18);
-  border-radius:999px;
-  color:rgba(255,255,255,.9);
-  background:rgba(8,13,17,.38);
-  font-size:.76rem;
-  line-height:1.35;
-  backdrop-filter:blur(8px);
-  -webkit-backdrop-filter:blur(8px);
-}
-body.home a.tile:hover{
-  transform:translateY(-4px);
-  border-color:color-mix(in srgb,var(--tile-accent) 68%,white);
-  box-shadow:0 14px 32px color-mix(in srgb,var(--tile-accent) 18%,transparent),0 0 0 1px color-mix(in srgb,var(--tile-accent) 24%,transparent);
-}
-body.home a.tile:hover::after{transform:translate(2px,-2px);background:color-mix(in srgb,var(--tile-accent) 55%,rgba(8,13,17,.6))}
-body.home a.tile:hover .ticon{transform:translateY(-2px);background:color-mix(in srgb,var(--tile-accent) 75%,#172126)}
-@media(max-width:600px){
-  .wrap{padding-left:14px;padding-right:14px}
-  body.home .tiles{grid-template-columns:repeat(2,minmax(0,1fr));gap:11px;margin-bottom:30px}
-  body.home a.tile,body.home a.tile:visited{min-height:158px;padding:14px;border-radius:17px}
-  body.home .ticon{width:36px;height:36px;margin-bottom:13px;border-radius:12px}
-  body.home .ticon svg{width:19px;height:19px}
-  body.home .tbody{padding-right:0}
-  body.home .tbody h3{font-size:clamp(.98rem,4.1vw,1.16rem);line-height:1.18}
-  body.home .tbody p{font-size:.7rem;margin-top:7px;padding:4px 7px}
-  body.home a.tile::after{right:10px;bottom:10px;width:24px;height:24px;font-size:14px}
-  body.home a.tile.has-cover,body.home a.tile.has-cover:visited{background-position:center,center;background-size:cover}
-}
-@media(max-width:350px){
-  body.home .tiles{gap:8px}
-  body.home a.tile,body.home a.tile:visited{min-height:145px;padding:11px;border-radius:14px}
-  body.home .tbody h3{font-size:.92rem}
-  body.home .tbody p{font-size:.66rem}
-}
-@media(prefers-reduced-motion:reduce){body.home a.tile,body.home a.tile::after,body.home .ticon{transition:none}body.home a.tile:hover{transform:none}}
 
+/* Standart kontrollerde ikonlar metin rengiyle aynı kontrastı izlesin. */
+.btn:not(.pri) svg { color: currentColor; }
+.btn.del svg { color: var(--no); }
+.btn.ico:hover svg,
+.btn.pri svg,
+.cats a[aria-current="page"] svg,
+.pill[aria-pressed="true"] svg,
+.seg button[aria-pressed="true"] svg {
+  color: inherit;
+}
+
+/* Açık temada pasif filtre ve görünüm düğmelerinin ikonları okunaklı gri olsun. */
+:root[data-theme="light"] .seg button:not([aria-pressed="true"]),
+:root[data-theme="light"] .seg button:not([aria-pressed="true"]) svg,
+:root[data-theme="light"] .cats a:not([aria-current="page"]),
+:root[data-theme="light"] .cats a:not([aria-current="page"]) svg {
+  color: var(--mute);
+}
+
+/* Favori ve silme ikonları kendi anlam renklerini korusun; aktif favori metinle kontrastlı kalsın. */
+.pill.fav:not([aria-pressed="true"]) svg,
+.fvb svg { color: var(--no); }
+.pill.fav[aria-pressed="true"] svg { color: inherit; }
+
+/* Görsel üstü rozetler ve ana sayfa görsel kartları koyu yüzeyde beyaz ikon kullanır. */
+.cover .fvb svg,
+a.tile .ticon svg { color: inherit; }
