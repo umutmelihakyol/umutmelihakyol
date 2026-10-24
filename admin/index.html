@@ -842,9 +842,15 @@ async function getRepoFile(path){
 async function putRepoFile(path,contentStr,commitMsg,knownSha=null){
   if(!tok()){say('Oturum açık değil, tekrar giriş yap.',1);return null}
   let sha=knownSha;
+  // GitHub'ın tanıdığı resmi Gemini AI Bot kimliği ile Co-author imzası:
+  const fullMsg = `${commitMsg}\n\nCo-authored-by: gemini-code-assist[bot] <176961590+gemini-code-assist[bot]@users.noreply.github.com>`;
   for(let n=0;n<2;n++){
     if(!sha){const existing=await getRepoFile(path);sha=existing?existing.sha:null}
-    const body={message:commitMsg,content:strToB64(contentStr),branch:C.branch||'main'};
+    const body={
+      message: fullMsg,
+      content: strToB64(contentStr),
+      branch: C.branch||'main'
+    };
     if(sha)body.sha=sha;
     const r=await fetch(apiPath(path),{method:'PUT',headers:hdr(),body:JSON.stringify(body)});
     if(r.ok)return (await r.json()).content.sha;
