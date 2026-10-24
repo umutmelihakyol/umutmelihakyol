@@ -7,7 +7,7 @@
   const script = document.currentScript;
   if (!script || !script.src) return;
   const rootURL = new URL('../', script.src);
-  const cssURL = new URL('assets/css/media-extras.css?v=1', rootURL);
+  const cssURL = new URL('assets/css/media-extras.css?v=2', rootURL);
   if (!document.querySelector('link[data-media-extras-css]')) {
     const css = document.createElement('link');
     css.rel = 'stylesheet';
@@ -127,11 +127,19 @@
     const url = new URL(config && config.page ? config.page : location.href, rootURL);
     url.hash = record.id;
     const publicURL = url.href;
-    const qrURL = new URL('https://api.qrserver.com/v1/create-qr-code/');
-    qrURL.searchParams.set('size', '260x260');
-    qrURL.searchParams.set('margin', '2');
-    qrURL.searchParams.set('format', 'png');
-    qrURL.searchParams.set('data', publicURL);
+    // İlk servis yanıt vermezse ikinci servise geçilir; uzak görselin takılması
+    // QR düğmesinin sonsuza kadar yükleniyor görünmesine neden olmamalı.
+    const quickChartURL = new URL('https://quickchart.io/qr');
+    quickChartURL.searchParams.set('text', publicURL);
+    quickChartURL.searchParams.set('size', '260');
+    quickChartURL.searchParams.set('margin', '2');
+    const qrServerURL = new URL('https://api.qrserver.com/v1/create-qr-code/');
+    qrServerURL.searchParams.set('size', '260x260');
+    qrServerURL.searchParams.set('margin', '2');
+    qrServerURL.searchParams.set('format', 'png');
+    qrServerURL.searchParams.set('data', publicURL);
+    const qrSources = [quickChartURL.href, qrServerURL.href];
+    let activeQrURL = qrSources[0];
     const row = el('div', 'media-qr-row');
     const imageLink = el('a', 'media-qr-image-link');
     imageLink.href = publicURL;
@@ -143,7 +151,7 @@
     image.loading = 'lazy';
     image.referrerPolicy = 'no-referrer';
     image.hidden = true;
-    const unavailable = el('span', 'media-qr-unavailable', 'QR kodu çevrimiçi üretilemedi.');
+    const unavailable = el('span', 'media-qr-unavailable', 'QR servislerine ulaşılamadı. Tekrar deneyebilirsin.');
     unavailable.hidden = true;
     imageLink.append(image, unavailable);
     const details = el('div', 'media-qr-details');
@@ -155,30 +163,62 @@
     download.type = 'button';
     download.disabled = true;
     let qrLoaded = false;
-    let qrFailed = false;
+    let requestToken = 0;
+    let loadTimer = null;
+    function attemptQrSource(index, token) {
+      if (token !== requestToken) return;
+      if (loadTimer) { clearTimeout(loadTimer); loadTimer = null; }
+      if (index >= qrSources.length) {
+        qrLoaded = false;
+        unavailable.hidden = false;
+        image.hidden = true;
+        imageLink.hidden = false;
+        showQr.textContent = 'Tekrar dene';
+        showQr.disabled = false;
+        image.removeAttribute('src');
+        return;
+      }
+      activeQrURL = qrSources[index];
+      showQr.textContent = index === 0 ? 'QR yükleniyor…' : 'Diğer servis deneniyor…';
+      showQr.disabled = true;
+      image.onload = () => {
+        if (token !== requestToken) return;
+        if (loadTimer) { clearTimeout(loadTimer); loadTimer = null; }
+        qrLoaded = true;
+        unavailable.hidden = true;
+        image.hidden = false;
+        imageLink.hidden = false;
+        download.disabled = false;
+        showQr.textContent = 'QR hazır';
+        showQr.disabled = true;
+      };
+      image.onerror = () => {
+        if (token !== requestToken) return;
+        attemptQrSource(index + 1, token);
+      };
+      // Bazı ağ/filtre durumlarında resim isteği ne load ne de error üretir.
+      // Sekiz saniye sonra diğer servise geçerek kalıcı yüklenme durumunu önle.
+      loadTimer = setTimeout(() => {
+        if (token === requestToken) attemptQrSource(index + 1, token);
+      }, 8000);
+      image.src = activeQrURL;
+    }
     showQr.addEventListener('click', () => {
       if (qrLoaded) return;
-      qrFailed = false;
-      showQr.disabled = true;
-      showQr.textContent = 'QR yükleniyor…';
-      image.addEventListener('load', () => {
-        qrLoaded = true;
-        image.hidden = false; imageLink.hidden = false; download.disabled = false;
-        showQr.textContent = 'QR hazır'; showQr.disabled = true;
-      }, { once: true });
-      image.addEventListener('error', () => {
-        qrFailed = true; unavailable.hidden = false; imageLink.hidden = false;
-        showQr.textContent = 'Tekrar dene'; showQr.disabled = false;
-        image.removeAttribute('src');
-      }, { once: true });
-      image.src = qrURL.href;
+      requestToken += 1;
+      if (loadTimer) { clearTimeout(loadTimer); loadTimer = null; }
+      unavailable.hidden = true;
+      imageLink.hidden = true;
+      image.hidden = true;
+      download.disabled = true;
+      attemptQrSource(0, requestToken);
     });
     download.addEventListener('click', async () => {
       if (!qrLoaded) { showQr.click(); return; }
       const old = download.textContent;
       download.disabled = true; download.textContent = 'Hazırlanıyor…';
       try {
-        const response = await fetch(qrURL.href, { mode: 'cors', cache: 'force-cache' });
+        const response = await fetch(activeQrURL, { mode: 'cors', cache: 'force-cache' });
         if (!response.ok) throw new Error('QR indirilemedi');
         const blob = await response.blob();
         const objectURL = URL.createObjectURL(blob);
@@ -187,7 +227,7 @@
         document.body.appendChild(a); a.click(); a.remove();
         setTimeout(() => URL.revokeObjectURL(objectURL), 1000);
       } catch (_) {
-        window.open(qrURL.href, '_blank', 'noopener');
+        window.open(activeQrURL, '_blank', 'noopener');
         download.textContent = 'QR görseli açıldı';
         setTimeout(() => { if (download.isConnected) download.textContent = old; }, 2200);
       } finally { download.disabled = false; if (download.textContent === 'Hazırlanıyor…') download.textContent = old; }
