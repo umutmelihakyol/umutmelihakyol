@@ -103,7 +103,7 @@
   },
   {
     "id": "mvkjqa7l",
-    "status": "istek",
+    "status": "oynuyorum",
     "title": "Bungo Stray Dogs",
     "image": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx21311-hAXyT8Yoh6G9.jpg",
     "platform": "Anime",
@@ -122,13 +122,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-10-25T18:18:06.549Z",
+    "updatedAt": "2026-10-23T10:01:26.065Z",
     "episodes": 12,
     "studio": "bones"
   },
   {
     "id": "mvkjqap9",
-    "status": "istek",
+    "status": "oynuyorum",
     "title": "DAN DA DAN",
     "image": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx171018-60q1B6GK2Ghb.jpg",
     "platform": "Anime",
@@ -149,7 +149,7 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-10-25T18:18:06.549Z",
+    "updatedAt": "2026-10-23T10:01:55.550Z",
     "episodes": 12,
     "studio": "Science SARU"
   },
@@ -227,7 +227,7 @@
   },
   {
     "id": "mvkjqcn7",
-    "status": "istek",
+    "status": "oynuyorum",
     "title": "Hunter x Hunter (2011)",
     "image": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx11061-y5gsT1hoHuHw.png",
     "platform": "Anime",
@@ -245,7 +245,7 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-10-25T18:18:06.549Z",
+    "updatedAt": "2026-10-23T10:03:10.114Z",
     "episodes": 148,
     "studio": "MADHOUSE"
   },
@@ -378,7 +378,7 @@
   },
   {
     "id": "mvkjqfjw",
-    "status": "istek",
+    "status": "oynuyorum",
     "title": "ONE PIECE",
     "image": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx21-ELSYx3yMPcKM.jpg",
     "platform": "Anime",
@@ -398,7 +398,7 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-10-25T18:18:06.549Z",
+    "updatedAt": "2026-10-23T15:51:22.762Z",
     "episodes": 12,
     "studio": "Toei Animation"
   },
@@ -428,7 +428,7 @@
   },
   {
     "id": "mvkjqgi5",
-    "status": "istek",
+    "status": "oynuyorum",
     "title": "Re:ZERO -Starting Life in Another World-",
     "image": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx21355-wRVUrGxpvIQQ.jpg",
     "platform": "Anime",
@@ -450,7 +450,7 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-10-25T18:18:06.549Z",
+    "updatedAt": "2026-10-23T15:51:59.327Z",
     "episodes": 25,
     "studio": "WHITE FOX"
   },
@@ -531,10 +531,10 @@
   },
   {
     "id": "mvk1ifbb",
-    "status": "oynuyorum",
+    "status": "istek",
     "title": "That Time I Got Reincarnated as a Slime",
     "image": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx101280-tDxCVJm714nt.jpg",
-    "platform": "OpenAnime",
+    "platform": "",
     "genres": [
       "Aksiyon",
       "Macera",
@@ -550,8 +550,7 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "links": [],
-    "updatedAt": "2026-10-25T18:17:20.006Z",
+    "updatedAt": "2026-10-22T21:51:03.687Z",
     "episodes": 24,
     "studio": "8-bit"
   },

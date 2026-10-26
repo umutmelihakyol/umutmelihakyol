@@ -292,16 +292,3 @@ dialog.game-detail .inner>p:last-child .btn{min-height:42px}
 /* Görsel üstü rozetler ve ana sayfa görsel kartları koyu yüzeyde beyaz ikon kullanır. */
 .cover .fvb svg,
 a.tile .ticon svg { color: inherit; }
-
-/* Ana sayfa kategori kartları: açık temada beyaz ikonların açık zeminde kaybolmasını önle.
-   Yalnızca kapak görselli kartların ikon düğmelerini etkiler; koyu tema değişmez. */
-:root[data-theme="light"] body.home a.tile.has-cover .ticon {
-  color: #fff;
-  background: rgba(18, 27, 33, .82);
-  border-color: rgba(255, 255, 255, .42);
-  box-shadow: 0 5px 16px rgba(0, 0, 0, .24);
-}
-:root[data-theme="light"] body.home a.tile.has-cover .ticon svg {
-  color: #fff;
-  stroke: currentColor;
-}

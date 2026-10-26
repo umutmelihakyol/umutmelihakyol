@@ -1,5 +1,33 @@
-(function(){var t=localStorage.getItem('theme')||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light');document.documentElement.dataset.theme=t;
-window.toggleTheme=function(){t=t==='dark'?'light':'dark';document.documentElement.dataset.theme=t;localStorage.setItem('theme',t)}})();
+/* Günlüğüm: özel alan adında tek bir güvenli origin kullan.
+   GitHub Pages HTTPS sertifikası etkinleştirildikten sonra HTTP ve www girişlerini ana domaine yönlendirir. */
+(function(){
+  'use strict';
+  var canonicalHost = 'umutmelihakyol.com';
+  var host = String(location.hostname || '').toLowerCase();
+  if (host !== canonicalHost && host !== 'www.' + canonicalHost) return;
+  var target = new URL(location.href);
+  target.protocol = 'https:';
+  target.hostname = canonicalHost;
+  target.port = '';
+  if (target.href !== location.href) location.replace(target.href);
+})();
+
+/* Tema tercihi: depolama kapalı olsa da sayfa ve yönetim paneli açılabilsin. */
+(function(){
+  var t = 'dark';
+  try {
+    var saved = localStorage.getItem('theme');
+    t = saved || ((typeof matchMedia === 'function' && matchMedia('(prefers-color-scheme:dark)').matches) ? 'dark' : 'light');
+  } catch (_) {
+    t = (typeof matchMedia === 'function' && matchMedia('(prefers-color-scheme:dark)').matches) ? 'dark' : 'light';
+  }
+  document.documentElement.dataset.theme = t;
+  window.toggleTheme = function(){
+    t = t === 'dark' ? 'light' : 'dark';
+    document.documentElement.dataset.theme = t;
+    try { localStorage.setItem('theme', t); } catch (_) {}
+  };
+})();
 
 /* Sessiz beyaz sayfa olmasın: dosya yüklenemezse ya da kod hata verirse üstte uyarı çıkar */
 (function(){var miss=[],bar=null,err='';

@@ -1,8 +1,8 @@
-/* Günlüğüm Service Worker — cache v4: sayfalar arası stilleri ve kaynakları güncel tut. */
+/* Günlüğüm Service Worker — cache v7: özel alan adı sonrası sayfaları ve kaynakları güncel tut. */
 'use strict';
 
 const CACHE_PREFIX = 'gunlugum-pwa-';
-const CACHE_VERSION = 'v6';
+const CACHE_VERSION = 'v7';
 const APP_CACHE = `${CACHE_PREFIX}app-${CACHE_VERSION}`;
 const IMAGE_CACHE = `${CACHE_PREFIX}images-${CACHE_VERSION}`;
 const APP_ROOT = new URL('./', self.registration.scope);

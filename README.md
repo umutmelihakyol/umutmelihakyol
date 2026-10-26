@@ -1,229 +1,95 @@
-# Günlüğüm
-
-Oyun, film, dizi ve anime arşivimi; kişisel puanlarımı, notlarımı, incelemelerimi ve Technopat içeriklerimi tek yerde tuttuğum kişisel medya arşivi.
-
-**Canlı depo:** [umutmelihakyol/umutmelihakyol](https://github.com/umutmelihakyol/umutmelihakyol)
-
-Günlüğüm, sunucu tarafında bir uygulama gerektirmeyen, HTML, CSS, JavaScript ve JSON dosyalarıyla çalışan statik bir web projesidir. GitHub Pages gibi statik barındırma servislerinde yayınlanabilir.
-
-## İçindekiler
-
-- [Öne çıkan özellikler](#öne-çıkan-özellikler)
-- [Proje yapısı](#proje-yapısı)
-- [Yerel olarak çalıştırma](#yerel-olarak-çalıştırma)
-- [GitHub Pages üzerinde yayınlama](#github-pages-üzerinde-yayınlama)
-- [Yönetim paneli](#yönetim-paneli)
-- [Yapılandırma](#yapılandırma)
-- [Veri dosyaları](#veri-dosyaları)
-- [Kullanılan veri kaynakları](#kullanılan-veri-kaynakları)
-- [Güvenlik ve gizlilik](#güvenlik-ve-gizlilik)
-- [Sorun giderme](#sorun-giderme)
-
-## Öne çıkan özellikler
-
-### Medya arşivi
-
-- Oyun, film, dizi ve anime için ayrı kategori sayfaları.
-- Kayıt arama, kategoriye uygun filtreler ve sıralama seçenekleri.
-- Kart ve liste görünümü; görüntüleme tercihi tarayıcıda saklanır.
-- İzleme/oynama durumu, kişisel puan, tamamlanma tarihi, notlar, artılar ve eksiler.
-- Favori ve öneri işaretleri.
-- İçerik ayrıntılarında ilgili bağlantılar ve — oyun kayıtları için — PC kurulum profilleri.
-- Aydınlık ve koyu tema.
+# Günlüğüm (oyun, film, dizi, anime)
 
-### Oyun maliyeti ve kütüphane
+Statik bir site: sunucu gerekmez. GitHub Pages veya Netlify ile yayınlanır.
 
-`oyun/maliyet/index.html` sayfasında oyunların edinilme şekli, sahiplik durumu, satın alma fiyatı, para birimi, satın alma tarihi ve liste fiyatı gibi kayıtlı bilgiler incelenebilir. Özetler yalnızca girilmiş veriler üzerinden hesaplanır; farklı para birimleri otomatik olarak birbirine çevrilmez. Maliyet verileri CSV biçiminde dışa aktarılabilir.
+## Sayfalar
+- `index.html`: Ana sayfa. Oyun, Film, Dizi ve Anime düğmeleri ve "Son eklenenler".
+- `oyun.html`, `film.html`, `dizi.html`, `anime.html`: Kategori sayfaları (hepsi `app.js` kodunu kullanır).
+- `admin.html`: Tek yönetim paneli. Üstteki düğmelerden kategoriyi seçip veri girersin.
+- `categories.js`: Kategorilerin ortak tanımı (etiketler, alanlar, durum adları).
+- Veri dosyaları: `games.json`, `movies.json`, `series.json`, `anime.json`.
 
-### Technopat içerikleri
+## Güncelleme (eski kurulumdan geçiş)
+1. Bu klasördeki **tüm dosyaları** depona yükle. Yalnızca **`config.js` dosyasının üzerine yazma**: kendi `config.js` dosyana şu iki satırı ekle:
+   ```
+   tmdbKey: "",
+   tagline: "",
+   ```
+2. `games.json` dosyana dokunma, mevcut oyunların aynen çalışır. `movies.json`, `series.json`, `anime.json` boş olarak gelir.
+3. `config.js` içindeki `path` alanı artık kullanılmıyor (dosya adları `categories.js` içinde).
+4. Eskiden paylaştığın `index.html#oyunid` bağlantıları ana sayfaya gelir ve otomatik olarak `oyun.html#oyunid` adresine yönlenir.
+5. `siteTitle` değerini genel bir isimle değiştirebilirsin (ör. "Günlüğüm").
 
-Technopat'ta yayımlanan incelemeler ve rehberler, `data/technopat.json` dosyasından beslenen ayrı sayfalarda sunulur. Yönetim panelinden bu kartlar eklenebilir, düzenlenebilir ve kaldırılabilir.
+## API anahtarları
+- **Oyun:** RAWG (`rawgKey`), zaten var.
+- **Film ve dizi:** TMDB. themoviedb.org'da ücretsiz hesap aç, Ayarlar > API bölümünden **API Anahtarı (v3)** al, `config.js` içindeki `tmdbKey` alanına yaz. Türler, yönetmen, süre, sezon ve bölüm sayısı Türkçe olarak otomatik gelir.
+- **Anime:** Jikan (MyAnimeList). Anahtar gerekmez. Bölüm sayısı, stüdyo ve türler otomatik gelir.
 
-### Gelişmiş yönetim paneli
+## Kullanım
+- `admin.html` sayfasına şifrenle gir, üstten kategoriyi seç (Oyun, Film, Dizi, Anime).
+- Ada göre ara, çıkan sonuca tıkla: kapak, tür, yıl, yönetmen/yaratıcı/stüdyo ve süre ya da bölüm bilgisi forma dolar. Durumu, puanı ve tarihi girip kaydet.
+- Her kategori kendi dosyasına kaydedilir. Kayıt sonrası site 1-2 dakika içinde güncellenir.
 
-`admin/index.html` üzerinden aşağıdaki işlemler yapılabilir:
+## Diğer ayarlar (`config.js`)
+- `suggestUrl`: "Bana öner" düğmesi (Google Forms bağlantısı ya da `mailto:`). Boşsa düğme görünmez.
+- `goatcounter`: Çerezsiz ziyaretçi sayacı. Hangi kayıtların açıldığı da sayılır. Boşsa kapalı. Kendi ziyaretlerini saymamak için konsola `localStorage.skipgc='t'` yaz.
+- `tagline`: Ana sayfadaki başlık cümlesi.
 
-- Medya kayıtlarını oluşturma, düzenleme ve silme; seçili kayıtlar üzerinde toplu işlem uygulama.
-- Son silinenler listesinden kayıtları geri yükleme.
-- Kayıt istatistiklerini görüntüleme ve arşiv kontrolü yapma.
-- JSON yedeği indirme, GitHub'daki son yedeği yükleme ve yedekten geri dönme.
-- Steam kütüphanesini, Letterboxd dışa aktarım dosyalarını ve MyAnimeList verilerini içe aktarma.
-- Site/API ayarlarını, kategori tanımlarını ve desteklenen depo dosyalarını düzenleme.
-- Technopat inceleme ve rehber kartlarını yönetme.
-- İçeriklere ilgili bağlantılar ve oyunlara kurulum profilleri ekleme.
+## Yeni kategori eklemek
+`categories.js` içine yeni bir blok ekle, `oyun.html` dosyasını kopyalayıp `data-cat` ve `cat-` sınıfını değiştir, boş bir `.json` dosyası oluştur. Arama kaynağı gerekiyorsa `admin.html` içindeki `search` fonksiyonuna ekle.
 
-Yönetim paneli ziyaretçi menüsünde bağlantı olarak gösterilmez; adres doğrudan açılır. Yetkilendirme ve GitHub'a yazma işlemleri için [Güvenlik ve gizlilik](#güvenlik-ve-gizlilik) bölümünü de okuyun.
+## Kaynak belirtme
+Sayfa altlarında RAWG, TMDB ve Jikan kaynakları belirtilir. TMDB kullanım şartları gereği bu bilgiyi kaldırma.
 
-### PWA ve çevrimdışı destek
 
-Manifest, uygulama simgeleri, servis çalışanı ve çevrimdışı sayfası sayesinde site desteklenen tarayıcılarda uygulama gibi kurulabilir. Servis çalışanı temel sayfaları ve yerel kaynakları önbelleğe alarak bağlantı sorunlarında yardımcı olur. Harici API'ler ve görseller çevrimdışı durumda her zaman erişilebilir olmayabilir.
+## Klasör yapısı
 
-> Not: QR kodu oluşturma sistemi bu sürümde bulunmuyor.
+- `index.html` — ana sayfa
+- `admin/index.html` — doğrudan adresle açılan yönetim paneli (site menülerinde bağlantısı yoktur)
+- `oyun/index.html`, `film/index.html`, `dizi/index.html`, `anime/index.html` — kategori sayfaları
+- `data/` — kategori kayıtlarını tutan JSON dosyaları
+- `assets/css/style.css` — görsel tasarım
+- `scripts/` — uygulama, tema, yapılandırma ve kategori JavaScript dosyaları
 
-## Proje yapısı
+GitHub üzerinden kayıt güncellerken veri dosyalarının depo yolları `data/games.json`, `data/movies.json`, `data/series.json` ve `data/anime.json` olarak kullanılır. Sayfalardaki veri yükleme adresleri site kök dizinine göre oluşturulur.
 
-```text
-.
-├── index.html                     # Ana sayfa
-├── admin/
-│   └── index.html                 # Yönetim paneli
-├── oyun/
-│   ├── index.html                 # Oyun arşivi
-│   └── maliyet/
-│       └── index.html             # Oyun maliyeti ve kütüphane
-├── film/index.html                # Film arşivi
-├── dizi/index.html                # Dizi arşivi
-├── anime/index.html               # Anime arşivi
-├── technopat/
-│   ├── incelemeler/index.html     # Technopat incelemeleri
-│   └── rehberler/index.html       # Technopat rehberleri
-├── data/
-│   ├── games.json                 # Oyun kayıtları
-│   ├── movies.json                # Film kayıtları
-│   ├── series.json                # Dizi kayıtları
-│   ├── anime.json                 # Anime kayıtları
-│   └── technopat.json             # İnceleme ve rehber listeleri
-├── backups/
-│   └── latest.json                # En son otomatik yedek (oluşturulduğunda)
-├── assets/
-│   ├── css/                       # Tema, kartlar ve sayfa stilleri
-│   └── icons/                     # PWA simgeleri
-├── scripts/
-│   ├── config.js                  # Site ve API yapılandırması
-│   ├── categories.js              # Kategori tanımları ve görsel URL işlemleri
-│   ├── app.js                     # Ortak medya listeleme uygulaması
-│   ├── media-extras.js            # İlgili bağlantılar ve kurulum profilleri
-│   ├── anime-detail.js            # Anime ayrıntıları
-│   ├── technopat.js               # Technopat içeriklerini görüntüleme
-│   ├── theme.js                   # Tema yönetimi
-│   ├── intro-loader.js            # Açılış/yükleme ekranı
-│   └── pwa.js                     # PWA/servis çalışanı yönetimi
-├── manifest.webmanifest           # PWA tanımı
-├── service-worker.js              # Önbellek ve çevrimdışı davranışı
-└── offline.html                   # Çevrimdışı bilgilendirme sayfası
-```
+## QR kod oluşturma bileşeni hakkında
+==================================
 
-## Yerel olarak çalıştırma
+Günlüğüm paketindeki yerel QR motorunun temeli, Kazuhiko Arase tarafından geliştirilen qrcode-generator uygulamasının QRCode çekirdeğine dayanır.
 
-Siteyi `file://` adresinden açmak yerine yerel HTTP sunucusu kullanın. Python 3 kuruluysa depo kök klasöründe şu komut yeterlidir:
+Copyright (c) 2009 Kazuhiko Arase
+MIT License
 
-```bash
-python -m http.server 8000
-```
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
-Ardından tarayıcıda `http://localhost:8000/` adresini açın. Yönetim paneli `http://localhost:8000/admin/` konumundadır.
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
 
-Site verilerinin ve yönetim panelinin GitHub üzerinden yaptığı işlemlerin çalışması için internet bağlantısı gerekir. Yerel testte yapılan dosya değişiklikleri otomatik olarak GitHub'a yayımlanmaz.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
 
-## GitHub Pages üzerinde yayınlama
+## Özel alan adı ve HTTPS
 
-1. Depodaki dosyaları ve klasörleri koruyarak `main` dalına gönderin.
-2. GitHub deposunda **Settings → Pages** bölümünü açın.
-3. Yayınlama kaynağını deponuzun kullandığı düzene göre yapılandırın. Kök dizinden yayın yapılıyorsa `main` dalı ve `/ (root)` seçilebilir.
-4. GitHub Pages dağıtımı tamamlandığında Pages ayarlarında gösterilen site adresini açın.
+Bu proje GitHub Pages üzerinde `umutmelihakyol.com` alan adını kullanır. Dal üzerinden yayımlama yapılıyorsa depo kökündeki `CNAME` dosyası yalnızca `umutmelihakyol.com` satırını içermelidir.
 
-Yeni HTML, CSS, JavaScript veya JSON dosyaları eklerken ilgili sayfalardaki göreli yolların doğru olduğundan emin olun. Sayfalar proje köküne göre farklı derinliklerde bulunduğu için CSS, JavaScript ve veri dosyası yolları her sayfada aynı olmayabilir.
+1. GitHub deposunda **Settings → Pages → Custom domain** alanına `umutmelihakyol.com` yazıldığını kontrol et.
+2. Alan adı sağlayıcısında kök alan adı (`@`) için GitHub Pages'in önerdiği A kayıtlarını yapılandır: `185.199.108.153`, `185.199.109.153`, `185.199.110.153` ve `185.199.111.153`. Sağlayıcı destekliyorsa GitHub'ın resmi belgelerindeki IPv6 kayıtlarını da ekleyebilirsin. Eski/çakışan kayıtları, mevcut DNS durumunu doğrulamadan silme.
+3. GitHub Pages ayarlarında sertifika hazır olduğunda **Enforce HTTPS** seçeneğini etkinleştir. DNS ve sertifika değişikliklerinin yayılması zaman alabilir.
+4. Yönetim panelini `https://umutmelihakyol.com/admin/` adresinden aç. HTTP ve `www` girişleri ana HTTPS adresine yönlendirilir. Giriş anahtarını çözmek için tarayıcının Web Crypto özelliği güvenli bağlam (HTTPS) gerektirir.
+5. Dağıtımdan sonra tarayıcıda `Ctrl+F5` yap. Günlüğüm servis çalışanının önbellek sürümü de yükseltilmiştir.
 
-## Yönetim paneli
+> Not: Özel alan adı ilk kez bağlandığında `localStorage` ve `sessionStorage` önceki `github.io` origin'inden ayrı tutulur. Tema tercihi veya açık yönetim oturumu yeni alan adına otomatik taşınmaz; yönetim panelinde yeniden giriş yapmak gerekir. GitHub token'ını doğrudan HTML/JS içine düz metin olarak koyma.
 
-### İlk kurulum ve GitHub erişimi
+Daha fazla bilgi: [GitHub Pages özel alan adlarını yönetme](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site) ve [GitHub Pages için HTTPS](https://docs.github.com/en/pages/getting-started-with-github-pages/securing-your-github-pages-site-with-https).
 
-Yönetim paneli depo içeriğini GitHub Contents API üzerinden okuyup günceller. Bu nedenle `scripts/config.js` içindeki `owner`, `repo` ve `branch` değerleri doğru olmalıdır.
-
-Panelin ilk kurulum ekranında GitHub token'ı ve en az 12 karakterli bir parola kullanılarak şifreli `vault` değeri oluşturulur. Panelin gösterdiği şifreli metin `scripts/config.js` dosyasının `vault` alanına kaydedilir; **ham token'ı doğrudan JavaScript dosyasına veya herkese açık bir dosyaya yazmayın.** Token için mümkün olan en düşük yetkileri verin ve yalnızca bu depoya erişim tanımlayın.
-
-İlk kurulum sırasında panelde gösterilen yönergeleri izleyin. Daha sonra panelde oturum açmak için belirlediğiniz parolayı kullanın. Token'ın depo izinleri yoksa, dal koruması yazmayı engelliyorsa veya ayarlardaki depo adı hatalıysa kayıt işlemi başarısız olabilir.
-
-### İçerik ekleme ve güncelleme
-
-1. `admin/` adresini açın ve giriş yapın.
-2. **İçerik Yönetimi** bölümünde kategori seçin.
-3. Başlığa göre arama yapın veya desteklenen dış kaynaklardan sonuç getirin.
-4. Durum, kişisel puan, tarih, not ve diğer gerekli alanları düzenleyin.
-5. İlgili bağlantıları ve oyunlara ait kurulum profillerini gerekirse ekleyin.
-6. Kaydedin; panel kayıtları ilgili `data/*.json` dosyasına GitHub commit'i olarak yazar.
-
-Yayının siteye yansıması GitHub Pages dağıtımına ve önbelleğe bağlı olarak kısa bir süre alabilir.
-
-### Yedekleme ve geri yükleme
-
-Panelin yedekleme özelliği, desteklenen kategori verilerini JSON olarak dışa aktarmayı ve yedekten geri yüklemeyi sağlar. Otomatik yedekleme etkinse kayıt öncesi yedek `backups/latest.json` dosyasına yazılabilir. Tarayıcıda tutulan yerel yedekler yalnızca o tarayıcıda bulunur; tarayıcı verilerinin temizlenmesi bu kopyaları silebilir.
-
-Geri yükleme işlemi yedekte yer alan kategorilerin mevcut verilerini değiştirebilir. Yüklemeden önce yedek önizlemesini ve kategori sayılarını kontrol edin.
-
-## Yapılandırma
-
-Genel ayarlar `scripts/config.js` dosyasında `window.CONFIG` nesnesinde tutulur:
-
-| Alan | Açıklama |
-|---|---|
-| `siteTitle` | Site başlığı |
-| `owner` | GitHub depo sahibi/kullanıcısı |
-| `repo` | GitHub depo adı |
-| `branch` | İçeriklerin yazıldığı dal (mevcut yapılandırmada `main`) |
-| `rawgKey` | RAWG oyun arama API anahtarı |
-| `tmdbKey` | TMDB film ve dizi API anahtarı |
-| `tagline` | Ana sayfadaki ek başlık/metin alanı |
-| `suggestUrl` | Öneri düğmesinin hedef adresi; boşsa düğme gösterilmez |
-| `goatcounter` | İsteğe bağlı GoatCounter site kodu; boşsa sayaç yüklenmez |
-| `vault` | Yönetim paneli için şifrelenmiş GitHub token verisi |
-
-`config.js` dosyasını değiştirirken dosyanın JavaScript sözdizimini ve virgülleri koruyun. Yönetim panelindeki ayar ekranı desteklenen yapılandırma değerlerini depo üzerinden güncelleyebilir.
-
-## Veri dosyaları
-
-- `data/games.json`, `data/movies.json`, `data/series.json` ve `data/anime.json` dosyaları kayıt dizileri içerir.
-- `data/technopat.json` inceleme ve rehber listelerini ayrı gruplar hâlinde tutar.
-- `backups/latest.json` otomatik yedekleme kullanıldığında oluşturulan son yedektir.
-
-Medya kayıtlarında kullanılan alanlar kategoriye göre değişebilir. Yaygın alanlar arasında `id`, `title`, `status`, `image`, `platform`, `genres`, `score`, `finished`, `recommended`, `review`, `note`, `year`, `favorite`, `pros`, `cons` ve `updatedAt` bulunur. İlgili bağlantılar `links` alanında; oyun kurulum profilleri `installProfiles` alanında tutulur. Oyun kayıtlarında edinim ve maliyet takibi için ek alanlar bulunabilir.
-
-Mümkün olduğunda kayıtları elle JSON düzenlemek yerine yönetim panelini kullanın. JSON'ı elle değiştirirseniz dosyanın geçerli JSON olması, virgül/tırnakların doğru kullanılması ve dosyanın dizi veya nesne yapısının korunması gerekir.
-
-## Kullanılan veri kaynakları
-
-- **Oyun arama ve metadata:** RAWG API.
-- **Film ve dizi arama/metadata:** The Movie Database (TMDB) API.
-- **Anime arama ve metadata:** AniList GraphQL ve Jikan/MyAnimeList kaynakları.
-- **Dışa aktarma:** Steam kütüphanesi, Letterboxd CSV dosyaları ve MyAnimeList XML/kullanıcı listesi yönetim panelinden içe aktarılabilir.
-
-Verilerin ve kapak görsellerinin erişilebilirliği ilgili dış hizmetlere, API limitlerine ve ağ bağlantısına bağlıdır. Kaynakların kullanım koşullarına uyun ve sayfalarda gösterilen kaynak/atıf metinlerini kaldırmayın. Günlüğüm, TMDB tarafından onaylanmış veya sertifikalandırılmış bir ürün değildir.
-
-## Güvenlik ve gizlilik
-
-- Statik bir sitenin tarayıcıda çalışan JavaScript'i ziyaretçiler tarafından görüntülenebilir. `rawgKey` ve `tmdbKey` gibi istemci tarafında kullanılan API anahtarlarını gizli sunucu sırları olarak değerlendirmeyin; ilgili sağlayıcıların kısıtlamalarını ve kullanım limitlerini yapılandırın.
-- GitHub token'ını sohbetlere, issue'lara, ekran görüntülerine veya herkese açık dosyalara koymayın. Ham token'ı `config.js` içine yapıştırmayın; yönetim panelinin şifreli `vault` akışını kullanın.
-- Şifreli `vault` değeri, güçlü parolanın yerini tutmaz. Parolayı güvenli saklayın ve paylaşmayın. Şüpheli bir durumda GitHub token'ını iptal edip yenisini oluşturun.
-- Depo herkese açıksa `data/*.json` ve `backups/latest.json` içindeki kişisel notlar, puanlar, fiyat kayıtları ve diğer içerikler de herkese açık kabul edilmelidir. Herkese açık depoya özel veya hassas bilgi eklemeyin.
-- Bu projede sunucu tarafında kullanıcı yönetimi bulunmadığından, panel güvenliği yalnızca bir sunucu oturumuna dayalı değildir. Üretim ortamında yüksek hassasiyetli verilere erişim veya daha sıkı yetkilendirme gerekiyorsa sunucu taraflı bir mimari değerlendirilmelidir.
-
-## Sorun giderme
-
-**Değişiklikler sitede görünmüyor**
-
-- GitHub commit'inin başarılı olduğunu ve Pages dağıtımının tamamlandığını kontrol edin.
-- Sayfayı `Ctrl + F5` ile yenileyin.
-- CSS/JavaScript dosyalarında sürüm sorgusu (`?v=...`) kullanılıyorsa güncellenen dosyanın sürümünü artırın.
-- Çevrimdışı kullanım veya eski kaynaklar devam ediyorsa `service-worker.js` içindeki önbellek sürümünü ve önbelleğe alınan dosya listesini kontrol edin.
-
-**Kapaklar veya API araması çalışmıyor**
-
-- İnternet bağlantısını, ilgili API anahtarını ve sağlayıcının hizmet durumunu kontrol edin.
-- API limitleri, engelleyiciler, CORS kısıtlamaları veya harici servis değişiklikleri sonuçları etkileyebilir.
-- Harici görseller site dosyalarına gömülü değildir; kaynak sunucuda sorun varsa yüklenmeyebilir.
-
-**Yönetim paneli GitHub'a kaydedemiyor**
-
-- `owner`, `repo` ve `branch` değerlerini kontrol edin.
-- Giriş parolasını ve şifreli `vault` değerini doğrulayın.
-- Token'ın hedef depoda içerik okuma/yazma yetkisi bulunduğundan emin olun.
-- Hata sürüyorsa dal koruma kurallarını, depo izinlerini ve GitHub API yanıtını kontrol edin.
-
-**PWA eski görünümü gösteriyor**
-
-- İnternet bağlantısıyla sayfayı yenileyin ve servis çalışanının güncellenmesine izin verin.
-- Geliştirme sırasında tarayıcı geliştirici araçlarındaki Application/Service Workers bölümünden servis çalışanını ve önbelleği inceleyebilirsiniz.
-
----
-
-Günlüğüm kişisel kullanım ve içerik düzenleme odaklı geliştirilmektedir. Yeni özellik eklerken mevcut veri dosyalarını ve göreli dosya yollarını korumak, değişiklikleri küçük tutmak ve yedek alarak ilerlemek önerilir.
