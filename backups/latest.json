@@ -1,7 +1,7 @@
 {
   "format": "gunlugum-backup",
   "version": 1,
-  "createdAt": "2026-10-27T18:37:02.474Z",
+  "createdAt": "2026-10-27T18:38:42.920Z",
   "reason": "Anime kaydı öncesi otomatik yedek",
   "repository": "umutmelihakyol/umutmelihakyol",
   "branch": "main",
@@ -4005,7 +4005,7 @@
       },
       {
         "id": "mvk1ifbb",
-        "status": "istek",
+        "status": "oynuyorum",
         "title": "That Time I Got Reincarnated as a Slime",
         "image": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx101280-tDxCVJm714nt.jpg",
         "platform": "",
@@ -4024,7 +4024,7 @@
         "favorite": false,
         "pros": [],
         "cons": [],
-        "updatedAt": "2026-10-22T21:51:03.687Z",
+        "updatedAt": "2026-10-27T18:37:00.578Z",
         "episodes": 24,
         "studio": "8-bit"
       },
