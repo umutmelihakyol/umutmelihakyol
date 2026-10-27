@@ -1,8 +1,8 @@
-/* Günlüğüm Service Worker — cache v15: kart sistemi revizyonu ve paylaşılabilir inceleme kartları. */
+/* Günlüğüm Service Worker — cache v16: kompakt kart yerleşimi ve paylaşım özellikleri. */
 'use strict';
 
 const CACHE_PREFIX = 'gunlugum-pwa-';
-const CACHE_VERSION = 'v15';
+const CACHE_VERSION = 'v16';
 const APP_CACHE = `${CACHE_PREFIX}app-${CACHE_VERSION}`;
 const IMAGE_CACHE = `${CACHE_PREFIX}images-${CACHE_VERSION}`;
 const APP_ROOT = new URL('./', self.registration.scope);

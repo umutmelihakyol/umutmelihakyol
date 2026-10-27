@@ -98,26 +98,24 @@ function cardMedia(g){
     <span class="cx-st" data-s="${esc(s)}">${esc(ST[s]||s)}</span></div></div>`;
 }
 function cardFacts(g){
+  // Kartta yalnızca tamamlayıcı, kısa bilgiler gösterilir. Yıl/platform üst satırda,
+  // yönetmen/geliştirici ve uzun notlar Ayrıntılar penceresinde kalır.
   const p=[],dt=durText(g);
-  if(dt)p.push(`<span>${dt}</span>`);
-  if(has(g.year))p.push(`<span>${cfg.yearLabel}: ${esc(g.year)}</span>`);
-  if(g.finished)p.push(`<span>${cfg.dateLabel}: ${fmtDate(g.finished)}</span>`);
-  const pv=g[cfg.person.key];if(pv)p.push(`<span>${esc(pv)}</span>`);
-  return p.length?`<p class="cx-facts">${p.slice(0,4).join('')}</p>`:'';
+  if(dt)p.push(`<span title="${esc(dt)}">${dt}</span>`);
+  if(g.finished){const date=fmtDate(g.finished);p.push(`<span title="${esc(cfg.dateLabel+': '+date)}">${esc(cfg.dateLabel)}: ${date}</span>`);}
+  return p.length?`<p class="cx-facts">${p.slice(0,2).join('')}</p>`:'';
 }
 function card(g){
   const poster=CAT!=='oyun',id=esc(g.id);
   const pl=plats(g).filter(x=>x.toLocaleLowerCase('tr-TR')!==cfg.name.toLocaleLowerCase('tr-TR'));
   const meta=[has(g.year)?esc(g.year):'',...pl.slice(0,2).map(esc)].filter(Boolean).join(' · ');
   const gen=(g.genres||[]).filter(Boolean),chips=gen.slice(0,4).map(t=>`<span>${esc(t)}</span>`).join('');
-  const note=g.note?`<p class="cx-note">${esc(g.note)}</p>`:'';
-  const rec=g.recommended===true?`<span class="cx-rec yes">${THUMB_UP} Öneriyorum</span>`:g.recommended===false?`<span class="cx-rec no">${THUMB_DN} Önermiyorum</span>`:'';
+  // Uzun notlar ve ayrıntılı öneri bilgisi kayıt penceresinde kalır; kart gövdesi kısa tutulur.
   const title=`<h3 class="cx-title"><a class="tl" href="#${id}" title="${esc(g.title)}">${esc(g.title)}</a></h3>`;
   const shareIcon='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.7 10.7 6.6-4.4M8.7 13.3l6.6 4.4"/></svg>';
   return `<article class="card cx${poster?' poster':''}" data-id="${id}">${cardMedia(g)}
-  <div class="cx-body"><div class="cx-heading">${title}${has(g.score)?`<span class="cx-score-inline" title="Kişisel puanım">★ ${num(g.score)}</span>`:''}</div>
-  ${meta?`<p class="cx-meta">${meta}</p>`:''}${chips?`<div class="cx-chips">${chips}</div>`:''}${cardFacts(g)}${note}
-  ${rec?`<div class="cx-card-recommendation">${rec}</div>`:''}
+  <div class="cx-body"><div class="cx-heading">${title}</div>
+  ${meta?`<p class="cx-meta">${meta}</p>`:''}${chips?`<div class="cx-chips">${chips}</div>`:''}${cardFacts(g)}
   <div class="cx-foot"><a class="more" href="#${id}">Ayrıntılar</a><button class="cx-share-btn" type="button" data-id="${id}" aria-label="${esc(g.title)} için paylaşılabilir inceleme kartı oluştur" title="İnceleme kartı oluştur">${shareIcon}<span>Paylaş</span></button></div></div></article>`;
 }
 const thumb=(g,c)=>imageSrc(g.image,185)?`<img class="${c}" src="${imageSrc(g.image,185)}" alt="" loading="lazy" decoding="async" fetchpriority="low" width="64" height="44" referrerpolicy="no-referrer" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'${c} ph','aria-hidden':'true'}))">`:`<span class="${c} ph" aria-hidden="true"></span>`;
