@@ -126,7 +126,7 @@
     const category = siteCategory();
     if (!category || !window.CATS?.[category]) return;
     const id = getId();
-    const title = safeText(modal.querySelector('.inner h2')?.textContent);
+    const title = safeText(modal.querySelector('.detail-title, .inner h2')?.textContent);
     if (!id && !title) return;
     const old = modal.querySelector('.media-extras');
     if (old && old.dataset.recordKey === `${category}:${id || title}`) return;

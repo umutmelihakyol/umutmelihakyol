@@ -34,14 +34,26 @@
       if (source) dialog.style.setProperty('--anime-cover-image', `url(${JSON.stringify(source)})`);
 
       orientationClasses.slice(1).forEach(name => dialog.classList.remove(name));
+      let orientation = 'missing';
       if (!image.naturalWidth || !image.naturalHeight) {
         dialog.classList.add('anime-cover-missing');
       } else if (image.naturalHeight > image.naturalWidth * 1.12) {
+        orientation = 'portrait';
         dialog.classList.add('anime-cover-portrait');
       } else if (image.naturalWidth > image.naturalHeight * 1.12) {
+        orientation = 'landscape';
         dialog.classList.add('anime-cover-landscape');
       } else {
+        orientation = 'square';
         dialog.classList.add('anime-cover-square');
+      }
+
+      // Dikey posterlerde başlık görselin üstüne binmesin; diğer oranlarda kapak üstünde kalır.
+      const title = dialog.querySelector('.detail-cover-title');
+      const content = dialog.querySelector('.inner.detail-content');
+      if (title && content) {
+        if (orientation === 'portrait' && title.parentElement !== content) content.prepend(title);
+        else if (orientation !== 'portrait' && title.parentElement !== cover) cover.appendChild(title);
       }
     };
 

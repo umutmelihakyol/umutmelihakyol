@@ -313,3 +313,67 @@ body.cat-anime dialog#dlg.detail-redesign.anime-detail > .inner > p:last-child .
 @media (prefers-reduced-motion: reduce) {
   body.cat-anime dialog#dlg.detail-redesign.anime-detail { animation: none; }
 }
+
+/* v4 — Yeni ortak ayrıntı düzeniyle anime kapak ve içerik uyumu. */
+body.cat-anime dialog#dlg.detail-redesign.anime-detail > .cover {
+  height: clamp(260px, 32vw, 320px);
+  min-height: 260px;
+  max-height: 320px;
+}
+body.cat-anime dialog#dlg.detail-redesign.anime-detail > .cover .detail-cover-title {
+  z-index: 5;
+  left: 24px;
+  right: 24px;
+  bottom: 20px;
+  text-align: left;
+}
+body.cat-anime dialog#dlg.detail-redesign.anime-detail > .cover.has-rec .detail-cover-title { right: 190px; }
+body.cat-anime dialog#dlg.detail-redesign.anime-detail > .cover .detail-title {
+  margin: 0;
+  font-size: clamp(1.65rem, 4vw, 2.6rem);
+}
+body.cat-anime dialog#dlg.detail-redesign.anime-detail > .cover .score { top: 61px; bottom: auto; left: 18px; }
+body.cat-anime dialog#dlg.detail-redesign.anime-detail > .cover .detail-dismiss { top: 61px; right: 17px; }
+body.cat-anime dialog#dlg.detail-redesign.anime-detail > .inner.detail-content { --detail-pad: clamp(17px,3vw,30px); gap: 15px; padding: var(--detail-pad); }
+@media(max-width:600px) {
+  body.cat-anime dialog#dlg.detail-redesign.anime-detail > .cover { height: 245px; min-height: 245px; max-height: 245px; }
+  body.cat-anime dialog#dlg.detail-redesign.anime-detail > .cover .detail-cover-title { left: 15px; right: 15px; bottom: 15px; }
+  body.cat-anime dialog#dlg.detail-redesign.anime-detail > .cover.has-rec .detail-cover-title { right: 142px; }
+  body.cat-anime dialog#dlg.detail-redesign.anime-detail > .cover .detail-title { font-size: clamp(1.35rem,6vw,1.85rem); }
+  body.cat-anime dialog#dlg.detail-redesign.anime-detail > .cover .score { top: 53px; bottom: auto; left: 12px; }
+  body.cat-anime dialog#dlg.detail-redesign.anime-detail > .cover .detail-dismiss { top: 52px; right: 11px; }
+  body.cat-anime dialog#dlg.detail-redesign.anime-detail > .inner.detail-content { --detail-pad: 15px; gap: 11px; padding: var(--detail-pad); }
+}
+
+/* Dikey anime posterlerinde başlığı görselden ayırıp içerik alanına al. */
+body.cat-anime dialog#dlg.detail-redesign.anime-detail.anime-cover-portrait > .cover > img {
+  width: auto !important;
+  height: 100% !important;
+  max-width: min(58%, 320px);
+  object-fit: contain !important;
+}
+body.cat-anime dialog#dlg.detail-redesign.anime-detail.anime-cover-portrait > .inner.detail-content > .detail-cover-title {
+  position: relative;
+  inset: auto;
+  z-index: auto;
+  width: auto;
+  margin: 0;
+  padding: 2px 1px 5px;
+  background: transparent;
+  color: var(--ink);
+  text-shadow: none;
+  pointer-events: auto;
+}
+body.cat-anime dialog#dlg.detail-redesign.anime-detail.anime-cover-portrait > .inner.detail-content > .detail-cover-title .detail-eyebrow {
+  color: var(--acc);
+  text-shadow: none;
+}
+body.cat-anime dialog#dlg.detail-redesign.anime-detail.anime-cover-portrait > .inner.detail-content > .detail-cover-title .detail-title {
+  max-width: 100%;
+  color: var(--ink);
+  text-shadow: none;
+}
+body.cat-anime dialog#dlg.detail-redesign.anime-detail.anime-cover-portrait > .inner.detail-content > .detail-cover-title .detail-cover-subtitle {
+  color: var(--mute);
+  text-shadow: none;
+}

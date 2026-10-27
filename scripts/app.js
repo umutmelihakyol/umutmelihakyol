@@ -75,7 +75,7 @@ function purchaseDetails(g){
   if(g.purchaseDate)rows.push(['Satın alma tarihi',fmtDate(g.purchaseDate)]);
   if(g.ownershipStatus)rows.push(['Kütüphane durumu',OWNERSHIP_LABELS[g.ownershipStatus]||g.ownershipStatus]);
   if(!rows.length&&!g.purchaseNote)return '';
-  return `<section class="purchase-detail" style="border:1px solid var(--line);border-radius:10px;background:var(--bg);padding:12px 14px;margin:4px 0"><h3 style="font-size:1rem;margin:0 0 10px">Satın alma ve kütüphane</h3>${rows.length?`<dl style="display:grid;grid-template-columns:minmax(105px,auto) 1fr;gap:5px 12px;margin:0;font-size:.92rem">${rows.map(([k,v])=>`<dt style="color:var(--mute)">${esc(k)}</dt><dd style="margin:0;overflow-wrap:anywhere;font-weight:600">${esc(v)}</dd>`).join('')}</dl>`:''}${g.purchaseNote?`<p class="meta" style="margin:10px 0 0;white-space:pre-wrap">${esc(g.purchaseNote)}</p>`:''}</section>`;
+  return `<section class="purchase-detail detail-section"><div class="detail-section-heading"><span class="detail-section-icon" aria-hidden="true">◈</span><div><p class="detail-eyebrow">OYUN KÜTÜPHANESİ</p><h3>Satın alma ve kütüphane</h3></div></div>${rows.length?`<dl class="purchase-detail-grid">${rows.map(([k,v])=>`<div><dt>${esc(k)}</dt><dd>${esc(v)}</dd></div>`).join('')}</dl>`:''}${g.purchaseNote?`<p class="purchase-note">${esc(g.purchaseNote)}</p>`:''}</section>`;
 }
 
 const proscons=g=>{const p=(g.pros||[]).filter(Boolean),c=(g.cons||[]).filter(Boolean);if(!p.length&&!c.length)return '';
@@ -84,7 +84,11 @@ const proscons=g=>{const p=(g.pros||[]).filter(Boolean),c=(g.cons||[]).filter(Bo
 const RATING_LABELS=[['story','Hikâye'],['gameplay','Oynanış'],['visuals','Görsellik'],['audio','Ses / Müzik'],['characters','Karakterler'],['originality','Özgünlük'],['pacing','Tempo / Kurgu']];
 const ratingBreakdown=g=>{const raw=g.ratings&&typeof g.ratings==='object'?g.ratings:{};const rows=RATING_LABELS.filter(([key])=>CAT==='oyun'||key!=='gameplay').filter(([key])=>raw[key]!==null&&raw[key]!==undefined&&raw[key]!==''&&Number.isFinite(Number(raw[key]))&&Number(raw[key])>=0&&Number(raw[key])<=10);if(!rows.length)return '';const avg=rows.reduce((sum,[key])=>sum+Number(raw[key]),0)/rows.length;return `<section class="rating-breakdown-public"><div class="rating-breakdown-head"><h3>Alt puanlarım</h3><span>Ortalama <b>${num(avg)}/10</b></span></div><div class="rating-breakdown-bars">${rows.map(([key,label])=>`<div class="rating-breakdown-row"><span>${label}</span><div><i style="width:${Number(raw[key])*10}%"></i></div><b>${num(raw[key])}</b></div>`).join('')}</div></section>`};
 const chips=g=>(g.genres||[]).map(t=>`<span>${esc(t)}</span>`).join('');
-const cover=g=>`<div class="cover">${imageSrc(g.image,500)?`<img src="${imageSrc(g.image,500)}" alt="${esc(g.title)} görseli" loading="lazy" decoding="async" fetchpriority="low" referrerpolicy="no-referrer" onerror="this.remove();this.parentElement.classList.add('image-missing')">`:''}${g.favorite===true?`<span class="fvb" title="Favorim">${HEART}</span>`:''}<span class="stb s-${stOf(g)}">${ST[stOf(g)]}</span>${has(g.score)?`<span class="score" title="Puanım">${num(g.score)}</span>`:''}${recChip(g)}</div>`;
+const cover=g=>{
+  const hasScore=has(g.score),hasRecommendation=g.recommended===true||g.recommended===false;
+  const subtitle=[g.platform,has(g.year)?`${cfg.yearLabel} ${g.year}`:''].filter(Boolean).join(' · ')||cfg.name;
+  return `<div class="cover${hasScore?' has-score':''}${hasRecommendation?' has-rec':''}">${imageSrc(g.image,500)?`<img src="${imageSrc(g.image,500)}" alt="${esc(g.title)} görseli" loading="lazy" decoding="async" fetchpriority="low" referrerpolicy="no-referrer" onerror="this.remove();this.parentElement.classList.add('image-missing')">`:''}${g.favorite===true?`<span class="fvb" title="Favorim">${HEART}</span>`:''}<span class="stb s-${stOf(g)}">${ST[stOf(g)]}</span>${hasScore?`<span class="score" title="Kişisel puanım">${num(g.score)}</span>`:''}${recChip(g)}<div class="detail-cover-title"><p class="detail-eyebrow">${esc(cfg.name)} · KİŞİSEL ARŞİV</p><h2 class="detail-title" id="detail-title">${esc(g.title)}</h2><p class="detail-cover-subtitle">${esc(subtitle)}</p></div><button class="detail-dismiss" type="button" aria-label="Ayrıntı penceresini kapat" title="Kapat">×</button></div>`;
+};
 const THUMB_UP='<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 11v9H4v-9zM7 11l4-8a2 2 0 0 1 2 2v4h6a2 2 0 0 1 2 2.3l-1.2 7A2 2 0 0 1 17.8 20H7"/></svg>';
 const THUMB_DN='<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 13V4h3v9zM17 13l-4 8a2 2 0 0 1-2-2v-4H5a2 2 0 0 1-2-2.300l1.200-7A2 2 0 0 1 6.200 4H17"/></svg>';
 const tier=v=>v>=8?'hi':v>=6?'mid':'lo';
@@ -136,21 +140,34 @@ function foot(){
 }
 function openGame(id){
   const g=games.find(x=>x.id===id),d=$('#dlg');if(!g)return d.open&&d.close();
+  const genreList=(g.genres||[]).filter(Boolean);
+  const genreSection=genreList.length?`<section class="detail-section detail-tags-section"><div class="detail-section-heading"><span class="detail-section-icon" aria-hidden="true">✦</span><div><p class="detail-eyebrow">KATEGORİLER</p><h3>Türler ve etiketler</h3></div></div><p class="tags wrapt">${chips(g)}</p></section>`:'';
+  const factsContent=`${facts(g)}${info(g)}`;
+  const noteSection=g.note?`<section class="detail-section detail-note-section"><div class="detail-section-heading"><span class="detail-section-icon" aria-hidden="true">✎</span><div><p class="detail-eyebrow">KİŞİSEL NOTLAR</p><h3>İncelemem</h3></div></div><p class="full">${esc(g.note)}</p></section>`:'';
+  const pcContent=proscons(g);
+  const pcSection=pcContent?`<section class="detail-section detail-proscons-section"><div class="detail-section-heading"><span class="detail-section-icon" aria-hidden="true">±</span><div><p class="detail-eyebrow">DEĞERLENDİRME</p><h3>Artılar ve eksiler</h3></div></div>${pcContent}</section>`:'';
+  const review=revHtml(g);
+  const reviewSection=review&& !review.includes('İnceleme yok')?`<section class="detail-review-section"><div><p class="detail-eyebrow">DEVAM ET</p><h3>İlgili inceleme</h3></div><div class="detail-review-link">${review}</div></section>`:'';
   d.classList.add('detail-redesign');
-  d.innerHTML=`${cover(g)}<div class="inner"><h2>${esc(g.title)}</h2><p class="meta">${esc(g.platform)}</p>
-  <p class="tags wrapt">${chips(g)}</p>${facts(g)}${info(g)}${CAT==='oyun'?purchaseDetails(g):''}
-  ${g.note?`<p class="full">${esc(g.note)}</p>`:''}${ratingBreakdown(g)}${proscons(g)}<div class="row">${revHtml(g)}</div>
-  <p>${randomMode?'<button class="btn pri again">Başka birini seç</button> ':''}<button class="btn card-gen-btn" data-id="${esc(g.id)}">📷 İnceleme Kartı Oluştur</button> <button class="btn copy">Bağlantıyı kopyala</button> <button class="btn" onclick="this.closest('dialog').close()">Kapat</button></p></div>`;
+  d.setAttribute('aria-labelledby','detail-title');
+  d.innerHTML=`${cover(g)}<div class="inner detail-content">
+  ${genreSection}
+  <section class="detail-section detail-facts-section"><div class="detail-section-heading"><span class="detail-section-icon" aria-hidden="true">▦</span><div><p class="detail-eyebrow">ARŞİV KAYDI</p><h3>Kayıt bilgileri</h3></div></div><div class="detail-info-grid">${factsContent}</div></section>
+  ${CAT==='oyun'?purchaseDetails(g):''}
+  ${noteSection}${ratingBreakdown(g)}${pcSection}${reviewSection}
+  <div class="detail-actions">${randomMode?'<button class="btn again" type="button">Başka birini seç</button> ':''}<button class="btn pri card-gen-btn" type="button" data-id="${esc(g.id)}">▧ İnceleme kartı oluştur</button><button class="btn copy" type="button">Bağlantıyı kopyala</button><button class="btn detail-close" type="button">Kapat</button></div>
+  </div>`;
   if(!d.open)d.showModal();
   if(lastId!==id){lastId=id;try{window.goatcounter&&goatcounter.count&&goatcounter.count({path:CAT+'/'+id,title:g.title,event:true})}catch{}}
 }
 $('#dlg').addEventListener('close',()=>{lastId='';randomMode=false;history.replaceState(null,'',location.pathname+location.search)});
 $('#dlg').addEventListener('click',e=>{
   if(e.target===e.currentTarget)return e.currentTarget.close();
+  if(e.target.closest('.detail-dismiss, .detail-close'))return e.currentTarget.close();
   if(e.target.closest('.again'))return pickRandom();
   const cardBtn=e.target.closest('.card-gen-btn');
   if(cardBtn)return generateReviewCard(cardBtn.dataset.id,cardBtn);
-  const b=e.target.closest('.copy');if(b)navigator.clipboard.writeText(location.href).then(()=>b.textContent='Kopyalandı',()=>prompt('Bağlantı:',location.href));
+  const b=e.target.closest('.copy');if(b){const url=location.href;if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(url).then(()=>b.textContent='Bağlantı kopyalandı').catch(()=>prompt('Bağlantıyı kopyala:',url));}else{prompt('Bağlantıyı kopyala:',url);}}
 });
 
 function generateReviewCard(id,btnEl){

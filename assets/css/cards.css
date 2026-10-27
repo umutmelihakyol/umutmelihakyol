@@ -477,3 +477,383 @@ dialog.review-card-dialog::backdrop{background:rgba(5,9,12,.76);backdrop-filter:
   .rcd-tip,.rcd-actions,.rcd-status{grid-column:auto}
   .rcd-actions .btn{flex:1 1 100%}
 }
+
+/* v7 — Modern ayrıntı deneyimi: sinematik başlık, bölümlenmiş bilgiler ve sabit eylem alanı. */
+dialog.detail-redesign {
+  width: min(980px, 96vw);
+  max-width: 980px;
+  max-height: min(92vh, 980px);
+  max-height: min(92dvh, 980px);
+  border-radius: 26px;
+  overscroll-behavior: contain;
+  animation: detail-modal-enter .24s cubic-bezier(.2,.8,.2,1) both;
+}
+@keyframes detail-modal-enter {
+  from { opacity: 0; transform: translateY(12px) scale(.985); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+dialog.detail-redesign > .cover {
+  height: clamp(250px, 30vw, 330px);
+  min-height: 250px;
+  max-height: 330px;
+  aspect-ratio: auto;
+}
+dialog.detail-redesign > .cover::after {
+  background: linear-gradient(180deg,rgba(5,9,12,.18) 0%,rgba(5,9,12,.04) 28%,rgba(5,9,12,.35) 56%,rgba(5,9,12,.92) 100%),
+              linear-gradient(90deg,rgba(5,9,12,.28),transparent 58%);
+}
+dialog.detail-redesign > .cover .stb {
+  top: 16px;
+  right: 18px;
+  max-width: min(42%, 230px);
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+dialog.detail-redesign > .cover .fvb { top: 16px; left: 18px; }
+dialog.detail-redesign > .cover .score {
+  top: 61px;
+  bottom: auto;
+  left: 18px;
+  width: 45px;
+  height: 45px;
+  border-width: 2px;
+  font-size: .95rem;
+}
+dialog.detail-redesign > .cover .recb {
+  right: 19px;
+  bottom: 18px;
+  max-width: min(38%, 220px);
+}
+dialog.detail-redesign > .cover .detail-cover-title {
+  position: absolute;
+  z-index: 5;
+  left: 24px;
+  right: 24px;
+  bottom: 20px;
+  min-width: 0;
+  color: #fff;
+  text-shadow: 0 2px 15px rgba(0,0,0,.38);
+  pointer-events: none;
+}
+dialog.detail-redesign > .cover.has-rec .detail-cover-title { right: 190px; }
+dialog.detail-redesign > .cover .detail-eyebrow {
+  margin: 0 0 5px;
+  color: color-mix(in srgb, #9ce7df 82%, white);
+  font-size: .66rem;
+  line-height: 1.3;
+  font-weight: 850;
+  letter-spacing: .15em;
+}
+dialog.detail-redesign > .cover .detail-title {
+  margin: 0;
+  max-width: 800px;
+  color: #fff;
+  font: 800 clamp(1.65rem, 4vw, 2.6rem)/1.1 'Plus Jakarta Sans',sans-serif;
+  letter-spacing: -.05em;
+  overflow-wrap: anywhere;
+  text-wrap: balance;
+}
+dialog.detail-redesign > .cover .detail-cover-subtitle {
+  margin: 8px 0 0;
+  color: rgba(255,255,255,.8);
+  font-size: .89rem;
+  font-weight: 600;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+dialog.detail-redesign > .cover .detail-dismiss {
+  position: absolute;
+  z-index: 6;
+  top: 61px;
+  right: 17px;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 1px solid rgba(255,255,255,.26);
+  border-radius: 50%;
+  background: rgba(12,18,22,.72);
+  color: #fff;
+  font: 400 1.55rem/1 sans-serif;
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+  transition: transform .18s ease, background .18s ease;
+}
+dialog.detail-redesign > .cover .detail-dismiss:hover { transform: rotate(90deg); background: rgba(12,18,22,.94); }
+dialog.detail-redesign > .cover .detail-dismiss:focus-visible { outline: 3px solid var(--acc); outline-offset: 3px; }
+dialog.detail-redesign > .inner.detail-content {
+  --detail-pad: clamp(17px, 3vw, 30px);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  min-width: 0;
+  padding: var(--detail-pad);
+}
+dialog.detail-redesign .detail-section {
+  min-width: 0;
+  margin: 0;
+  padding: 17px 18px;
+  border: 1px solid color-mix(in srgb, var(--line) 92%, var(--acc));
+  border-radius: 17px;
+  background: linear-gradient(145deg,color-mix(in srgb,var(--card) 92%,var(--acc)),color-mix(in srgb,var(--card) 97%,var(--bg)));
+}
+dialog.detail-redesign .detail-section-heading {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  min-width: 0;
+  margin: 0 0 13px;
+}
+dialog.detail-redesign .detail-section-icon {
+  flex: 0 0 38px;
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  border: 1px solid color-mix(in srgb,var(--acc) 20%,var(--line));
+  border-radius: 12px;
+  background: color-mix(in srgb,var(--acc) 11%,var(--card));
+  color: var(--acc);
+  font-size: 1.15rem;
+  font-weight: 800;
+}
+dialog.detail-redesign .detail-section-heading > div { min-width: 0; }
+dialog.detail-redesign .detail-section-heading .detail-eyebrow {
+  margin: 0 0 3px;
+  color: var(--acc);
+  font-size: .62rem;
+  font-weight: 850;
+  line-height: 1.3;
+  letter-spacing: .13em;
+}
+dialog.detail-redesign .detail-section-heading h3,
+dialog.detail-redesign .detail-review-section h3 {
+  margin: 0;
+  color: var(--ink);
+  font: 800 1rem/1.3 'Plus Jakarta Sans',sans-serif;
+  letter-spacing: -.025em;
+}
+dialog.detail-redesign .detail-tags-section .detail-section-heading { margin-bottom: 11px; }
+dialog.detail-redesign .detail-tags-section > .tags.wrapt {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  overflow: visible;
+}
+dialog.detail-redesign .detail-tags-section > .tags.wrapt span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 5px 10px;
+  border: 1px solid color-mix(in srgb,var(--acc) 22%,var(--line));
+  border-radius: 999px;
+  background: color-mix(in srgb,var(--acc) 9%,var(--card));
+  color: var(--acc);
+  font-size: .76rem;
+  font-weight: 750;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+dialog.detail-redesign .detail-info-grid {
+  display: grid;
+  grid-template-columns: repeat(2,minmax(0,1fr));
+  gap: 8px;
+  min-width: 0;
+}
+dialog.detail-redesign .detail-info-grid > .facts { display: contents; }
+dialog.detail-redesign .detail-info-grid .facts > span {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 5px 8px;
+  min-width: 0;
+  min-height: 44px;
+  margin: 0;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: color-mix(in srgb,var(--bg) 58%,var(--card));
+  color: var(--ink);
+  font-size: .88rem;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+dialog.detail-redesign .detail-info-grid .facts > span i {
+  display: inline-block;
+  margin: 0;
+  color: var(--mute);
+  font-size: .78rem;
+  font-style: normal;
+}
+dialog.detail-redesign .purchase-detail {
+  padding: 17px 18px !important;
+  border-color: color-mix(in srgb,var(--line) 92%,var(--acc)) !important;
+  background: linear-gradient(145deg,color-mix(in srgb,var(--card) 92%,var(--acc)),color-mix(in srgb,var(--card) 97%,var(--bg))) !important;
+}
+dialog.detail-redesign .purchase-detail .detail-section-heading { margin-bottom: 13px; }
+dialog.detail-redesign .purchase-detail .detail-section-heading h3 { margin: 0 !important; font-size: 1rem !important; }
+dialog.detail-redesign .purchase-detail-grid {
+  display: grid;
+  grid-template-columns: repeat(2,minmax(0,1fr));
+  gap: 8px;
+  margin: 0;
+}
+dialog.detail-redesign .purchase-detail-grid > div {
+  min-width: 0;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 11px;
+  background: color-mix(in srgb,var(--bg) 62%,var(--card));
+}
+dialog.detail-redesign .purchase-detail-grid dt { margin: 0 0 4px; color: var(--mute); font-size: .76rem; }
+dialog.detail-redesign .purchase-detail-grid dd { margin: 0; color: var(--ink); font-size: .88rem; font-weight: 750; line-height: 1.4; overflow-wrap: anywhere; }
+dialog.detail-redesign .purchase-note {
+  margin: 10px 0 0;
+  padding: 10px 12px 0;
+  border-top: 1px solid var(--line);
+  color: var(--mute);
+  font-size: .86rem;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+dialog.detail-redesign .detail-note-section > .full {
+  margin: 0;
+  padding: 14px 15px;
+  border: 0;
+  border-left: 3px solid var(--acc);
+  border-radius: 5px 12px 12px 5px;
+  background: color-mix(in srgb,var(--acc) 7%,var(--bg));
+  color: var(--ink);
+  font-size: .94rem;
+  line-height: 1.8;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+dialog.detail-redesign .rating-breakdown-public {
+  margin: 0;
+  padding: 17px 18px;
+  border: 1px solid color-mix(in srgb,var(--line) 92%,var(--acc));
+  border-radius: 17px;
+  background: color-mix(in srgb,var(--card) 91%,var(--acc));
+}
+dialog.detail-redesign .rating-breakdown-head { display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin:0 0 14px; }
+dialog.detail-redesign .rating-breakdown-head h3 { margin:0;font:800 1rem/1.3 'Plus Jakarta Sans',sans-serif; }
+dialog.detail-redesign .rating-breakdown-head > span { color:var(--mute);font-size:.8rem; }
+dialog.detail-redesign .rating-breakdown-head b { color:var(--acc); }
+dialog.detail-redesign .rating-breakdown-bars { gap:11px; }
+dialog.detail-redesign .rating-breakdown-row { grid-template-columns:minmax(95px,135px) minmax(40px,1fr) 34px;gap:10px; }
+dialog.detail-redesign .rating-breakdown-row > div { height:7px; }
+dialog.detail-redesign .detail-proscons-section > .detail-section-heading { margin-bottom:12px; }
+dialog.detail-redesign .detail-proscons-section .pcs { display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px; }
+dialog.detail-redesign .detail-proscons-section .pc { min-width:0;margin:0;padding:13px;border:1px solid var(--line);border-radius:13px;background:color-mix(in srgb,var(--bg) 58%,var(--card)); }
+dialog.detail-redesign .detail-proscons-section .pc h4 { margin:0 0 9px;font-size:.9rem; }
+dialog.detail-redesign .detail-proscons-section .pc li { font-size:.86rem;line-height:1.5;overflow-wrap:anywhere; }
+dialog.detail-redesign .detail-review-section {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:12px;
+  padding:13px 16px;
+  border:1px solid var(--line);
+  border-radius:15px;
+  background:color-mix(in srgb,var(--card) 76%,var(--bg));
+}
+dialog.detail-redesign .detail-review-section .detail-eyebrow { margin:0 0 4px;color:var(--mute);font-size:.62rem;font-weight:850;letter-spacing:.13em; }
+dialog.detail-redesign .detail-review-link { min-width:0; }
+dialog.detail-redesign .detail-review-link a,
+dialog.detail-redesign .detail-review-link a:visited { color:var(--acc);font-weight:800;text-underline-offset:3px;overflow-wrap:anywhere; }
+dialog.detail-redesign .detail-actions {
+  position: sticky;
+  z-index: 7;
+  bottom: 0;
+  display:flex;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:8px;
+  margin:0 calc(0px - var(--detail-pad)) calc(0px - var(--detail-pad));
+  padding:13px var(--detail-pad) var(--detail-pad);
+  border-top:1px solid color-mix(in srgb,var(--line) 92%,var(--acc));
+  background:color-mix(in srgb,var(--card) 94%,transparent);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+}
+dialog.detail-redesign .detail-actions .btn {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:7px;
+  min-height:42px;
+  margin:0;
+  padding:9px 13px;
+  border-radius:11px;
+  font-size:.84rem;
+  font-weight:800;
+  white-space:normal;
+}
+dialog.detail-redesign .detail-actions .card-gen-btn { flex:1 1 235px; }
+dialog.detail-redesign .detail-actions .copy { flex:0 1 auto; }
+dialog.detail-redesign .detail-actions .detail-close { flex:0 0 auto; }
+dialog.detail-redesign .detail-actions .btn:focus-visible { outline:3px solid var(--acc);outline-offset:2px; }
+@media (max-width: 600px) {
+  dialog.detail-redesign { width:96vw;max-width:96vw;max-height:94vh;max-height:94dvh;border-radius:20px; }
+  dialog.detail-redesign > .cover { height:245px;min-height:245px;max-height:245px; }
+  dialog.detail-redesign > .cover .stb { top:11px;right:11px;max-width:45%;font-size:.68rem;padding:5px 8px; }
+  dialog.detail-redesign > .cover .fvb { top:11px;left:11px; }
+  dialog.detail-redesign > .cover .score { top:53px;left:12px;width:40px;height:40px;font-size:.84rem; }
+  dialog.detail-redesign > .cover .recb { right:11px;bottom:12px;max-width:43%;padding:5px 8px;font-size:.75rem; }
+  dialog.detail-redesign > .cover .detail-cover-title { left:15px;right:15px;bottom:15px; }
+  dialog.detail-redesign > .cover.has-rec .detail-cover-title { right:142px; }
+  dialog.detail-redesign > .cover .detail-eyebrow { font-size:.58rem;letter-spacing:.12em; }
+  dialog.detail-redesign > .cover .detail-title { font-size:clamp(1.35rem,6vw,1.85rem);line-height:1.08; }
+  dialog.detail-redesign > .cover .detail-cover-subtitle { margin-top:6px;font-size:.76rem; }
+  dialog.detail-redesign > .cover .detail-dismiss { top:52px;right:11px;width:32px;height:32px;font-size:1.35rem; }
+  dialog.detail-redesign > .inner.detail-content { --detail-pad:15px;gap:11px; }
+  dialog.detail-redesign .detail-section { padding:13px; border-radius:14px; }
+  dialog.detail-redesign .detail-section-heading { gap:9px;margin-bottom:10px; }
+  dialog.detail-redesign .detail-section-icon { flex-basis:33px;width:33px;height:33px;border-radius:10px;font-size:1rem; }
+  dialog.detail-redesign .detail-section-heading h3,
+  dialog.detail-redesign .detail-review-section h3 { font-size:.92rem; }
+  dialog.detail-redesign .detail-info-grid { gap:6px; }
+  dialog.detail-redesign .detail-info-grid .facts > span { min-height:0;padding:9px;font-size:.78rem;gap:4px 6px; }
+  dialog.detail-redesign .detail-info-grid .facts > span i { font-size:.7rem; }
+  dialog.detail-redesign .detail-tags-section > .tags.wrapt { gap:5px; }
+  dialog.detail-redesign .detail-tags-section > .tags.wrapt span { min-height:25px;padding:4px 8px;font-size:.7rem; }
+  dialog.detail-redesign .purchase-detail-grid { grid-template-columns:repeat(2,minmax(0,1fr));gap:6px; }
+  dialog.detail-redesign .purchase-detail-grid > div { padding:8px; }
+  dialog.detail-redesign .purchase-detail-grid dt { font-size:.68rem; }
+  dialog.detail-redesign .purchase-detail-grid dd { font-size:.78rem; }
+  dialog.detail-redesign .detail-note-section > .full { padding:11px 12px;font-size:.84rem;line-height:1.7; }
+  dialog.detail-redesign .rating-breakdown-public { padding:13px; }
+  dialog.detail-redesign .rating-breakdown-row { grid-template-columns:minmax(80px,105px) minmax(28px,1fr) 28px;gap:7px;font-size:.72rem; }
+  dialog.detail-redesign .detail-proscons-section .pcs { grid-template-columns:1fr; }
+  dialog.detail-redesign .detail-proscons-section .pc { padding:11px; }
+  dialog.detail-redesign .detail-actions { gap:6px;padding-top:10px; }
+  dialog.detail-redesign .detail-actions .btn { min-height:39px;padding:8px 9px;font-size:.75rem; }
+  dialog.detail-redesign .detail-actions .card-gen-btn { flex:1 1 100%; }
+  dialog.detail-redesign .detail-actions .copy,
+  dialog.detail-redesign .detail-actions .detail-close { flex:1 1 0; }
+}
+@media (max-width: 380px) {
+  dialog.detail-redesign .detail-info-grid,
+  dialog.detail-redesign .purchase-detail-grid { grid-template-columns:minmax(0,1fr); }
+  dialog.detail-redesign > .cover.has-rec .detail-cover-title { right:125px; }
+  dialog.detail-redesign > .cover .detail-title { font-size:1.25rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  dialog.detail-redesign { animation:none; }
+  dialog.detail-redesign > .cover .detail-dismiss { transition:none; }
+}
+/* Purchase-detail grid must beat the legacy description-list layout. */
+dialog.detail-redesign .purchase-detail dl.purchase-detail-grid {
+  grid-template-columns: repeat(2,minmax(0,1fr)) !important;
+}
+@media (max-width: 380px) {
+  dialog.detail-redesign .purchase-detail dl.purchase-detail-grid { grid-template-columns: minmax(0,1fr) !important; }
+}
