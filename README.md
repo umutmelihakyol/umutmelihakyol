@@ -75,3 +75,8 @@ SOFTWARE.
 ## İstatistik sayfası
 
 `istatistik/index.html`, `data/games.json`, `data/series.json`, `data/movies.json` ve `data/anime.json` dosyalarını okuyarak arşiv sayıları, puan dağılımı, türler, tamamlanma durumları ve süre özetini hesaplar. Oyun saatleri girilen kayıtlı sürelerden; film süreleri tamamlanan filmlerin uzunluklarından; dizi ve anime süreleri ise sırasıyla bölüm başına 42 ve 24 dakika varsayımından hesaplanır. Dizi/anime süreleri tahminidir ve devam eden içeriklerin gerçek izlenen bölüm sayısını göstermez.
+
+
+## Temiz sayfa adresleri
+
+Tarayıcıda kullanılan sayfa yolları `.html` uzantısını göstermez: `/`, `/oyun/`, `/oyun/maliyet/`, `/film/`, `/dizi/`, `/anime/`, `/istatistik/`, `/admin/`, `/technopat/incelemeler/`, `/technopat/rehberler/` ve `/offline/`. Kaynak dosyalar, GitHub Pages statik barındırma yapısı nedeniyle klasörlerde `index.html` olarak tutulur. Eski `.../index.html` adresleri açıldığında sayfa yolu da temiz URL biçimine çevrilir.

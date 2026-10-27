@@ -1,7 +1,21 @@
 <!doctype html>
 <html lang="tr">
 <head>
+
 <meta charset="utf-8">
+<script>
+(() => {
+  const path = window.location.pathname;
+  let cleanPath = path;
+  if (/\/index\.html$/i.test(path)) cleanPath = path.replace(/index\.html$/i, '');
+  else if (/\/offline\.html$/i.test(path)) cleanPath = path.replace(/offline\.html$/i, 'offline/');
+  if (cleanPath !== path) {
+    if (!cleanPath) cleanPath = '/';
+    history.replaceState(history.state, '', cleanPath + window.location.search + window.location.hash);
+  }
+})();
+</script>
+
 <meta name="theme-color" content="#171d22">
 <link rel="manifest" href="../manifest.webmanifest">
 <link rel="apple-touch-icon" href="../assets/icons/gunlugum-180.png">

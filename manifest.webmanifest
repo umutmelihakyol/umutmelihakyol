@@ -4,7 +4,7 @@
   "short_name": "Günlüğüm",
   "description": "Oyun, film, dizi ve anime arşivin.",
   "lang": "tr-TR",
-  "start_url": "./index.html?source=installed-app",
+  "start_url": "./?source=installed-app",
   "scope": "./",
   "display": "standalone",
   "display_override": [
@@ -42,7 +42,7 @@
     {
       "name": "Oyunlarım",
       "short_name": "Oyunlar",
-      "url": "./oyun/index.html",
+      "url": "./oyun/",
       "icons": [
         {
           "src": "./assets/icons/gunlugum-192.png",
@@ -54,7 +54,7 @@
     {
       "name": "Filmlerim",
       "short_name": "Filmler",
-      "url": "./film/index.html",
+      "url": "./film/",
       "icons": [
         {
           "src": "./assets/icons/gunlugum-192.png",
@@ -66,7 +66,7 @@
     {
       "name": "Animelerim",
       "short_name": "Animeler",
-      "url": "./anime/index.html",
+      "url": "./anime/",
       "icons": [
         {
           "src": "./assets/icons/gunlugum-192.png",

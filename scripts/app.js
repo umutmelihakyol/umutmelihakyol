@@ -20,7 +20,7 @@ $('#dlg').setAttribute('aria-label',cfg.name+' ayrıntıları');
 $('#q').placeholder=cfg.name+' ara…';
 $('#rnd').title='Şu an listelenen '+cfg.plural.toLowerCase()+' arasından rastgele birini seçer';
 $('#sort').innerHTML=`<option value="date">${cfg.dateSort}</option><option value="score">En yüksek puan</option><option value="dur">${cfg.dur.sort}</option><option value="name">A-Z</option>`;
-$('#cats').innerHTML=`<a href="${SITE_ROOT}index.html">${ICON('home')} Ana sayfa</a>`+Object.entries(CATS).map(([k,c])=>`<a href="${c.page}"${k===CAT?' aria-current="page"':''}>${ICON(k)} ${c.plural}</a>`).join('');
+$('#cats').innerHTML=`<a href="${SITE_ROOT}">${ICON('home')} Ana sayfa</a>`+Object.entries(CATS).map(([k,c])=>`<a href="${c.page}"${k===CAT?' aria-current="page"':''}>${ICON(k)} ${c.plural}</a>`).join('');
 $('#cats').insertAdjacentHTML('beforeend', `<a href="${SITE_ROOT}istatistik/" title="Arşiv istatistikleri">📊 İstatistikler</a>`);
 if(CF.suggestUrl){const a=$('#suggest');a.href=CF.suggestUrl;a.hidden=false;if(!/^https?:/i.test(CF.suggestUrl))a.removeAttribute('target')}
 

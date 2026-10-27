@@ -1,7 +1,21 @@
 <!doctype html>
 <html lang="tr">
 <head>
+
 <meta charset="utf-8">
+<script>
+(() => {
+  const path = window.location.pathname;
+  let cleanPath = path;
+  if (/\/index\.html$/i.test(path)) cleanPath = path.replace(/index\.html$/i, '');
+  else if (/\/offline\.html$/i.test(path)) cleanPath = path.replace(/offline\.html$/i, 'offline/');
+  if (cleanPath !== path) {
+    if (!cleanPath) cleanPath = '/';
+    history.replaceState(history.state, '', cleanPath + window.location.search + window.location.hash);
+  }
+})();
+</script>
+
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex, nofollow, noarchive">
 <title>Yönetim Paneli</title>
@@ -201,7 +215,7 @@
     <span>
       <button class="btn" id="syncAllBtn" hidden title="Tüm kategorileri GitHub'dan yenile">Yenile</button>
       <button class="btn" id="out" hidden>Çıkış</button>
-      <a class="btn" href="../index.html">Siteyi Gör</a>
+      <a class="btn" href="../">Siteyi Gör</a>
     </span>
   </header>
 
@@ -703,17 +717,17 @@
         <p class="meta">Sitedeki herhangi bir sayfayı, stil dosyasını veya betiği doğrudan tarayıcıdan düzenleyip yayınlayın.</p>
         <div class="toolbar">
           <select id="repoFileSelect">
-            <option value="index.html">index.html (Ana Sayfa)</option>
-            <option value="admin/index.html">admin/index.html (Yönetim Paneli)</option>
+            <option value="index.html">/ (Ana Sayfa)</option>
+            <option value="admin/index.html">/admin/ (Yönetim Paneli)</option>
             <option value="assets/css/style.css">assets/css/style.css (Tasarım / Stiller)</option>
             <option value="scripts/app.js">scripts/app.js (Ana Betik)</option>
             <option value="scripts/theme.js">scripts/theme.js (Tema Betiği)</option>
             <option value="scripts/categories.js">scripts/categories.js (Kategori Ayarları)</option>
             <option value="scripts/config.js">scripts/config.js (Yapılandırma)</option>
-            <option value="oyun/index.html">oyun/index.html (Oyunlar)</option>
-            <option value="film/index.html">film/index.html (Filmler)</option>
-            <option value="dizi/index.html">dizi/index.html (Diziler)</option>
-            <option value="anime/index.html">anime/index.html (Animeler)</option>
+            <option value="oyun/index.html">/oyun/ (Oyunlar)</option>
+            <option value="film/index.html">/film/ (Filmler)</option>
+            <option value="dizi/index.html">/dizi/ (Diziler)</option>
+            <option value="anime/index.html">/anime/ (Animeler)</option>
             <option value="data/games.json">data/games.json (Oyun Kayıtları)</option>
             <option value="data/movies.json">data/movies.json (Film Kayıtları)</option>
             <option value="data/series.json">data/series.json (Dizi Kayıtları)</option>

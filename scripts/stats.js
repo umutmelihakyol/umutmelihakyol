@@ -6,10 +6,10 @@
   const asNumber = (value) => validNumber(value) ? Number(value) : 0;
   const number = (value, maximumFractionDigits = 1) => Number(value || 0).toLocaleString('tr-TR', { maximumFractionDigits });
   const CATEGORIES = [
-    { key:'oyun', label:'Oyun', icon:'🎮', href:'../oyun/index.html' },
-    { key:'dizi', label:'Dizi', icon:'📺', href:'../dizi/index.html' },
-    { key:'film', label:'Film', icon:'🎬', href:'../film/index.html' },
-    { key:'anime', label:'Anime', icon:'✨', href:'../anime/index.html' }
+    { key:'oyun', label:'Oyun', icon:'🎮', href:'../oyun/' },
+    { key:'dizi', label:'Dizi', icon:'📺', href:'../dizi/' },
+    { key:'film', label:'Film', icon:'🎬', href:'../film/' },
+    { key:'anime', label:'Anime', icon:'✨', href:'../anime/' }
   ];
   const STATUS = [
     { key:'bitirdim', label:'Tamamlandı', icon:'✓', className:'status-done' },

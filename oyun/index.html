@@ -1,7 +1,21 @@
 <!doctype html>
 <html lang="tr">
 <head>
+
 <meta charset="utf-8">
+<script>
+(() => {
+  const path = window.location.pathname;
+  let cleanPath = path;
+  if (/\/index\.html$/i.test(path)) cleanPath = path.replace(/index\.html$/i, '');
+  else if (/\/offline\.html$/i.test(path)) cleanPath = path.replace(/offline\.html$/i, 'offline/');
+  if (cleanPath !== path) {
+    if (!cleanPath) cleanPath = '/';
+    history.replaceState(history.state, '', cleanPath + window.location.search + window.location.hash);
+  }
+})();
+</script>
+
 <meta name="theme-color" content="#171d22">
 <link rel="manifest" href="../manifest.webmanifest">
 <link rel="apple-touch-icon" href="../assets/icons/gunlugum-180.png">
@@ -134,7 +148,7 @@
   </header>
   <nav class="cats" id="cats" aria-label="Kategoriler"></nav>
   <div class="library-action">
-    <a class="btn library-action__link" href="./maliyet/index.html">💰 Maliyet ve Kütüphane</a>
+    <a class="btn library-action__link" href="./maliyet/">💰 Maliyet ve Kütüphane</a>
   </div>
   <div class="stats" id="stats"></div>
   <section class="soonwrap" id="soon" hidden><h2 id="soonTitle"></h2><div class="soon" id="soonList"></div></section>

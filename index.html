@@ -1,7 +1,21 @@
 <!doctype html>
 <html lang="tr">
 <head>
+
 <meta charset="utf-8">
+<script>
+(() => {
+  const path = window.location.pathname;
+  let cleanPath = path;
+  if (/\/index\.html$/i.test(path)) cleanPath = path.replace(/index\.html$/i, '');
+  else if (/\/offline\.html$/i.test(path)) cleanPath = path.replace(/offline\.html$/i, 'offline/');
+  if (cleanPath !== path) {
+    if (!cleanPath) cleanPath = '/';
+    history.replaceState(history.state, '', cleanPath + window.location.search + window.location.hash);
+  }
+})();
+</script>
+
 
 <meta name="theme-color" content="#171d22">
 <link rel="manifest" href="./manifest.webmanifest">
@@ -107,12 +121,12 @@
       <a class="tech-profile-link" href="https://www.technopat.net/sosyal/uye/umutmelihakyol.84558/" target="_blank" rel="noopener">Forum profilim <span aria-hidden="true">↗</span></a>
     </div>
     <div class="tech-hub-grid">
-      <a class="tech-hub-card review-hub-card" href="technopat/incelemeler/index.html">
+      <a class="tech-hub-card review-hub-card" href="technopat/incelemeler/">
         <span class="tech-hub-icon" aria-hidden="true">✦</span>
         <span class="tech-hub-copy"><span class="tech-hub-label">OYUN · FİLM · DİZİ · ANİME</span><strong>İncelemeler</strong><span>Deneyimlerim, değerlendirmelerim ve puanladığım yapımlar.</span></span>
         <span class="tech-hub-arrow" aria-hidden="true">↗</span>
       </a>
-      <a class="tech-hub-card guide-hub-card" href="technopat/rehberler/index.html">
+      <a class="tech-hub-card guide-hub-card" href="technopat/rehberler/">
         <span class="tech-hub-icon" aria-hidden="true">⌘</span>
         <span class="tech-hub-copy"><span class="tech-hub-label">BİLGİ · İPUCU · REHBER</span><strong>Rehberler</strong><span>Oyunlar ve teknoloji hakkında hazırladığım yol gösterici içerikler.</span></span>
         <span class="tech-hub-arrow" aria-hidden="true">↗</span>
@@ -147,7 +161,7 @@ const has=v=>v!==null&&v!==undefined&&v!=='';
 const num=v=>(+v).toLocaleString('tr',{maximumFractionDigits:1});
 const fmtDate=d=>d?new Date(d).toLocaleDateString('tr-TR',{year:'numeric',month:'long'}):'—';
 const CF=window.CONFIG||{};
-if(location.hash.length>1)location.replace('oyun/index.html'+location.hash);
+if(location.hash.length>1)location.replace('oyun/'+location.hash);
 $('#title').textContent=CF.siteTitle||'Günlüğüm';
 document.title=(CF.siteTitle||'Günlüğüm')+' | Oyun, Film, Dizi ve Anime Arşivi';
 $('#tagline').textContent=CF.tagline||'Oynadığım, izlediğim her şey tek yerde.';

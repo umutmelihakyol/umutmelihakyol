@@ -30,7 +30,7 @@ window.IMAGE_SRC = (raw, width=500) => {
   }
 };
 window.CATS={
-  oyun:{page:SITE_ROOT+'oyun/index.html',file:'data/games.json',name:'Oyun',noun:'oyun',plural:'Oyunlar',title:'Oyunlarım',
+  oyun:{page:SITE_ROOT+'oyun/',file:'data/games.json',name:'Oyun',noun:'oyun',plural:'Oyunlar',title:'Oyunlarım',
     desc:'Oynadığım oyunlar, puanlarım ve incelemelerim',
     st:{bitirdim:'Bitirdim',oynuyorum:'Oynuyorum',biraktim:'Yarım bıraktım',istek:'İstek listesi'},
     nof:{bitirdim:'Süre ve tarih girilmemiş',oynuyorum:'Şu an oynuyorum',biraktim:'Yarım bıraktım',istek:'Henüz oynamadım'},
@@ -40,7 +40,7 @@ window.CATS={
     tot:{key:'hours',div:1,unit:'saat'},person:{key:'developer',label:'Geliştirici'},
     yearLabel:'Çıkış yılı',dateLabel:'Bitiş',dateForm:'Bitirdiğim tarih',dateSort:'En son bitirilen',doneNoun:'bitirilen oyun',
     searchPh:'örn. Hades',credit:'Oyun verileri ve görselleri '+A('https://rawg.io','RAWG')+' kaynaklıdır.'},
-  film:{page:SITE_ROOT+'film/index.html',file:'data/movies.json',name:'Film',noun:'film',plural:'Filmler',title:'Filmlerim',
+  film:{page:SITE_ROOT+'film/',file:'data/movies.json',name:'Film',noun:'film',plural:'Filmler',title:'Filmlerim',
     desc:'İzlediğim filmler, puanlarım ve yorumlarım',
     st:watch('İzledim','İzliyorum','Yarım bıraktım','İzleme listesi'),
     nof:watch('Süre ve tarih girilmemiş','Şu an izliyorum','Yarım bıraktım','Henüz izlemedim'),
@@ -50,7 +50,7 @@ window.CATS={
     tot:{key:'minutes',div:60,unit:'saat'},person:{key:'director',label:'Yönetmen'},
     yearLabel:'Çıkış yılı',dateLabel:'İzleme',dateForm:'İzlediğim tarih',dateSort:'En son izlenen',doneNoun:'izlenen film',
     searchPh:'örn. Inception',credit:'Bu site '+A('https://www.themoviedb.org','TMDB')+' API\'sini kullanır ancak TMDB tarafından onaylanmamış ya da sertifikalandırılmamıştır.'},
-  dizi:{page:SITE_ROOT+'dizi/index.html',file:'data/series.json',name:'Dizi',noun:'dizi',plural:'Diziler',title:'Dizilerim',
+  dizi:{page:SITE_ROOT+'dizi/',file:'data/series.json',name:'Dizi',noun:'dizi',plural:'Diziler',title:'Dizilerim',
     desc:'İzlediğim diziler, puanlarım ve yorumlarım',
     st:watch('Bitirdim','İzliyorum','Yarım bıraktım','İzleme listesi'),
     nof:watch('Bölüm ve tarih girilmemiş','Şu an izliyorum','Yarım bıraktım','Henüz izlemedim'),
@@ -61,7 +61,7 @@ window.CATS={
     tot:{key:'episodes',div:1,unit:'bölüm'},person:{key:'creator',label:'Yaratıcı'},
     yearLabel:'İlk yayın yılı',dateLabel:'Bitiş',dateForm:'Bitirdiğim tarih',dateSort:'En son bitirilen',doneNoun:'bitirilen dizi',
     searchPh:'örn. Breaking Bad',credit:'Bu site '+A('https://www.themoviedb.org','TMDB')+' API\'sini kullanır ancak TMDB tarafından onaylanmamış ya da sertifikalandırılmamıştır.'},
-  anime:{page:SITE_ROOT+'anime/index.html',file:'data/anime.json',name:'Anime',noun:'anime',plural:'Animeler',title:'Animelerim',
+  anime:{page:SITE_ROOT+'anime/',file:'data/anime.json',name:'Anime',noun:'anime',plural:'Animeler',title:'Animelerim',
     desc:'İzlediğim animeler, puanlarım ve yorumlarım',
     st:watch('Bitirdim','İzliyorum','Yarım bıraktım','İzleme listesi'),
     nof:watch('Bölüm ve tarih girilmemiş','Şu an izliyorum','Yarım bıraktım','Henüz izlemedim'),

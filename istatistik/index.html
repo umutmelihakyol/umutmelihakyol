@@ -1,13 +1,26 @@
 <!doctype html>
 <html lang="tr">
 <head>
+
   <meta charset="utf-8">
+<script>
+(() => {
+  const path = window.location.pathname;
+  let cleanPath = path;
+  if (/\/index\.html$/i.test(path)) cleanPath = path.replace(/index\.html$/i, '');
+  else if (/\/offline\.html$/i.test(path)) cleanPath = path.replace(/offline\.html$/i, 'offline/');
+  if (cleanPath !== path) {
+    if (!cleanPath) cleanPath = '/';
+    history.replaceState(history.state, '', cleanPath + window.location.search + window.location.hash);
+  }
+})();
+</script>
+
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#171c21">
   <title>İstatistiklerim | Günlüğüm</title>
   <meta name="description" content="Oyun, film, dizi ve anime arşivimdeki puanlar, tamamlanma durumları, türler ve kayıtlı veya tahmini süre istatistikleri.">
-  <script>if (/\/istatistik\/index\.html$/i.test(location.pathname)) location.replace(location.pathname.replace(/index\.html$/i, '') + location.search + location.hash);</script>
-  <link rel="canonical" href="https://umutmelihakyol.com/istatistik/">
+    <link rel="canonical" href="https://umutmelihakyol.com/istatistik/">
   <link rel="icon" href="../assets/icons/gunlugum-192.png" type="image/png">
   <link rel="manifest" href="../manifest.webmanifest">
   <meta property="og:type" content="website">
@@ -32,7 +45,7 @@
 <body class="stats-page">
   <div class="wrap stats-wrap">
     <header class="top stats-top">
-      <a class="btn ico stats-back" href="../index.html" aria-label="Ana sayfaya dön" title="Ana sayfa">
+      <a class="btn ico stats-back" href="../" aria-label="Ana sayfaya dön" title="Ana sayfa">
         <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
         <span class="lbl">Ana sayfa</span>
       </a>
@@ -45,10 +58,10 @@
     </header>
 
     <nav class="cats stats-main-nav" aria-label="Site bölümleri">
-      <a href="../oyun/index.html">🎮 Oyun</a>
-      <a href="../dizi/index.html">📺 Dizi</a>
-      <a href="../film/index.html">🎬 Film</a>
-      <a href="../anime/index.html">✨ Anime</a>
+      <a href="../oyun/">🎮 Oyun</a>
+      <a href="../dizi/">📺 Dizi</a>
+      <a href="../film/">🎬 Film</a>
+      <a href="../anime/">✨ Anime</a>
       <a href="./" aria-current="page">📊 İstatistikler</a>
     </nav>
 
@@ -105,7 +118,7 @@
 
       <p class="duration-disclaimer">Süre notu: Oyun süresi yalnızca arşivde kayıtlı saat alanlarından hesaplanır. Filmlerde tamamlandı durumundaki yapımların süre bilgisi kullanılır. Dizi başına 42 dakika, anime bölümü başına 24 dakika varsayımıyla tahmini süre gösterilir. Devam eden yapımlar için izlenen bölüm/saat bilgisi ayrı tutulmadığından bu süreler kişisel kronometre kaydı değildir.</p>
     </main>
-    <footer class="foot stats-footer"><a href="../index.html">Günlüğüm</a> · İstatistikler arşiv verilerinden otomatik hesaplanır.</footer>
+    <footer class="foot stats-footer"><a href="../">Günlüğüm</a> · İstatistikler arşiv verilerinden otomatik hesaplanır.</footer>
   </div>
 </body>
 </html>

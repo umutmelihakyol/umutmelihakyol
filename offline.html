@@ -1,7 +1,21 @@
 <!doctype html>
 <html lang="tr">
 <head>
+
   <meta charset="utf-8">
+<script>
+(() => {
+  const path = window.location.pathname;
+  let cleanPath = path;
+  if (/\/index\.html$/i.test(path)) cleanPath = path.replace(/index\.html$/i, '');
+  else if (/\/offline\.html$/i.test(path)) cleanPath = path.replace(/offline\.html$/i, 'offline/');
+  if (cleanPath !== path) {
+    if (!cleanPath) cleanPath = '/';
+    history.replaceState(history.state, '', cleanPath + window.location.search + window.location.hash);
+  }
+})();
+</script>
+
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#171d22">
   <title>Çevrimdışısın · Günlüğüm</title>
@@ -19,7 +33,7 @@
     <h1>Bağlantı yok</h1>
     <p>Günlüğüm'ün daha önce ziyaret ettiğin bazı sayfaları çevrimdışı açılabilir. Bu sayfa henüz önbelleğe alınmadıysa internete bağlanıp yeniden deneyebilirsin.</p>
     <button class="btn" type="button" onclick="location.reload()">Tekrar dene</button>
-    <p style="margin:18px 0 0"><a href="./index.html" style="color:var(--acc)">Ana sayfaya dön</a></p>
+    <p style="margin:18px 0 0"><a href="/" style="color:var(--acc)">Ana sayfaya dön</a></p>
   </main>
 </body>
 </html>
