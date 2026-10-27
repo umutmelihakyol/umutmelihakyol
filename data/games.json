@@ -86,6 +86,15 @@
     "favorite": false,
     "pros": [],
     "cons": [],
+    "ratings": {
+      "story": 7,
+      "gameplay": 8,
+      "visuals": 9,
+      "audio": 8.5,
+      "characters": 6,
+      "originality": 7.5,
+      "pacing": 8.5
+    },
     "links": [
       {
         "name": "Steam Sayfası",
@@ -94,7 +103,7 @@
         "note": ""
       }
     ],
-    "updatedAt": "2026-10-24T11:35:44.484Z",
+    "updatedAt": "2026-10-27T18:10:39.360Z",
     "installProfiles": [
       {
         "name": "Windows",
