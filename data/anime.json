@@ -548,9 +548,13 @@
     "note": "",
     "year": 2018,
     "favorite": false,
-    "pros": [],
+    "pros": [
+      "Karakter tasarımları",
+      "Hikaye"
+    ],
     "cons": [],
-    "updatedAt": "2026-10-27T18:37:00.578Z",
+    "links": [],
+    "updatedAt": "2026-10-27T18:38:40.563Z",
     "episodes": 24,
     "studio": "8-bit"
   },
