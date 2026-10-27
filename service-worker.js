@@ -1,8 +1,8 @@
-/* Günlüğüm Service Worker — cache v12: gelişmiş arama, yıllık istatistikler ve gelişmiş puanlama. */
+/* Günlüğüm Service Worker — cache v13: gelişmiş arama, yıllık istatistikler ve gelişmiş puanlama. */
 'use strict';
 
 const CACHE_PREFIX = 'gunlugum-pwa-';
-const CACHE_VERSION = 'v12';
+const CACHE_VERSION = 'v13';
 const APP_CACHE = `${CACHE_PREFIX}app-${CACHE_VERSION}`;
 const IMAGE_CACHE = `${CACHE_PREFIX}images-${CACHE_VERSION}`;
 const APP_ROOT = new URL('./', self.registration.scope);

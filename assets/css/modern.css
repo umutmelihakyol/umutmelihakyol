@@ -397,3 +397,10 @@ button:disabled, input:disabled, select:disabled, textarea:disabled {
 @media(max-width:480px){.rating-breakdown-row{grid-template-columns:92px minmax(38px,1fr) 30px;gap:7px;font-size:.74rem}.rating-breakdown-public{padding:11px}}
 
 .home-search-cta{margin-top:-28px;border-color:color-mix(in srgb,#8f81f5 30%,var(--line));background:linear-gradient(110deg,color-mix(in srgb,#8f81f5 10%,var(--card)),var(--card) 80%)}
+
+/* Üst menüde gelişmiş aramaya hızlı erişim */
+.top-search-link{display:inline-flex;align-items:center;justify-content:center;gap:7px;white-space:nowrap;text-decoration:none}
+.top-search-link .lbl{display:inline}
+.top-search-link svg{flex:0 0 auto}
+.top-search-link[aria-current="page"]{background:var(--acc);border-color:var(--acc);color:var(--accink)}
+a.top-search-link[aria-current="page"]{color:var(--accink)}

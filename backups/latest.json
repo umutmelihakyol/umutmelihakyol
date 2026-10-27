@@ -1,7 +1,7 @@
 {
   "format": "gunlugum-backup",
   "version": 1,
-  "createdAt": "2026-10-27T18:10:41.668Z",
+  "createdAt": "2026-10-24T11:35:46.513Z",
   "reason": "Oyun kaydı öncesi otomatik yedek",
   "repository": "umutmelihakyol/umutmelihakyol",
   "branch": "main",
@@ -94,27 +94,7 @@
         "favorite": false,
         "pros": [],
         "cons": [],
-        "links": [
-          {
-            "name": "Steam Sayfası",
-            "type": "store",
-            "url": "https://store.steampowered.com/app/3768760/007_First_Light/",
-            "note": ""
-          }
-        ],
-        "updatedAt": "2026-10-24T11:35:44.484Z",
-        "installProfiles": [
-          {
-            "name": "Windows",
-            "version": "Steam Güncel",
-            "platform": "Windows",
-            "compatibility": "Yerel / Native",
-            "launchOptions": "",
-            "graphicsSettings": "1440p, Ultra ayarlar",
-            "mods": "",
-            "notes": ""
-          }
-        ],
+        "updatedAt": "2026-10-23T20:29:28.386Z",
         "hours": 14,
         "developer": "IO Interactive",
         "acquisitionType": "purchase",
