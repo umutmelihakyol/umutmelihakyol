@@ -90,8 +90,8 @@
     @media(max-width:420px){.cost-tools{grid-template-columns:1fr}.cost-actions{align-items:stretch}.cost-actions .action-group{width:100%}.cost-actions .btn{flex:1}}
     @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
   </style>
-  <script src="../../scripts/pwa.js?v=3" defer></script>
-<link rel="stylesheet" href="../../assets/css/modern.css?v=6">
+  <script src="../../scripts/pwa.js?v=4" defer></script>
+<link rel="stylesheet" href="../../assets/css/modern.css?v=7">
 </head>
 <body data-cat="oyun">
   <div class="site-intro-loader" id="siteIntroLoader" role="status" aria-live="polite" aria-label="Günlüğüm hazırlanıyor">
@@ -194,7 +194,7 @@
   const totalText = (pairs) => pairs.length ? pairs.map(([currency,value])=>money(value,currency)).join(' · ') : 'Henüz fiyat girilmedi';
   function renderNav(){
     if (!window.CATS) return;
-    $('#cats').innerHTML = `<a href="../../">${typeof ICON==='function'?ICON('home'):''} Ana sayfa</a>` + Object.entries(window.CATS).map(([key,c])=>`<a href="${esc(c.page)}">${typeof ICON==='function'?ICON(key):''} ${esc(c.plural)}</a>`).join('') + `<a href="./" aria-current="page">💰 Maliyet &amp; Kütüphane</a>`;
+    $('#cats').innerHTML = `<a href="../../">${typeof ICON==='function'?ICON('home'):''} Ana sayfa</a>` + Object.entries(window.CATS).map(([key,c])=>`<a href="${esc(c.page)}">${typeof ICON==='function'?ICON(key):''} ${esc(c.plural)}</a>`).join('') + `<a href="../../istatistik/">📊 İstatistikler</a><a href="../../ara/">🔎 Gelişmiş Arama</a><a href="./" aria-current="page">💰 Maliyet &amp; Kütüphane</a>`;
   }
   function fillFilters(){
     const acquisition=$('#acquisitionFilter').value,ownership=$('#ownershipFilter').value,store=$('#storeFilter').value;

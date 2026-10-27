@@ -74,6 +74,30 @@
           "type": "image/png"
         }
       ]
+    },
+    {
+      "name": "Arşiv İstatistikleri",
+      "short_name": "İstatistikler",
+      "url": "./istatistik/",
+      "icons": [
+        {
+          "src": "./assets/icons/gunlugum-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Gelişmiş Arama",
+      "short_name": "Arama",
+      "url": "./ara/",
+      "icons": [
+        {
+          "src": "./assets/icons/gunlugum-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
     }
   ]
 }

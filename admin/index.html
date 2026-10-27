@@ -166,6 +166,12 @@
   @media(max-width:760px){ .analytics-grid,.backup-controls,.tech-admin-form-grid { grid-template-columns:1fr; } .bar-row { grid-template-columns:minmax(75px,1fr) minmax(60px,1.2fr) auto; gap:7px; } .tech-admin-item { flex-direction:column; } .tech-admin-form-grid .wide { grid-column:auto; } }
 
   /* JSON yerine satır bazlı bağlantı ve kurulum profili editörleri */
+  .rating-breakdown{min-width:0;margin:6px 0;padding:13px;border:1px solid var(--line,var(--bd,rgba(128,128,128,.25)));border-radius:12px;background:color-mix(in srgb,var(--card,#20272e) 85%,transparent)}
+  .rating-breakdown legend{padding:0 7px;font-weight:800}
+  .rating-breakdown-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+  .rating-breakdown-grid label{display:grid;gap:5px;min-width:0;font-size:.85rem;font-weight:650}
+  .rating-breakdown-grid input{width:100%;min-width:0;box-sizing:border-box;border:1px solid var(--line,var(--bd,rgba(128,128,128,.3)));border-radius:9px;background:var(--bg,var(--card,#11161d));color:var(--ink,var(--fg,#e6edf3));padding:9px 10px;font:inherit}
+  .rating-breakdown-grid input:focus{outline:2px solid var(--acc);outline-offset:1px}
   .media-form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:12px 0}
   .media-form-grid label{display:grid;gap:6px;min-width:0;font-size:.92rem;font-weight:650}
   .media-form-grid .wide{grid-column:1/-1}
@@ -180,7 +186,7 @@
   .media-editor-row__copy small{color:var(--mute,#93a0ab);overflow-wrap:anywhere}
   .media-editor-row__remove{flex:0 0 auto;padding:5px 9px}
   .media-editor-empty{padding:12px;border:1px dashed var(--line,var(--bd,rgba(128,128,128,.25)));border-radius:9px;color:var(--mute,#93a0ab);font-size:.88rem}
-  @media(max-width:650px){.media-form-grid{grid-template-columns:minmax(0,1fr)}.media-form-grid .wide{grid-column:auto}.media-editor-row{gap:8px}}
+  @media(max-width:650px){.media-form-grid{grid-template-columns:minmax(0,1fr)}.media-form-grid .wide{grid-column:auto}.media-editor-row{gap:8px}.rating-breakdown-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 
   /* Toplu yönetim ve geri alınabilir silme */
   .bulk-toolbar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:12px;border:1px solid var(--line,var(--bd,rgba(128,128,128,.22)));border-radius:12px;margin:10px 0 14px;background:color-mix(in srgb,var(--card,#20272e) 74%,transparent)}
@@ -206,7 +212,7 @@
 <script src="../scripts/theme.js?v=2"></script>
 <script>document.write('<script src="../scripts/config.js?'+Date.now()+'"><\/script>')</script>
 <script src="../scripts/categories.js"></script>
-<link rel="stylesheet" href="../assets/css/modern.css?v=6">
+<link rel="stylesheet" href="../assets/css/modern.css?v=7">
 </head>
 <body>
 <div class="wrap">
@@ -283,6 +289,19 @@
           <label><span id="l-person">Geliştirici</span><input id="person"></label>
           <label>Favorim mi?<select id="fav"><option value="0">Hayır</option><option value="1">Evet</option></select></label>
           <label>Puanım (0-10, bitirdiysen zorunlu)<input id="score" type="number" min="0" max="10" step="0.5"></label>
+          <fieldset class="rating-breakdown wide">
+            <legend>⭐ Gelişmiş puanlama <span class="meta">(isteğe bağlı, 0–10)</span></legend>
+            <p class="meta">Genel puanından ayrı olarak yapımın farklı yönlerini değerlendir. Boş bıraktığın alanlar kaydedilmez.</p>
+            <div class="rating-breakdown-grid">
+              <label>Hikâye<input id="ratingStory" type="number" min="0" max="10" step="0.5" placeholder="—"></label>
+              <label id="ratingGameplayWrap">Oynanış<input id="ratingGameplay" type="number" min="0" max="10" step="0.5" placeholder="—"></label>
+              <label>Görsellik<input id="ratingVisuals" type="number" min="0" max="10" step="0.5" placeholder="—"></label>
+              <label>Ses / Müzik<input id="ratingAudio" type="number" min="0" max="10" step="0.5" placeholder="—"></label>
+              <label>Karakterler<input id="ratingCharacters" type="number" min="0" max="10" step="0.5" placeholder="—"></label>
+              <label>Özgünlük<input id="ratingOriginality" type="number" min="0" max="10" step="0.5" placeholder="—"></label>
+              <label>Tempo / Kurgu<input id="ratingPacing" type="number" min="0" max="10" step="0.5" placeholder="—"></label>
+            </div>
+          </fieldset>
           <label><span id="l-dur">Süre</span><input id="dur" type="number" min="0" step="1"></label>
           <label id="dur2wrap" hidden><span id="l-dur2">Bölüm sayısı</span><input id="dur2" type="number" min="0" step="1"></label>
           <label><span id="l-date">Tarih</span><input id="finished" type="date"></label>
@@ -1053,6 +1072,7 @@ async function persist(targetCat=cat){
 /* KATEGORİ ETİKETLERİ VE FİLTRELER */
 function applyCat(){
   const c=cfg();
+  const gameplayWrap=$('#ratingGameplayWrap');if(gameplayWrap)gameplayWrap.hidden=cat!=='oyun';
   const costPanel=$('#gameCostPanel');if(costPanel)costPanel.hidden=cat!=='oyun';
   const profilePanel=$('#installProfilesPanel');if(profilePanel)profilePanel.hidden=cat!=='oyun';
   $('#catpills').innerHTML=Object.entries(CATS).map(([k,v])=>`<button class="pill" data-k="${k}" aria-pressed="${k===cat}">${typeof ICON==='function'?ICON(k):''} ${v.plural}</button>`).join('');
@@ -1321,6 +1341,8 @@ $('#list').onclick=async e=>{
     $('#availabilityJson').value=JSON.stringify(Array.isArray(g.links)?g.links:[],null,2);
     $('#installProfilesJson').value=JSON.stringify(Array.isArray(g.installProfiles)?g.installProfiles:[],null,2);
     $('#fav').value=g.favorite?'1':'0';$('#pros').value=(g.pros||[]).join('\n');$('#cons').value=(g.cons||[]).join('\n');$('#genres').value=(g.genres||[]).join(', ');
+    const rr=g.ratings&&typeof g.ratings==='object'?g.ratings:{};
+    Object.entries({story:'ratingStory',gameplay:'ratingGameplay',visuals:'ratingVisuals',audio:'ratingAudio',characters:'ratingCharacters',originality:'ratingOriginality',pacing:'ratingPacing'}).forEach(([key,id])=>$('#'+id).value=rr[key]??'');
     $('#status').value=g.status||'bitirdim';$('#rec').value=g.recommended===true?'1':g.recommended===false?'0':'';
     if(cat==='oyun'&&!g.purchaseCurrency)$('#purchaseCurrency').value='TRY';
     $('#ft').textContent=c.name+' düzenle: '+g.title;
@@ -1331,7 +1353,9 @@ $('#list').onclick=async e=>{
 function clear(){
   editId=null;ids.forEach(i=>$('#'+i).value='');$('#availabilityJson').value='[]';$('#installProfilesJson').value='[]';
   $('#imgPrev').src=defaultSvg;
-  $('#genres').value='';$('#pros').value='';$('#cons').value='';$('#availabilityJson').value='[]';$('#installProfilesJson').value='[]';$('#fav').value='0';$('#rec').value='1';if($('#purchaseCurrency'))$('#purchaseCurrency').value='TRY';
+  $('#genres').value='';$('#pros').value='';$('#cons').value='';$('#availabilityJson').value='[]';$('#installProfilesJson').value='[]';$('#fav').value='0';$('#rec').value='1';
+  ['ratingStory','ratingGameplay','ratingVisuals','ratingAudio','ratingCharacters','ratingOriginality','ratingPacing'].forEach(id=>$('#'+id).value='');
+  if($('#purchaseCurrency'))$('#purchaseCurrency').value='TRY';
   if($('#status').options.length)$('#status').value='bitirdim';
   $('#ft').textContent=cfg().name+' bilgileri';
 }
@@ -1344,6 +1368,16 @@ $('#add').onclick=async()=>{
   if(stt==='bitirdim'&&(val('score')===''||!val('finished')||(c.dur.req&&val('dur')==='')))
     return say(c.dur.req?'Bitirdiklerinde puan, süre ve tarih zorunlu.':'Bitirdiklerinde puan ve tarih zorunlu.',1);
   const n=i=>val(i)===''?null:+val(i),lines=i=>$('#'+i).value.split('\n').map(x=>x.trim()).filter(Boolean);
+  const ratingFieldMap={story:'ratingStory',gameplay:'ratingGameplay',visuals:'ratingVisuals',audio:'ratingAudio',characters:'ratingCharacters',originality:'ratingOriginality',pacing:'ratingPacing'};
+  const ratings={};
+  for(const [key,id] of Object.entries(ratingFieldMap)){
+    if(key==='gameplay'&&cat!=='oyun')continue;
+    const raw=val(id);
+    if(raw==='')continue;
+    const score=Number(raw);
+    if(!Number.isFinite(score)||score<0||score>10)return say('Alt puanların her biri 0 ile 10 arasında olmalı.',1);
+    ratings[key]=score;
+  }
   const parseArrayField=(id,label)=>{
     const raw=val(id);if(!raw)return [];
     let parsed;try{parsed=JSON.parse(raw)}catch{return {error:`${label} geçerli JSON değil.`}}
@@ -1398,6 +1432,7 @@ $('#add').onclick=async()=>{
     recommended:$('#rec').value===''?null:$('#rec').value==='1',
     review:val('review'),note:val('note'),year:n('year'),
     favorite:$('#fav').value==='1',pros:lines('pros'),cons:lines('cons'),
+    ...(Object.keys(ratings).length?{ratings}:{}),
     links,
     updatedAt:new Date().toISOString()
   };

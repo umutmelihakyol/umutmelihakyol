@@ -34,13 +34,13 @@
   <link rel="preconnect" href="https://image.tmdb.org" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../assets/css/style.css?v=17">
-  <link rel="stylesheet" href="../assets/css/modern.css?v=6">
-  <link rel="stylesheet" href="../assets/css/stats.css?v=1">
+  <link rel="stylesheet" href="../assets/css/modern.css?v=7">
+  <link rel="stylesheet" href="../assets/css/stats.css?v=2">
   <script src="../scripts/theme.js?v=2"></script>
   <script src="../scripts/config.js"></script>
   <script src="../scripts/categories.js?v=4"></script>
-  <script src="../scripts/pwa.js?v=3" defer></script>
-  <script src="../scripts/stats.js?v=1" defer></script>
+  <script src="../scripts/pwa.js?v=4" defer></script>
+  <script src="../scripts/stats.js?v=2" defer></script>
 </head>
 <body class="stats-page">
   <div class="wrap stats-wrap">
@@ -63,6 +63,7 @@
       <a href="../film/">🎬 Film</a>
       <a href="../anime/">✨ Anime</a>
       <a href="./" aria-current="page">📊 İstatistikler</a>
+      <a href="../ara/">🔎 Gelişmiş Arama</a>
     </nav>
 
     <main>
@@ -88,6 +89,16 @@
         <article class="metric-card metric-violet"><span class="metric-icon" aria-hidden="true">🏆</span><div class="metric-line"><strong id="metricFinished">—</strong><span>Yapım</span></div><b class="metric-label">Tamamlandı</b><small id="metricFinishedNote">Tamamlanma oranı</small></article>
       </section>
 
+      <section class="stats-panel annual-section" aria-labelledby="annualTitle">
+        <div class="panel-heading annual-heading"><div><h2 id="annualTitle">📅 Yıllık Özet</h2><p>Bitirme tarihi kayıtlı yapımların yıl bazında özeti.</p></div><label class="year-select-label" for="yearFilter">Yıl<select id="yearFilter"><option value="all">Tüm yıllar</option></select></label></div>
+        <div class="year-metric-grid" id="yearMetricGrid" aria-live="polite"></div>
+        <div class="annual-visuals">
+          <section class="annual-chart-panel"><h3>Aylara göre tamamlananlar</h3><p>Seçilen yılda bitirme tarihi kaydedilen yapımlar.</p><div id="monthlyActivity" class="monthly-activity"></div></section>
+          <section class="annual-chart-panel"><h3>Kategori dağılımı</h3><p>Seçilen yılın tamamlanan kayıtları.</p><div id="yearCategorySummary" class="year-category-summary"></div></section>
+        </div>
+        <section class="annual-best-panel"><div class="section-title-row"><div><h3>Yılın en yüksek puanlıları</h3><p>Yalnızca seçilen yıl tamamlanmış ve puanlanmış kayıtlar.</p></div><span class="section-meta" id="yearBestCount"></span></div><div id="yearTopRated" class="year-top-rated"></div><p id="yearTopEmpty" class="empty-inline" hidden>Bu yıl bitirme tarihi ve puanı bulunan kayıt yok.</p></section>
+      </section>
+
       <section class="insight-grid" aria-label="Puan ve tür analizleri">
         <article class="stats-panel">
           <div class="panel-heading"><div><h2>🎯 Puan Dağılımı</h2><p id="ratingSubtitle">Puan verdiğim yapımlar</p></div><span class="panel-count" id="ratingCount">—</span></div>
@@ -110,6 +121,12 @@
         <div class="comparison-grid" id="comparisonGrid"></div>
       </section>
 
+      <section class="stats-panel subscore-section" aria-labelledby="subscoreTitle">
+        <div class="panel-heading"><div><h2 id="subscoreTitle">🧩 Alt Puan Ortalamaları</h2><p>Gelişmiş puanlama alanlarına girdiğin değerlendirmeler.</p></div><span class="panel-count" id="subscoreCount">—</span></div>
+        <div id="subscoreGrid" class="subscore-grid"></div>
+        <p class="empty-inline" id="subscoreEmpty" hidden>Henüz alt puan eklenmemiş. Yönetim panelinden hikâye, görsellik, müzik ve diğer ölçütleri puanlayabilirsin.</p>
+      </section>
+
       <section class="top-rated-section" aria-labelledby="topRatedTitle">
         <div class="section-title-row"><div><h2 id="topRatedTitle">⭐ En Yüksek Puan Verdiğim Yapımlar</h2><p id="topRatedSubtitle">Arşivimdeki en yüksek puanlı kayıtlar</p></div><span class="section-meta" id="topRatedCount"></span></div>
         <div class="rated-grid" id="ratedGrid"></div>
@@ -118,7 +135,7 @@
 
       <p class="duration-disclaimer">Süre notu: Oyun süresi yalnızca arşivde kayıtlı saat alanlarından hesaplanır. Filmlerde tamamlandı durumundaki yapımların süre bilgisi kullanılır. Dizi başına 42 dakika, anime bölümü başına 24 dakika varsayımıyla tahmini süre gösterilir. Devam eden yapımlar için izlenen bölüm/saat bilgisi ayrı tutulmadığından bu süreler kişisel kronometre kaydı değildir.</p>
     </main>
-    <footer class="foot stats-footer"><a href="../">Günlüğüm</a> · İstatistikler arşiv verilerinden otomatik hesaplanır.</footer>
+    <footer class="foot stats-footer"><a href="../">Günlüğüm</a> · <a href="../ara/">Gelişmiş arama</a> · İstatistikler arşiv verilerinden otomatik hesaplanır.</footer>
   </div>
 </body>
 </html>

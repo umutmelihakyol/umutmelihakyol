@@ -21,7 +21,7 @@ $('#q').placeholder=cfg.name+' ara…';
 $('#rnd').title='Şu an listelenen '+cfg.plural.toLowerCase()+' arasından rastgele birini seçer';
 $('#sort').innerHTML=`<option value="date">${cfg.dateSort}</option><option value="score">En yüksek puan</option><option value="dur">${cfg.dur.sort}</option><option value="name">A-Z</option>`;
 $('#cats').innerHTML=`<a href="${SITE_ROOT}">${ICON('home')} Ana sayfa</a>`+Object.entries(CATS).map(([k,c])=>`<a href="${c.page}"${k===CAT?' aria-current="page"':''}>${ICON(k)} ${c.plural}</a>`).join('');
-$('#cats').insertAdjacentHTML('beforeend', `<a href="${SITE_ROOT}istatistik/" title="Arşiv istatistikleri">📊 İstatistikler</a>`);
+$('#cats').insertAdjacentHTML('beforeend', `<a href="${SITE_ROOT}istatistik/" title="Arşiv istatistikleri">📊 İstatistikler</a><a href="${SITE_ROOT}ara/" title="Tüm arşivde gelişmiş arama">🔎 Gelişmiş Arama</a>`);
 if(CF.suggestUrl){const a=$('#suggest');a.href=CF.suggestUrl;a.hidden=false;if(!/^https?:/i.test(CF.suggestUrl))a.removeAttribute('target')}
 
 function fillSel(id,label,vals){$(id).innerHTML=`<option value="">${label}</option>`+[...new Set(vals)].sort((a,b)=>a.localeCompare(b,'tr')).map(v=>`<option>${esc(v)}</option>`).join('')}
@@ -81,6 +81,8 @@ function purchaseDetails(g){
 const proscons=g=>{const p=(g.pros||[]).filter(Boolean),c=(g.cons||[]).filter(Boolean);if(!p.length&&!c.length)return '';
   const col=(t,cls,l)=>l.length?`<div class="pc ${cls}"><h4>${t}</h4><ul>${l.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>`:'';
   return `<div class="pcs">${col('Artılar','pro',p)}${col('Eksiler','con',c)}</div>`};
+const RATING_LABELS=[['story','Hikâye'],['gameplay','Oynanış'],['visuals','Görsellik'],['audio','Ses / Müzik'],['characters','Karakterler'],['originality','Özgünlük'],['pacing','Tempo / Kurgu']];
+const ratingBreakdown=g=>{const raw=g.ratings&&typeof g.ratings==='object'?g.ratings:{};const rows=RATING_LABELS.filter(([key])=>CAT==='oyun'||key!=='gameplay').filter(([key])=>raw[key]!==null&&raw[key]!==undefined&&raw[key]!==''&&Number.isFinite(Number(raw[key]))&&Number(raw[key])>=0&&Number(raw[key])<=10);if(!rows.length)return '';const avg=rows.reduce((sum,[key])=>sum+Number(raw[key]),0)/rows.length;return `<section class="rating-breakdown-public"><div class="rating-breakdown-head"><h3>Alt puanlarım</h3><span>Ortalama <b>${num(avg)}/10</b></span></div><div class="rating-breakdown-bars">${rows.map(([key,label])=>`<div class="rating-breakdown-row"><span>${label}</span><div><i style="width:${Number(raw[key])*10}%"></i></div><b>${num(raw[key])}</b></div>`).join('')}</div></section>`};
 const chips=g=>(g.genres||[]).map(t=>`<span>${esc(t)}</span>`).join('');
 const cover=g=>`<div class="cover">${imageSrc(g.image,500)?`<img src="${imageSrc(g.image,500)}" alt="${esc(g.title)} görseli" loading="lazy" decoding="async" fetchpriority="low" referrerpolicy="no-referrer" onerror="this.remove();this.parentElement.classList.add('image-missing')">`:''}${g.favorite===true?`<span class="fvb" title="Favorim">${HEART}</span>`:''}<span class="stb s-${stOf(g)}">${ST[stOf(g)]}</span>${has(g.score)?`<span class="score" title="Puanım">${num(g.score)}</span>`:''}${recChip(g)}</div>`;
 const THUMB_UP='<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 11v9H4v-9zM7 11l4-8a2 2 0 0 1 2 2v4h6a2 2 0 0 1 2 2.3l-1.2 7A2 2 0 0 1 17.8 20H7"/></svg>';
@@ -136,7 +138,7 @@ function openGame(id){
   d.classList.add('detail-redesign');
   d.innerHTML=`${cover(g)}<div class="inner"><h2>${esc(g.title)}</h2><p class="meta">${esc(g.platform)}</p>
   <p class="tags wrapt">${chips(g)}</p>${facts(g)}${info(g)}${CAT==='oyun'?purchaseDetails(g):''}
-  ${g.note?`<p class="full">${esc(g.note)}</p>`:''}${proscons(g)}<div class="row">${revHtml(g)}</div>
+  ${g.note?`<p class="full">${esc(g.note)}</p>`:''}${ratingBreakdown(g)}${proscons(g)}<div class="row">${revHtml(g)}</div>
   <p>${randomMode?'<button class="btn pri again">Başka birini seç</button> ':''}<button class="btn card-gen-btn" data-id="${esc(g.id)}">📷 İnceleme Kartı İndir</button> <button class="btn copy">Bağlantıyı kopyala</button> <button class="btn" onclick="this.closest('dialog').close()">Kapat</button></p></div>`;
   if(!d.open)d.showModal();
   if(lastId!==id){lastId=id;try{window.goatcounter&&goatcounter.count&&goatcounter.count({path:CAT+'/'+id,title:g.title,event:true})}catch{}}

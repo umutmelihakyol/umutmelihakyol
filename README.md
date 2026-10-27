@@ -7,6 +7,8 @@ Günlüğüm; oyun, film, dizi ve anime arşivini; kişisel puanları, notları,
 - `index.html` — ana sayfa, kategori kartları, son eklenen kayıtlar ve inceleme kartı oluşturucu.
 - `oyun/index.html` — oyun arşivi; oyun maliyeti ve kütüphane özeti `oyun/maliyet/index.html` adresindedir.
 - `film/index.html`, `dizi/index.html`, `anime/index.html` — ilgili medya arşivleri.
+- `ara/index.html` — bütün medya arşivlerinde kategori, durum, tür, yayın yılı, puan, platform, favori ve inceleme filtresiyle gelişmiş arama.
+- `istatistik/index.html` — genel istatistiklere ek olarak yıl seçimi, aylık tamamlama grafiği ve gelişmiş alt puan ortalamaları.
 - `technopat/incelemeler/index.html`, `technopat/rehberler/index.html` — Technopat Sosyal yazı arşivi.
 - `admin/index.html` — parola ile açılan, GitHub deposundaki JSON ve yapılandırma dosyalarını yönetmeye yarayan panel.
 - `offline.html` ve `service-worker.js` — PWA/çevrimdışı desteği.
@@ -17,7 +19,9 @@ Günlüğüm; oyun, film, dizi ve anime arşivini; kişisel puanları, notları,
 - `data/technopat.json` — Technopat inceleme ve rehber kartları.
 - `scripts/config.js` — site ayarları ve API anahtarları.
 - `scripts/categories.js` — kategori adları, sayfa adresleri, durum etiketleri ve görsel URL yardımcıları.
-- `scripts/app.js` — oyun/film/dizi/anime kategori sayfalarının ortak arayüzü.
+- `scripts/app.js` — oyun/film/dizi/anime kategori sayfalarının ortak arayüzü ve kayıt ayrıntısındaki alt puan dökümü.
+- `scripts/search.js` — çok kategorili gelişmiş arama/filtreleme ve paylaşılabilir arama parametreleri.
+- `scripts/stats.js` — toplam ve yıllık istatistik hesaplamaları, puan dağılımı, alt puan ve süre analizleri.
 - `assets/css/` — tasarım, kartlar, medya ekleri ve responsive stiller.
 - `backups/latest.json` — yönetim panelinin son otomatik veri yedeği.
 
@@ -74,9 +78,9 @@ SOFTWARE.
 
 ## İstatistik sayfası
 
-`istatistik/index.html`, `data/games.json`, `data/series.json`, `data/movies.json` ve `data/anime.json` dosyalarını okuyarak arşiv sayıları, puan dağılımı, türler, tamamlanma durumları ve süre özetini hesaplar. Oyun saatleri girilen kayıtlı sürelerden; film süreleri tamamlanan filmlerin uzunluklarından; dizi ve anime süreleri ise sırasıyla bölüm başına 42 ve 24 dakika varsayımından hesaplanır. Dizi/anime süreleri tahminidir ve devam eden içeriklerin gerçek izlenen bölüm sayısını göstermez.
+`istatistik/index.html`, `data/games.json`, `data/series.json`, `data/movies.json` ve `data/anime.json` dosyalarını okuyarak arşiv sayıları, puan dağılımı, türler, tamamlanma durumları, yıl seçimine göre bitirme geçmişi, aylık aktivite grafiği, yıllık en yüksek puanlı yapımlar ve kayıtlı alt puan ortalamalarını hesaplar. `ara/index.html` tüm kategorileri tek bir arama ekranında filtreler. Yönetim panelinde her kayda genel puana ek olarak hikâye, görsellik, ses/müzik, karakter, özgünlük ve tempo; oyunlarda ayrıca oynanış alt puanı eklenebilir. Bu alanlar isteğe bağlıdır ve eski kayıtlarla uyumludur. Oyun saatleri girilen kayıtlı sürelerden; film süreleri tamamlanan filmlerin uzunluklarından; dizi ve anime süreleri ise sırasıyla bölüm başına 42 ve 24 dakika varsayımından hesaplanır. Dizi/anime süreleri tahminidir ve devam eden içeriklerin gerçek izlenen bölüm sayısını göstermez.
 
 
 ## Temiz sayfa adresleri
 
-Tarayıcıda kullanılan sayfa yolları `.html` uzantısını göstermez: `/`, `/oyun/`, `/oyun/maliyet/`, `/film/`, `/dizi/`, `/anime/`, `/istatistik/`, `/admin/`, `/technopat/incelemeler/`, `/technopat/rehberler/` ve `/offline/`. Kaynak dosyalar, GitHub Pages statik barındırma yapısı nedeniyle klasörlerde `index.html` olarak tutulur. Eski `.../index.html` adresleri açıldığında sayfa yolu da temiz URL biçimine çevrilir.
+Tarayıcıda kullanılan sayfa yolları `.html` uzantısını göstermez: `/`, `/oyun/`, `/oyun/maliyet/`, `/film/`, `/dizi/`, `/anime/`, `/istatistik/`, `/ara/`, `/admin/`, `/technopat/incelemeler/`, `/technopat/rehberler/` ve `/offline/`. Kaynak dosyalar, GitHub Pages statik barındırma yapısı nedeniyle klasörlerde `index.html` olarak tutulur. Eski `.../index.html` adresleri açıldığında sayfa yolu da temiz URL biçimine çevrilir.
