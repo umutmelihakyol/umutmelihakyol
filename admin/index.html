@@ -290,6 +290,7 @@
           <label><span id="l-person">Geliştirici</span><input id="person"></label>
           <label>Favorim mi?<select id="fav"><option value="0">Hayır</option><option value="1">Evet</option></select></label>
           <label>Puanım (0-10, bitirdiysen zorunlu)<input id="score" type="number" min="0" max="10" step="0.5"></label>
+          <label class="wide">Puan değişikliği nedeni <input id="scoreHistoryReason" maxlength="240" placeholder="Örn. ikinci oynayıştan sonra değerlendirmem değişti"></label>
           <fieldset class="rating-breakdown wide">
             <legend>⭐ Gelişmiş puanlama <span class="meta">(isteğe bağlı, 0–10)</span></legend>
             <p class="meta">Genel puanından ayrı olarak yapımın farklı yönlerini değerlendir. Boş bıraktığın alanlar kaydedilmez.</p>
@@ -320,6 +321,24 @@
           <label>Artılar (her satıra bir madde)<textarea id="pros" rows="3"></textarea></label>
           <label>Eksiler (her satıra bir madde)<textarea id="cons" rows="3"></textarea></label>
         </div>
+
+        <fieldset id="repeatHistoryPanel" class="media-feature-panel">
+          <legend>🔁 Tekrar oynama / yeniden izleme geçmişi</legend>
+          <p class="meta">Aynı yapımı tekrar bitirdiğinde ayrı bir kayıt ekle. Kayıtlar mevcut ilk bitirme/izleme verisini değiştirmez. Süre alanı oyunlarda saat, filmlerde dakika, dizi ve animelerde bölüm sayısıdır.</p>
+          <div class="media-form-grid">
+            <label>Tarih <input id="repeatDate" type="date"></label>
+            <label>Platform / izleme yeri <input id="repeatPlatform" maxlength="120" placeholder="PC, Steam, Sinema…"></label>
+            <label id="repeatKindLabel">Kayıt türü
+              <select id="repeatKind"><option value="replay">Tekrar oynadım</option><option value="rewatch">Yeniden izledim</option></select>
+            </label>
+            <label><span id="repeatDurationLabel">Ek süre</span><input id="repeatDuration" type="number" min="0" step="0.5" placeholder="İsteğe bağlı"></label>
+            <label>Bu turdaki puan (isteğe bağlı)<input id="repeatScore" type="number" min="0" max="10" step="0.5"></label>
+            <label class="wide">Not (isteğe bağlı)<textarea id="repeatNote" rows="2" maxlength="1200" placeholder="Bu kez nasıl bir deneyimdi?"></textarea></label>
+          </div>
+          <div class="media-form-actions"><button class="btn" id="addRepeatEntry" type="button">＋ Geçmişe ekle</button></div>
+          <div id="repeatHistoryEditorList" class="media-editor-list" aria-live="polite"></div>
+          <textarea id="repeatHistoryJson" hidden aria-hidden="true" tabindex="-1">[]</textarea>
+        </fieldset>
 
         <fieldset id="gameCostPanel" class="game-cost-panel" hidden>
           <legend>💰 Oyun maliyeti ve kütüphane takibi</legend>
@@ -782,7 +801,7 @@ const formatCost=(value,currency='TRY')=>{const code=/^(TRY|USD|EUR|GBP|JPY|CAD|
 const gameCostBadge=g=>{if(g.purchasePrice!==null&&g.purchasePrice!==undefined&&g.purchasePrice!==''&&Number.isFinite(Number(g.purchasePrice)))return ` • <b>${esc(formatCost(g.purchasePrice,g.purchaseCurrency||'TRY'))}</b>`;if(g.acquisitionType)return ` • ${esc(acquisitionLabels[g.acquisitionType]||g.acquisitionType)}`;return ''};
 let cat='oyun';try{cat=localStorage.getItem('admin_cat')||'oyun'}catch{}if(!CATS[cat])cat='oyun';
 const D={},cfg=()=>CATS[cat],data=()=>D[cat]||(D[cat]={games:[],sha:null,loaded:false});
-const ids=['title','platform','score','finished','review','image','note','year','dur','dur2','person','acquisitionType','purchasePrice','purchaseCurrency','purchaseStore','purchaseDate','listPrice','ownershipStatus','purchaseNote','availabilityJson','installProfilesJson'];
+const ids=['title','platform','score','finished','review','image','note','year','dur','dur2','person','acquisitionType','purchasePrice','purchaseCurrency','purchaseStore','purchaseDate','listPrice','ownershipStatus','purchaseNote','availabilityJson','installProfilesJson','repeatHistoryJson'];
 let editId=null;
 let T='';try{T=sessionStorage.getItem('gh_t')||''}catch{}const tok=()=>T;
 const apiPath=path=>`https://api.github.com/repos/${C.owner}/${C.repo}/contents/${path}`;
@@ -1085,6 +1104,10 @@ function applyCat(){
   $('#l-dur').textContent=c.dur.form;$('#dur').step=c.dur.step;
   $('#dur2wrap').hidden=!c.dur2;if(c.dur2)$('#l-dur2').textContent=c.dur2.form;
   $('#l-date').textContent=c.dateForm;
+  $('#repeatDurationLabel').textContent=cat==='oyun'?'Ek oynama süresi (saat)':cat==='film'?'Ek izleme süresi (dakika)':'Ek izlenen bölüm sayısı';
+  $('#repeatDuration').step=cat==='oyun'?'0.5':'1';
+  $('#repeatKind').innerHTML=cat==='oyun'?'<option value="replay">Tekrar oynadım</option><option value="replay-completion">Yeniden bitirdim</option>':'<option value="rewatch">Yeniden izledim</option><option value="rewatch-completion">Yeniden tamamladım</option>';
+  $('#repeatPlatform').placeholder=c.plat.ph;
   $('#status').innerHTML=Object.entries(c.st).map(([k,v])=>`<option value="${k}">${v}</option>`).join('');
   $('#stFilter').innerHTML='<option value="">Tüm Durumlar</option>'+Object.entries(c.st).map(([k,v])=>`<option value="${k}">${v}</option>`).join('');
   $('#ft').textContent=editId?c.name+' düzenle':c.name+' bilgileri';
@@ -1341,6 +1364,8 @@ $('#list').onclick=async e=>{
     $('#imgPrev').src=g.image||defaultSvg;
     $('#availabilityJson').value=JSON.stringify(Array.isArray(g.links)?g.links:[],null,2);
     $('#installProfilesJson').value=JSON.stringify(Array.isArray(g.installProfiles)?g.installProfiles:[],null,2);
+    $('#repeatHistoryJson').value=JSON.stringify(Array.isArray(g.repeatHistory)?g.repeatHistory:[],null,2);
+    $('#scoreHistoryReason').value='';
     $('#fav').value=g.favorite?'1':'0';$('#pros').value=(g.pros||[]).join('\n');$('#cons').value=(g.cons||[]).join('\n');$('#genres').value=(g.genres||[]).join(', ');
     const rr=g.ratings&&typeof g.ratings==='object'?g.ratings:{};
     Object.entries({story:'ratingStory',gameplay:'ratingGameplay',visuals:'ratingVisuals',audio:'ratingAudio',characters:'ratingCharacters',originality:'ratingOriginality',pacing:'ratingPacing'}).forEach(([key,id])=>$('#'+id).value=rr[key]??'');
@@ -1352,7 +1377,8 @@ $('#list').onclick=async e=>{
 };
 
 function clear(){
-  editId=null;ids.forEach(i=>$('#'+i).value='');$('#availabilityJson').value='[]';$('#installProfilesJson').value='[]';
+  editId=null;ids.forEach(i=>$('#'+i).value='');$('#availabilityJson').value='[]';$('#installProfilesJson').value='[]';$('#repeatHistoryJson').value='[]';$('#scoreHistoryReason').value='';
+  ['repeatDate','repeatPlatform','repeatDuration','repeatScore','repeatNote'].forEach(id=>{const field=$('#'+id);if(field)field.value=''});
   $('#imgPrev').src=defaultSvg;
   $('#genres').value='';$('#pros').value='';$('#cons').value='';$('#availabilityJson').value='[]';$('#installProfilesJson').value='[]';$('#fav').value='0';$('#rec').value='1';
   ['ratingStory','ratingGameplay','ratingVisuals','ratingAudio','ratingCharacters','ratingOriginality','ratingPacing'].forEach(id=>$('#'+id).value='');
@@ -1388,6 +1414,20 @@ $('#add').onclick=async()=>{
   const linksRaw=parseArrayField('availabilityJson','İlgili bağlantı listesi');
   if(linksRaw.error)return say(linksRaw.error,1);
   const links=[];
+  const repeatRaw=parseArrayField('repeatHistoryJson','Tekrar oynama / izleme geçmişi');
+  if(repeatRaw.error)return say(repeatRaw.error,1);
+  const repeatHistory=[];
+  for(let i=0;i<repeatRaw.length;i++){
+    const item=repeatRaw[i];
+    if(!item||typeof item!=='object'||Array.isArray(item))return say(`Tekrar geçmişindeki ${i+1}. kayıt geçersiz.`,1);
+    const date=String(item.date||'').trim(),kind=String(item.kind|| (cat==='oyun'?'replay':'rewatch')).trim();
+    if(!/^\d{4}-\d{2}-\d{2}$/.test(date)||Number.isNaN(Date.parse(date)))return say(`Tekrar geçmişindeki ${i+1}. kayıt için geçerli bir tarih gerekli.`,1);
+    const duration=(item.duration===null||item.duration===undefined||item.duration==='')?null:Number(item.duration);
+    const score=(item.score===null||item.score===undefined||item.score==='')?null:Number(item.score);
+    if(duration!==null&&(!Number.isFinite(duration)||duration<0))return say(`Tekrar geçmişindeki ${i+1}. süre/ilerleme değeri geçersiz.`,1);
+    if(score!==null&&(!Number.isFinite(score)||score<0||score>10))return say(`Tekrar geçmişindeki ${i+1}. puan 0 ile 10 arasında olmalı.`,1);
+    repeatHistory.push({date,kind,duration,platform:String(item.platform||'').trim(),score,note:String(item.note||'').trim()});
+  }
   const allowedLinkTypes=new Set(['official','store','trailer','wiki','mods','support','community','other']);
   for(let i=0;i<linksRaw.length;i++){
     const item=linksRaw[i];
@@ -1426,15 +1466,24 @@ $('#add').onclick=async()=>{
       if(val(id)!==''&&(!Number.isFinite(Number(val(id)))||Number(val(id))<0))return say('Fiyat alanları sıfır veya daha büyük bir sayı olmalı.',1);
     }
   }
+  const existing=editId?d.games.find(x=>String(x.id)===String(editId)):null;
+  const currentScore=n('score');
+  const scoreHistory=Array.isArray(existing?.scoreHistory)?existing.scoreHistory.slice():[];
+  const oldScore=existing&&existing.score!==null&&existing.score!==undefined&&existing.score!==''?Number(existing.score):null;
+  const scoreChanged=existing?oldScore!==currentScore:currentScore!==null;
+  if(scoreChanged){
+    scoreHistory.push({date:new Date().toISOString().slice(0,10),previousScore:oldScore,score:currentScore,reason:val('scoreHistoryReason')||(oldScore===null?'İlk değerlendirme':currentScore===null?'Puan kaldırıldı':'Puan güncellendi')});
+  }
   const g={
     id:editId||Date.now().toString(36),status:stt,title:val('title'),image:val('image'),
     platform:val('platform'),genres:val('genres').split(',').map(x=>x.trim()).filter(Boolean),
-    score:n('score'),finished:val('finished')||null,
+    score:currentScore,finished:val('finished')||null,
     recommended:$('#rec').value===''?null:$('#rec').value==='1',
     review:val('review'),note:val('note'),year:n('year'),
     favorite:$('#fav').value==='1',pros:lines('pros'),cons:lines('cons'),
     ...(Object.keys(ratings).length?{ratings}:{}),
-    links,
+    links, repeatHistory,
+    ...(scoreHistory.length?{scoreHistory}:{}),
     updatedAt:new Date().toISOString()
   };
   if(cat==='oyun')g.installProfiles=installProfiles;
@@ -2378,6 +2427,7 @@ $('#saveRawFileBtn').onclick=async()=>{
   };
   let formLinks = [];
   let formProfiles = [];
+  let formRepeatHistory = [];
   const parseHidden = (id) => {
     try { const value = JSON.parse($('#' + id)?.value || '[]'); return Array.isArray(value) ? value : []; }
     catch (_) { return []; }
@@ -2392,6 +2442,7 @@ $('#saveRawFileBtn').onclick=async()=>{
   function syncHidden() {
     setHidden('availabilityJson', formLinks);
     setHidden('installProfilesJson', formProfiles);
+    setHidden('repeatHistoryJson', formRepeatHistory);
   }
   function renderLinks() {
     const host = $('#linksEditorList'); if (!host) return;
@@ -2422,10 +2473,28 @@ $('#saveRawFileBtn').onclick=async()=>{
       row.append(copy, remove); host.appendChild(row);
     });
   }
+  function renderRepeatHistory() {
+    const host = $('#repeatHistoryEditorList'); if (!host) return;
+    host.replaceChildren();
+    if (!formRepeatHistory.length) { host.appendChild(node('div','media-editor-empty','Henüz tekrar oynama / izleme kaydı eklenmedi.')); return; }
+    const category = (localStorage.getItem('admin_cat') || 'oyun');
+    const unit = category === 'oyun' ? 'saat' : category === 'film' ? 'dk' : 'bölüm';
+    formRepeatHistory.forEach((item,index)=>{
+      const row=node('div','media-editor-row');
+      const copy=node('div','media-editor-row__copy');
+      const label=category==='oyun'?'Tekrar oynama':'Yeniden izleme';
+      copy.append(node('strong','',`${item.date} · ${item.kind==='replay-completion'||item.kind==='rewatch-completion'?'Yeniden tamamlandı':label}`));
+      const details=[item.platform,item.duration!==null&&item.duration!==undefined&&item.duration!==''?`${item.duration} ${unit}`:'',item.score!==null&&item.score!==undefined&&item.score!==''?`Puan ${item.score}/10`:'',item.note].filter(Boolean).join(' · ');
+      copy.append(node('small','',details||'Ek not yok'));
+      const remove=node('button','btn media-editor-row__remove','Kaldır');remove.type='button';remove.dataset.removeRepeat=String(index);remove.setAttribute('aria-label',`${item.date} tekrar kaydını kaldır`);
+      row.append(copy,remove);host.appendChild(row);
+    });
+  }
   function loadFromHidden() {
     formLinks = parseHidden('availabilityJson').filter(x => x && typeof x === 'object' && x.url && x.name);
     formProfiles = parseHidden('installProfilesJson').filter(x => x && typeof x === 'object' && x.name);
-    renderLinks(); renderProfiles(); syncHidden();
+    formRepeatHistory = parseHidden('repeatHistoryJson').filter(x => x && typeof x === 'object' && x.date);
+    renderLinks(); renderProfiles(); renderRepeatHistory(); syncHidden();
   }
   $('#addLinkItem')?.addEventListener('click', () => {
     const type = $('#linkType').value;
@@ -2464,6 +2533,23 @@ $('#saveRawFileBtn').onclick=async()=>{
   $('#installProfilesEditorList')?.addEventListener('click', (event) => {
     const button = event.target.closest('[data-remove-profile]'); if (!button) return;
     formProfiles.splice(Number(button.dataset.removeProfile), 1); syncHidden(); renderProfiles();
+  });
+  $('#addRepeatEntry')?.addEventListener('click', () => {
+    const val = id => ($('#' + id)?.value || '').trim();
+    const date=val('repeatDate');
+    if(!/^\d{4}-\d{2}-\d{2}$/.test(date)||Number.isNaN(Date.parse(date))){$('#repeatDate').focus();return alert('Tekrar geçmişi için tarih seç.');}
+    const rawDuration=val('repeatDuration'),rawScore=val('repeatScore');
+    const duration=rawDuration===''?null:Number(rawDuration),score=rawScore===''?null:Number(rawScore);
+    if(duration!==null&&(!Number.isFinite(duration)||duration<0)){ $('#repeatDuration').focus();return alert('Süre/ilerleme sıfır veya daha büyük olmalı.'); }
+    if(score!==null&&(!Number.isFinite(score)||score<0||score>10)){ $('#repeatScore').focus();return alert('Puan 0 ile 10 arasında olmalı.'); }
+    formRepeatHistory.push({date,kind:val('repeatKind')||'rewatch',duration,platform:val('repeatPlatform'),score,note:val('repeatNote')});
+    formRepeatHistory.sort((a,b)=>String(a.date).localeCompare(String(b.date)));
+    $('#repeatDate').value='';$('#repeatDuration').value='';$('#repeatScore').value='';$('#repeatNote').value='';
+    syncHidden();renderRepeatHistory();$('#repeatDate').focus();
+  });
+  $('#repeatHistoryEditorList')?.addEventListener('click',event=>{
+    const button=event.target.closest('[data-remove-repeat]');if(!button)return;
+    formRepeatHistory.splice(Number(button.dataset.removeRepeat),1);syncHidden();renderRepeatHistory();
   });
   // Capture phase: arrays are serialized before the existing save handler reads them.
   document.addEventListener('click', (event) => {

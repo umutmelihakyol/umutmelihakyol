@@ -423,3 +423,24 @@ body.cat-anime dialog#dlg.detail-redesign.anime-detail > .inner.detail-content {
 @media (prefers-reduced-motion: reduce) {
   dialog.detail-redesign > .cover .detail-dismiss { transition: none; }
 }
+
+
+/* Tekrar oynama / izleme ve puan geçmişi; ayrıntı tasarımının mevcut görsel dilini kullanır. */
+.entity-inline-link{color:var(--acc);text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--acc) 35%,transparent);text-underline-offset:3px;overflow-wrap:anywhere}
+.entity-inline-link:hover{color:var(--ink);border-bottom-color:var(--acc)}
+.history-section,.score-history-section{min-width:0}
+.history-count{flex:0 0 auto;margin-left:auto;padding:5px 8px;border:1px solid var(--line);border-radius:999px;color:var(--mute);font-size:.74rem;white-space:nowrap}
+.history-timeline{position:relative;display:grid;gap:0;margin:5px 0 0 3px}
+.history-entry{position:relative;display:grid;grid-template-columns:12px minmax(0,1fr);gap:12px;padding:0 0 17px;min-width:0}
+.history-entry:last-child{padding-bottom:0}
+.history-entry:not(:last-child)::before{content:"";position:absolute;left:5px;top:12px;bottom:0;width:1px;background:color-mix(in srgb,var(--acc) 32%,var(--line))}
+.history-entry-marker{position:relative;z-index:1;width:10px;height:10px;margin-top:5px;border:2px solid var(--acc);border-radius:50%;background:var(--card)}
+.history-entry-main{min-width:0;padding:0 0 1px}
+.history-entry-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.history-entry-head strong{font-size:.92rem;font-weight:800;overflow-wrap:anywhere}
+.history-entry-head time{color:var(--mute);font-size:.77rem;white-space:nowrap}
+.history-entry-meta,.history-entry-note{margin:5px 0 0;color:var(--mute);font-size:.84rem;line-height:1.65;overflow-wrap:anywhere}
+.history-entry-note{color:var(--ink);white-space:pre-wrap}
+.history-empty{margin:0;padding:12px 14px;border:1px dashed var(--line);border-radius:12px;color:var(--mute);font-size:.86rem;line-height:1.7}
+.score-history-entry .history-entry-marker{border-color:#8eb7ef}
+@media(max-width:600px){.history-count{margin-left:0}.history-entry-head{align-items:flex-start;flex-direction:column;gap:3px}}

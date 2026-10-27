@@ -18,6 +18,7 @@
 
   const linkTypeLabels = { official: 'Resmî site', store: 'Mağaza sayfası', trailer: 'Fragman / tanıtım', wiki: 'Wiki / rehber', mods: 'Mod / yama', support: 'Destek sayfası', community: 'Topluluk', other: 'Diğer' };
   const cache = new Map();
+  const companyCache = new Map();
   const modal = document.querySelector('#dlg');
   if (!modal) return;
 
@@ -93,6 +94,49 @@
     });
     if (list.childElementCount) { box.appendChild(list); host.appendChild(box); }
   }
+  const normName = value => String(value || '').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLocaleLowerCase('tr-TR').replace(/[^\p{L}\p{N}]+/gu,' ').trim();
+  async function fetchProductionCompanies(record, category) {
+    if (!['film','dizi'].includes(category) || !window.CONFIG?.tmdbKey) return [];
+    const key = `${category}:${record.id || record.title}:${record.year || ''}`;
+    if (companyCache.has(key)) return companyCache.get(key);
+    const promise = (async () => {
+      const kind = category === 'film' ? 'movie' : 'tv';
+      const params = new URLSearchParams({api_key:window.CONFIG.tmdbKey,language:'tr-TR',query:String(record.title || '')});
+      if (record.year) params.set(category === 'film' ? 'year' : 'first_air_date_year',String(record.year));
+      const response = await fetch(`https://api.themoviedb.org/3/search/${kind}?${params}`);
+      if (!response.ok) throw new Error(`TMDB ${response.status}`);
+      const search = await response.json();
+      const candidates = Array.isArray(search.results) ? search.results : [];
+      const wanted = normName(record.title);
+      const match = candidates.find(item => normName(item.title || item.name) === wanted) || candidates[0];
+      if (!match) return [];
+      const detailParams = new URLSearchParams({api_key:window.CONFIG.tmdbKey,language:'tr-TR'});
+      const detailResponse = await fetch(`https://api.themoviedb.org/3/${kind}/${match.id}?${detailParams}`);
+      if (!detailResponse.ok) throw new Error(`TMDB ${detailResponse.status}`);
+      const detail = await detailResponse.json();
+      return (detail.production_companies || []).filter(company => company && company.name).slice(0,8);
+    })();
+    companyCache.set(key,promise);
+    try { return await promise; } catch (error) { companyCache.delete(key); throw error; }
+  }
+  function renderProductionCompanies(companies, category, host) {
+    if (!Array.isArray(companies) || !companies.length) return;
+    const box = section('Yapım stüdyoları', 'Yapım bilgilerinden otomatik getirildi. Bir stüdyo adına tıklayarak profilini açabilirsin.');
+    const list = el('div','media-provider-list');
+    companies.forEach(company => {
+      const name = safeText(company.name); if (!name) return;
+      const params = new URLSearchParams({tip:'studio',kaynak:'tmdb',ad:name,kategori:category});
+      const row = el('a','media-provider');
+      row.href = `${rootURL.href}kisiler/?${params.toString()}`;
+      const icon = el('span','media-provider-icon',company.logo_path ? '▧' : '⌂');
+      const copy = el('span','media-provider-copy');
+      copy.append(el('strong','',name),el('small','',`Yapım şirketi${company.origin_country ? ' · '+company.origin_country : ''} · TMDB`));
+      row.append(icon,copy,el('span','media-provider-arrow','↗'));
+      list.appendChild(row);
+    });
+    if(list.childElementCount){box.appendChild(list);host.appendChild(box)}
+  }
+
   function renderProfiles(record, host) {
     if (siteCategory() !== 'oyun') return;
     const profiles = Array.isArray(record.installProfiles) ? record.installProfiles : [];
@@ -145,6 +189,10 @@
       host.replaceChildren();
       renderLinks(record, host);
       renderProfiles(record, host);
+      if (category === 'film' || category === 'dizi') {
+        try { renderProductionCompanies(await fetchProductionCompanies(record, category), category, host); }
+        catch (error) { console.info('Yapım stüdyoları alınamadı:', error); }
+      }
       if (!host.childElementCount) { host.remove(); return; }
     } catch (error) {
       host.append(el('p', 'media-extra-muted', 'Ek bilgiler yüklenemedi. Sayfayı yenileyip tekrar dene.'));

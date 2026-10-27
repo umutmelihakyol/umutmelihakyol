@@ -4,6 +4,7 @@ const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&
 const safeUrl=u=>/^https?:\/\//i.test(u||'')?esc(u):'';
 const imageSrc=(u,w=500)=>safeUrl(typeof IMAGE_SRC==='function'?IMAGE_SRC(u,w):u);
 const fmtDate=d=>d?new Date(d).toLocaleDateString('tr-TR',{year:'numeric',month:'long'}):'—';
+const fmtHistoryDate=d=>{if(!d)return '—';const value=/^\d{4}-\d{2}-\d{2}$/.test(String(d))?`${d}T12:00:00`:d;const date=new Date(value);return Number.isNaN(date.getTime())?String(d):date.toLocaleDateString('tr-TR',{day:'numeric',month:'long',year:'numeric'});};
 const num=v=>(+v).toLocaleString('tr',{maximumFractionDigits:1});
 const has=v=>v!==null&&v!==undefined&&v!=='';
 const CAT=document.body.dataset.cat,cfg=CATS[CAT],ST=cfg.st,CF=window.CONFIG||{};
@@ -21,7 +22,7 @@ $('#q').placeholder=cfg.name+' ara…';
 $('#rnd').title='Şu an listelenen '+cfg.plural.toLowerCase()+' arasından rastgele birini seçer';
 $('#sort').innerHTML=`<option value="date">${cfg.dateSort}</option><option value="score">En yüksek puan</option><option value="dur">${cfg.dur.sort}</option><option value="name">A-Z</option>`;
 $('#cats').innerHTML=`<a href="${SITE_ROOT}">${ICON('home')} Ana sayfa</a>`+Object.entries(CATS).map(([k,c])=>`<a href="${c.page}"${k===CAT?' aria-current="page"':''}>${ICON(k)} ${c.plural}</a>`).join('');
-$('#cats').insertAdjacentHTML('beforeend', `<a href="${SITE_ROOT}istatistik/" title="Arşiv istatistikleri">📊 İstatistikler</a><a href="${SITE_ROOT}ara/" title="Tüm arşivde ara">🔎 Ara</a>`);
+$('#cats').insertAdjacentHTML('beforeend', `<a href="${SITE_ROOT}istatistik/" title="Arşiv istatistikleri">📊 İstatistikler</a><a href="${SITE_ROOT}ara/" title="Tüm arşivde ara">🔎 Ara</a><a href="${SITE_ROOT}kisiler/" title="Kişi ve stüdyo profilleri">👥 Kişiler &amp; Stüdyolar</a>`);
 if(CF.suggestUrl){const a=$('#suggest');a.href=CF.suggestUrl;a.hidden=false;if(!/^https?:/i.test(CF.suggestUrl))a.removeAttribute('target')}
 
 function fillSel(id,label,vals){$(id).innerHTML=`<option value="">${label}</option>`+[...new Set(vals)].sort((a,b)=>a.localeCompare(b,'tr')).map(v=>`<option>${esc(v)}</option>`).join('')}
@@ -46,7 +47,28 @@ const revHtml=g=>{const r=safeUrl(g.review);return r?`<a href="${r}" target="_bl
 const durText=g=>[cfg.dur,cfg.dur2].filter(Boolean).filter(d=>has(g[d.key])).map(d=>`${esc(g[d.key])} ${d.unit}`).join(', ');
 const facts=g=>{const p=[],dt=durText(g);if(dt)p.push(`<span>${cfg.dur.label?`<i>${cfg.dur.label}</i>`:''}${dt}</span>`);if(g.finished)p.push(`<span><i>${cfg.dateLabel}</i>${fmtDate(g.finished)}</span>`);return `<p class="facts">${p.join('')||`<span>${cfg.nof[stOf(g)]}</span>`}</p>`};
 const HEART='<svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor" aria-hidden="true"><path d="M12 21s-7.5-4.6-9.6-9.3C.9 8.3 2.7 4.5 6.3 4.5c2.1 0 3.6 1.1 4.5 2.6l1.2 1.8 1.2-1.8c.9-1.5 2.4-2.6 4.5-2.6 3.6 0 5.4 3.8 3.9 7.2C19.500 16.400 12 21 12 21z"/></svg>';
-const info=g=>{const p=[];if(has(g.year))p.push(`<span><i>${cfg.yearLabel}</i>${esc(g.year)}</span>`);const pv=g[cfg.person.key];if(pv)p.push(`<span><i>${cfg.person.label}</i>${esc(pv)}</span>`);return p.length?`<p class="facts">${p.join('')}</p>`:''};
+const profileUrl=(type,source,name)=>{const params=new URLSearchParams({tip:type,kaynak:source,ad:String(name||'').trim(),kategori:CAT});return `${SITE_ROOT}kisiler/?${params.toString()}`};
+const entityLinks=(raw,type,source)=>{
+  const names=(Array.isArray(raw)?raw:String(raw||'').split(',')).map(x=>String(x||'').trim()).filter(Boolean);
+  return names.map(name=>`<a class="entity-inline-link" href="${esc(profileUrl(type,source,name))}" title="${esc(name)} profilini aç">${esc(name)}</a>`).join(', ');
+};
+const info=g=>{const p=[];if(has(g.year))p.push(`<span><i>${cfg.yearLabel}</i>${esc(g.year)}</span>`);const pv=g[cfg.person.key];if(pv){const org=CAT==='oyun'||CAT==='anime';p.push(`<span class="entity-fact"><i>${org?(CAT==='oyun'?'Geliştirici':'Stüdyo'):cfg.person.label}</i>${entityLinks(pv,org?'studio':'person',CAT==='oyun'?'rawg':CAT==='anime'?'jikan':'tmdb')}</span>`)}const companies=g.productionCompanies||g.studios;if(companies)p.push(`<span class="entity-fact"><i>Yapım şirketi</i>${entityLinks(companies,'studio',CAT==='anime'?'jikan':'tmdb')}</span>`);return p.length?`<p class="facts">${p.join('')}</p>`:''};
+const repeatHistorySection=g=>{
+  const entries=Array.isArray(g.repeatHistory)?g.repeatHistory.filter(x=>x&&x.date).slice().sort((a,b)=>String(b.date).localeCompare(String(a.date))):[];
+  const unit=CAT==='oyun'?'saat':CAT==='film'?'dk':'bölüm';
+  const title=CAT==='oyun'?'Tekrar oynama geçmişi':'Yeniden izleme geçmişi';
+  const rows=entries.map((item,index)=>{
+    const kind=item.kind==='replay-completion'||item.kind==='rewatch-completion'?'Yeniden tamamlandı':CAT==='oyun'?'Tekrar oynandı':'Yeniden izlendi';
+    const detail=[item.platform||'',item.duration!==null&&item.duration!==undefined&&item.duration!==''?`${num(item.duration)} ${unit}`:'',item.score!==null&&item.score!==undefined&&item.score!==''?`Puan ${num(item.score)}/10`:''].filter(Boolean).map(esc).join(' · ');
+    return `<article class="history-entry"><span class="history-entry-marker" aria-hidden="true"></span><div class="history-entry-main"><div class="history-entry-head"><strong>${kind}</strong><time datetime="${esc(item.date)}">${fmtHistoryDate(item.date)}</time></div>${detail?`<p class="history-entry-meta">${detail}</p>`:''}${item.note?`<p class="history-entry-note">${esc(item.note)}</p>`:''}</div></article>`;
+  }).join('');
+  return `<section class="detail-section history-section"><div class="detail-section-heading"><span class="detail-section-icon" aria-hidden="true">↻</span><div><p class="detail-eyebrow">ZAMAN İÇİNDE</p><h3>${title}</h3></div><span class="history-count">${entries.length} kayıt</span></div>${entries.length?`<div class="history-timeline">${rows}</div>`:`<p class="history-empty">Bu yapım için henüz tekrar kaydı eklenmemiş. Yönetim panelinde kaydı düzenleyerek tarih, süre/ilerleme ve kişisel not ekleyebilirsin.</p>`}</section>`;
+};
+const scoreHistorySection=g=>{
+  const entries=Array.isArray(g.scoreHistory)?g.scoreHistory.filter(x=>x&&x.date).slice().sort((a,b)=>String(b.date).localeCompare(String(a.date))):[];
+  if(!entries.length)return '';
+  return `<section class="detail-section score-history-section"><div class="detail-section-heading"><span class="detail-section-icon" aria-hidden="true">↗</span><div><p class="detail-eyebrow">PUAN GEÇMİŞİ</p><h3>Değerlendirmelerim</h3></div><span class="history-count">${entries.length} kayıt</span></div><div class="history-timeline">${entries.map(item=>{const old=item.previousScore===null||item.previousScore===undefined?'—':`${num(item.previousScore)}/10`,next=item.score===null||item.score===undefined?'Puan kaldırıldı':`${num(item.score)}/10`;return `<article class="history-entry score-history-entry"><span class="history-entry-marker" aria-hidden="true"></span><div class="history-entry-main"><div class="history-entry-head"><strong>${esc(old)} <span aria-hidden="true">→</span> ${esc(next)}</strong><time datetime="${esc(item.date)}">${fmtHistoryDate(item.date)}</time></div>${item.reason?`<p class="history-entry-note">${esc(item.reason)}</p>`:''}</div></article>`}).join('')}</div></section>`;
+};
 
 const ACQUISITION_LABELS={purchase:'Satın alındı',free:'Ücretsiz',subscription:'Abonelik',gift:'Hediye',bundle:'Paket / Bundle',key:'Kod / Anahtar',other:'Diğer'};
 const OWNERSHIP_LABELS={owned:'Kalıcı kütüphanemde',subscription:'Abonelik erişimi',wishlist:'İstek listemde',removed:'Kütüphaneden kaldırıldı','not-owned':'Kütüphanemde değil'};
@@ -165,7 +187,7 @@ function openGame(id){
     <div class="detail-layout${sideContent?' has-sidebar':''}">
       <div class="detail-main-column">
         <section class="detail-section detail-facts-section"><div class="detail-section-heading"><span class="detail-section-icon" aria-hidden="true">⌘</span><div><p class="detail-eyebrow">ARŞİV KAYDI</p><h3>Kayıt bilgileri</h3></div></div><div class="detail-info-grid">${factsContent}</div></section>
-        ${noteSection}${pcSection}${reviewSection}
+        ${noteSection}${pcSection}${reviewSection}${repeatHistorySection(g)}${scoreHistorySection(g)}
       </div>
       ${sideContent?`<aside class="detail-side-column">${sideContent}</aside>`:''}
     </div>

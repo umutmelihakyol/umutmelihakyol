@@ -89,3 +89,11 @@ Kategori kartları puan, favori, durum, yıl/platform, türler, süre ve kişise
 ## Temiz sayfa adresleri
 
 Tarayıcıda kullanılan sayfa yolları `.html` uzantısını göstermez: `/`, `/oyun/`, `/oyun/maliyet/`, `/film/`, `/dizi/`, `/anime/`, `/istatistik/`, `/ara/`, `/admin/`, `/technopat/incelemeler/`, `/technopat/rehberler/` ve `/offline/`. Kaynak dosyalar, GitHub Pages statik barındırma yapısı nedeniyle klasörlerde `index.html` olarak tutulur. Eski `.../index.html` adresleri açıldığında sayfa yolu da temiz URL biçimine çevrilir.
+
+
+## Yeni arşiv özellikleri
+
+- Her kayıt için tekrar oynama / yeniden izleme geçmişi, tarih, platform/izleme yeri, ek süre veya bölüm sayısı, o turdaki puan ve not alanlarını destekler. Kayıtlar yönetim panelinden eklenir ve `repeatHistory` alanında saklanır. Oyun süresi saat, film süresi dakika, dizi/anime ilerlemesi bölüm sayısı olarak kaydedilir.
+- Genel puan yönetim panelinden değiştirildiğinde önceki ve yeni puan, tarih ve isteğe bağlı değişiklik nedeni `scoreHistory` alanına eklenir. İlk puanlama da geçmişin parçası olarak tutulur.
+- `/kisiler/` sayfası, arşivdeki geliştirici/stüdyo/yönetmen/yaratıcı adlarını dış kaynaklarla eşleştirir. Oyun geliştiricileri için RAWG, film/dizi kişileri ve yapım şirketleri için TMDB, anime kişileri ve yapımcı/stüdyolar için Jikan kullanılır. Film/dizi ayrıntılarındaki yapım şirketleri ve TMDB şirket sayfalarındaki ilgili filmler/diziler otomatik yüklenir. İstekler 12 saatlik tarayıcı önbelleğinden yararlanır; kaynak erişilemezse arşivdeki yerel bağlantılar görünmeye devam eder.
+- API referansları: [TMDB arama ve detaylar](https://developer.themoviedb.org/docs/finding-data), [TMDB `append_to_response`](https://developer.themoviedb.org/docs/append-to-response), [RAWG API](https://rawg.io/apidocs), [Jikan API v4](https://docs.api.jikan.moe/usage/producers/).
