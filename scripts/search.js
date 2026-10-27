@@ -1,6 +1,8 @@
 (() => {
   'use strict';
   const $ = (selector) => document.querySelector(selector);
+  // Overlay modunda arama geçerli sayfanın URL'sini veya geçmişini değiştirmez.
+  const overlayMode = Boolean(document.getElementById('searchOverlay'));
   const esc = (value) => String(value ?? '').replace(/[&<>"']/g, (c) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const CATEGORIES = [
     {key:'oyun',label:'Oyun',icon:'🎮',href:'../oyun/',file:'data/games.json'},
@@ -23,6 +25,7 @@
     return '';
   };
   function setURL() {
+    if (overlayMode) return;
     const params = new URLSearchParams();
     fields.forEach((id) => {
       const el = $('#'+id);
@@ -34,6 +37,7 @@
     history.replaceState(history.state, '', location.pathname + (query ? `?${query}` : ''));
   }
   function loadURL() {
+    if (overlayMode) return;
     const params = new URLSearchParams(location.search);
     fields.forEach((id) => {
       const el = $('#'+id), value = params.get(id);
@@ -120,12 +124,13 @@
       try {
         const config = window.CATS && window.CATS[category.key];
         const file = config?.file || category.file;
-        const root = window.SITE_ROOT || new URL('../', location.href).href;
+        const root = window.GUNLUGUM_ROOT || window.SITE_ROOT || new URL('../', location.href).href;
         const response = await fetch(new URL(file, root).href, {cache:'no-cache'});
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
         const records = await response.json();
         if (!Array.isArray(records)) throw new Error('JSON dizisi bekleniyordu');
-        return records.filter((r)=>r&&typeof r.title==='string').map((r)=>({...r,_category:category.key,_label:category.label,_icon:category.icon,_href:category.href}));
+        const categoryURL = new URL(`${category.key}/`, root).href;
+        return records.filter((r)=>r&&typeof r.title==='string').map((r)=>({...r,_category:category.key,_label:category.label,_icon:category.icon,_href:categoryURL}));
       } catch (error) {
         failed.push(category.label);
         console.error(`Günlüğüm arama verisi yüklenemedi (${category.label}):`, error);
