@@ -3255,7 +3255,18 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-10-21T21:56:29.017Z",
+    "links": [],
+    "repeatHistory": [
+      {
+        "date": "2026-10-27",
+        "kind": "rewatch",
+        "duration": null,
+        "platform": "",
+        "score": null,
+        "note": ""
+      }
+    ],
+    "updatedAt": "2026-10-27T20:33:50.459Z",
     "minutes": 15,
     "director": "Louis D'Esposito"
   },
