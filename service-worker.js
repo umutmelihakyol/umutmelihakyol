@@ -1,8 +1,8 @@
-/* Günlüğüm Service Worker — cache v23: alt menülerde yinelenen Ara kaldırıldı; ayrıntı açılış animasyonu eklendi. */
+/* Günlüğüm Service Worker — cache v24: ana sayfa karanlık ve aydınlık tema tasarımı yenilendi. */
 'use strict';
 
 const CACHE_PREFIX = 'gunlugum-pwa-';
-const CACHE_VERSION = 'v23';
+const CACHE_VERSION = 'v24';
 const APP_CACHE = `${CACHE_PREFIX}app-${CACHE_VERSION}`;
 const IMAGE_CACHE = `${CACHE_PREFIX}images-${CACHE_VERSION}`;
 const APP_ROOT = new URL('./', self.registration.scope);
