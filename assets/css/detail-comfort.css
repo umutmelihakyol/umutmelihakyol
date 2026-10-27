@@ -1,0 +1,425 @@
+/* Günlüğüm — rahat ayrıntı görünümü v1
+   Sadece ayrıntı penceresini etkiler. Mevcut kategori kartları ve sayfa düzeni değişmez. */
+dialog.detail-redesign {
+  width: min(1040px, 96vw);
+  max-width: 1040px;
+  max-height: min(92vh, 980px);
+  max-height: min(92dvh, 980px);
+  margin: auto;
+  padding: 0;
+  overflow: auto;
+  overscroll-behavior: contain;
+  border: 1px solid color-mix(in srgb, var(--line) 85%, var(--acc));
+  border-radius: 24px;
+  background: var(--bg);
+  color: var(--ink);
+  box-shadow: 0 28px 100px rgba(0,0,0,.42);
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--mute) 40%, transparent) transparent;
+}
+dialog.detail-redesign::backdrop {
+  background: rgba(7, 11, 14, .76);
+  backdrop-filter: blur(9px) saturate(.85);
+  -webkit-backdrop-filter: blur(9px) saturate(.85);
+}
+dialog.detail-redesign > .cover {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 176px;
+  min-height: 176px;
+  max-height: 176px;
+  aspect-ratio: auto;
+  overflow: hidden;
+  isolation: isolate;
+  background: linear-gradient(135deg, color-mix(in srgb, var(--acc) 24%, var(--card)), var(--bg));
+}
+dialog.detail-redesign > .cover > img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  object-fit: cover;
+  object-position: center 34%;
+  box-shadow: none;
+  filter: saturate(.9);
+}
+dialog.detail-redesign > .cover::after {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  height: auto;
+  pointer-events: none;
+  background: linear-gradient(90deg, rgba(6,10,13,.30), transparent 45%), linear-gradient(180deg, rgba(6,10,13,.24), transparent 44%, rgba(6,10,13,.30));
+}
+dialog.detail-redesign > .cover > .detail-cover-placeholder { display: none; }
+dialog.detail-redesign > .cover.image-missing > .detail-cover-placeholder {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: color-mix(in srgb, var(--acc) 62%, var(--ink));
+  font: 800 5rem/1 'Plus Jakarta Sans', sans-serif;
+  background: radial-gradient(ellipse at center, color-mix(in srgb, var(--acc) 18%, var(--card)), var(--bg) 76%);
+}
+dialog.detail-redesign > .cover .detail-cover-label {
+  position: absolute;
+  z-index: 3;
+  top: 16px;
+  left: 20px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 10px;
+  border: 1px solid rgba(255,255,255,.2);
+  border-radius: 8px;
+  color: rgba(255,255,255,.88);
+  background: rgba(8,14,18,.45);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  font-size: .65rem;
+  font-weight: 800;
+  letter-spacing: .12em;
+}
+dialog.detail-redesign > .cover .detail-dismiss {
+  position: absolute;
+  z-index: 4;
+  top: 14px;
+  right: 16px;
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  border: 1px solid rgba(255,255,255,.24);
+  border-radius: 50%;
+  color: #fff;
+  background: rgba(8,14,18,.62);
+  font: 400 1.55rem/1 sans-serif;
+  cursor: pointer;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: background .18s ease, transform .18s ease;
+}
+dialog.detail-redesign > .cover .detail-dismiss:hover { background: rgba(8,14,18,.9); transform: rotate(90deg); }
+dialog.detail-redesign > .cover .detail-dismiss:focus-visible { outline: 3px solid var(--acc); outline-offset: 3px; }
+
+dialog.detail-redesign > .inner.detail-content {
+  --detail-pad: clamp(19px, 3.1vw, 30px);
+  display: block;
+  min-width: 0;
+  padding: 0;
+  gap: 0;
+  background: var(--bg);
+}
+dialog.detail-redesign .detail-intro {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  min-width: 0;
+  padding: 25px var(--detail-pad) 22px;
+  border-bottom: 1px solid var(--line);
+  background: linear-gradient(180deg, color-mix(in srgb, var(--card) 94%, var(--acc)), var(--card));
+}
+dialog.detail-redesign .detail-intro-copy { flex: 1 1 auto; min-width: 0; }
+dialog.detail-redesign .detail-eyebrow {
+  margin: 0 0 7px;
+  color: var(--acc);
+  font-size: .65rem;
+  line-height: 1.35;
+  font-weight: 850;
+  letter-spacing: .13em;
+  text-transform: uppercase;
+}
+dialog.detail-redesign .detail-intro .detail-title {
+  margin: 0;
+  max-width: 760px;
+  color: var(--ink);
+  font: 800 clamp(1.55rem, 3.2vw, 2.25rem)/1.13 'Plus Jakarta Sans', sans-serif;
+  letter-spacing: -.045em;
+  overflow-wrap: anywhere;
+  text-wrap: balance;
+}
+dialog.detail-redesign .detail-cover-subtitle {
+  margin: 8px 0 0;
+  color: var(--mute);
+  font-size: .91rem;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+dialog.detail-redesign .detail-badge-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-top: 13px;
+}
+dialog.detail-redesign .detail-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 29px;
+  max-width: 100%;
+  padding: 5px 10px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--mute);
+  background: color-mix(in srgb, var(--bg) 68%, var(--card));
+  font-size: .74rem;
+  font-weight: 750;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+dialog.detail-redesign .detail-badge svg { width: 13px; height: 13px; flex: none; }
+dialog.detail-redesign .detail-status[data-status="bitirdim"] { color: var(--yes); border-color: color-mix(in srgb, var(--yes) 30%, var(--line)); background: color-mix(in srgb, var(--yes) 9%, var(--card)); }
+dialog.detail-redesign .detail-status[data-status="oynuyorum"] { color: var(--acc); border-color: color-mix(in srgb, var(--acc) 30%, var(--line)); background: color-mix(in srgb, var(--acc) 9%, var(--card)); }
+dialog.detail-redesign .detail-status[data-status="biraktim"] { color: var(--no); border-color: color-mix(in srgb, var(--no) 30%, var(--line)); background: color-mix(in srgb, var(--no) 8%, var(--card)); }
+dialog.detail-redesign .detail-status[data-status="istek"] { color: #b98b27; border-color: color-mix(in srgb, #c79b3c 32%, var(--line)); background: color-mix(in srgb, #c79b3c 10%, var(--card)); }
+dialog.detail-redesign .detail-favorite { color: #d66a83; border-color: color-mix(in srgb, #d66a83 28%, var(--line)); }
+dialog.detail-redesign .detail-recommendation.is-yes { color: var(--yes); border-color: color-mix(in srgb, var(--yes) 28%, var(--line)); }
+dialog.detail-redesign .detail-recommendation.is-no { color: var(--no); border-color: color-mix(in srgb, var(--no) 28%, var(--line)); }
+dialog.detail-redesign .detail-genre-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+dialog.detail-redesign .detail-genre-row > span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 25px;
+  padding: 4px 9px;
+  border: 1px solid color-mix(in srgb, var(--acc) 19%, var(--line));
+  border-radius: 7px;
+  color: var(--acc);
+  background: color-mix(in srgb, var(--acc) 7%, var(--card));
+  font-size: .7rem;
+  font-weight: 700;
+  line-height: 1.25;
+}
+dialog.detail-redesign .detail-score-card {
+  flex: 0 0 112px;
+  display: grid;
+  grid-template-columns: auto auto;
+  align-content: center;
+  justify-content: center;
+  column-gap: 3px;
+  min-height: 104px;
+  padding: 13px 12px;
+  border: 1px solid color-mix(in srgb, var(--acc) 28%, var(--line));
+  border-radius: 17px;
+  background: color-mix(in srgb, var(--acc) 8%, var(--card));
+  text-align: center;
+}
+dialog.detail-redesign .detail-score-number { color: var(--acc); font: 800 2.05rem/.98 'Plus Jakarta Sans', sans-serif; letter-spacing: -.06em; }
+dialog.detail-redesign .detail-score-denom { align-self: end; padding-bottom: 2px; color: var(--mute); font-size: .82rem; font-weight: 750; }
+dialog.detail-redesign .detail-score-caption { grid-column: 1 / -1; margin-top: 7px; color: var(--mute); font-size: .7rem; line-height: 1.3; }
+dialog.detail-redesign .detail-score-card.is-empty { align-content: center; }
+dialog.detail-redesign .detail-score-card.is-empty .detail-score-number { color: var(--mute); }
+dialog.detail-redesign .detail-score-card.is-empty .detail-score-caption { margin-top: 8px; }
+
+dialog.detail-redesign .detail-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.45fr) minmax(250px, .85fr);
+  align-items: start;
+  gap: 16px;
+  min-width: 0;
+  padding: 22px var(--detail-pad) 19px;
+}
+dialog.detail-redesign .detail-layout:not(.has-sidebar) { grid-template-columns: minmax(0, 1fr); }
+dialog.detail-redesign .detail-main-column,
+dialog.detail-redesign .detail-side-column { display: grid; align-content: start; gap: 14px; min-width: 0; }
+dialog.detail-redesign .detail-section {
+  min-width: 0;
+  margin: 0;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--card);
+  box-shadow: 0 3px 12px rgba(0,0,0,.025);
+}
+dialog.detail-redesign .detail-section-heading {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  min-width: 0;
+  margin: 0 0 14px;
+}
+dialog.detail-redesign .detail-section-icon {
+  flex: 0 0 34px;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 11px;
+  color: var(--acc);
+  background: color-mix(in srgb, var(--acc) 10%, var(--bg));
+  font-size: 1.05rem;
+  font-weight: 800;
+}
+dialog.detail-redesign .detail-section-heading > div { min-width: 0; }
+dialog.detail-redesign .detail-section-heading .detail-eyebrow { margin: 0 0 3px; font-size: .59rem; letter-spacing: .12em; }
+dialog.detail-redesign .detail-section-heading h3,
+dialog.detail-redesign .detail-review-section h3 { margin: 0; color: var(--ink); font: 800 1rem/1.32 'Plus Jakarta Sans', sans-serif; letter-spacing: -.02em; overflow-wrap: anywhere; }
+dialog.detail-redesign .detail-info-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 0 18px; min-width: 0; }
+dialog.detail-redesign .detail-info-grid > .facts { display: contents; }
+dialog.detail-redesign .detail-info-grid .facts > span {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 4px 8px;
+  min-width: 0;
+  min-height: 0;
+  margin: 0;
+  padding: 11px 0;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  color: var(--ink);
+  font-size: .86rem;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+dialog.detail-redesign .detail-info-grid .facts > span i { color: var(--mute); font-size: .76rem; font-style: normal; }
+dialog.detail-redesign .detail-tags-section .detail-section-heading { margin-bottom: 10px; }
+dialog.detail-redesign .detail-tags-section > .tags.wrapt { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; height: auto; max-height: none; min-width: 0; margin: 0; padding: 0; overflow: visible; }
+dialog.detail-redesign .detail-tags-section > .tags.wrapt span { padding: 5px 9px; border: 1px solid color-mix(in srgb, var(--acc) 20%, var(--line)); border-radius: 7px; color: var(--acc); background: color-mix(in srgb, var(--acc) 7%, var(--card)); font-size: .72rem; line-height: 1.25; overflow-wrap: anywhere; }
+dialog.detail-redesign .detail-note-section > .full { margin: 0; padding: 2px 0 2px 15px; border: 0; border-left: 3px solid var(--acc); border-radius: 0; color: var(--ink); background: transparent; font-size: .94rem; line-height: 1.82; white-space: pre-wrap; overflow-wrap: anywhere; }
+dialog.detail-redesign .detail-proscons-section .pcs { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 12px; }
+dialog.detail-redesign .detail-proscons-section .pc { min-width: 0; margin: 0; padding: 13px 14px; border: 1px solid var(--line); border-radius: 12px; background: color-mix(in srgb, var(--bg) 62%, var(--card)); }
+dialog.detail-redesign .detail-proscons-section .pc h4 { margin: 0 0 8px; font-size: .87rem; }
+dialog.detail-redesign .detail-proscons-section .pc ul { margin: 0; padding-left: 18px; }
+dialog.detail-redesign .detail-proscons-section .pc li { margin: 5px 0; color: var(--mute); font-size: .85rem; line-height: 1.55; overflow-wrap: anywhere; }
+dialog.detail-redesign .detail-review-section .detail-review-link { min-width: 0; }
+dialog.detail-redesign .detail-review-section .detail-review-link a,
+dialog.detail-redesign .detail-review-section .detail-review-link a:visited { display: inline-flex; align-items: center; gap: 7px; color: var(--acc); font-weight: 800; text-underline-offset: 4px; overflow-wrap: anywhere; }
+dialog.detail-redesign .purchase-detail { padding: 18px !important; border-color: var(--line) !important; background: var(--card) !important; }
+dialog.detail-redesign .purchase-detail .detail-section-heading { margin-bottom: 12px; }
+dialog.detail-redesign .purchase-detail .detail-section-heading h3 { margin: 0 !important; font-size: 1rem !important; }
+dialog.detail-redesign .purchase-detail dl.purchase-detail-grid { display: grid; grid-template-columns: minmax(0,1fr) !important; gap: 0; margin: 0; }
+dialog.detail-redesign .purchase-detail-grid > div { display: grid; grid-template-columns: minmax(92px,.8fr) minmax(0,1.2fr); gap: 10px; min-width: 0; padding: 10px 0; border: 0; border-bottom: 1px solid var(--line); border-radius: 0; background: transparent; }
+dialog.detail-redesign .purchase-detail-grid > div:last-child { border-bottom-color: transparent; }
+dialog.detail-redesign .purchase-detail-grid dt { margin: 0; color: var(--mute); font-size: .78rem; line-height: 1.45; }
+dialog.detail-redesign .purchase-detail-grid dd { margin: 0; color: var(--ink); font-size: .84rem; font-weight: 750; line-height: 1.45; overflow-wrap: anywhere; }
+dialog.detail-redesign .purchase-note { margin: 9px 0 0; padding: 12px 0 0; border-top: 1px solid var(--line); color: var(--mute); font-size: .84rem; line-height: 1.65; white-space: pre-wrap; overflow-wrap: anywhere; }
+dialog.detail-redesign .rating-breakdown-public { min-width: 0; margin: 0; padding: 18px; border: 1px solid var(--line); border-radius: 16px; background: var(--card); }
+dialog.detail-redesign .rating-breakdown-head { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin: 0 0 15px; }
+dialog.detail-redesign .rating-breakdown-head h3 { margin: 0; font: 800 1rem/1.3 'Plus Jakarta Sans', sans-serif; }
+dialog.detail-redesign .rating-breakdown-head > span { color: var(--mute); font-size: .78rem; }
+dialog.detail-redesign .rating-breakdown-head b { color: var(--acc); }
+dialog.detail-redesign .rating-breakdown-bars { display: grid; gap: 12px; }
+dialog.detail-redesign .rating-breakdown-row { display: grid; grid-template-columns: minmax(85px, 1fr) minmax(45px, 1.3fr) 30px; align-items: center; gap: 9px; font-size: .77rem; }
+dialog.detail-redesign .rating-breakdown-row > div { height: 6px; overflow: hidden; border-radius: 99px; background: color-mix(in srgb, var(--line) 80%, var(--bg)); }
+dialog.detail-redesign .rating-breakdown-row > div > i { display: block; height: 100%; border-radius: inherit; background: var(--acc); }
+dialog.detail-redesign .rating-breakdown-row > b { text-align: right; color: var(--ink); font-size: .76rem; }
+dialog.detail-redesign .media-extras { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px),1fr)); gap: 12px; margin: 0 var(--detail-pad) 19px; min-width: 0; }
+dialog.detail-redesign .media-extra-section { min-width: 0; padding: 17px; border: 1px solid var(--line); border-radius: 16px; background: var(--card); }
+dialog.detail-redesign .media-extra-section > h3 { margin: 0 0 7px; font-size: .96rem; line-height: 1.35; }
+dialog.detail-redesign .media-extra-muted { margin: 0 0 10px; color: var(--mute); font-size: .82rem; line-height: 1.55; }
+dialog.detail-redesign .media-provider-list { display: grid; grid-template-columns: repeat(auto-fit,minmax(min(100%,220px),1fr)); gap: 8px; }
+dialog.detail-redesign .media-provider,
+dialog.detail-redesign .media-provider:visited { display: flex; align-items: center; gap: 10px; min-width: 0; padding: 10px; border: 1px solid var(--line); border-radius: 11px; background: var(--bg); color: var(--ink); text-decoration: none; }
+dialog.detail-redesign .media-provider-copy { display: grid; gap: 3px; min-width: 0; flex: 1; }
+dialog.detail-redesign .media-provider-copy strong,
+dialog.detail-redesign .media-provider-copy small { overflow-wrap: anywhere; }
+dialog.detail-redesign .install-profile { min-width: 0; padding: 12px 0; border-top: 1px solid var(--line); }
+dialog.detail-redesign .install-profile:first-of-type { border-top: 0; padding-top: 3px; }
+dialog.detail-redesign .install-profile-head { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 8px; }
+dialog.detail-redesign .install-profile-head h4 { margin: 0; font-size: .92rem; }
+dialog.detail-redesign .install-profile-field { display: grid; grid-template-columns: minmax(105px,.8fr) minmax(0,1.2fr) auto; gap: 8px; align-items: start; padding: 7px 0; border-top: 1px solid var(--line); }
+dialog.detail-redesign .install-profile-label { color: var(--mute); font-size: .8rem; }
+dialog.detail-redesign .install-profile-value { min-width: 0; margin: 0; color: var(--ink); font: inherit; font-size: .82rem; white-space: pre-wrap; overflow-wrap: anywhere; }
+dialog.detail-redesign .install-profile-field .btn,
+dialog.detail-redesign .media-extra-copy { align-self: start; font-size: .76rem; padding: 5px 8px; white-space: nowrap; }
+dialog.detail-redesign .detail-actions {
+  position: sticky;
+  z-index: 8;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin: 0;
+  padding: 14px var(--detail-pad) max(14px, env(safe-area-inset-bottom));
+  border-top: 1px solid var(--line);
+  background: color-mix(in srgb, var(--card) 94%, transparent);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+dialog.detail-redesign .detail-actions .btn { display: inline-flex; align-items: center; justify-content: center; gap: 7px; min-height: 43px; margin: 0; padding: 10px 14px; border-radius: 11px; font-size: .84rem; font-weight: 800; white-space: normal; }
+dialog.detail-redesign .detail-actions .card-gen-btn { flex: 1 1 240px; }
+dialog.detail-redesign .detail-actions .copy { flex: 0 1 auto; }
+dialog.detail-redesign .detail-actions .detail-close { flex: 0 0 auto; }
+dialog.detail-redesign .detail-actions .btn:focus-visible { outline: 3px solid var(--acc); outline-offset: 2px; }
+
+/* Anime afişleri: yatay görseli kapakta kırp, portre afişi bulanık zeminde tam göster. */
+body.cat-anime dialog#dlg.detail-redesign.anime-detail { width: min(1040px, 96vw); max-width: 1040px; max-height: min(92vh, 980px); max-height: min(92dvh, 980px); }
+body.cat-anime dialog#dlg.detail-redesign.anime-detail > .cover { height: 176px; min-height: 176px; max-height: 176px; }
+body.cat-anime dialog#dlg.detail-redesign.anime-detail > .cover > img { position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; max-height: none; object-fit: cover; object-position: center 34%; box-shadow: none; }
+body.cat-anime dialog#dlg.detail-redesign.anime-detail > .cover .detail-dismiss { top: 14px; right: 16px; }
+body.cat-anime dialog#dlg.detail-redesign.anime-detail > .cover::before { content: ""; position: absolute; z-index: 0; inset: -20px; background-image: var(--anime-cover-image, none); background-size: cover; background-position: center 35%; background-repeat: no-repeat; filter: blur(20px) saturate(1.1); opacity: .72; transform: scale(1.06); pointer-events: none; }
+body.cat-anime dialog#dlg.detail-redesign.anime-detail.anime-cover-portrait > .cover > img { position: relative; inset: auto; width: auto; height: 100%; max-width: min(132px, 29%); max-height: 100%; object-fit: contain; object-position: center; box-shadow: 0 8px 28px rgba(0,0,0,.28); }
+body.cat-anime dialog#dlg.detail-redesign.anime-detail.anime-cover-square > .cover > img { position: relative; inset: auto; width: auto; height: 100%; max-width: min(180px, 35%); object-fit: contain; }
+body.cat-anime dialog#dlg.detail-redesign.anime-detail.anime-cover-missing > .cover::before { background-image: none; background: radial-gradient(ellipse at center, color-mix(in srgb, var(--acc) 20%, var(--bg)), var(--bg) 76%); }
+body.cat-anime dialog#dlg.detail-redesign.anime-detail > .inner.detail-content { display: block; padding: 0; gap: 0; }
+
+@media (max-width: 760px) {
+  dialog.detail-redesign { width: 96vw; max-width: 96vw; max-height: 94vh; max-height: 94dvh; border-radius: 20px; }
+  dialog.detail-redesign > .cover { height: 142px; min-height: 142px; max-height: 142px; }
+  dialog.detail-redesign > .cover .detail-cover-label { top: 11px; left: 12px; padding: 6px 8px; font-size: .56rem; }
+  dialog.detail-redesign > .cover .detail-dismiss { top: 9px; right: 10px; width: 35px; height: 35px; }
+  dialog.detail-redesign > .inner.detail-content { --detail-pad: 16px; }
+  dialog.detail-redesign .detail-intro { gap: 13px; padding: 20px var(--detail-pad) 18px; }
+  dialog.detail-redesign .detail-intro .detail-title { font-size: clamp(1.35rem, 5vw, 1.8rem); }
+  dialog.detail-redesign .detail-cover-subtitle { margin-top: 6px; font-size: .8rem; }
+  dialog.detail-redesign .detail-badge-row { gap: 5px; margin-top: 10px; }
+  dialog.detail-redesign .detail-badge { min-height: 27px; padding: 5px 8px; font-size: .69rem; }
+  dialog.detail-redesign .detail-genre-row { gap: 5px; margin-top: 9px; }
+  dialog.detail-redesign .detail-genre-row > span { min-height: 23px; padding: 4px 7px; font-size: .64rem; }
+  dialog.detail-redesign .detail-score-card { flex-basis: 83px; min-height: 82px; padding: 9px 6px; border-radius: 13px; }
+  dialog.detail-redesign .detail-score-number { font-size: 1.65rem; }
+  dialog.detail-redesign .detail-score-denom { font-size: .7rem; }
+  dialog.detail-redesign .detail-score-caption { margin-top: 5px; font-size: .61rem; }
+  dialog.detail-redesign .detail-layout { grid-template-columns: minmax(0,1fr); gap: 12px; padding: 15px var(--detail-pad) 14px; }
+  dialog.detail-redesign .detail-main-column,
+  dialog.detail-redesign .detail-side-column { gap: 12px; }
+  dialog.detail-redesign .detail-section { padding: 15px; border-radius: 14px; }
+  dialog.detail-redesign .detail-section-heading { gap: 9px; margin-bottom: 11px; }
+  dialog.detail-redesign .detail-section-icon { flex-basis: 31px; width: 31px; height: 31px; border-radius: 9px; font-size: .94rem; }
+  dialog.detail-redesign .detail-section-heading h3,
+  dialog.detail-redesign .detail-review-section h3 { font-size: .94rem; }
+  dialog.detail-redesign .detail-info-grid { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 0 12px; }
+  dialog.detail-redesign .detail-info-grid .facts > span { padding: 9px 0; font-size: .78rem; gap: 4px 6px; }
+  dialog.detail-redesign .detail-info-grid .facts > span i { font-size: .69rem; }
+  dialog.detail-redesign .detail-note-section > .full { padding-left: 11px; font-size: .87rem; line-height: 1.72; }
+  dialog.detail-redesign .detail-proscons-section .pcs { grid-template-columns: minmax(0,1fr); gap: 8px; }
+  dialog.detail-redesign .detail-proscons-section .pc { padding: 11px 12px; }
+  dialog.detail-redesign .purchase-detail-grid > div { grid-template-columns: minmax(85px,.75fr) minmax(0,1.25fr); gap: 8px; }
+  dialog.detail-redesign .rating-breakdown-row { grid-template-columns: minmax(80px,1fr) minmax(40px,1.2fr) 28px; gap: 7px; font-size: .72rem; }
+  dialog.detail-redesign .detail-actions { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 7px; padding: 11px var(--detail-pad) max(12px, env(safe-area-inset-bottom)); }
+  dialog.detail-redesign .detail-actions .card-gen-btn { grid-column: 1 / -1; }
+  dialog.detail-redesign .detail-actions .copy,
+  dialog.detail-redesign .detail-actions .detail-close,
+  dialog.detail-redesign .detail-actions .again { width: 100%; min-width: 0; min-height: 42px; padding: 9px 8px; font-size: .77rem; }
+  body.cat-anime dialog#dlg.detail-redesign.anime-detail > .cover { height: 142px; min-height: 142px; max-height: 142px; }
+  body.cat-anime dialog#dlg.detail-redesign.anime-detail > .cover .detail-dismiss { top: 9px; right: 10px; }
+  body.cat-anime dialog#dlg.detail-redesign.anime-detail.anime-cover-portrait > .cover > img { max-width: min(105px,31%); }
+  body.cat-anime dialog#dlg.detail-redesign.anime-detail.anime-cover-square > .cover > img { max-width: min(125px,35%); }
+}
+@media (max-width: 390px) {
+  dialog.detail-redesign .detail-intro { gap: 9px; }
+  dialog.detail-redesign .detail-score-card { flex-basis: 70px; min-height: 76px; }
+  dialog.detail-redesign .detail-score-number { font-size: 1.45rem; }
+  dialog.detail-redesign .detail-intro .detail-title { font-size: 1.28rem; }
+  dialog.detail-redesign .detail-info-grid { grid-template-columns: minmax(0,1fr); }
+  dialog.detail-redesign .detail-info-grid .facts > span { border-bottom-color: var(--line); }
+  dialog.detail-redesign .detail-info-grid .facts > span:last-child { border-bottom-color: transparent; }
+  dialog.detail-redesign .purchase-detail-grid > div { grid-template-columns: minmax(0,1fr); gap: 3px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  dialog.detail-redesign > .cover .detail-dismiss { transition: none; }
+}

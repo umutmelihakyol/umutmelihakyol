@@ -1,8 +1,8 @@
-/* Günlüğüm Service Worker — cache v17: modern ayrıntı penceresi. */
+/* Günlüğüm Service Worker — cache v20: konforlu ayrıntı görünümü. */
 'use strict';
 
 const CACHE_PREFIX = 'gunlugum-pwa-';
-const CACHE_VERSION = 'v18';
+const CACHE_VERSION = 'v20';
 const APP_CACHE = `${CACHE_PREFIX}app-${CACHE_VERSION}`;
 const IMAGE_CACHE = `${CACHE_PREFIX}images-${CACHE_VERSION}`;
 const APP_ROOT = new URL('./', self.registration.scope);
@@ -10,7 +10,7 @@ const OFFLINE_URL = new URL('offline/', APP_ROOT).href;
 
 const CORE_FILES = [
   '', 'offline/', 'manifest.webmanifest',
-  'assets/css/style.css', 'assets/css/modern.css', 'assets/css/stats.css', 'assets/css/search.css', 'assets/css/cards.css', 'assets/css/card-hover-glow.css', 'assets/css/media-extras.css', 'assets/css/technopat.css', 'assets/css/intro-loader.css', 'assets/css/pwa.css', 'assets/css/anime-detail.css',
+  'assets/css/style.css', 'assets/css/modern.css', 'assets/css/stats.css', 'assets/css/search.css', 'assets/css/cards.css', 'assets/css/detail-comfort.css', 'assets/css/card-hover-glow.css', 'assets/css/media-extras.css', 'assets/css/technopat.css', 'assets/css/intro-loader.css', 'assets/css/pwa.css', 'assets/css/anime-detail.css',
   'assets/icons/gunlugum-180.png', 'assets/icons/gunlugum-192.png', 'assets/icons/gunlugum-512.png', 'assets/icons/gunlugum-maskable-512.png',
   'scripts/theme.js', 'scripts/config.js', 'scripts/categories.js', 'scripts/app.js', 'scripts/review-card.js', 'scripts/stats.js', 'scripts/search.js', 'scripts/technopat.js', 'scripts/intro-loader.js', 'scripts/pwa.js', 'scripts/anime-detail.js', 'scripts/media-extras.js',
   'data/games.json', 'data/movies.json', 'data/series.json', 'data/anime.json', 'data/technopat.json',

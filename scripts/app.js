@@ -85,9 +85,9 @@ const RATING_LABELS=[['story','Hikâye'],['gameplay','Oynanış'],['visuals','G�
 const ratingBreakdown=g=>{const raw=g.ratings&&typeof g.ratings==='object'?g.ratings:{};const rows=RATING_LABELS.filter(([key])=>CAT==='oyun'||key!=='gameplay').filter(([key])=>raw[key]!==null&&raw[key]!==undefined&&raw[key]!==''&&Number.isFinite(Number(raw[key]))&&Number(raw[key])>=0&&Number(raw[key])<=10);if(!rows.length)return '';const avg=rows.reduce((sum,[key])=>sum+Number(raw[key]),0)/rows.length;return `<section class="rating-breakdown-public"><div class="rating-breakdown-head"><h3>Alt puanlarım</h3><span>Ortalama <b>${num(avg)}/10</b></span></div><div class="rating-breakdown-bars">${rows.map(([key,label])=>`<div class="rating-breakdown-row"><span>${label}</span><div><i style="width:${Number(raw[key])*10}%"></i></div><b>${num(raw[key])}</b></div>`).join('')}</div></section>`};
 const chips=g=>(g.genres||[]).map(t=>`<span>${esc(t)}</span>`).join('');
 const cover=g=>{
-  const hasScore=has(g.score),hasRecommendation=g.recommended===true||g.recommended===false;
-  const subtitle=[g.platform,has(g.year)?`${cfg.yearLabel} ${g.year}`:''].filter(Boolean).join(' · ')||cfg.name;
-  return `<div class="cover${hasScore?' has-score':''}${hasRecommendation?' has-rec':''}">${imageSrc(g.image,500)?`<img src="${imageSrc(g.image,500)}" alt="${esc(g.title)} görseli" loading="lazy" decoding="async" fetchpriority="low" referrerpolicy="no-referrer" onerror="this.remove();this.parentElement.classList.add('image-missing')">`:''}${g.favorite===true?`<span class="fvb" title="Favorim">${HEART}</span>`:''}<span class="stb s-${stOf(g)}">${ST[stOf(g)]}</span>${hasScore?`<span class="score" title="Kişisel puanım">${num(g.score)}</span>`:''}${recChip(g)}<div class="detail-cover-title"><p class="detail-eyebrow">${esc(cfg.name)} · KİŞİSEL ARŞİV</p><h2 class="detail-title" id="detail-title">${esc(g.title)}</h2><p class="detail-cover-subtitle">${esc(subtitle)}</p></div><button class="detail-dismiss" type="button" aria-label="Ayrıntı penceresini kapat" title="Kapat">×</button></div>`;
+  const image=imageSrc(g.image,700);
+  const fallback=esc(String(g.title||'?').trim().charAt(0).toLocaleUpperCase('tr-TR'));
+  return `<div class="cover detail-cover${image?'':' image-missing'}" data-ph="${fallback}">${image?`<img src="${image}" alt="${esc(g.title)} görseli" loading="eager" decoding="async" fetchpriority="high" referrerpolicy="no-referrer" onerror="this.remove();this.parentElement.classList.add('image-missing')">`:''}<span class="detail-cover-placeholder" aria-hidden="true">${fallback}</span><span class="detail-cover-label">${esc(cfg.name)} <span aria-hidden="true">/</span> KİŞİSEL ARŞİV</span><button class="detail-dismiss" type="button" aria-label="Ayrıntı penceresini kapat" title="Kapat">×</button></div>`;
 };
 const THUMB_UP='<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 11v9H4v-9zM7 11l4-8a2 2 0 0 1 2 2v4h6a2 2 0 0 1 2 2.3l-1.2 7A2 2 0 0 1 17.8 20H7"/></svg>';
 const THUMB_DN='<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 13V4h3v9zM17 13l-4 8a2 2 0 0 1-2-2v-4H5a2 2 0 0 1-2-2.300l1.200-7A2 2 0 0 1 6.200 4H17"/></svg>';
@@ -141,26 +141,39 @@ function foot(){
 function openGame(id){
   const g=games.find(x=>x.id===id),d=$('#dlg');if(!g)return d.open&&d.close();
   const genreList=(g.genres||[]).filter(Boolean);
-  const genreSection=genreList.length?`<section class="detail-section detail-tags-section"><div class="detail-section-heading"><span class="detail-section-icon" aria-hidden="true">✦</span><div><p class="detail-eyebrow">KATEGORİLER</p><h3>Türler ve etiketler</h3></div></div><p class="tags wrapt">${chips(g)}</p></section>`:'';
+  const subtitle=[g.platform,has(g.year)?`${cfg.yearLabel} ${g.year}`:''].filter(Boolean).join(' · ')||cfg.name;
   const factsContent=`${facts(g)}${info(g)}`;
-  const noteSection=g.note?`<section class="detail-section detail-note-section"><div class="detail-section-heading"><span class="detail-section-icon" aria-hidden="true">✎</span><div><p class="detail-eyebrow">KİŞİSEL NOTLAR</p><h3>İncelemem</h3></div></div><p class="full">${esc(g.note)}</p></section>`:'';
+  const noteSection=g.note?`<section class="detail-section detail-note-section"><div class="detail-section-heading"><span class="detail-section-icon" aria-hidden="true">✎</span><div><p class="detail-eyebrow">KİŞİSEL NOTLAR</p><h3>Değerlendirmem</h3></div></div><p class="full">${esc(g.note)}</p></section>`:'';
   const pcContent=proscons(g);
-  const pcSection=pcContent?`<section class="detail-section detail-proscons-section"><div class="detail-section-heading"><span class="detail-section-icon" aria-hidden="true">±</span><div><p class="detail-eyebrow">DEĞERLENDİRME</p><h3>Artılar ve eksiler</h3></div></div>${pcContent}</section>`:'';
+  const pcSection=pcContent?`<section class="detail-section detail-proscons-section"><div class="detail-section-heading"><span class="detail-section-icon" aria-hidden="true">±</span><div><p class="detail-eyebrow">NOTLARIM</p><h3>Artılar ve eksiler</h3></div></div>${pcContent}</section>`:'';
   const review=revHtml(g);
-  const reviewSection=review&& !review.includes('İnceleme yok')?`<section class="detail-review-section"><div><p class="detail-eyebrow">DEVAM ET</p><h3>İlgili inceleme</h3></div><div class="detail-review-link">${review}</div></section>`:'';
+  const reviewSection=review&&!review.includes('İnceleme yok')?`<section class="detail-section detail-review-section"><div class="detail-section-heading"><span class="detail-section-icon" aria-hidden="true">↗</span><div><p class="detail-eyebrow">BAĞLANTILI İÇERİK</p><h3>Yayımladığım inceleme</h3></div></div><div class="detail-review-link">${review}</div></section>`:'';
+  const sideContent=`${CAT==='oyun'?purchaseDetails(g):''}${ratingBreakdown(g)}`;
+  const statusLabel=ST[stOf(g)]||stOf(g);
+  const recommendation=g.recommended===true?`<span class="detail-badge detail-recommendation is-yes">${THUMB_UP} Öneriyorum</span>`:g.recommended===false?`<span class="detail-badge detail-recommendation is-no">${THUMB_DN} Önermiyorum</span>`:'';
+  const favorite=g.favorite===true?`<span class="detail-badge detail-favorite">${HEART} Favorim</span>`:'';
+  const score=has(g.score)&&Number.isFinite(Number(g.score))?`<div class="detail-score-card"><span class="detail-score-number">${num(g.score)}</span><span class="detail-score-denom">/ 10</span><span class="detail-score-caption">Kişisel puanım</span></div>`:`<div class="detail-score-card is-empty"><span class="detail-score-number">—</span><span class="detail-score-caption">Henüz puanlamadım</span></div>`;
   d.classList.add('detail-redesign');
   d.setAttribute('aria-labelledby','detail-title');
   d.innerHTML=`${cover(g)}<div class="inner detail-content">
-  ${genreSection}
-  <section class="detail-section detail-facts-section"><div class="detail-section-heading"><span class="detail-section-icon" aria-hidden="true">▦</span><div><p class="detail-eyebrow">ARŞİV KAYDI</p><h3>Kayıt bilgileri</h3></div></div><div class="detail-info-grid">${factsContent}</div></section>
-  ${CAT==='oyun'?purchaseDetails(g):''}
-  ${noteSection}${ratingBreakdown(g)}${pcSection}${reviewSection}
-  <div class="detail-actions">${randomMode?'<button class="btn again" type="button">Başka birini seç</button> ':''}<button class="btn pri card-gen-btn" type="button" data-id="${esc(g.id)}">▧ İnceleme kartı oluştur</button><button class="btn copy" type="button">Bağlantıyı kopyala</button><button class="btn detail-close" type="button">Kapat</button></div>
+    <header class="detail-intro">
+      <div class="detail-intro-copy"><p class="detail-eyebrow">${esc(cfg.name)} · GÜNLÜĞÜM ARŞİVİ</p><h2 class="detail-title" id="detail-title">${esc(g.title)}</h2><p class="detail-cover-subtitle">${esc(subtitle)}</p>
+        <div class="detail-badge-row"><span class="detail-badge detail-status" data-status="${esc(stOf(g))}">${esc(statusLabel)}</span>${favorite}${recommendation}</div>
+        ${genreList.length?`<div class="detail-genre-row" aria-label="Türler">${genreList.map(t=>`<span>${esc(t)}</span>`).join('')}</div>`:''}
+      </div>${score}
+    </header>
+    <div class="detail-layout${sideContent?' has-sidebar':''}">
+      <div class="detail-main-column">
+        <section class="detail-section detail-facts-section"><div class="detail-section-heading"><span class="detail-section-icon" aria-hidden="true">⌘</span><div><p class="detail-eyebrow">ARŞİV KAYDI</p><h3>Kayıt bilgileri</h3></div></div><div class="detail-info-grid">${factsContent}</div></section>
+        ${noteSection}${pcSection}${reviewSection}
+      </div>
+      ${sideContent?`<aside class="detail-side-column">${sideContent}</aside>`:''}
+    </div>
+    <div class="detail-actions">${randomMode?'<button class="btn again" type="button">Başka birini seç</button> ':''}<button class="btn pri card-gen-btn" type="button" data-id="${esc(g.id)}">▧ İnceleme kartı oluştur</button><button class="btn copy" type="button">Bağlantıyı kopyala</button><button class="btn detail-close" type="button">Kapat</button></div>
   </div>`;
   if(!d.open)d.showModal();
   if(lastId!==id){lastId=id;try{window.goatcounter&&goatcounter.count&&goatcounter.count({path:CAT+'/'+id,title:g.title,event:true})}catch{}}
-}
-$('#dlg').addEventListener('close',()=>{lastId='';randomMode=false;history.replaceState(null,'',location.pathname+location.search)});
+}$('#dlg').addEventListener('close',()=>{lastId='';randomMode=false;history.replaceState(null,'',location.pathname+location.search)});
 $('#dlg').addEventListener('click',e=>{
   if(e.target===e.currentTarget)return e.currentTarget.close();
   if(e.target.closest('.detail-dismiss, .detail-close'))return e.currentTarget.close();

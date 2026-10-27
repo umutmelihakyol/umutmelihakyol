@@ -48,13 +48,7 @@
         dialog.classList.add('anime-cover-square');
       }
 
-      // Dikey posterlerde başlık görselin üstüne binmesin; diğer oranlarda kapak üstünde kalır.
-      const title = dialog.querySelector('.detail-cover-title');
-      const content = dialog.querySelector('.inner.detail-content');
-      if (title && content) {
-        if (orientation === 'portrait' && title.parentElement !== content) content.prepend(title);
-        else if (orientation !== 'portrait' && title.parentElement !== cover) cover.appendChild(title);
-      }
+      // Başlık artık daima kapaktan ayrı, metin alanında kalır; poster yönü yalnızca görseli etkiler.
     };
 
     if (image.complete) applyImage();
