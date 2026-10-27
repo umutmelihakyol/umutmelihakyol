@@ -71,3 +71,7 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+## İstatistik sayfası
+
+`istatistik/index.html`, `data/games.json`, `data/series.json`, `data/movies.json` ve `data/anime.json` dosyalarını okuyarak arşiv sayıları, puan dağılımı, türler, tamamlanma durumları ve süre özetini hesaplar. Oyun saatleri girilen kayıtlı sürelerden; film süreleri tamamlanan filmlerin uzunluklarından; dizi ve anime süreleri ise sırasıyla bölüm başına 42 ve 24 dakika varsayımından hesaplanır. Dizi/anime süreleri tahminidir ve devam eden içeriklerin gerçek izlenen bölüm sayısını göstermez.

@@ -376,3 +376,15 @@ button:disabled, input:disabled, select:disabled, textarea:disabled {
   html { scroll-behavior: auto !important; }
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
 }
+
+
+/* Arşiv istatistikleri hızlı erişim kartı */
+.home-stats-cta{display:flex;align-items:center;gap:14px;max-width:100%;margin:-20px 0 38px;padding:17px 20px;border:1px solid color-mix(in srgb,var(--acc) 35%,var(--line));border-radius:18px;background:linear-gradient(110deg,color-mix(in srgb,var(--acc) 12%,var(--card)),var(--card) 80%);color:var(--ink)!important;text-decoration:none;box-shadow:var(--sh1);transition:transform .22s var(--ease),border-color .22s ease,box-shadow .22s ease}
+.home-stats-cta:hover{transform:translateY(-3px);border-color:var(--acc);box-shadow:var(--sh2)}
+.home-stats-symbol{display:grid;place-items:center;flex:0 0 44px;width:44px;height:44px;border-radius:13px;background:color-mix(in srgb,var(--acc) 17%,var(--card));font-size:1.4rem}
+.home-stats-copy{display:flex;flex:1;min-width:0;flex-direction:column;gap:3px}
+.home-stats-copy strong{font-size:.98rem;font-weight:800}
+.home-stats-copy small{color:var(--mute);font-size:.82rem;line-height:1.5}
+.home-stats-arrow{color:var(--acc);font-size:1.35rem;font-weight:800}
+@media(max-width:600px){.home-stats-cta{gap:11px;margin-top:-22px;margin-bottom:30px;padding:14px}.home-stats-symbol{width:38px;height:38px;flex-basis:38px}.home-stats-copy small{font-size:.75rem}}
+@media(prefers-reduced-motion:reduce){.home-stats-cta{transition:none}.home-stats-cta:hover{transform:none}}
