@@ -195,7 +195,7 @@
   const totalText = (pairs) => pairs.length ? pairs.map(([currency,value])=>money(value,currency)).join(' · ') : 'Henüz fiyat girilmedi';
   function renderNav(){
     if (!window.CATS) return;
-    $('#cats').innerHTML = `<a href="../../">${typeof ICON==='function'?ICON('home'):''} Ana sayfa</a>` + Object.entries(window.CATS).map(([key,c])=>`<a href="${esc(c.page)}">${typeof ICON==='function'?ICON(key):''} ${esc(c.plural)}</a>`).join('') + `<a href="../../istatistik/">📊 İstatistikler</a><a href="../../ara/">🔎 Ara</a><a href="./" aria-current="page">💰 Maliyet &amp; Kütüphane</a>`;
+    $('#cats').innerHTML = `<a href="../../">${typeof ICON==='function'?ICON('home'):''} Ana sayfa</a>` + Object.entries(window.CATS).map(([key,c])=>`<a href="${esc(c.page)}">${typeof ICON==='function'?ICON(key):''} ${esc(c.plural)}</a>`).join('') + `<a href="../../istatistik/">📊 İstatistikler</a><a href="./" aria-current="page">💰 Maliyet &amp; Kütüphane</a>`;
   }
   function fillFilters(){
     const acquisition=$('#acquisitionFilter').value,ownership=$('#ownershipFilter').value,store=$('#storeFilter').value;

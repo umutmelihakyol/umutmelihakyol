@@ -1,8 +1,8 @@
-/* Günlüğüm Service Worker — cache v22: geçmiş kayıtları, şirket filmografisi ve kişi/stüdyo profilleri. */
+/* Günlüğüm Service Worker — cache v23: alt menülerde yinelenen Ara kaldırıldı; ayrıntı açılış animasyonu eklendi. */
 'use strict';
 
 const CACHE_PREFIX = 'gunlugum-pwa-';
-const CACHE_VERSION = 'v22';
+const CACHE_VERSION = 'v23';
 const APP_CACHE = `${CACHE_PREFIX}app-${CACHE_VERSION}`;
 const IMAGE_CACHE = `${CACHE_PREFIX}images-${CACHE_VERSION}`;
 const APP_ROOT = new URL('./', self.registration.scope);

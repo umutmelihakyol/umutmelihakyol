@@ -444,3 +444,20 @@ body.cat-anime dialog#dlg.detail-redesign.anime-detail > .inner.detail-content {
 .history-empty{margin:0;padding:12px 14px;border:1px dashed var(--line);border-radius:12px;color:var(--mute);font-size:.86rem;line-height:1.7}
 .score-history-entry .history-entry-marker{border-color:#8eb7ef}
 @media(max-width:600px){.history-count{margin-left:0}.history-entry-head{align-items:flex-start;flex-direction:column;gap:3px}}
+
+/* Hızlı ayrıntı açılışı: küçük bir yükselme ve hafif opaklık geçişi. */
+dialog.detail-redesign[open] {
+  animation: detailQuickOpen .18s cubic-bezier(.2,.78,.25,1) both;
+  transform-origin: center top;
+}
+dialog.detail-redesign[open]::backdrop {
+  animation: detailBackdropOpen .18s ease-out both;
+}
+@keyframes detailQuickOpen {
+  from { opacity: 0; transform: translateY(7px) scale(.994); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes detailBackdropOpen {
+  from { background-color: rgba(7, 11, 14, 0); backdrop-filter: blur(0); -webkit-backdrop-filter: blur(0); }
+  to { background-color: rgba(7, 11, 14, .76); backdrop-filter: blur(9px) saturate(.85); -webkit-backdrop-filter: blur(9px) saturate(.85); }
+}
