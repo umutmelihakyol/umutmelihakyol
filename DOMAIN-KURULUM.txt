@@ -1,0 +1,33 @@
+GÜNLÜĞÜM — ÖZEL ALAN ADI / HTTPS KURULUMU
+===========================================
+
+Bu paket, GitHub Pages üzerinde umutmelihakyol.com kullanımı ve yönetim paneli girişinin HTTPS ile çalışması için güncellemeler içerir.
+
+1. Depoya güncellediğin dosyaları yükle. CNAME dosyası yayımlama kaynağının kökünde (index.html ile aynı yerde) bulunmalı ve içeriği yalnızca şu satır olmalı:
+   umutmelihakyol.com
+
+2. GitHub deposunda Settings > Pages bölümünü aç. Custom domain alanında umutmelihakyol.com yazdığını doğrula.
+
+3. Alan adı sağlayıcının DNS panelinde kök alan adı (@) için GitHub Pages A kayıtlarını doğrula:
+   185.199.108.153
+   185.199.109.153
+   185.199.110.153
+   185.199.111.153
+   DNS sağlayıcın ve GitHub belgeleri destekliyorsa IPv6 kayıtlarını da yapılandır. Var olan DNS kayıtlarını ne işe yaradığını doğrulamadan silme.
+
+4. GitHub Pages, alan adını ve DNS'i doğrulayıp TLS sertifikasını hazırladıktan sonra Settings > Pages altında Enforce HTTPS kutusunu aç. Bu seçenek henüz görünmüyorsa DNS/sertifika işlemi tamamlanmamış olabilir.
+
+5. Yönetim panelini şu adresle aç:
+   https://umutmelihakyol.com/admin/
+   `http://` adresleri otomatik HTTPS adresine yönlendirilir. Şifreli vault sisteminin Web Crypto API'si güvenli bağlam (HTTPS) gerektirir.
+
+6. Yeni dağıtımdan sonra sayfayı Ctrl+F5 ile yenile. Gerekirse tarayıcıda sitenin eski Service Worker/önbelleğini güncellemek için sayfayı kapatıp yeniden aç.
+
+ÖNEMLİ:
+- Bu paket DNS kayıtlarını veya GitHub Pages hesabındaki Enforce HTTPS ayarını uzaktan değiştirmez; bu iki ayar panelden yapılmalıdır.
+- Özel alan adına geçiş, eski github.io adresinden farklı bir origin oluşturur. Bu yüzden eski origin'deki açık yönetim oturumu yeni domaine taşınmaz; panele tekrar giriş yapmalısın.
+- Giriş sorunu sürerse şifrenin doğru olduğundan ve scripts/config.js içindeki vault alanının bozulmadığından emin ol. Vault yeniden oluşturulursa yeni değeri scripts/config.js içine kaydedip yayımlaman gerekir.
+
+Resmî belgeler:
+https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site
+https://docs.github.com/en/pages/getting-started-with-github-pages/securing-your-github-pages-site-with-https
