@@ -1,0 +1,181 @@
+{
+  "reviews": [
+    {
+      "title": "Fishing: Barents Sea",
+      "category": "Oyun",
+      "description": "Balıkçılık döngüsünü, tekne geliştirmeyi, atmosferi ve oyunun tekrara düşen yönlerini ele aldığım inceleme.",
+      "url": "https://www.technopat.net/sosyal/konu/fishing-barents-sea.4169581/",
+      "tag": "Oyun incelemesi"
+    },
+    {
+      "title": "Minecraft Dungeons",
+      "category": "Oyun",
+      "description": "Minecraft evrenindeki izometrik aksiyon-RPG deneyimini, savaş sistemini ve eşli oynanışını değerlendirdiğim inceleme.",
+      "url": "https://www.technopat.net/sosyal/konu/minecraft-dungeons.4167611/",
+      "tag": "Oyun incelemesi"
+    },
+    {
+      "title": "Tom Clancy's Ghost Recon: Wildlands",
+      "category": "Oyun",
+      "description": "Bolivya'da geçen açık dünya deneyimini; görev tekrarlarını, gizlilik mekaniklerini ve arkadaşlarla oynanışı ele aldığım inceleme.",
+      "url": "https://www.technopat.net/sosyal/konu/tom-clancys-ghost-recon-wildlands.4163921/",
+      "tag": "Oyun incelemesi"
+    },
+    {
+      "title": "Call of Duty: Modern Warfare 4 - Beta",
+      "category": "Oyun",
+      "description": "Beta sürecinde deneyimlediğim hareket sistemi, silah kullanımı ve çok oyunculu oynanış üzerine ilk izlenimlerim.",
+      "url": "https://www.technopat.net/sosyal/konu/call-of-duty-modern-warfare-4-beta.4165011/",
+      "tag": "Beta incelemesi"
+    },
+    {
+      "title": "Satisfactory",
+      "category": "Oyun",
+      "description": "Otomasyon ve fabrika kurma odaklı yapım hakkındaki değerlendirmelerime forumdan ulaşabilirsin.",
+      "url": "https://www.technopat.net/sosyal/konu/satisfactory.4160137/",
+      "tag": "Oyun incelemesi"
+    },
+    {
+      "title": "En Garde! — Küçük Bir Ekip, Tatlı Bir Oyun",
+      "category": "Oyun",
+      "description": "Renkli sanat tasarımı, mizahi anlatımı ve kısa ama keyifli aksiyon deneyimi üzerine incelemem.",
+      "url": "https://www.technopat.net/sosyal/konu/en-garde-kucuk-bir-ekip-tatli-bir-oyun.4071933/",
+      "tag": "Oyun incelemesi"
+    },
+    {
+      "title": "Melvor Idle - Bir Idle oyunundan fazlası",
+      "category": "Oyun",
+      "description": "",
+      "url": "https://www.technopat.net/sosyal/konu/melvor-idle-bir-idle-oyunundan-fazlasi.3937336/post-29251583",
+      "tag": ""
+    },
+    {
+      "title": "ContractVille - İnşa et, para kazan ve usta ol!",
+      "category": "Oyun",
+      "description": "",
+      "url": "https://www.technopat.net/sosyal/konu/contractville-insa-et-para-kazan-ve-usta-ol.3938318/post-29258023",
+      "tag": ""
+    },
+    {
+      "title": "Farm Together 2 - Rahatlamak isteyenlere çiftlik yönetimi!",
+      "category": "Oyun",
+      "description": "",
+      "url": "https://www.technopat.net/sosyal/konu/farm-together-2-rahatlamak-isteyenlere-ciftlik-yonetimi.3939938/post-29268235",
+      "tag": ""
+    },
+    {
+      "title": "Battlefield 6 - Özüne dönmüş bir Battlefield oyunu!",
+      "category": "Oyun",
+      "description": "",
+      "url": "https://www.technopat.net/sosyal/konu/battlefield-6-ozune-donmus-bir-battlefield-oyunu.3940696/post-29272785",
+      "tag": ""
+    },
+    {
+      "title": "Little Nightmares 3 - Boşa kullanılmış bir isim ve ruhunun kopuşu",
+      "category": "Oyun",
+      "description": "",
+      "url": "https://www.technopat.net/sosyal/konu/little-nightmares-3-bosa-kullanilmis-bir-isim-ve-ruhunun-kopusu.3943648/post-29291468",
+      "tag": ""
+    },
+    {
+      "title": "Pummel Party - Arkadaşlığınızı sorgulatan oyun",
+      "category": "Oyun",
+      "description": "",
+      "url": "https://www.technopat.net/sosyal/konu/pummel-party-arkadasliginizi-sorgulatan-oyun.3946621/post-29309406",
+      "tag": ""
+    },
+    {
+      "title": "The Outer Worlds - Galakside yaşadığımız maceralar",
+      "category": "Oyun",
+      "description": "",
+      "url": "https://www.technopat.net/sosyal/konu/the-outer-worlds-galakside-yasadigimiz-maceralar.3951242/post-29338419",
+      "tag": ""
+    },
+    {
+      "title": "Dave the Diver - Hem dalgıç hem de garson!",
+      "category": "Oyun",
+      "description": "",
+      "url": "https://www.technopat.net/sosyal/konu/dave-the-diver-hem-dalgic-hem-de-garson.3984776/post-29557640",
+      "tag": ""
+    },
+    {
+      "title": "Palworld - Pal yakala, eşya üret ve hayatta kal!",
+      "category": "Oyun",
+      "description": "",
+      "url": "https://www.technopat.net/sosyal/konu/palworld-pal-yakala-esya-uret-ve-hayatta-kal.3997424/post-29643774",
+      "tag": ""
+    },
+    {
+      "title": "GameSir Cyclone 2 incelemesi",
+      "category": "Teknoloji",
+      "description": "",
+      "url": "https://www.technopat.net/sosyal/konu/gamesir-cyclone-2-incelemesi.4001190/post-29670051",
+      "tag": ""
+    },
+    {
+      "title": "ARC Raiders - Robotlar ve Yağmacıların Kapışması!",
+      "category": "Oyun",
+      "description": "",
+      "url": "https://www.technopat.net/sosyal/konu/arc-raiders-robotlar-ve-yagmacilarin-kapismasi.4018806/post-29793566",
+      "tag": ""
+    },
+    {
+      "title": "Hunt Showdown 1896 - Let the hunt begin!",
+      "category": "Oyun",
+      "description": "",
+      "url": "https://www.technopat.net/sosyal/konu/hunt-showdown-1896-let-the-hunt-begin.4020480/post-29804399",
+      "tag": ""
+    },
+    {
+      "title": "Cyberpunk 2077 - Night City'de hayatta kalmak",
+      "category": "Oyun",
+      "description": "",
+      "url": "https://www.technopat.net/sosyal/konu/cyberpunk-2077-night-cityde-hayatta-kalmak.4023003/post-29822001",
+      "tag": ""
+    },
+    {
+      "title": "Hytale - Daha özgür bir Minecraft!",
+      "category": "Oyun",
+      "description": "",
+      "url": "https://www.technopat.net/sosyal/konu/hytale-daha-ozgur-bir-minecraft.4024822/post-29833993",
+      "tag": ""
+    },
+    {
+      "title": "Still Wakes the Deep - Denizin ortasında çaresizlik",
+      "category": "Oyun",
+      "description": "",
+      "url": "https://www.technopat.net/sosyal/konu/still-wakes-the-deep-denizin-ortasinda-caresizlik.4030900/post-29876138",
+      "tag": ""
+    },
+    {
+      "title": "Detroit: Become Human - Androidlere Özgürlük, Yaşıyoruz!",
+      "category": "Oyun",
+      "description": "",
+      "url": "https://www.technopat.net/sosyal/konu/detroit-become-human-androidlere-ozgurluk-yasiyoruz.4034230/post-29899572",
+      "tag": ""
+    },
+    {
+      "title": "Beyond: Two Souls - Jodie ve Aiden ile duygusal yolculuk",
+      "category": "Oyun",
+      "description": "",
+      "url": "https://www.technopat.net/sosyal/konu/beyond-two-souls-jodie-ve-aiden-ile-duygusal-yolculuk.4036722/post-29919692",
+      "tag": ""
+    }
+  ],
+  "guides": [
+    {
+      "title": "Truckers MP bilgi ve güncelleme arşivi",
+      "category": "Oyun",
+      "description": "TruckersMP güncellemeleri ve Euro Truck Simulator 2 ile American Truck Simulator tarafındaki değişiklikleri takip ettiğim blog.",
+      "url": "https://www.technopat.net/sosyal/blog/blog/truckers-mp.2110",
+      "tag": "Topluluk blogu"
+    },
+    {
+      "title": "Steam 2027 yılı indirim tarihleri",
+      "category": "Oyun",
+      "description": "Steam'in 2027 yılı indirim tarihleri.",
+      "url": "https://www.technopat.net/sosyal/konu/steam-2027-yili-indirim-ve-festival-takvimi.4193405/",
+      "tag": "Steam"
+    }
+  ]
+}

@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="theme-color" content="#171d22">
+<link rel="manifest" href="../../manifest.webmanifest">
+<link rel="apple-touch-icon" href="../../assets/icons/gunlugum-180.png">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<script>
+(() => {
+  const root = document.documentElement;
+  try {
+    if (sessionStorage.getItem('gunlugum:intro-seen') === '1') {
+      root.classList.add('intro-loader-skip');
+      return;
+    }
+    sessionStorage.setItem('gunlugum:intro-seen', '1');
+  } catch (_) {}
+  root.classList.add('intro-loader-active');
+  window.__gunlugumLoaderStart = performance.now();
+  // Diğer betik yüklenmezse de ekran açık kalmasın.
+  window.__gunlugumLoaderFallback = window.setTimeout(() => {
+    root.classList.add('intro-loader-fade');
+    root.classList.remove('intro-loader-active');
+    window.setTimeout(() => {
+      document.getElementById('siteIntroLoader')?.remove();
+      root.classList.remove('intro-loader-fade');
+    }, 240);
+  }, 1500);
+})();
+</script>
+<meta name="theme-color" content="#3d7f86">
+<title>İncelemelerim · Technopat | Günlüğüm</title>
+<meta name="description" content="Technopat Sosyal üzerinde yayımladığım oyun, anime, film, dizi ve teknoloji incelemelerini ara, filtrele ve sırala.">
+<link rel="canonical" href="https://umutmelihakyol.com/technopat/incelemeler/">
+<link rel="icon" href="../../assets/icons/gunlugum-192.png" type="image/png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Günlüğüm">
+<meta property="og:title" content="İncelemelerim · Technopat | Günlüğüm">
+<meta property="og:description" content="Technopat Sosyal üzerinde yayımladığım oyun, anime, film, dizi ve teknoloji incelemelerini ara, filtrele ve sırala.">
+<meta property="og:url" content="https://umutmelihakyol.com/technopat/incelemeler/">
+<meta name="twitter:card" content="summary">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/style.css?v=17">
+<link rel="stylesheet" href="../../assets/css/technopat.css?v=4">
+<script src="../../scripts/theme.js?v=2"></script>
+
+<link rel="stylesheet" href="../../assets/css/intro-loader.css?v=1">
+<script src="../../scripts/intro-loader.js?v=1" defer></script>
+
+<script src="../../scripts/pwa.js?v=3" defer></script>
+<link rel="stylesheet" href="../../assets/css/modern.css?v=6">
+</head>
+<body data-tech-kind="reviews">
+<div class="site-intro-loader" id="siteIntroLoader" role="status" aria-live="polite" aria-label="Günlüğüm hazırlanıyor">
+  <div class="site-intro-loader__content">
+    <div class="site-intro-loader__mark" aria-hidden="true">G</div>
+    <div>
+      <h1 class="site-intro-loader__title">Günlüğüm</h1>
+      <p class="site-intro-loader__caption">Arşivin hazırlanıyor</p>
+    </div>
+    <div class="site-intro-loader__track" aria-hidden="true"></div>
+  </div>
+</div>
+
+<div class="wrap tech-page">
+  <header class="tech-page-top">
+    <a class="btn" href="../../index.html">← Ana sayfa</a>
+    <div class="acts">
+      <a class="btn" href="../rehberler/index.html">Rehberler</a>
+      <a class="btn" href="https://www.technopat.net/sosyal/uye/umutmelihakyol.84558/" target="_blank" rel="noopener noreferrer">Technopat profilim ↗</a>
+      <button class="btn round" id="themeBtn" type="button" onclick="toggleTheme()" aria-label="Açık veya koyu temaya geç" title="Tema değiştir">◐</button>
+    </div>
+  </header>
+  <main>
+    <section class="tech-hero">
+      <span class="tech-eyebrow">TECHNOPAT SOSYAL · UMUTMELİHAKYOL</span>
+      <h1 id="techPageTitle">İncelemelerim</h1>
+      <p>Oyun ve diğer eğlence içerikleri üzerine hazırladığım incelemeler. Kategorilerden seçim yaparak ilgili yazıya Technopat Sosyal üzerinden ulaşabilirsin.</p>
+      <div class="tech-hero-meta"><span>Kartlar forumdaki yazılarıma yönlendirir</span><a href="https://www.technopat.net/sosyal/uye/umutmelihakyol.84558/" target="_blank" rel="noopener noreferrer">Tüm forum etkinliklerim ↗</a></div>
+    </section>
+    <nav class="tech-nav" aria-label="Technopat içerik türleri">
+      <a href="../incelemeler/index.html" aria-current="page">İncelemeler</a>
+      <a href="../rehberler/index.html" >Rehberler</a>
+    </nav>
+    <section class="tech-tools" aria-label="İçerik arama ve sıralama">
+      <label class="tech-search-field" for="techSearch">
+        <span>İçeriklerde ara</span>
+        <input id="techSearch" type="search" placeholder="Başlık, açıklama, kategori veya etiket ara…" autocomplete="off" spellcheck="false">
+      </label>
+      <label class="tech-tool-field" for="techTagFilter">
+        <span>Kart etiketi</span>
+        <select id="techTagFilter"><option value="">Tüm etiketler</option></select>
+      </label>
+      <label class="tech-tool-field" for="techSort">
+        <span>Sıralama</span>
+        <select id="techSort">
+          <option value="default">Varsayılan</option>
+          <option value="title-asc">Başlık (A–Z)</option>
+          <option value="title-desc">Başlık (Z–A)</option>
+          <option value="category">Kategori</option>
+        </select>
+      </label>
+      <button class="tech-clear-btn" id="techClearFilters" type="button">Filtreleri temizle</button>
+    </section>
+    <div id="techFilters" class="tech-filters" aria-label="İçerikleri kategoriye göre filtrele"></div>
+    <p id="techResultsMeta" class="tech-results-meta" aria-live="polite">İçerikler yükleniyor…</p>
+    <section id="techArticles" class="tech-articles" aria-label="Technopat içerikleri"></section>
+  </main>
+  <footer class="tech-page-footer"><span>Günlüğüm · Technopat yazı arşivi</span><a href="https://www.technopat.net/sosyal/uye/umutmelihakyol.84558/" target="_blank" rel="noopener noreferrer">Technopat Sosyal profilim ↗</a></footer>
+</div>
+<script src="../../scripts/technopat.js?v=3"></script>
+</body>
+</html>

@@ -1,0 +1,2430 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<title>Yönetim Paneli</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700&family=Nunito+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/style.css">
+<style>
+  /* Gelişmiş Admin Paneli Ek Stilleri */
+  .admin-nav { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; border-bottom: 1px solid var(--bd, rgba(128,128,128,0.2)); padding-bottom: 12px; }
+  .tab-btn { cursor: pointer; opacity: 0.75; transition: 0.2s; }
+  .tab-btn[aria-selected="true"] { opacity: 1; font-weight: 700; border-color: var(--pri, currentColor); background: rgba(128,128,128,0.12); }
+  .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-bottom: 16px; }
+  .stat-card { padding: 14px; border-radius: 10px; border: 1px solid var(--bd, rgba(128,128,128,0.2)); background: rgba(128,128,128,0.04); text-align: center; }
+  .stat-card b { display: block; font-size: 1.6rem; margin-bottom: 4px; font-family: 'Bricolage Grotesque', sans-serif; }
+  .toolbar { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 14px; align-items: center; }
+  .toolbar input, .toolbar select {
+    flex: 1;
+    min-width: 150px;
+    background: var(--bg, #11161d);
+    color: var(--fg, #e6edf3);
+    border: 1px solid var(--bd, rgba(128,128,128,0.3));
+    border-radius: 8px;
+    padding: 9px 12px;
+    font: inherit;
+    box-sizing: border-box;
+  }
+  .toolbar select option {
+    background: var(--bg, #11161d);
+    color: var(--fg, #e6edf3);
+  }
+  .li-adv { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--bd, rgba(128,128,128,0.15)); }
+  .li-info { display: flex; align-items: center; gap: 12px; min-width: 0; flex: 1; }
+  .li-thumb { width: 46px; height: 46px; object-fit: cover; border-radius: 6px; background: rgba(128,128,128,0.15); flex-shrink: 0; }
+  .li-text { min-width: 0; }
+  .li-title { font-weight: 700; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+  .li-actions { display: flex; gap: 6px; flex-wrap: wrap; flex-shrink: 0; }
+  .img-preview-wrap { display: flex; gap: 12px; align-items: flex-start; grid-column: 1 / -1; }
+  .img-preview { width: 90px; height: 120px; object-fit: cover; border-radius: 8px; border: 1px solid var(--bd, rgba(128,128,128,0.25)); background: rgba(128,128,128,0.08); flex-shrink: 0; }
+  .code-editor {
+    font-family: ui-monospace, SFMono-Regular, Consolas, 'Liberation Mono', Menlo, monospace;
+    font-size: 0.88rem;
+    line-height: 1.55;
+    width: 100%;
+    min-height: 400px;
+    tab-size: 2;
+    background: #0d1117;
+    color: #e6edf3;
+    border: 1px solid var(--bd, rgba(128,128,128,0.3));
+    border-radius: 8px;
+    padding: 12px;
+    box-sizing: border-box;
+    resize: vertical;
+  }
+  .code-editor:focus, .toolbar input:focus, .toolbar select:focus {
+    outline: 2px solid var(--pri, #58a6ff);
+    outline-offset: -1px;
+  }
+  .badge { font-size: 0.75rem; padding: 2px 7px; border-radius: 99px; background: rgba(128,128,128,0.15); }
+  .fav-star { cursor: pointer; user-select: none; font-size: 1.1rem; background: none; border: none; padding: 0 4px; color: inherit; opacity: 0.35; }
+  .fav-star.active { opacity: 1; color: #f59e0b; }
+  /* İçe Aktarma (Import) Ek Stilleri */
+  .imp-box { border: 1px solid var(--bd, rgba(128,128,128,0.22)); border-radius: 10px; padding: 14px; margin-bottom: 16px; background: rgba(128,128,128,0.03); }
+  .imp-box h3 { margin: 0 0 6px 0; font-size: 1.1rem; }
+  .imp-log { font-family: monospace; font-size: 0.82rem; background: #0d1117; color: #e6edf3; padding: 10px; border-radius: 8px; max-height: 220px; overflow-y: auto; white-space: pre-wrap; border: 1px solid var(--bd, rgba(128,128,128,0.25)); margin-top: 10px; }
+  .chk-row { display: flex; align-items: center; gap: 8px; margin: 10px 0; cursor: pointer; font-size: 0.92rem; }
+  .chk-row input[type="checkbox"] { width: 16px; height: 16px; margin: 0; }
+  .analytics-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; margin:16px 0; }
+  .analytics-box { min-width:0; border:1px solid var(--line); background:var(--bg); border-radius:12px; padding:16px; }
+  .analytics-box h3 { font-size:1rem; margin:0 0 12px; }
+  .bar-list { display:grid; gap:10px; }
+  .bar-row { display:grid; grid-template-columns:minmax(90px, 1fr) minmax(80px, 2fr) auto; align-items:center; gap:10px; font-size:.88rem; }
+  .bar-label { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .bar-track { height:9px; border-radius:99px; overflow:hidden; background:rgba(128,128,128,.16); }
+  .bar-fill { height:100%; border-radius:99px; background:var(--acc); min-width:0; }
+  .bar-value { color:var(--mute); font-variant-numeric:tabular-nums; }
+  .rating-list { display:grid; gap:8px; }
+  .rating-row { display:flex; align-items:center; gap:10px; padding:9px 0; border-bottom:1px solid var(--line); }
+  .rating-row:last-child { border-bottom:0; }
+  .rating-score { min-width:48px; padding:4px 8px; border-radius:8px; background:var(--card); border:1px solid var(--line); text-align:center; font-weight:800; color:var(--acc); }
+  .rating-title { min-width:0; flex:1; }
+  .rating-title b { display:block; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .rating-title small { display:block; color:var(--mute); }
+  .backup-state { border:1px solid var(--line); border-radius:10px; background:var(--bg); padding:12px 14px; margin:12px 0; font-size:.92rem; }
+  .backup-controls { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; }
+  .backup-controls > * { min-width:0; }
+  .backup-file { width:100%; padding:12px; border:1px dashed var(--line); border-radius:10px; background:var(--bg); }
+  .backup-note { color:var(--mute); font-size:.88rem; }
+  .tech-admin-list { display:grid; gap:10px; }
+  .tech-admin-item { display:flex; align-items:flex-start; justify-content:space-between; gap:14px; padding:13px; border:1px solid var(--line); border-radius:10px; background:var(--bg); }
+  .tech-admin-item-main { flex:1; min-width:0; }
+  .tech-admin-item-main strong { display:block; overflow-wrap:anywhere; margin-bottom:4px; }
+  .tech-admin-item-main p { margin:6px 0; color:var(--mute); font-size:.9rem; }
+  .tech-admin-item-main a { overflow-wrap:anywhere; font-size:.85rem; }
+  .tech-admin-actions { display:flex; flex-wrap:wrap; gap:6px; }
+  .tech-admin-actions .btn { white-space:nowrap; }
+  .tech-admin-status { border:1px solid var(--line); border-radius:10px; padding:11px 13px; margin:10px 0; background:var(--bg); }
+  .tech-admin-status[data-state="dirty"] { border-color:var(--acc); }
+  .tech-admin-status[data-state="error"] { color:var(--no); }
+  .tech-admin-status[data-state="success"] { color:var(--yes); }
+  .tech-admin-form-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; }
+  .tech-admin-form-grid > * { min-width:0; }
+  .tech-admin-form-grid .wide { grid-column:1 / -1; }
+  .tech-admin-form-grid label { display:flex; flex-direction:column; align-items:stretch; gap:7px; color:var(--mute); font-size:.92rem; }
+  .tech-admin-form-grid input,
+  .tech-admin-form-grid select,
+  .tech-admin-form-grid textarea {
+    display:block;
+    width:100%;
+    min-width:0;
+    max-width:100%;
+    box-sizing:border-box;
+    padding:10px 12px;
+    border:1px solid var(--line);
+    border-radius:9px;
+    background:var(--bg);
+    color:var(--ink);
+    font:inherit;
+    line-height:1.45;
+    color-scheme:light;
+  }
+  :root[data-theme="dark"] .tech-admin-form-grid input,
+  :root[data-theme="dark"] .tech-admin-form-grid select,
+  :root[data-theme="dark"] .tech-admin-form-grid textarea { color-scheme:dark; }
+  .tech-admin-form-grid select { cursor:pointer; }
+  .tech-admin-form-grid select option { background:var(--card); color:var(--ink); }
+  .tech-admin-form-grid textarea { min-height:100px; resize:vertical; }
+  .tech-admin-form-grid input::placeholder,
+  .tech-admin-form-grid textarea::placeholder { color:var(--mute); opacity:.85; }
+  .tech-admin-form-grid input:focus,
+  .tech-admin-form-grid select:focus,
+  .tech-admin-form-grid textarea:focus { outline:2px solid var(--acc); outline-offset:1px; border-color:var(--acc); }
+  .game-cost-panel { grid-column:1 / -1; min-width:0; margin:8px 0 2px; padding:15px; border:1px solid var(--line); border-radius:12px; background:var(--bg); }
+  .game-cost-panel legend { padding:0 8px; color:var(--ink); font-weight:800; }
+  .game-cost-panel p { margin:4px 0 12px; }
+  .game-cost-panel .f { margin-top:12px; }
+  .game-cost-panel label { display:flex; flex-direction:column; gap:5px; color:var(--mute); font-size:.9rem; }
+  .game-cost-panel input,.game-cost-panel select,.game-cost-panel textarea { width:100%; min-width:0; box-sizing:border-box; padding:9px 11px; border:1px solid var(--line); border-radius:9px; background:var(--card); color:var(--ink); font:inherit; }
+  .game-cost-panel select option { background:var(--card); color:var(--ink); }
+  .game-cost-panel textarea { resize:vertical; }
+  .game-cost-panel .wide { grid-column:1 / -1; }
+
+  .media-feature-panel { grid-column:1 / -1; min-width:0; margin:8px 0 2px; padding:15px; border:1px solid var(--line); border-radius:12px; background:var(--bg); }
+  .media-feature-panel legend { padding:0 8px; color:var(--ink); font-weight:800; }
+  .media-feature-panel p { margin:4px 0 12px; }
+  .media-feature-panel label { display:flex; flex-direction:column; gap:5px; color:var(--mute); font-size:.9rem; }
+  .media-feature-panel textarea { width:100%; min-width:0; box-sizing:border-box; padding:10px 12px; border:1px solid var(--line); border-radius:9px; background:var(--card); color:var(--ink); font:13px/1.5 ui-monospace,SFMono-Regular,Consolas,monospace; resize:vertical; }
+  .media-feature-panel .example { padding:10px 12px; border-radius:8px; background:var(--card); overflow-wrap:anywhere; font:12px/1.45 ui-monospace,SFMono-Regular,Consolas,monospace; white-space:pre-wrap; }
+
+  @media(max-width:760px){ .analytics-grid,.backup-controls,.tech-admin-form-grid { grid-template-columns:1fr; } .bar-row { grid-template-columns:minmax(75px,1fr) minmax(60px,1.2fr) auto; gap:7px; } .tech-admin-item { flex-direction:column; } .tech-admin-form-grid .wide { grid-column:auto; } }
+
+  /* JSON yerine satır bazlı bağlantı ve kurulum profili editörleri */
+  .media-form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:12px 0}
+  .media-form-grid label{display:grid;gap:6px;min-width:0;font-size:.92rem;font-weight:650}
+  .media-form-grid .wide{grid-column:1/-1}
+  .media-form-grid input,.media-form-grid select,.media-form-grid textarea{width:100%;min-width:0;box-sizing:border-box;border:1px solid var(--line,var(--bd,rgba(128,128,128,.3)));border-radius:9px;background:var(--card,var(--bg,#11161d));color:var(--ink,var(--fg,#e6edf3));padding:10px 12px;font:inherit;font-weight:400}
+  .media-form-grid select option{background:var(--card,#20272e);color:var(--ink,#e3e8ec)}
+  .media-form-grid textarea{resize:vertical}
+  .media-form-actions{display:flex;justify-content:flex-start;gap:8px;margin:8px 0 12px}
+  .media-editor-list{display:grid;gap:8px;min-width:0}
+  .media-editor-row{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;min-width:0;padding:10px 12px;border:1px solid var(--line,var(--bd,rgba(128,128,128,.2)));border-radius:10px;background:color-mix(in srgb,var(--card,#20272e) 82%,transparent)}
+  .media-editor-row__copy{display:grid;gap:3px;min-width:0;flex:1}
+  .media-editor-row__copy strong{overflow-wrap:anywhere}
+  .media-editor-row__copy small{color:var(--mute,#93a0ab);overflow-wrap:anywhere}
+  .media-editor-row__remove{flex:0 0 auto;padding:5px 9px}
+  .media-editor-empty{padding:12px;border:1px dashed var(--line,var(--bd,rgba(128,128,128,.25)));border-radius:9px;color:var(--mute,#93a0ab);font-size:.88rem}
+  @media(max-width:650px){.media-form-grid{grid-template-columns:minmax(0,1fr)}.media-form-grid .wide{grid-column:auto}.media-editor-row{gap:8px}}
+
+  /* Toplu yönetim ve geri alınabilir silme */
+  .bulk-toolbar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:12px;border:1px solid var(--line,var(--bd,rgba(128,128,128,.22)));border-radius:12px;margin:10px 0 14px;background:color-mix(in srgb,var(--card,#20272e) 74%,transparent)}
+  .bulk-toolbar select{min-width:155px;max-width:100%;padding:9px 11px;border:1px solid var(--line,var(--bd,rgba(128,128,128,.25)));border-radius:9px;background:var(--bg,#11161d);color:var(--ink,#e6edf3);font:inherit}
+  .bulk-toolbar .meta{margin:0;flex:1 1 150px}
+  .bulk-select-all,.record-select{width:18px;height:18px;accent-color:var(--acc,#65b6be);cursor:pointer;flex:0 0 auto}
+  .li-adv{align-items:flex-start}
+  .record-check-wrap{display:flex;align-items:center;padding-top:12px}
+  .li-thumb{object-position:center}
+  .trash-panel{margin-top:16px}
+  .trash-list{display:grid;gap:9px}
+  .trash-item{display:flex;align-items:center;gap:10px;padding:10px;border:1px solid var(--line,var(--bd,rgba(128,128,128,.2)));border-radius:10px;background:var(--bg,#11161d);min-width:0}
+  .trash-item img{width:42px;height:56px;object-fit:cover;border-radius:6px;flex:0 0 auto;background:rgba(128,128,128,.12)}
+  .trash-copy{flex:1;min-width:0}
+  .trash-copy strong{display:block;overflow-wrap:anywhere}
+  .trash-copy small{display:block;color:var(--mute,#93a0ab);margin-top:3px}
+  .trash-actions{display:flex;gap:6px;flex-wrap:wrap;flex:0 0 auto}
+  .trash-actions .btn{white-space:nowrap}
+  .empty-trash{padding:13px;border:1px dashed var(--line,var(--bd,rgba(128,128,128,.25)));border-radius:10px;color:var(--mute,#93a0ab)}
+  @media(max-width:650px){.bulk-toolbar{align-items:stretch}.bulk-toolbar select,.bulk-toolbar button{flex:1 1 100%}.trash-item{align-items:flex-start;flex-wrap:wrap}.trash-copy{flex-basis:calc(100% - 65px)}.trash-actions{width:100%}.trash-actions .btn{flex:1}}
+
+</style>
+<script src="../scripts/theme.js?v=2"></script>
+<script>document.write('<script src="../scripts/config.js?'+Date.now()+'"><\/script>')</script>
+<script src="../scripts/categories.js"></script>
+<link rel="stylesheet" href="../assets/css/modern.css?v=6">
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <h1>Yönetim Merkezi</h1>
+    <span>
+      <button class="btn" id="syncAllBtn" hidden title="Tüm kategorileri GitHub'dan yenile">Yenile</button>
+      <button class="btn" id="out" hidden>Çıkış</button>
+      <a class="btn" href="../index.html">Siteyi Gör</a>
+    </span>
+  </header>
+
+  <!-- GİRİŞ VE KURULUM EKRANI -->
+  <section class="panel" id="gate">
+    <div id="login">
+      <h2>Giriş</h2>
+      <div class="f"><label class="wide">Şifre<input id="pw" type="password" autocomplete="current-password"></label></div>
+      <p><button class="btn pri" id="in">Giriş yap</button> <button class="btn" id="goSetupBtn" type="button" hidden>Vault / Kurulum</button></p>
+    </div>
+    <div id="setup" hidden>
+      <h2>İlk kurulum / Anahtar Yenileme</h2>
+      <p class="meta">GitHub anahtarını (token) ve seçtiğin şifreyi gir. Anahtar şifrelenir. Çıkan metni <b>config.js</b> içindeki <b>vault</b> alanına yapıştırıp siteyi yeniden yükle. Şifre en az 12 karakter olsun.</p>
+      <div class="f">
+        <label class="wide">GitHub token<input id="tok" type="password" autocomplete="off"></label>
+        <label>Yeni şifre<input id="pw1" type="password" autocomplete="new-password"></label>
+        <label>Şifre (tekrar)<input id="pw2" type="password" autocomplete="new-password"></label>
+        <label class="wide">Şifreli anahtar<textarea id="vout" rows="3" readonly></textarea></label>
+      </div>
+      <p><button class="btn pri" id="mk">Şifreli anahtar oluştur</button> <button class="btn" id="backLoginBtn" type="button">Girişe Dön</button></p>
+    </div>
+    <p class="msg" id="gmsg" role="status"></p>
+  </section>
+
+  <!-- ANA YÖNETİM UYGULAMASI -->
+  <div id="app" hidden>
+    
+    <!-- ÜST SEKMELER -->
+    <nav class="admin-nav" role="tablist">
+      <button class="btn tab-btn" role="tab" data-tab="content" aria-selected="true">📚 İçerik Yönetimi</button>
+      <button class="btn tab-btn" role="tab" data-tab="import" aria-selected="false">🔄 Platformdan İçe Aktar</button>
+      <button class="btn tab-btn" role="tab" data-tab="stats" aria-selected="false">📊 Genel Bakış & Yedek</button>
+      <button class="btn tab-btn" role="tab" data-tab="health" aria-selected="false">🩺 Arşiv Kontrol Merkezi</button>
+      <button class="btn tab-btn" role="tab" data-tab="technopat" aria-selected="false">📝 Technopat İçerikleri</button>
+      <button class="btn tab-btn" role="tab" data-tab="settings" aria-selected="false">⚙️ Site & API Ayarları</button>
+      <button class="btn tab-btn" role="tab" data-tab="files" aria-selected="false">💻 Dosya & Kod Editörü</button>
+    </nav>
+
+    <p class="msg" id="msg" role="status"></p>
+
+    <!-- SEKME 1: İÇERİK YÖNETİMİ -->
+    <div id="tab-content" class="tab-pane">
+      <section class="panel">
+        <h2>Kategori Seç</h2>
+        <div class="pills" id="catpills" role="group" aria-label="Kategori" style="margin:0"></div>
+      </section>
+
+      <section class="panel">
+        <h2 id="hs">Ara</h2>
+        <div class="f">
+          <label class="wide"><span>Ad</span><input id="s"></label>
+        </div>
+        <p><button class="btn pri" id="go">API'de Ara</button> <button class="btn" id="clrRes" type="button">Sonuçları Temizle</button></p>
+        <div class="res" id="res"></div>
+      </section>
+
+      <section class="panel">
+        <h2 id="ft">Bilgiler</h2>
+        <div class="f">
+          <label>Durum<select id="status"></select></label>
+          <label><span id="l-title">Adı</span><input id="title"></label>
+          <label><span id="l-plat">Platform</span><input id="platform"></label>
+          <label class="wide">Türler (virgülle ayır)<input id="genres" placeholder="Aksiyon, Macera"></label>
+          <label><span id="l-year">Çıkış yılı</span><input id="year" type="number" min="1880" max="2100"></label>
+          <label><span id="l-person">Geliştirici</span><input id="person"></label>
+          <label>Favorim mi?<select id="fav"><option value="0">Hayır</option><option value="1">Evet</option></select></label>
+          <label>Puanım (0-10, bitirdiysen zorunlu)<input id="score" type="number" min="0" max="10" step="0.5"></label>
+          <label><span id="l-dur">Süre</span><input id="dur" type="number" min="0" step="1"></label>
+          <label id="dur2wrap" hidden><span id="l-dur2">Bölüm sayısı</span><input id="dur2" type="number" min="0" step="1"></label>
+          <label><span id="l-date">Tarih</span><input id="finished" type="date"></label>
+          <label>Öneriyor muyum?<select id="rec"><option value="1">Evet</option><option value="0">Hayır</option><option value="">Belirtme</option></select></label>
+          <label class="wide">İnceleme bağlantısı (yoksa boş bırak)<input id="review" type="url" placeholder="https://…"></label>
+          
+          <div class="img-preview-wrap">
+            <img id="imgPrev" class="img-preview" alt="Önizleme" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='90' height='120'%3E%3Crect width='100%25' height='100%25' fill='none'/%3E%3C/svg%3E">
+            <label style="flex:1">Kapak görseli adresi
+              <input id="image" type="url" placeholder="Arama ile otomatik dolar veya doğrudan URL yapıştır">
+            </label>
+          </div>
+
+          <label class="wide">Kısa not<textarea id="note" rows="2"></textarea></label>
+          <label>Artılar (her satıra bir madde)<textarea id="pros" rows="3"></textarea></label>
+          <label>Eksiler (her satıra bir madde)<textarea id="cons" rows="3"></textarea></label>
+        </div>
+
+        <fieldset id="gameCostPanel" class="game-cost-panel" hidden>
+          <legend>💰 Oyun maliyeti ve kütüphane takibi</legend>
+          <p class="meta">Bu alan yalnızca Oyunlar kategorisinde kullanılır. Tutarlar seçtiğin para birimiyle kaydedilir; farklı para birimleri birbirine çevrilmez.</p>
+          <div class="f">
+            <label>Edinme türü
+              <select id="acquisitionType">
+                <option value="">Belirtilmedi</option>
+                <option value="purchase">Satın alındı</option>
+                <option value="free">Ücretsiz</option>
+                <option value="subscription">Abonelik</option>
+                <option value="gift">Hediye</option>
+                <option value="bundle">Paket / Bundle</option>
+                <option value="key">Kod / Anahtar</option>
+                <option value="other">Diğer</option>
+              </select>
+            </label>
+            <label>Ödenen fiyat
+              <input id="purchasePrice" type="number" min="0" step="0.01" inputmode="decimal" placeholder="Örn. 499,00">
+            </label>
+            <label>Para birimi
+              <select id="purchaseCurrency">
+                <option value="TRY">TRY — Türk lirası (₺)</option>
+                <option value="USD">USD — ABD doları ($)</option>
+                <option value="EUR">EUR — Euro (€)</option>
+                <option value="GBP">GBP — İngiliz sterlini (£)</option>
+                <option value="JPY">JPY — Japon yeni (¥)</option>
+                <option value="CAD">CAD — Kanada doları</option>
+                <option value="AUD">AUD — Avustralya doları</option>
+              </select>
+            </label>
+            <label>Mağaza / kaynak
+              <input id="purchaseStore" maxlength="100" placeholder="Steam, Epic Games Store, GOG…">
+            </label>
+            <label>Satın alma tarihi
+              <input id="purchaseDate" type="date">
+            </label>
+            <label>İndirimsiz fiyat (isteğe bağlı)
+              <input id="listPrice" type="number" min="0" step="0.01" inputmode="decimal" placeholder="İndirim öncesi fiyat">
+            </label>
+            <label>Kütüphane durumu
+              <select id="ownershipStatus">
+                <option value="">Belirtilmedi</option>
+                <option value="owned">Kalıcı kütüphanemde</option>
+                <option value="subscription">Abonelik erişimi</option>
+                <option value="wishlist">İstek listemde</option>
+                <option value="removed">Kütüphaneden kaldırıldı</option>
+                <option value="not-owned">Kütüphanemde değil</option>
+              </select>
+            </label>
+            <label class="wide">Satın alma notu (isteğe bağlı)
+              <textarea id="purchaseNote" rows="2" maxlength="1000" placeholder="Örn. indirim dönemi, paket adı veya lisans notu"></textarea>
+            </label>
+          </div>
+        </fieldset>
+
+        <fieldset id="relatedLinksPanel" class="media-feature-panel">
+          <legend>🔗 İlgili bağlantılar</legend>
+          <p class="meta">JSON yazmadan bağlantı ekle. Türünü seç, adresi yapıştır ve listeye ekle. Bu alan yayın servisi kataloğu değildir; resmî site, mağaza, fragman, wiki, mod/yama, destek ve topluluk bağlantıları içindir.</p>
+          <div class="media-form-grid">
+            <label>Bağlantı türü
+              <select id="linkType">
+                <option value="official">Resmî site</option>
+                <option value="store">Mağaza sayfası</option>
+                <option value="trailer">Fragman / tanıtım</option>
+                <option value="wiki">Wiki / rehber</option>
+                <option value="mods">Mod / yama</option>
+                <option value="support">Destek sayfası</option>
+                <option value="community">Topluluk</option>
+                <option value="other">Diğer</option>
+              </select>
+            </label>
+            <label>Bağlantı başlığı (isteğe bağlı)
+              <input id="linkName" type="text" maxlength="120" placeholder="Örn. Resmî oyun sayfası">
+            </label>
+            <label class="wide">Bağlantı adresi
+              <input id="linkUrl" type="url" inputmode="url" placeholder="https://..." autocomplete="url">
+            </label>
+            <label class="wide">Not (isteğe bağlı)
+              <input id="linkNote" type="text" maxlength="240" placeholder="Örn. Kurulum ve destek bilgileri">
+            </label>
+          </div>
+          <div class="media-form-actions"><button class="btn" id="addLinkItem" type="button">＋ Bağlantıyı ekle</button></div>
+          <div id="linksEditorList" class="media-editor-list" aria-live="polite"></div>
+          <textarea id="availabilityJson" hidden aria-hidden="true" tabindex="-1">[]</textarea>
+        </fieldset>
+
+        <fieldset id="installProfilesPanel" class="media-feature-panel" hidden>
+          <legend>🖥️ PC oyunu kurulum profilleri</legend>
+          <p class="meta">Yalnızca Oyunlar kategorisinde kullanılır. Profilleri JSON yazmadan aşağıdaki formdan ekleyebilirsin. Her profil, oyun kaydıyla birlikte <code>data/games.json</code> dosyasına kaydedilir.</p>
+          <div class="media-form-grid">
+            <label>Profil adı
+              <input id="profileName" type="text" maxlength="120" placeholder="Örn. CachyOS - Proton Experimental">
+            </label>
+            <label>Oyun sürümü
+              <input id="profileVersion" type="text" maxlength="120" placeholder="Örn. Steam güncel sürüm">
+            </label>
+            <label>İşletim sistemi / platform
+              <select id="profilePlatform">
+                <option value="">Seç (isteğe bağlı)</option>
+                <option>Windows</option><option>CachyOS / Linux</option><option>SteamOS / Steam Deck</option><option>Linux (diğer dağıtım)</option><option>macOS</option><option>Diğer</option>
+              </select>
+            </label>
+            <label>Uyumluluk katmanı
+              <select id="profileCompatibility">
+                <option value="">Seç (isteğe bağlı)</option>
+                <option>Yerel / Native</option><option>Proton Experimental</option><option>Proton Stable</option><option>GE-Proton</option><option>Wine</option><option>DXVK</option><option>Vulkan</option><option>Diğer</option>
+              </select>
+            </label>
+            <label class="wide">Başlatma seçenekleri
+              <input id="profileLaunchOptions" type="text" maxlength="1000" placeholder="Örn. gamemoderun %command%">
+            </label>
+            <label class="wide">Grafik ayarları
+              <textarea id="profileGraphicsSettings" rows="2" maxlength="2000" placeholder="Örn. 1440p, FSR açık, yüksek doku kalitesi"></textarea>
+            </label>
+            <label class="wide">Modlar (her satıra bir mod)
+              <textarea id="profileMods" rows="3" maxlength="5000" placeholder="Mod adı veya bağlantısı"></textarea>
+            </label>
+            <label class="wide">Kurulum notları
+              <textarea id="profileNotes" rows="3" maxlength="3000" placeholder="Kurulum, uyumluluk veya sorun giderme notları"></textarea>
+            </label>
+          </div>
+          <div class="media-form-actions"><button class="btn" id="addInstallProfile" type="button">＋ Profili listeye ekle</button></div>
+          <div id="installProfilesEditorList" class="media-editor-list" aria-live="polite"></div>
+          <textarea id="installProfilesJson" hidden aria-hidden="true" tabindex="-1">[]</textarea>
+        </fieldset>
+
+        <p>
+          <button class="btn pri" id="add">Kaydet</button>
+          <button class="btn" id="clr">Formu Temizle</button>
+        </p>
+      </section>
+
+      <section class="panel">
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:12px">
+          <h2 id="lh" style="margin:0">Kayıtlı kayıtlar</h2>
+          <span class="meta" id="listCount">0 kayıt</span>
+        </div>
+
+        <!-- Filtreleme ve Sıralama Araç Çubuğu -->
+        <div class="toolbar">
+          <input id="qFilter" placeholder="Kayıtlarda ara (başlık, tür, platform…)">
+          <select id="stFilter"><option value="">Tüm Durumlar</option></select>
+          <select id="favFilter">
+            <option value="">Tümü (Favori)</option>
+            <option value="1">★ Sadece Favoriler</option>
+          </select>
+          <select id="sortFilter">
+            <option value="default">Varsayılan Sıra</option>
+            <option value="updated">Son Güncellenen</option>
+            <option value="score_desc">Puan (Yüksekten Düşüğe)</option>
+            <option value="score_asc">Puan (Düşükten Yükseğe)</option>
+            <option value="date_desc">Tarih (Yeniden Eskiye)</option>
+            <option value="title_asc">Ad (A-Z)</option>
+          </select>
+        </div>
+
+        <div class="bulk-toolbar" role="group" aria-label="Toplu kayıt işlemleri">
+          <label style="display:flex;align-items:center;gap:8px;white-space:nowrap"><input class="bulk-select-all" id="selectAllFiltered" type="checkbox"> Görünenlerin tümünü seç</label>
+          <p class="meta" id="selectedCount" aria-live="polite">0 kayıt seçildi</p>
+          <select id="bulkAction" aria-label="Toplu işlem">
+            <option value="status">Durumunu değiştir</option>
+            <option value="favorite-on">Favorilere ekle</option>
+            <option value="favorite-off">Favorilerden çıkar</option>
+            <option value="delete">Son silinenlere taşı</option>
+          </select>
+          <select id="bulkStatus" aria-label="Yeni durum"></select>
+          <button class="btn pri" type="button" id="applyBulkAction">Seçilenlere uygula</button>
+          <button class="btn" type="button" id="clearSelection">Seçimi kaldır</button>
+        </div>
+        <div id="list"></div>
+        <section class="panel trash-panel" id="trashPanel">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">
+            <h2 style="margin:0">🗑️ Son silinenler</h2>
+            <button class="btn" id="emptyTrashBtn" type="button">Silinen listesini temizle</button>
+          </div>
+          <p class="meta">Son silinen kayıtlar bu tarayıcıda en fazla 60 gün tutulur. Buradan geri yükleyebilirsin. Bu liste başka cihazlarla eşitlenmez.</p>
+          <div id="trashList" class="trash-list" aria-live="polite"></div>
+        </section>
+        <hr style="border:0;border-top:1px solid var(--bd,rgba(128,128,128,0.2));margin:16px 0">
+        <p style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+          <button class="btn" id="dl">JSON İndir (Yedek)</button>
+          <label class="btn" style="cursor:pointer;margin:0">
+            JSON İçe Aktar (Yükle)
+            <input type="file" id="importFile" accept=".json" hidden>
+          </label>
+        </p>
+      </section>
+    </div>
+
+    <!-- SEKME 2: DIŞ PLATFORMDAN İÇE AKTAR (STEAM / LETTERBOXD / MAL) -->
+    <div id="tab-import" class="tab-pane" hidden>
+      <section class="panel">
+        <h2>Platform Entegrasyonları (Steam / Letterboxd / MyAnimeList)</h2>
+        <p class="meta">Dış platformlardaki kütüphaneni veya izleme geçmişini tek tıkla sitenin formatına dönüştür. Zaten mevcut olan kayıtlar (isim eşleşmesine göre) otomatik atlanır.</p>
+
+        <!-- 1. LETTERBOXD -->
+        <div class="imp-box">
+          <h3>🎬 Letterboxd (CSV İçe Aktar → Filmler)</h3>
+          <p class="meta">Letterboxd <b>Settings → Import & Export → Export Your Data</b> üzerinden indirdiğin ZIP içindeki <code>ratings.csv</code>, <code>diary.csv</code>, <code>watched.csv</code> veya <code>watchlist.csv</code> dosyasını seç.</p>
+          <div class="f">
+            <label>CSV Dosyası Seç<input type="file" id="lbFile" accept=".csv"></label>
+            <label>Varsayılan Durum
+              <select id="lbStatus">
+                <option value="bitirdim">İzledim / Bitirdim (watched / ratings / diary)</option>
+                <option value="istek">İzleme Listesi (watchlist)</option>
+              </select>
+            </label>
+          </div>
+          <label class="chk-row">
+            <input type="checkbox" id="lbEnrich" checked>
+            <span><b>TMDB API ile zenginleştir:</b> Filmlerin Türkçe adını, afiş görselini, yönetmenini, süresini ve türlerini TMDB'den otomatik çek (önerilir).</span>
+          </label>
+          <p><button class="btn pri" id="lbStartBtn">Letterboxd Verilerini Aktar ve Kaydet</button></p>
+        </div>
+
+        <!-- 2. MYANIMELIST -->
+        <div class="imp-box">
+          <h3>🎌 MyAnimeList (XML Dosyası veya Kullanıcı Adı → Animeler)</h3>
+          <p class="meta">İstersen MAL'dan dışa aktardığın <code>.xml</code> dosyasını yükle (<code>.xml.gz</code> ise önce arşivden çıkar), istersen de herkese açık profilinin kullanıcı adını yaz.</p>
+          <div class="f">
+            <label>Yöntem 1: MAL XML Dosyası<input type="file" id="malFile" accept=".xml"></label>
+            <label>Yöntem 2: MAL Kullanıcı Adı<input id="malUser" placeholder="Örn: kullanici_adi"></label>
+          </div>
+          <label class="chk-row">
+            <input type="checkbox" id="malEnrich" checked>
+            <span><b>AniList / Jikan API ile zenginleştir:</b> XML yedeklerinde bulunmayan kapak görsellerini, stüdyo ve tür bilgilerini otomatik tamamla.</span>
+          </label>
+          <p><button class="btn pri" id="malStartBtn">MyAnimeList Verilerini Aktar ve Kaydet</button></p>
+        </div>
+
+        <!-- 3. STEAM -->
+        <div class="imp-box">
+          <h3>🎮 Steam Kütüphanesi (API veya JSON → Oyunlar)</h3>
+          <p class="meta">Steam kütüphanendeki oyunları ve oynama sürelerini (saat olarak) çeker. Doğrudan çekmek için 64-bit SteamID ve Steam Web API anahtarı gir ya da tarayıcıdan aldığın <code>IPlayerService/GetOwnedGames</code> JSON çıktısını aşağıya yapıştır.</p>
+          <div class="f">
+            <label>Steam Web API Key<input id="stKey" type="password" placeholder="steamcommunity.com/dev/apikey"></label>
+            <label>SteamID64 (17 haneli)<input id="stId" placeholder="76561198..."></label>
+            <label>Minimum Oynama Süresi (Saat)<input id="stMinHours" type="number" value="1" min="0" step="0.5"></label>
+            <label>Eklenecek Durum
+              <select id="stStatus">
+                <option value="bitirdim">Bitirdim</option>
+                <option value="oynuyorum">Oynuyorum</option>
+                <option value="istek">Kütüphanede / İstek</option>
+              </select>
+            </label>
+            <label class="wide">Veya Steam JSON Çıktısını Doğrudan Yapıştır (İsteğe bağlı, API CORS engeline takılırsa)
+              <textarea id="stRawJson" rows="3" spellcheck="false" placeholder='{"response":{"games":[{"appid":730,"name":"Counter-Strike 2","playtime_forever":1200}]}}'></textarea>
+            </label>
+          </div>
+          <label class="chk-row">
+            <input type="checkbox" id="stEnrich" checked>
+            <span><b>RAWG API ile zenginleştir:</b> Türleri, çıkış yılını ve yüksek çözünürlüklü kapak görsellerini RAWG üzerinden tamamla (kapalıysa doğrudan Steam kütüphane kapağı kullanılır).</span>
+          </label>
+          <p><button class="btn pri" id="stStartBtn">Steam Oyunlarını Aktar ve Kaydet</button></p>
+        </div>
+
+        <!-- İŞLEM GÜNLÜĞÜ (LOG) -->
+        <div>
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <b>İşlem Durumu ve Günlük (Log)</b>
+            <button class="btn" id="clrLogBtn" type="button" style="font-size:0.75rem;padding:3px 8px">Günlüğü Temizle</button>
+          </div>
+          <div class="imp-log" id="impLog">Hazır. Yukarıdan bir platform seçip aktarımı başlatabilirsin.</div>
+        </div>
+      </section>
+    </div>
+
+    <!-- SEKME 3: GELİŞMİŞ İSTATİSTİKLER VE YEDEKLEME -->
+    <div id="tab-stats" class="tab-pane" hidden>
+      <section class="panel">
+        <h2>Gelişmiş İstatistikler</h2>
+        <p class="meta">Tüm kategori kayıtları, puanlar, tamamlanan yapımlar, favoriler ve tüketim alışkanlıklarının özeti.</p>
+        <div class="stats-grid" id="summaryStatsGrid"></div>
+        <div class="analytics-grid">
+          <section class="analytics-box"><h3>Durum dağılımı</h3><div id="statusStats" class="bar-list"><p class="meta">Veriler analiz edildiğinde burada görünecek.</p></div></section>
+          <section class="analytics-box"><h3>En çok kaydedilen türler</h3><div id="genreStats" class="bar-list"><p class="meta">Veriler analiz edildiğinde burada görünecek.</p></div></section>
+          <section class="analytics-box"><h3>Yıllara göre tamamlananlar</h3><div id="yearStats" class="bar-list"><p class="meta">Veriler analiz edildiğinde burada görünecek.</p></div></section>
+          <section class="analytics-box"><h3>En yüksek puan verdiklerin</h3><div id="topRated" class="rating-list"><p class="meta">Veriler analiz edildiğinde burada görünecek.</p></div></section>
+        </div>
+        <h3 style="margin:18px 0 10px">Kategori detayları</h3>
+        <div class="stats-grid" id="statsGrid"></div>
+        <p><button class="btn pri" id="loadAllStatsBtn">İstatistikleri Yenile</button> <button class="btn" id="dlAllBtn">Yedek JSON İndir</button></p>
+        <p class="backup-note">Not: İstatistikler arşivindeki JSON kayıtlarından hesaplanır. Kaydı olmayan alanlar sıfır kabul edilmez; mevcut veri üzerinden değerlendirilir.</p>
+      </section>
+
+      <section class="panel" id="backupPanel">
+        <h2>Otomatik Yedekleme ve Geri Yükleme</h2>
+        <p class="meta">Her kayıt işleminden önce mevcut arşivin güvenlik kopyası alınabilir. GitHub'daki <code>backups/latest.json</code> dosyası son otomatik kopyayı tutar; önceki sürümler de GitHub commit geçmişinde kalır.</p>
+        <label class="chk-row"><input type="checkbox" id="autoBackupToggle" checked> Her GitHub kaydından önce otomatik yedek al (önerilen)</label>
+        <div class="backup-state" id="backupStatus" role="status" aria-live="polite">Otomatik yedekleme etkin. İlk kayıt öncesinde yedek oluşturulacak.</div>
+        <div class="toolbar">
+          <button class="btn" id="loadRemoteBackupBtn" type="button">GitHub'daki Son Yedeği Getir</button>
+          <button class="btn" id="restoreRemoteBackupBtn" type="button" disabled>Son Yedeği Geri Yükle</button>
+          <button class="btn" id="downloadLocalBackupBtn" type="button">Tarayıcıdaki Yedeği İndir</button>
+        </div>
+        <div class="analytics-box" style="margin:12px 0">
+          <h3>Yedekten geri yükle</h3>
+          <p class="backup-note">Daha önce indirdiğin Günlüğüm JSON yedeğini seçebilirsin. Yedekte bulunan kategoriler GitHub'a geri yazılır; dosyada bulunmayan kategoriler değiştirilmez.</p>
+          <input class="backup-file" type="file" id="backupFileInput" accept=".json,application/json">
+          <p id="backupPreview" class="meta" aria-live="polite">Henüz bir yedek seçilmedi.</p>
+          <button class="btn pri" id="restoreFileBtn" type="button" disabled>Seçilen Yedeği Geri Yükle</button>
+        </div>
+        <p class="backup-note">Geri yükleme öncesinde mevcut arşiv ayrıca yedeklenir. Geri yükleme, yedekte bulunan kategorilerin mevcut kayıtlarını tamamen değiştirir; işlem birden fazla GitHub commit'i oluşturur.</p>
+      </section>
+    </div>
+
+    <!-- SEKME: ARŞİV KONTROL MERKEZİ -->
+    <div id="tab-health" class="tab-pane" hidden>
+      <section class="panel">
+        <h2>Arşiv Kontrol Merkezi</h2>
+        <p class="meta">Oyun, film, dizi ve anime kayıtlarını salt okunur şekilde inceler. Bu kontrol verileri kendiliğinden değiştirmez; sorunlu kayıtları içerik yönetiminde bulmana yardımcı olur.</p>
+        <div class="toolbar">
+          <button class="btn pri" id="runArchiveCheckBtn" type="button">Arşivi Tara</button>
+          <select id="healthCategoryFilter" aria-label="Kategoriye göre filtrele">
+            <option value="">Tüm kategoriler</option>
+            <option value="oyun">Oyunlar</option>
+            <option value="film">Filmler</option>
+            <option value="dizi">Diziler</option>
+            <option value="anime">Animeler</option>
+          </select>
+          <select id="healthSeverityFilter" aria-label="Sorun seviyesine göre filtrele">
+            <option value="">Tüm seviyeler</option>
+            <option value="error">Hata</option>
+            <option value="warning">Uyarı</option>
+            <option value="info">Bilgi</option>
+          </select>
+        </div>
+        <div class="stats-grid" id="healthSummary">
+          <div class="stat-card"><b>—</b><div>İncelenen kayıt</div></div>
+          <div class="stat-card"><b>—</b><div>Hata</div></div>
+          <div class="stat-card"><b>—</b><div>Uyarı</div></div>
+          <div class="stat-card"><b>—</b><div>Bilgi</div></div>
+        </div>
+        <div class="backup-state" id="healthStatus" role="status" aria-live="polite">Arşiv henüz taranmadı. Başlamak için “Arşivi Tara” düğmesine bas.</div>
+        <div id="healthResults" aria-live="polite"><p class="meta">Kontrol sonuçları burada listelenecek.</p></div>
+        <p class="backup-note">Kontrol edilenler: boş veya yinelenen başlıklar/ID'ler, hatalı puanlar ve durumlar, eksik kapak veya temel bilgiler, geçersiz bağlantı biçimleri ve bitirilmiş kayıtlardaki eksik alanlar. Görsel adresinin gerçekten çalışıp çalışmadığı bu kontrolün parçası değildir.</p>
+      </section>
+    </div>
+
+    <!-- SEKME 4: SİTE & API AYARLARI (config.js & categories.js) -->
+    <div id="tab-settings" class="tab-pane" hidden>
+      <section class="panel">
+        <h2>Yapılandırma Ayarları (config.js)</h2>
+        <p class="meta">GitHub deponuzdaki <b>config.js</b> dosyasını buradan doğrudan güncelleyebilirsiniz. (Vault anahtarını değiştirmek için üstteki Çıkış'ın yanından Kurulum ekranını da kullanabilirsiniz).</p>
+        <div class="f">
+          <label>GitHub Owner (Kullanıcı Adı)<input id="cfg_owner"></label>
+          <label>GitHub Repo (Depo Adı)<input id="cfg_repo"></label>
+          <label>GitHub Branch (Dal)<input id="cfg_branch" placeholder="main"></label>
+          <label>RAWG API Key (Oyunlar için)<input id="cfg_rawgKey"></label>
+          <label>TMDB API Key (Film/Dizi için)<input id="cfg_tmdbKey"></label>
+          <label class="wide">Şifreli Vault Anahtarı<textarea id="cfg_vault" rows="2" spellcheck="false"></textarea></label>
+        </div>
+        <p><button class="btn pri" id="saveConfigBtn">config.js Dosyasını GitHub'a Kaydet</button></p>
+      </section>
+
+      <section class="panel">
+        <h2>Kategori Tanımları (categories.js)</h2>
+        <p class="meta">Sitedeki kategorilerin isimlerini, durum etiketlerini veya süre birimlerini doğrudan düzenleyin.</p>
+        <textarea id="catEditor" class="code-editor" spellcheck="false" autocapitalize="off" autocomplete="off"></textarea>
+        <p><button class="btn pri" id="saveCatsBtn">categories.js Dosyasını GitHub'a Kaydet</button></p>
+      </section>
+    </div>
+
+    <!-- SEKME: TECHNOPAT İÇERİK YÖNETİMİ -->
+    <div id="tab-technopat" class="tab-pane" hidden>
+      <section class="panel">
+        <h2>Technopat İçerik Yönetimi</h2>
+        <p class="meta">Ana sayfadaki Technopat bölümünde görünen inceleme ve rehber kartlarını buradan yönetebilirsin. Eklediğin, düzenlediğin veya sildiğin değişiklikler önce bu ekranda tutulur; GitHub'a göndermek için ayrıca kaydetmelisin.</p>
+        <div class="tech-admin-status" id="techAdminStatus" data-state="info" role="status" aria-live="polite">Technopat içeriklerini yüklemek için GitHub'dan Getir düğmesine bas.</div>
+        <div class="toolbar">
+          <label style="flex:1;min-width:190px">Listelenecek bölüm
+            <select id="techListType"><option value="reviews">İncelemeler</option><option value="guides">Rehberler</option></select>
+          </label>
+          <button class="btn" id="loadTechAdminBtn" type="button">GitHub'dan Getir / Yenile</button>
+          <button class="btn pri" id="saveTechAdminBtn" type="button">Değişiklikleri GitHub'a Kaydet</button>
+        </div>
+        <div class="stats-grid" id="techAdminSummary"></div>
+      </section>
+
+      <section class="panel">
+        <h2>Mevcut kartlar</h2>
+        <div id="techAdminList" class="tech-admin-list"><p class="meta">İçerikler henüz yüklenmedi.</p></div>
+      </section>
+
+      <section class="panel" id="techAdminEditorPanel">
+        <h2 id="techAdminFormTitle">Yeni Technopat kartı</h2>
+        <p class="meta">Kart bağlantısı HTTPS üzerinden Technopat alan adına yönlenmelidir. Kategori, kart üzerinde filtre etiketi olarak kullanılır.</p>
+        <div class="tech-admin-form-grid">
+          <label>Yayınlanacak bölüm
+            <select id="techFormType"><option value="reviews">İncelemeler</option><option value="guides">Rehberler</option></select>
+          </label>
+          <label>Kategori
+            <select id="techFormCategory">
+              <option value="Oyun">Oyun</option><option value="Anime">Anime</option><option value="Film">Film</option><option value="Dizi">Dizi</option><option value="Teknoloji">Teknoloji</option><option value="Genel">Genel</option>
+            </select>
+          </label>
+          <label class="wide">Başlık<input id="techFormTitle" maxlength="180" placeholder="Örn. Oyun incelemesi" autocomplete="off"></label>
+          <label class="wide">Açıklama<textarea id="techFormDescription" rows="3" maxlength="600" placeholder="Kartta görünecek kısa açıklama"></textarea></label>
+          <label class="wide">Technopat bağlantısı<input id="techFormUrl" type="url" inputmode="url" placeholder="https://www.technopat.net/sosyal/konu/..."></label>
+          <label class="wide">Kart etiketi<input id="techFormTag" maxlength="60" placeholder="Örn. Oyun incelemesi, Başlangıç rehberi"></label>
+        </div>
+        <p style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn pri" id="applyTechFormBtn" type="button">Kartı Ekle / Güncelle</button>
+          <button class="btn" id="clearTechFormBtn" type="button">Formu Temizle</button>
+        </p>
+        <p class="backup-note">“Kartı Ekle / Güncelle” yalnızca ekrandaki taslağı değiştirir. Değişiklikleri ziyaretçilerin görmesi için üstteki “Değişiklikleri GitHub'a Kaydet” düğmesini kullan.</p>
+      </section>
+    </div>
+
+    <!-- SEKME: HAM DOSYA & KOD EDİTÖRÜ -->
+    <div id="tab-files" class="tab-pane" hidden>
+      <section class="panel">
+        <h2>GitHub Depo Dosya Düzenleyici</h2>
+        <p class="meta">Sitedeki herhangi bir sayfayı, stil dosyasını veya betiği doğrudan tarayıcıdan düzenleyip yayınlayın.</p>
+        <div class="toolbar">
+          <select id="repoFileSelect">
+            <option value="index.html">index.html (Ana Sayfa)</option>
+            <option value="admin/index.html">admin/index.html (Yönetim Paneli)</option>
+            <option value="assets/css/style.css">assets/css/style.css (Tasarım / Stiller)</option>
+            <option value="scripts/app.js">scripts/app.js (Ana Betik)</option>
+            <option value="scripts/theme.js">scripts/theme.js (Tema Betiği)</option>
+            <option value="scripts/categories.js">scripts/categories.js (Kategori Ayarları)</option>
+            <option value="scripts/config.js">scripts/config.js (Yapılandırma)</option>
+            <option value="oyun/index.html">oyun/index.html (Oyunlar)</option>
+            <option value="film/index.html">film/index.html (Filmler)</option>
+            <option value="dizi/index.html">dizi/index.html (Diziler)</option>
+            <option value="anime/index.html">anime/index.html (Animeler)</option>
+            <option value="data/games.json">data/games.json (Oyun Kayıtları)</option>
+            <option value="data/movies.json">data/movies.json (Film Kayıtları)</option>
+            <option value="data/series.json">data/series.json (Dizi Kayıtları)</option>
+            <option value="data/anime.json">data/anime.json (Anime Kayıtları)</option>
+            <option value="data/technopat.json">data/technopat.json (Technopat İnceleme ve Rehber Kartları)</option>
+            <option value="README.md">README.md</option>
+          </select>
+          <input id="customFilePath" placeholder="Veya özel dosya adı (örn: data/games.json)">
+          <button class="btn" id="loadFileBtn">Dosyayı Getir</button>
+        </div>
+        <textarea id="rawFileContent" class="code-editor" spellcheck="false" autocapitalize="off" autocomplete="off" placeholder="Dosya içeriği burada görünecek…"></textarea>
+        <div class="f" style="margin-top:10px">
+          <label class="wide">Commit Mesajı<input id="commitMsgInput" placeholder="Dosya admin panelinden güncellendi"></label>
+        </div>
+        <p><button class="btn pri" id="saveRawFileBtn">Değişiklikleri GitHub'a Kaydet (Commit)</button></p>
+      </section>
+    </div>
+
+  </div>
+</div>
+
+<script>
+const C=window.CONFIG||{},$=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s),CATS=window.CATS||{};
+// Vault yalnızca geçerli şifreli anahtar mevcutsa kurulmuş kabul edilir.
+const configuredVault=String(C.vault||'').trim().replace(/^['"]|['"]$/g,'');
+const vaultReady=configuredVault.split('.').length===3&&configuredVault.length>=60;
+const setupButton=$('#goSetupBtn');
+if(setupButton) setupButton.hidden=vaultReady;
+const esc=s=>String(s??'').replace(/[&<>\"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',"'":'&#39;'}[c]));
+const acquisitionLabels={purchase:'Satın alındı',free:'Ücretsiz',subscription:'Abonelik',gift:'Hediye',bundle:'Paket / Bundle',key:'Kod / Anahtar',other:'Diğer'};
+const formatCost=(value,currency='TRY')=>{const code=/^(TRY|USD|EUR|GBP|JPY|CAD|AUD)$/.test(String(currency||''))?String(currency):'TRY';try{return new Intl.NumberFormat('tr-TR',{style:'currency',currency:code,maximumFractionDigits:2}).format(Number(value))}catch{return `${Number(value).toLocaleString('tr-TR')} ${code}`}};
+const gameCostBadge=g=>{if(g.purchasePrice!==null&&g.purchasePrice!==undefined&&g.purchasePrice!==''&&Number.isFinite(Number(g.purchasePrice)))return ` • <b>${esc(formatCost(g.purchasePrice,g.purchaseCurrency||'TRY'))}</b>`;if(g.acquisitionType)return ` • ${esc(acquisitionLabels[g.acquisitionType]||g.acquisitionType)}`;return ''};
+let cat='oyun';try{cat=localStorage.getItem('admin_cat')||'oyun'}catch{}if(!CATS[cat])cat='oyun';
+const D={},cfg=()=>CATS[cat],data=()=>D[cat]||(D[cat]={games:[],sha:null,loaded:false});
+const ids=['title','platform','score','finished','review','image','note','year','dur','dur2','person','acquisitionType','purchasePrice','purchaseCurrency','purchaseStore','purchaseDate','listPrice','ownershipStatus','purchaseNote','availabilityJson','installProfilesJson'];
+let editId=null;
+let T='';try{T=sessionStorage.getItem('gh_t')||''}catch{}const tok=()=>T;
+const apiPath=path=>`https://api.github.com/repos/${C.owner}/${C.repo}/contents/${path}`;
+const api=c=>apiPath(CATS[c].file);
+const hdr=()=>({Authorization:'Bearer '+tok(),Accept:'application/vnd.github+json'});
+
+const say=(t,bad)=>{const m=$('#msg');m.textContent=t;m.style.color=bad?'var(--no)':'var(--yes)';m.scrollIntoView({block:'nearest',behavior:'smooth'})};
+const errOf=async r=>{let m='';try{m=(await r.json()).message||''}catch{}const e=new Error(r.status+(m?' ('+m+')':''));e.status=r.status;return e};
+const hint=st=>st===401?' Token geçersiz ya da süresi dolmuş. Yeni token üretip vault\'u yenile.':st===403||st===404?' Token bu depoya "Contents: Read and write" izni vermiyor olabilir ya da config.js ayarları yanlış.':'';
+
+/* UTF-8 Güvenli Base64 Kodlama / Çözme */
+const enc=new TextEncoder(),dec=new TextDecoder();
+const b64=u=>btoa(Array.from(u,x=>String.fromCharCode(x)).join(''));
+const unb=s=>Uint8Array.from(atob(s.replace(/\s/g,'')),c=>c.charCodeAt(0));
+const strToB64=str=>b64(enc.encode(str));
+const b64ToStr=b=>dec.decode(unb(b));
+
+const TR={Action:'Aksiyon',Adventure:'Macera',RPG:'RPG',Strategy:'Strateji',Shooter:'Nişancı',Puzzle:'Bulmaca',Platformer:'Platform',Racing:'Yarış',Sports:'Spor',Simulation:'Simülasyon',Indie:'Bağımsız',Fighting:'Dövüş',Casual:'Rahat',Arcade:'Arcade','Massively Multiplayer':'MMO',Family:'Aile','Board Games':'Masa oyunu',Card:'Kart',Educational:'Eğitici'};
+const AN={Action:'Aksiyon',Adventure:'Macera',Comedy:'Komedi',Drama:'Dram',Fantasy:'Fantastik',Horror:'Korku',Mystery:'Gizem',Romance:'Romantik','Sci-Fi':'Bilim Kurgu','Slice of Life':'Günlük Yaşam',Sports:'Spor',Supernatural:'Doğaüstü',Suspense:'Gerilim',Ecchi:'Ecchi',Mecha:'Mecha',Music:'Müzik',Psychological:'Psikolojik',Thriller:'Gerilim','Mahou Shoujo':'Büyülü Kız','Avant Garde':'Avangart','Boys Love':'Boys Love','Girls Love':'Girls Love',Gourmet:'Gurme'};
+
+async function key(pw,salt){const m=await crypto.subtle.importKey('raw',enc.encode(pw.normalize('NFC')),'PBKDF2',false,['deriveKey']);return crypto.subtle.deriveKey({name:'PBKDF2',salt,iterations:250000,hash:'SHA-256'},m,{name:'AES-GCM',length:256},false,['encrypt','decrypt'])}
+async function seal(tk,pw){const salt=crypto.getRandomValues(new Uint8Array(16)),iv=crypto.getRandomValues(new Uint8Array(12));const ct=new Uint8Array(await crypto.subtle.encrypt({name:'AES-GCM',iv},await key(pw,salt),enc.encode(tk)));return [b64(salt),b64(iv),b64(ct)].join('.')}
+async function unseal(v,pw){const [s,i,c]=v.split('.').map(unb);return dec.decode(await crypto.subtle.decrypt({name:'AES-GCM',iv:i},await key(pw,s),c))}
+const gsay=(t,bad)=>{const m=$('#gmsg');m.textContent=t;m.style.color=bad?'var(--no)':'var(--yes)'};
+
+function unlock(){
+  if(!C.owner||!C.repo){gsay('scripts/config.js yüklenemedi veya depo ayarları eksik. Sayfayı yenile ve dosya yolunu kontrol et.',1);return}
+  if(!Object.keys(CATS).length){gsay('scripts/categories.js yüklenemedi. Sayfayı Ctrl+F5 ile yenile; dosyanın kökteki scripts klasöründe olduğundan emin ol.',1);return}
+  $('#gate').hidden=true;$('#app').hidden=false;$('#out').hidden=false;$('#syncAllBtn').hidden=false;
+  initSettingsForm();
+  load();
+}
+
+$('#goSetupBtn').onclick=()=>{$('#login').hidden=true;$('#setup').hidden=false};
+$('#backLoginBtn').onclick=()=>{$('#setup').hidden=true;$('#login').hidden=false};
+
+$('#in').onclick=async()=>{
+  if(!window.isSecureContext||!window.crypto||!window.crypto.subtle){gsay('Yönetim paneli güvenli bağlantı (HTTPS) gerektirir. https://umutmelihakyol.com/admin/ adresini aç. GitHub Pages ayarlarında Enforce HTTPS etkin olmalı.',1);return}
+  const v=(C.vault||'').trim().replace(/^["']|["']$/g,'');
+  if(v.split('.').length!==3||v.length<60)return gsay('config.js içindeki vault alanında şifreli anahtar yok. Kurulum ekranından yeni vault üret.',1);
+  try{T=await unseal(v,$('#pw').value)}
+  catch(e){return gsay(e.name==='OperationError'?'Şifre yanlış ya da vault başka şifreyle üretilmiş.':'config.js içindeki vault metni bozuk.',1)}
+  if(!/^[\w-]+$/.test(T)){T='';return gsay('Vault içindeki token geçersiz karakter içeriyor.',1)}
+  try{sessionStorage.setItem('gh_t',T)}catch{}
+  unlock();
+};
+$('#pw').addEventListener('keydown',e=>{if(e.key==='Enter')$('#in').click()});
+$('#out').onclick=()=>{try{sessionStorage.removeItem('gh_t')}catch{}location.reload()};
+$('#mk').onclick=async()=>{
+  if(!window.isSecureContext||!window.crypto||!window.crypto.subtle){gsay('Şifreli anahtar oluşturmak için HTTPS bağlantısı gerekir. https://umutmelihakyol.com/admin/ adresini aç.',1);return}
+  const t=$('#tok').value.trim(),p=$('#pw1').value;
+  if(!t)return gsay('Token boş.',1);
+  if(!/^[\w-]{20,}$/.test(t))return gsay('Geçersiz GitHub token formatı.',1);
+  if(p.length<12)return gsay('Şifre en az 12 karakter olmalı.',1);
+  if(p!==$('#pw2').value)return gsay('Şifreler aynı değil.',1);
+  const v=await seal(t,p);
+  try{await unseal(v,p)}catch{return gsay('Doğrulama başarısız, tekrar dene.',1)}
+  $('#vout').value=v;gsay('Hazır ve doğrulandı. Bu metni config.js içindeki vault alanına yapıştır.');
+};
+
+if(!window.CONFIG)gsay('scripts/config.js yüklenemedi. Dosya yolunu kontrol et ve Ctrl+F5 ile yeniden yükle.',1);
+else if(!C.owner||!C.repo)gsay('config.js içindeki owner/repo alanları boş.',1);
+if(!window.CATS||!Object.keys(CATS).length)gsay('scripts/categories.js yüklenemedi. Dosya yolunu kontrol et ve Ctrl+F5 ile yeniden yükle.',1);
+if(!vaultReady||location.hash==='#kurulum'){$('#login').hidden=true;$('#setup').hidden=false}
+else if(T)unlock();
+
+/* SEKME GEÇİŞLERİ */
+$$('.tab-btn').forEach(btn=>{
+  btn.onclick=()=>{
+    $$('.tab-btn').forEach(b=>b.setAttribute('aria-selected','false'));
+    btn.setAttribute('aria-selected','true');
+    const target=btn.dataset.tab;
+    $$('.tab-pane').forEach(p=>p.hidden=(p.id!=='tab-'+target));
+    if(target==='stats')renderStats(true);
+    if(target==='technopat')loadTechnopatAdmin(false);
+  };
+});
+
+/* TECHNOPAT İÇERİK YÖNETİMİ — data/technopat.json */
+const TECH_DATA_PATH='data/technopat.json';
+const TECH_COLLECTIONS=['reviews','guides'];
+const TECH_CATEGORIES=['Oyun','Anime','Film','Dizi','Teknoloji','Genel'];
+let techAdminData={reviews:[],guides:[]};
+let techAdminSha=null,techAdminLoaded=false,techAdminDirty=false,techAdminEditing=null;
+const techCollectionName=key=>key==='guides'?'Rehberler':'İncelemeler';
+function techStatus(message,state='info'){
+  const el=$('#techAdminStatus');if(!el)return;
+  el.textContent=message;el.dataset.state=state;
+}
+function normalizeTechnopatData(raw){
+  if(!raw||typeof raw!=='object'||Array.isArray(raw))throw new Error('Technopat JSON dosyasının en üst düzeyi bir nesne olmalı.');
+  const clean={reviews:[],guides:[]};
+  for(const key of TECH_COLLECTIONS){
+    const list=raw[key]===undefined?[]:raw[key];
+    if(!Array.isArray(list))throw new Error(`${key} alanı bir dizi olmalı.`);
+    clean[key]=list.map((item,index)=>{
+      if(!item||typeof item!=='object'||Array.isArray(item))throw new Error(`${techCollectionName(key)} listesindeki ${index+1}. kayıt geçersiz.`);
+      return {
+        title:String(item.title??'').trim(),
+        category:String(item.category??'Genel').trim()||'Genel',
+        description:String(item.description??'').trim(),
+        url:String(item.url??'').trim(),
+        tag:String(item.tag??'').trim()
+      };
+    });
+  }
+  return clean;
+}
+function validateTechnopatItem(item){
+  if(!item.title)return 'Başlık alanı zorunludur.';
+  if(item.title.length>180)return 'Başlık 180 karakterden kısa olmalı.';
+  if(!TECH_CATEGORIES.includes(item.category))return 'Geçerli bir kategori seç.';
+  if(item.description.length>600)return 'Açıklama 600 karakterden kısa olmalı.';
+  if(!item.url)return 'Technopat bağlantısı zorunludur.';
+  let url;try{url=new URL(item.url)}catch{return 'Bağlantı geçerli bir URL değil.'}
+  if(url.protocol!=='https:'||!(url.hostname==='technopat.net'||url.hostname.endsWith('.technopat.net')))return 'Bağlantı HTTPS kullanmalı ve technopat.net alan adına ait olmalı.';
+  if(item.tag.length>60)return 'Kart etiketi 60 karakterden kısa olmalı.';
+  return '';
+}
+function updateTechSummary(){
+  const counts=TECH_COLLECTIONS.map(key=>({label:techCollectionName(key),value:techAdminData[key].length}));
+  $('#techAdminSummary').innerHTML=counts.map(item=>`<div class="stat-card"><b>${item.value}</b><div>${esc(item.label)}</div><small class="meta">Kart</small></div>`).join('')+
+    `<div class="stat-card"><b>${techAdminDirty?'Düzenlendi':'Temiz'}</b><div>Durum</div><small class="meta">${techAdminDirty?'Kaydedilmemiş değişiklik var':'Taslak GitHub ile eşleşiyor'}</small></div>`;
+}
+function renderTechnopatAdminList(){
+  const group=$('#techListType').value,items=techAdminData[group]||[];
+  if(!items.length){$('#techAdminList').innerHTML=`<p class="meta">${esc(techCollectionName(group))} bölümünde henüz kart yok. Aşağıdaki formdan yeni kart ekleyebilirsin.</p>`;updateTechSummary();return}
+  $('#techAdminList').innerHTML=items.map((item,index)=>`<article class="tech-admin-item">
+    <div class="tech-admin-item-main"><strong>${esc(item.title||'(Başlıksız kart)')}</strong>
+      <span class="badge">${esc(item.category||'Genel')}</span>${item.tag?` <span class="badge">${esc(item.tag)}</span>`:''}
+      <p>${esc(item.description||'Açıklama girilmemiş.')}</p>
+      <a href="${esc(item.url||'#')}" target="_blank" rel="noopener noreferrer">${esc(item.url||'Bağlantı eklenmemiş')}</a>
+    </div>
+    <div class="tech-admin-actions"><button class="btn" type="button" data-tech-edit="${index}" data-tech-group="${group}">Düzenle</button><button class="btn" type="button" data-tech-delete="${index}" data-tech-group="${group}">Sil</button></div>
+  </article>`).join('');
+  updateTechSummary();
+}
+function markTechnopatDirty(message="Taslak değiştirildi. Değişikliklerin GitHub'a aktarılması gerekiyor."){
+  techAdminDirty=true;updateTechSummary();techStatus(message,'dirty');
+}
+async function loadTechnopatAdmin(force=false){
+  if(techAdminLoaded&&!force){renderTechnopatAdminList();return}
+  if(force&&techAdminDirty&&!confirm('GitHub’dan yeniden yüklemek kaydedilmemiş Technopat değişikliklerini silecek. Devam edilsin mi?'))return;
+  const loadButton=$('#loadTechAdminBtn');if(loadButton)loadButton.disabled=true;
+  techStatus('data/technopat.json GitHub deposundan yükleniyor…');
+  try{
+    const file=await getRepoFile(TECH_DATA_PATH);
+    if(file){techAdminSha=file.sha;techAdminData=normalizeTechnopatData(JSON.parse(b64ToStr(file.content)));}
+    else{techAdminSha=null;techAdminData={reviews:[],guides:[]};}
+    techAdminLoaded=true;techAdminDirty=false;techAdminEditing=null;
+    clearTechnopatForm();renderTechnopatAdminList();
+    techStatus(file?'Technopat kartları GitHub deposundan yüklendi.':'data/technopat.json henüz yok; ilk kayıtta dosya oluşturulacak.','success');
+  }catch(e){techStatus('Technopat kartları yüklenemedi: '+e.message+hint(e.status),'error');}
+  finally{if(loadButton)loadButton.disabled=false}
+}
+function clearTechnopatForm(){
+  techAdminEditing=null;
+  $('#techAdminFormTitle').textContent='Yeni Technopat kartı';
+  $('#techFormType').value=$('#techListType').value||'reviews';
+  $('#techFormCategory').value='Oyun';$('#techFormTitle').value='';$('#techFormDescription').value='';$('#techFormUrl').value='';$('#techFormTag').value='';
+  $('#applyTechFormBtn').textContent='Kartı Ekle';
+}
+$('#loadTechAdminBtn').addEventListener('click',()=>loadTechnopatAdmin(true));
+$('#techListType').addEventListener('change',()=>{renderTechnopatAdminList();if(!techAdminEditing)$('#techFormType').value=$('#techListType').value});
+$('#clearTechFormBtn').addEventListener('click',clearTechnopatForm);
+$('#applyTechFormBtn').addEventListener('click',()=>{
+  if(!techAdminLoaded)return techStatus('Önce GitHub’dan Getir düğmesiyle mevcut verileri yükle.','error');
+  const target=$('#techFormType').value;
+  const item={title:$('#techFormTitle').value.trim(),category:$('#techFormCategory').value,description:$('#techFormDescription').value.trim(),url:$('#techFormUrl').value.trim(),tag:$('#techFormTag').value.trim()};
+  const error=validateTechnopatItem(item);if(error)return techStatus(error,'error');
+  if(techAdminEditing){
+    const prev=techAdminEditing;
+    if(prev.type===target){techAdminData[target][prev.index]=item;}
+    else{techAdminData[prev.type].splice(prev.index,1);techAdminData[target].push(item);$('#techListType').value=target;}
+    techStatus('Kart güncellendi. GitHub’a göndermek için “Değişiklikleri GitHub’a Kaydet” düğmesine bas.','dirty');
+  }else{
+    techAdminData[target].push(item);$('#techListType').value=target;
+    techStatus('Kart taslağa eklendi. GitHub’a göndermek için “Değişiklikleri GitHub’a Kaydet” düğmesine bas.','dirty');
+  }
+  markTechnopatDirty();renderTechnopatAdminList();clearTechnopatForm();
+});
+$('#techAdminList').addEventListener('click',event=>{
+  const edit=event.target.closest('[data-tech-edit]'),del=event.target.closest('[data-tech-delete]');
+  if(edit){
+    const group=edit.dataset.techGroup,index=Number(edit.dataset.techEdit),item=techAdminData[group]?.[index];if(!item)return;
+    techAdminEditing={type:group,index};$('#techFormType').value=group;$('#techFormCategory').value=TECH_CATEGORIES.includes(item.category)?item.category:'Genel';
+    $('#techFormTitle').value=item.title;$('#techFormDescription').value=item.description;$('#techFormUrl').value=item.url;$('#techFormTag').value=item.tag;
+    $('#techAdminFormTitle').textContent='Technopat kartını düzenle';$('#applyTechFormBtn').textContent='Değişiklikleri Uygula';
+    $('#techAdminEditorPanel').scrollIntoView({behavior:'smooth',block:'start'});$('#techFormTitle').focus();
+    return;
+  }
+  if(del){
+    const group=del.dataset.techGroup,index=Number(del.dataset.techDelete),item=techAdminData[group]?.[index];if(!item)return;
+    if(!confirm(`“${item.title}” kartı taslaktan silinsin mi? GitHub'a göndermek için ayrıca kaydetmelisin.`))return;
+    techAdminData[group].splice(index,1);
+    if(techAdminEditing?.type===group){if(techAdminEditing.index===index)clearTechnopatForm();else if(techAdminEditing.index>index)techAdminEditing.index--}
+    markTechnopatDirty('Kart taslaktan silindi. Değişiklik henüz GitHub’a kaydedilmedi.');renderTechnopatAdminList();
+  }
+});
+$('#saveTechAdminBtn').addEventListener('click',async()=>{
+  if(!tok())return techStatus('Kaydetmek için yönetim paneline tekrar giriş yap.','error');
+  if(!techAdminLoaded)return techStatus('Önce GitHub’dan Getir düğmesiyle mevcut verileri yükle.','error');
+  if(!techAdminDirty)return techStatus('Kaydedilecek yeni değişiklik yok.','success');
+  const invalid=[];
+  for(const group of TECH_COLLECTIONS){
+    techAdminData[group].forEach((item,index)=>{const err=validateTechnopatItem(item);if(err)invalid.push(`${techCollectionName(group)} ${index+1}. kart (“${item.title||'başlıksız'}”): ${err}`)});
+  }
+  if(invalid.length)return techStatus('Kaydetmeden önce şu hataları düzelt: '+invalid.slice(0,4).join(' ')+(invalid.length>4?` (+${invalid.length-4} hata daha)`:''),'error');
+  const btn=$('#saveTechAdminBtn');btn.disabled=true;techStatus('Technopat kartları GitHub’a kaydediliyor…');
+  try{
+    const sha=await putRepoFile(TECH_DATA_PATH,JSON.stringify(techAdminData,null,2),'Technopat içerikleri yönetim panelinden güncellendi',techAdminSha);
+    if(!sha)throw new Error('GitHub yeni bir dosya SHA değeri döndürmedi.');
+    techAdminSha=sha;techAdminDirty=false;updateTechSummary();techStatus('Technopat kartları GitHub’a kaydedildi. Yayına yansıması birkaç dakika sürebilir.','success');
+  }catch(e){techStatus('Technopat kartları kaydedilemedi: '+e.message+hint(e.status),'error')}
+  finally{btn.disabled=false}
+});
+
+/* KOD EDİTÖRLERİNDE TAB TUŞU DESTEĞİ */
+$$('.code-editor').forEach(ed=>{
+  ed.addEventListener('keydown',e=>{
+    if(e.key==='Tab'){
+      e.preventDefault();
+      const start=ed.selectionStart,end=ed.selectionEnd;
+      ed.value=ed.value.substring(0,start)+'  '+ed.value.substring(end);
+      ed.selectionStart=ed.selectionEnd=start+2;
+    }
+  });
+});
+
+/* GITHUB DOSYA OKUMA / YAZMA GENEL FONKSİYONLARI */
+async function getRepoFile(path){
+  const r=await fetch(`${apiPath(path)}?ref=${C.branch||'main'}`,{headers:hdr(),cache:'no-store'});
+  if(r.status===404)return null;
+  if(!r.ok)throw await errOf(r);
+  return r.json();
+}
+async function putRepoFile(path,contentStr,commitMsg,knownSha=null){
+  if(!tok()){say('Oturum açık değil, tekrar giriş yap.',1);return null}
+  let sha=knownSha;
+  for(let n=0;n<2;n++){
+    if(!sha){const existing=await getRepoFile(path);sha=existing?existing.sha:null}
+    const body={message:commitMsg,content:strToB64(contentStr),branch:C.branch||'main'};
+    if(sha)body.sha=sha;
+    const r=await fetch(apiPath(path),{method:'PUT',headers:hdr(),body:JSON.stringify(body)});
+    if(r.ok)return (await r.json()).content.sha;
+    if((r.status===409||r.status===422)&&n===0){sha=null;continue}
+    throw await errOf(r);
+  }
+}
+
+async function load(){applyCat();await ensureLoaded()}
+async function ensureLoaded(targetCat=cat,force=false){
+  const d=D[targetCat]||(D[targetCat]={games:[],sha:null,loaded:false});
+  if(d.loaded&&!force){if(targetCat===cat)list();return d}
+  try{
+    const j=await getRepoFile(CATS[targetCat].file);
+    if(!j){d.games=[];if(targetCat===cat)say(CATS[targetCat].file+' GitHub\'da henüz yok, ilk kayıtta oluşturulacak.')}
+    else{
+      d.sha=j.sha;
+      d.games=JSON.parse(b64ToStr(j.content));
+      if(targetCat===cat)say('GitHub bağlantısı hazır: '+C.owner+'/'+C.repo+' ('+d.games.length+' kayıt)');
+    }
+    d.loaded=true;
+  }catch(e){
+    if(targetCat===cat)say('GitHub\'a bağlanılamadı: '+e.message+hint(e.status),1);
+    d.games=await fetch(new URL(CATS[targetCat].file, SITE_ROOT).href+'?'+Date.now()).then(r=>r.ok?r.json():[]).catch(()=>[]);
+  }
+  if(targetCat===cat)list();
+  return d;
+}
+
+$('#syncAllBtn').onclick=async()=>{
+  say('GitHub\'dan güncel veriler çekiliyor…');
+  await ensureLoaded(cat,true);
+};
+
+async function persist(targetCat=cat){
+  const d=D[targetCat]||(D[targetCat]={games:[],sha:null,loaded:false});
+  const btn=$('#add');if(btn)btn.disabled=true;
+  try{
+    await createPreSaveBackup(targetCat);
+    const newSha=await putRepoFile(CATS[targetCat].file,JSON.stringify(d.games,null,2),CATS[targetCat].name+' listesi güncellendi',d.sha);
+    if(newSha){d.sha=newSha;d.loaded=true;say(CATS[targetCat].plural+' kaydedildi! Site 1-2 dakika içinde güncellenir.');return true}
+  }catch(e){say('Kaydedilemedi: '+e.message+hint(e.status),1);return false}
+  finally{if(btn)btn.disabled=false}
+}
+
+/* KATEGORİ ETİKETLERİ VE FİLTRELER */
+function applyCat(){
+  const c=cfg();
+  const costPanel=$('#gameCostPanel');if(costPanel)costPanel.hidden=cat!=='oyun';
+  const profilePanel=$('#installProfilesPanel');if(profilePanel)profilePanel.hidden=cat!=='oyun';
+  $('#catpills').innerHTML=Object.entries(CATS).map(([k,v])=>`<button class="pill" data-k="${k}" aria-pressed="${k===cat}">${typeof ICON==='function'?ICON(k):''} ${v.plural}</button>`).join('');
+  $('#hs').textContent=c.name+' ara (görsel ve bilgiler otomatik gelir)';
+  $('#s').placeholder=c.searchPh;$('#s').previousSibling.textContent=c.name+' adı';
+  $('#l-title').textContent=c.name+' adı';
+  $('#l-plat').textContent=c.plat.label+' (birden fazlaysa virgülle)';$('#platform').placeholder=c.plat.ph;
+  $('#l-year').textContent=c.yearLabel;$('#l-person').textContent=c.person.label;
+  $('#l-dur').textContent=c.dur.form;$('#dur').step=c.dur.step;
+  $('#dur2wrap').hidden=!c.dur2;if(c.dur2)$('#l-dur2').textContent=c.dur2.form;
+  $('#l-date').textContent=c.dateForm;
+  $('#status').innerHTML=Object.entries(c.st).map(([k,v])=>`<option value="${k}">${v}</option>`).join('');
+  $('#stFilter').innerHTML='<option value="">Tüm Durumlar</option>'+Object.entries(c.st).map(([k,v])=>`<option value="${k}">${v}</option>`).join('');
+  $('#ft').textContent=editId?c.name+' düzenle':c.name+' bilgileri';
+  $('#lh').textContent='Kayıtlı '+c.plural.toLowerCase();
+  $('#dl').textContent=c.file+' indir (yedek)';
+  fillBulkStatuses();
+}
+
+$('#catpills').addEventListener('click',e=>{
+  const b=e.target.closest('.pill');if(!b||b.dataset.k===cat)return;
+  cat=b.dataset.k;try{localStorage.setItem('admin_cat',cat)}catch{}
+  selectedRecordIds.clear();clear();applyCat();$('#res').innerHTML='';$('#msg').textContent='';ensureLoaded();
+});
+
+/* GÖRSEL ÖNİZLEME */
+const defaultSvg="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='90' height='120'%3E%3Crect width='100%25' height='100%25' fill='none'/%3E%3C/svg%3E";
+$('#image').addEventListener('input',()=>{
+  const u=$('#image').value.trim();
+  $('#imgPrev').src=u||defaultSvg;
+});
+
+/* GERİ ALINABİLİR SİLME VE TOPLU İŞLEMLER */
+const ADMIN_TRASH_KEY='gunlugum_admin_recently_deleted_v1';
+const TRASH_MAX_ITEMS=100,TRASH_MAX_AGE_DAYS=60;
+const selectedRecordIds=new Set();
+function readAdminTrash(){
+  try{
+    const parsed=JSON.parse(localStorage.getItem(ADMIN_TRASH_KEY)||'[]');
+    if(!Array.isArray(parsed))return [];
+    const cutoff=Date.now()-TRASH_MAX_AGE_DAYS*86400000;
+    const kept=parsed.filter(x=>x&&x.key&&x.category&&x.record&&Date.parse(x.deletedAt||'')>=cutoff).slice(0,TRASH_MAX_ITEMS);
+    if(kept.length!==parsed.length)localStorage.setItem(ADMIN_TRASH_KEY,JSON.stringify(kept));
+    return kept;
+  }catch{return []}
+}
+function writeAdminTrash(items){
+  try{localStorage.setItem(ADMIN_TRASH_KEY,JSON.stringify(items.slice(0,TRASH_MAX_ITEMS)));return true}
+  catch(e){console.warn('Son silinenler listesi kaydedilemedi:',e);return false}
+}
+function stashAdminTrash(record,category,index){
+  const items=readAdminTrash();
+  const item={key:`${Date.now().toString(36)}-${Math.random().toString(36).slice(2,9)}`,category,index,deletedAt:new Date().toISOString(),record:JSON.parse(JSON.stringify(record))};
+  if(!writeAdminTrash([item,...items]))return null;
+  return item.key;
+}
+function removeAdminTrashKeys(keys){return writeAdminTrash(readAdminTrash().filter(x=>!keys.includes(x.key)))}
+function renderAdminTrash(){
+  const host=$('#trashList');if(!host)return;
+  const items=readAdminTrash();
+  if(!items.length){host.innerHTML='<div class="empty-trash">Son silinenlerde kayıt yok.</div>';return}
+  host.innerHTML=items.map(item=>{
+    const c=CATS[item.category]||{plural:item.category||'Kategori'};
+    const title=String(item.record.title||'Başlıksız kayıt');
+    const date=item.deletedAt?new Date(item.deletedAt).toLocaleString('tr-TR'):'Tarih bilinmiyor';
+    return `<div class="trash-item">
+      ${item.record.image?`<img src="${esc(item.record.image)}" alt="" loading="lazy">`:''}
+      <div class="trash-copy"><strong>${esc(title)}</strong><small>${esc(c.plural||item.category)} · ${esc(date)}</small></div>
+      <div class="trash-actions"><button class="btn pri" type="button" data-restore-trash="${esc(item.key)}">Geri yükle</button><button class="btn del" type="button" data-purge-trash="${esc(item.key)}">Tamamen kaldır</button></div>
+    </div>`;
+  }).join('');
+}
+function syncBulkControls(){
+  const count=$('#selectedCount');if(count)count.textContent=`${selectedRecordIds.size} kayıt seçildi`;
+  const action=$('#bulkAction')?.value||'status';
+  const status=$('#bulkStatus');if(status)status.hidden=action!=='status';
+  const visible=[...document.querySelectorAll('#list [data-select-record]')];
+  const checked=visible.filter(x=>x.checked).length;
+  const all=$('#selectAllFiltered');if(all){all.checked=visible.length>0&&checked===visible.length;all.indeterminate=checked>0&&checked<visible.length;all.disabled=visible.length===0}
+}
+function fillBulkStatuses(){
+  const target=$('#bulkStatus');if(!target)return;
+  target.innerHTML=Object.entries(cfg().st).map(([k,v])=>`<option value="${esc(k)}">${esc(v)}</option>`).join('');
+  syncBulkControls();
+}
+
+/* GELİŞMİŞ LİSTELEME, ARAMA VE SIRALAMA */
+function list(){
+  const c=cfg(),all=data().games||[];
+  const q=$('#qFilter').value.trim().toLowerCase();
+  const st=$('#stFilter').value;
+  const fav=$('#favFilter').value;
+  const sort=$('#sortFilter').value;
+
+  let filtered=all.filter(g=>{
+    if(st&&(g.status||'bitirdim')!==st)return false;
+    if(fav==='1'&&!g.favorite)return false;
+    if(q){
+      const hay=[g.title,g.platform,(g.genres||[]).join(' '),g[c.person.key],g.note].join(' ').toLowerCase();
+      if(!hay.includes(q))return false;
+    }
+    return true;
+  });
+
+  if(sort==='updated')filtered.sort((a,b)=>String(b.updatedAt||'').localeCompare(String(a.updatedAt||'')));
+  else if(sort==='score_desc')filtered.sort((a,b)=>(b.score??-1)-(a.score??-1));
+  else if(sort==='score_asc')filtered.sort((a,b)=>(a.score??99)-(b.score??99));
+  else if(sort==='date_desc')filtered.sort((a,b)=>String(b.finished||'').localeCompare(String(a.finished||'')));
+  else if(sort==='title_asc')filtered.sort((a,b)=>String(a.title||'').localeCompare(String(b.title||''),'tr'));
+
+  $('#listCount').textContent=`${filtered.length} / ${all.length} kayıt gösteriliyor`;
+
+  $('#list').innerHTML=filtered.map(g=>{
+    const durVal=g[c.dur.key];
+    const selected=selectedRecordIds.has(String(g.id));
+    return `<div class="li-adv">
+      <div class="record-check-wrap"><input class="record-select" type="checkbox" data-select-record="${esc(g.id)}" aria-label="${esc(g.title)} kaydını seç" ${selected?'checked':''}></div>
+      <div class="li-info">
+        ${g.image?`<img class="li-thumb" src="${esc(g.image)}" alt="" loading="lazy">`:`<div class="li-thumb"></div>`}
+        <div class="li-text">
+          <div class="li-title">
+            <button class="fav-star ${g.favorite?'active':''}" data-fav="${esc(g.id)}" title="Favori Durumunu Değiştir">★</button>
+            <span>${esc(g.title)}</span>
+            ${g.year?`<span class="meta">(${esc(g.year)})</span>`:''}
+          </div>
+          <div class="meta">
+            <span class="badge">${esc(c.st[g.status||'bitirdim']||g.status)}</span>
+            ${g.score!=null&&g.score!==''?` • <b>${esc(g.score)}/10</b>`:''}
+            ${durVal?` • ${esc(durVal)} ${esc(c.dur.unit||'')}`:''}
+            ${g.platform?` • ${esc(g.platform)}`:''}${cat==='oyun'?gameCostBadge(g):''}
+          </div>
+        </div>
+      </div>
+      <div class="li-actions">
+        <button class="btn" data-up="${esc(g.id)}" title="Yukarı Taşı">↑</button>
+        <button class="btn" data-dn="${esc(g.id)}" title="Aşağı Taşı">↓</button>
+        <button class="btn" data-e="${esc(g.id)}">Düzenle</button>
+        <button class="btn del" data-d="${esc(g.id)}">Sil</button>
+      </div>
+    </div>`;
+  }).join('')||'<p class="meta">Eşleşen kayıt bulunamadı.</p>';
+  syncBulkControls();
+  renderAdminTrash();
+}
+
+['qFilter','stFilter','favFilter','sortFilter'].forEach(id=>$('#'+id).addEventListener('input',list));
+$('#bulkAction').addEventListener('change',syncBulkControls);
+$('#selectAllFiltered').addEventListener('change',e=>{
+  document.querySelectorAll('#list [data-select-record]').forEach(input=>{
+    const id=String(input.dataset.selectRecord||'');
+    if(e.target.checked){selectedRecordIds.add(id);input.checked=true}
+    else{selectedRecordIds.delete(id);input.checked=false}
+  });
+  syncBulkControls();
+});
+$('#list').addEventListener('change',e=>{
+  const input=e.target.closest('[data-select-record]');if(!input)return;
+  const id=String(input.dataset.selectRecord||'');
+  if(input.checked)selectedRecordIds.add(id);else selectedRecordIds.delete(id);
+  syncBulkControls();
+});
+$('#clearSelection').addEventListener('click',()=>{selectedRecordIds.clear();list()});
+$('#emptyTrashBtn').addEventListener('click',()=>{
+  if(!readAdminTrash().length)return say('Son silinenler listesi zaten boş.');
+  if(!confirm('Son silinenler listesi tamamen temizlensin mi? Bu işlem buradaki geri yükleme imkânını kaldırır.'))return;
+  if(writeAdminTrash([])){renderAdminTrash();say('Son silinenler listesi temizlendi.')}else say('Liste temizlenemedi. Tarayıcı depolamasını kontrol et.',1);
+});
+$('#trashList').addEventListener('click',async e=>{
+  const btn=e.target.closest('button');if(!btn)return;
+  const restoreKey=btn.dataset.restoreTrash,purgeKey=btn.dataset.purgeTrash;
+  const items=readAdminTrash();
+  if(purgeKey){
+    const item=items.find(x=>x.key===purgeKey);if(!item)return;
+    if(!confirm(`“${item.record.title||'Başlıksız kayıt'}” son silinenler listesinden de tamamen kaldırılsın mı?`))return;
+    if(writeAdminTrash(items.filter(x=>x.key!==purgeKey))){renderAdminTrash();say('Kayıt son silinenler listesinden kaldırıldı.')}else say('Silinenler listesi güncellenemedi.',1);
+    return;
+  }
+  if(!restoreKey)return;
+  const item=items.find(x=>x.key===restoreKey);if(!item)return;
+  if(!CATS[item.category])return say('Kayıdın kategorisi tanınmıyor; geri yükleme yapılmadı.',1);
+  if(!confirm(`“${item.record.title||'Başlıksız kayıt'}” yeniden ${CATS[item.category].plural.toLocaleLowerCase('tr-TR')} listesine eklensin mi?`))return;
+  btn.disabled=true;btn.textContent='Yükleniyor…';
+  const d=await ensureLoaded(item.category,true);
+  const current=(d.games||[]).find(x=>String(x.id)===String(item.record.id));
+  if(current){btn.disabled=false;btn.textContent='Geri yükle';return say('Aynı ID ile bir kayıt zaten mevcut. Silinen kopyayı geri yüklemedim.',1)}
+  const old=d.games;
+  const next=[...d.games];const index=Math.max(0,Math.min(Number.isInteger(item.index)?item.index:next.length,next.length));
+  next.splice(index,0,JSON.parse(JSON.stringify(item.record)));d.games=next;
+  if(await persist(item.category)){
+    writeAdminTrash(readAdminTrash().filter(x=>x.key!==restoreKey));
+    if(item.category===cat)list();else renderAdminTrash();
+    say(`“${item.record.title||'Kayıt'}” geri yüklendi.`);
+  }else{d.games=old;btn.disabled=false;btn.textContent='Geri yükle'}
+});
+
+$('#applyBulkAction').addEventListener('click',async()=>{
+  const selected=[...selectedRecordIds];
+  if(!selected.length)return say('Önce listeden en az bir kayıt seç.',1);
+  const action=$('#bulkAction').value;
+  const map=new Map((data().games||[]).map((g,i)=>[String(g.id),{g,i}]));
+  const records=selected.map(id=>map.get(id)).filter(Boolean);
+  if(!records.length){selectedRecordIds.clear();list();return say('Seçili kayıtlar listede bulunamadı; seçim temizlendi.',1)}
+  const verb=action==='delete'?'son silinenlere taşı':action==='status'?'durumunu değiştir':action==='favorite-on'?'favorilere ekle':'favorilerden çıkar';
+  if(!confirm(`${records.length} kayıt için “${verb}” işlemi uygulansın mı?`))return;
+  const d=data(),old=d.games;
+  if(action==='delete'){
+    const trashKeys=[];
+    for(const {g,i} of records){
+      const key=stashAdminTrash(g,cat,i);
+      if(!key){removeAdminTrashKeys(trashKeys);return say('Silinenler listesine güvenlik kopyası kaydedilemedi. Hiçbir kayıt silinmedi; tarayıcı depolamasını kontrol et.',1)}
+      trashKeys.push(key);
+    }
+    const idsToDelete=new Set(records.map(x=>String(x.g.id)));
+    d.games=old.filter(g=>!idsToDelete.has(String(g.id)));
+    if(await persist()){
+      records.forEach(x=>selectedRecordIds.delete(String(x.g.id)));
+      list();say(`${records.length} kayıt son silinenlere taşındı. İstersen aşağıdan geri yükleyebilirsin.`);
+    }else{d.games=old;removeAdminTrashKeys(trashKeys)}
+    return;
+  }
+  d.games=old.map(g=>{
+    if(!selected.includes(String(g.id)))return g;
+    const changed={...g,updatedAt:new Date().toISOString()};
+    if(action==='status')changed.status=$('#bulkStatus').value;
+    if(action==='favorite-on')changed.favorite=true;
+    if(action==='favorite-off')changed.favorite=false;
+    return changed;
+  });
+  if(await persist()){
+    selectedRecordIds.clear();list();say(`${records.length} kayda toplu işlem uygulandı.`);
+  }else d.games=old;
+});
+
+$('#list').onclick=async e=>{
+  const btn=e.target.closest('button');if(!btn)return;
+  const d=btn.dataset.d,ed=btn.dataset.e,fav=btn.dataset.fav,up=btn.dataset.up,dn=btn.dataset.dn,D0=data();
+
+  if(fav){
+    const item=D0.games.find(x=>x.id===fav);
+    if(item){item.favorite=!item.favorite;item.updatedAt=new Date().toISOString();if(await persist())list()}
+  }
+  if(up||dn){
+    const id=up||dn,idx=D0.games.findIndex(x=>x.id===id);
+    const targetIdx=up?idx-1:idx+1;
+    if(idx>=0&&targetIdx>=0&&targetIdx<D0.games.length){
+      const copy=[...D0.games];
+      [copy[idx],copy[targetIdx]]=[copy[targetIdx],copy[idx]];
+      D0.games=copy;
+      if(await persist())list();
+    }
+  }
+  if(d&&confirm('Bu kayıt son silinenlere taşınsın mı? Buradan 60 gün içinde geri yükleyebilirsin.')){
+    const idx=D0.games.findIndex(g=>String(g.id)===String(d));
+    if(idx<0)return;
+    const target=D0.games[idx],trashKey=stashAdminTrash(target,cat,idx);
+    if(!trashKey)return say('Geri yükleme kopyası kaydedilemedi; kayıt silinmedi. Tarayıcı depolamasını kontrol et.',1);
+    const old=D0.games;D0.games=old.filter(g=>String(g.id)!==String(d));
+    if(await persist()){selectedRecordIds.delete(String(d));list();say(`“${target.title}” son silinenlere taşındı.`)}
+    else{D0.games=old;removeAdminTrashKeys([trashKey])}
+  }
+  if(ed){
+    const g=D0.games.find(x=>x.id===ed),c=cfg();editId=ed;
+    const m={...g,dur:g[c.dur.key],dur2:c.dur2?g[c.dur2.key]:'',person:g[c.person.key]};
+    ids.forEach(i=>$('#'+i).value=m[i]??'');
+    $('#imgPrev').src=g.image||defaultSvg;
+    $('#availabilityJson').value=JSON.stringify(Array.isArray(g.links)?g.links:[],null,2);
+    $('#installProfilesJson').value=JSON.stringify(Array.isArray(g.installProfiles)?g.installProfiles:[],null,2);
+    $('#fav').value=g.favorite?'1':'0';$('#pros').value=(g.pros||[]).join('\n');$('#cons').value=(g.cons||[]).join('\n');$('#genres').value=(g.genres||[]).join(', ');
+    $('#status').value=g.status||'bitirdim';$('#rec').value=g.recommended===true?'1':g.recommended===false?'0':'';
+    if(cat==='oyun'&&!g.purchaseCurrency)$('#purchaseCurrency').value='TRY';
+    $('#ft').textContent=c.name+' düzenle: '+g.title;
+    $('#ft').scrollIntoView({behavior:'smooth'});
+  }
+};
+
+function clear(){
+  editId=null;ids.forEach(i=>$('#'+i).value='');$('#availabilityJson').value='[]';$('#installProfilesJson').value='[]';
+  $('#imgPrev').src=defaultSvg;
+  $('#genres').value='';$('#pros').value='';$('#cons').value='';$('#availabilityJson').value='[]';$('#installProfilesJson').value='[]';$('#fav').value='0';$('#rec').value='1';if($('#purchaseCurrency'))$('#purchaseCurrency').value='TRY';
+  if($('#status').options.length)$('#status').value='bitirdim';
+  $('#ft').textContent=cfg().name+' bilgileri';
+}
+$('#clr').onclick=clear;
+$('#clrRes').onclick=()=>{$('#res').innerHTML='';$('#s').value=''};
+
+$('#add').onclick=async()=>{
+  const c=cfg(),d=data(),stt=$('#status').value,val=i=>$('#'+i).value.trim();
+  if(!val('title'))return say('Ad zorunlu.',1);
+  if(stt==='bitirdim'&&(val('score')===''||!val('finished')||(c.dur.req&&val('dur')==='')))
+    return say(c.dur.req?'Bitirdiklerinde puan, süre ve tarih zorunlu.':'Bitirdiklerinde puan ve tarih zorunlu.',1);
+  const n=i=>val(i)===''?null:+val(i),lines=i=>$('#'+i).value.split('\n').map(x=>x.trim()).filter(Boolean);
+  const parseArrayField=(id,label)=>{
+    const raw=val(id);if(!raw)return [];
+    let parsed;try{parsed=JSON.parse(raw)}catch{return {error:`${label} geçerli JSON değil.`}}
+    if(!Array.isArray(parsed))return {error:`${label} bir JSON dizisi olmalı (ör. []).`};
+    return parsed;
+  };
+  const linksRaw=parseArrayField('availabilityJson','İlgili bağlantı listesi');
+  if(linksRaw.error)return say(linksRaw.error,1);
+  const links=[];
+  const allowedLinkTypes=new Set(['official','store','trailer','wiki','mods','support','community','other']);
+  for(let i=0;i<linksRaw.length;i++){
+    const item=linksRaw[i];
+    if(!item||typeof item!=='object'||Array.isArray(item))return say(`Bağlantı ${i+1}. öğesi geçersiz.`,1);
+    const name=String(item.name||'').trim(),url=String(item.url||'').trim();
+    if(!name||!url)return say(`Bağlantı ${i+1}. öğesinde başlık ve URL zorunlu.`,1);
+    let parsedUrl;try{parsedUrl=new URL(url)}catch{return say(`Bağlantı ${i+1}. URL geçersiz.`,1)}
+    if(parsedUrl.protocol!=='https:')return say(`Bağlantı ${i+1}. adresi HTTPS olmalı.`,1);
+    const type=String(item.type||'other').trim();
+    if(!allowedLinkTypes.has(type))return say(`Bağlantı ${i+1}. türü geçersiz.`,1);
+    links.push({name,type,url:parsedUrl.href,note:String(item.note||'').trim()});
+  }
+  let installProfiles=[];
+  if(cat==='oyun'){
+    const profilesRaw=parseArrayField('installProfilesJson','PC kurulum profilleri');
+    if(profilesRaw.error)return say(profilesRaw.error,1);
+    for(let i=0;i<profilesRaw.length;i++){
+      const item=profilesRaw[i];
+      if(!item||typeof item!=='object'||Array.isArray(item))return say(`Kurulum profili ${i+1}. öğe bir nesne olmalı.`,1);
+      const name=String(item.name||'').trim();
+      if(!name)return say(`Kurulum profili ${i+1}. öğede name zorunlu.`,1);
+      installProfiles.push({
+        name,
+        version:String(item.version||'').trim(),
+        platform:String(item.platform||'').trim(),
+        compatibility:String(item.compatibility||'').trim(),
+        launchOptions:String(item.launchOptions||'').trim(),
+        graphicsSettings:String(item.graphicsSettings||'').trim(),
+        mods:Array.isArray(item.mods)?item.mods.map(x=>String(x).trim()).filter(Boolean).join('\n'):String(item.mods||'').trim(),
+        notes:String(item.notes||'').trim()
+      });
+    }
+  }
+  if(cat==='oyun'){
+    for(const id of ['purchasePrice','listPrice']){
+      if(val(id)!==''&&(!Number.isFinite(Number(val(id)))||Number(val(id))<0))return say('Fiyat alanları sıfır veya daha büyük bir sayı olmalı.',1);
+    }
+  }
+  const g={
+    id:editId||Date.now().toString(36),status:stt,title:val('title'),image:val('image'),
+    platform:val('platform'),genres:val('genres').split(',').map(x=>x.trim()).filter(Boolean),
+    score:n('score'),finished:val('finished')||null,
+    recommended:$('#rec').value===''?null:$('#rec').value==='1',
+    review:val('review'),note:val('note'),year:n('year'),
+    favorite:$('#fav').value==='1',pros:lines('pros'),cons:lines('cons'),
+    links,
+    updatedAt:new Date().toISOString()
+  };
+  if(cat==='oyun')g.installProfiles=installProfiles;
+  g[c.dur.key]=n('dur');if(c.dur2)g[c.dur2.key]=n('dur2');g[c.person.key]=val('person');
+  if(cat==='oyun'){
+    g.acquisitionType=val('acquisitionType')||null;
+    g.purchasePrice=n('purchasePrice');
+    g.purchaseCurrency=val('purchaseCurrency')||'TRY';
+    g.purchaseStore=val('purchaseStore');
+    g.purchaseDate=val('purchaseDate')||null;
+    g.listPrice=n('listPrice');
+    g.ownershipStatus=val('ownershipStatus')||null;
+    g.purchaseNote=val('purchaseNote');
+  }
+  const old=d.games;d.games=editId?d.games.map(x=>x.id===editId?g:x):[g,...d.games];
+  if(await persist()){clear();list()}else d.games=old;
+};
+
+/* API ARAMALARI (ANILIST + JIKAN + CORS PROXY + TMDB YEDEKLİ) */
+const TM='https://api.themoviedb.org/3',TI='https://image.tmdb.org/t/p';
+const tmq=(p,x='')=>`${TM}${p}?api_key=${C.tmdbKey}&language=tr-TR${x}`;
+
+async function queryAniList(searchStr, malId=null){
+  const query = malId
+    ? `query ($id: Int) { Media(idMal: $id, type: ANIME) { title { english romaji } coverImage { extraLarge large } bannerImage startDate { year } episodes genres studios(isMain: true) { nodes { name } } } }`
+    : `query ($s: String) { Page(page: 1, perPage: 6) { media(search: $s, type: ANIME, isAdult: false) { title { english romaji } coverImage { extraLarge large } bannerImage startDate { year } episodes genres studios(isMain: true) { nodes { name } } } } }`;
+  const variables = malId ? { id: +malId } : { s: searchStr };
+  const r = await fetch('https://graphql.anilist.co', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+    body: JSON.stringify({ query, variables })
+  });
+  if(!r.ok) throw new Error('AniList HTTP '+r.status);
+  const j = await r.json();
+  return malId ? (j.data && j.data.Media ? [j.data.Media] : []) : (((j.data||{}).Page||{}).media||[]);
+}
+
+const SEARCH={
+  async oyun(q){
+    const r=await fetch(`https://api.rawg.io/api/games?key=${C.rawgKey}&search_precise=true&page_size=6&search=${encodeURIComponent(q)}`);
+    if(!r.ok)throw new Error('RAWG anahtarını kontrol et ('+r.status+')');
+    return (await r.json()).results.map(x=>({name:x.name,img:x.background_image,year:(x.released||'').slice(0,4),
+      async pick(){let person='';try{const d=await fetch(`https://api.rawg.io/api/games/${x.id}?key=${C.rawgKey}`).then(r=>r.json());person=(d.developers||[]).map(v=>v.name).join(', ')}catch{}
+        return {title:x.name,image:x.background_image||'',year:(x.released||'').slice(0,4),genres:(x.genres||[]).map(t=>TR[t.name]||t.name),platform:(x.platforms||[]).map(p=>p.platform.name)[0]||'',person}}}));
+  },
+  async tmdb(kind,q){
+    if(!C.tmdbKey)throw new Error('config.js içindeki tmdbKey alanı boş.');
+    const r=await fetch(tmq('/search/'+kind,'&query='+encodeURIComponent(q)));
+    if(!r.ok)throw new Error('TMDB anahtarını kontrol et ('+r.status+')');
+    const pic=x=>x.backdrop_path?TI+'/w780'+x.backdrop_path:x.poster_path?TI+'/w500'+x.poster_path:'';
+    return (await r.json()).results.slice(0,6).map(x=>({name:x.title||x.name,img:pic(x),year:(x.release_date||x.first_air_date||'').slice(0,4),
+      async pick(){
+        const d=await fetch(tmq(`/${kind}/${x.id}`,kind==='movie'?'&append_to_response=credits':'')).then(r=>r.json());
+        const base={image:pic(d)||pic(x),genres:(d.genres||[]).map(g=>g.name)};
+        return kind==='movie'
+          ?{...base,title:d.title,year:(d.release_date||'').slice(0,4),person:((d.credits||{}).crew||[]).filter(c=>c.job==='Director').map(c=>c.name).join(', '),dur:d.runtime||''}
+          :{...base,title:d.name,year:(d.first_air_date||'').slice(0,4),person:(d.created_by||[]).map(c=>c.name).join(', '),dur:d.number_of_seasons||'',dur2:d.number_of_episodes||''};
+      }}));
+  },
+  async anime(q){
+    /* 1. Aşama: AniList GraphQL API (Anahtarsız, çok hızlı ve stabil) */
+    try {
+      const media = await queryAniList(q);
+      if (media.length) {
+        return media.map(x => {
+          const name = x.title.english || x.title.romaji;
+          const img = (x.coverImage && (x.coverImage.extraLarge || x.coverImage.large)) || x.bannerImage || '';
+          const yr = String((x.startDate || {}).year || '');
+          const studios = ((x.studios || {}).nodes || []).map(s => s.name).join(', ');
+          return {
+            name, img, year: yr,
+            async pick() {
+              return {
+                title: name,
+                image: img,
+                year: yr,
+                genres: (x.genres || []).map(g => AN[g] || g),
+                person: studios,
+                dur: x.episodes || ''
+              };
+            }
+          };
+        });
+      }
+    } catch (e) {}
+
+    /* 2. Aşama: Jikan API (Doğrudan veya CORS Proxy ile) */
+    try {
+      const jikanUrl = `https://api.jikan.moe/v4/anime?q=${encodeURIComponent(q)}&limit=6&sfw=true`;
+      let r;
+      try {
+        r = await fetch(jikanUrl);
+      } catch {
+        r = await fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(jikanUrl)}`);
+      }
+      if (r && r.ok) {
+        const data = (await r.json()).data || [];
+        if (data.length) {
+          return data.map(x => {
+            const img = ((x.images || {}).jpg || {}).large_image_url || '';
+            const yr = String(x.year || (x.aired || {}).from || '').slice(0, 4);
+            const name = x.title_english || x.title;
+            return {
+              name, img, year: yr,
+              async pick() {
+                return {
+                  title: name,
+                  image: img,
+                  year: yr,
+                  genres: (x.genres || []).map(g => AN[g.name] || g.name),
+                  person: (x.studios || []).map(s => s.name).join(', '),
+                  dur: x.episodes || ''
+                };
+              }
+            };
+          });
+        }
+      }
+    } catch (e) {}
+
+    /* 3. Aşama: TMDB Yedek (Eğer tmdbKey varsa animeyi dizi/TV olarak TMDB'den çeker) */
+    if (C.tmdbKey) {
+      return this.tmdb('tv', q);
+    }
+    throw new Error('Anime sunucularına (AniList / Jikan) ulaşılamadı. İnternet bağlantını veya reklam engelleyiciyi kontrol et.');
+  }
+};
+const search=q=>cat==='oyun'?SEARCH.oyun(q):cat==='film'?SEARCH.tmdb('movie',q):cat==='dizi'?SEARCH.tmdb('tv',q):SEARCH.anime(q);
+function applyPick(p){
+  const set=(i,v)=>{if(v!==undefined)$('#'+i).value=v??''};
+  set('title',p.title);set('image',p.image);set('year',p.year);set('genres',(p.genres||[]).join(', '));set('person',p.person);
+  $('#imgPrev').src=p.image||defaultSvg;
+  if(p.platform)set('platform',p.platform);if(p.dur!==undefined&&p.dur!=='')set('dur',p.dur);if(p.dur2!==undefined&&p.dur2!=='')set('dur2',p.dur2);
+}
+let results=[];
+$('#go').onclick=async()=>{
+  const q=$('#s').value.trim();if(!q)return;
+  $('#res').textContent='Aranıyor…';
+  try{
+    results=await search(q);
+    $('#res').innerHTML=results.map((x,i)=>`<button data-i="${i}">${x.img?`<img src="${esc(x.img)}" alt="">`:''}<span>${esc(x.name)}<br><small>${esc(x.year)}</small></span></button>`).join('')||'Sonuç yok.';
+  }catch(e){$('#res').textContent='Arama başarısız: '+e.message}
+};
+$('#s').addEventListener('keydown',e=>{if(e.key==='Enter')$('#go').click()});
+$('#res').onclick=async e=>{
+  const b=e.target.closest('button');if(!b)return;
+  try{applyPick(await results[b.dataset.i].pick());say('Bilgiler dolduruldu. Durumu, puanı ve tarihi girip kaydet.');$('#ft').scrollIntoView({behavior:'smooth'})}
+  catch(err){say('Bilgiler alınamadı: '+err.message,1)}
+};
+
+/* YEDEK İNDİRME VE İÇE AKTARMA */
+$('#dl').onclick=()=>{
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([JSON.stringify(data().games,null,2)],{type:'application/json'}));
+  a.download=cfg().file;a.click();
+};
+$('#importFile').onchange=async e=>{
+  const f=e.target.files[0];if(!f)return;
+  try{
+    const parsed=JSON.parse(await f.text());
+    if(!Array.isArray(parsed))throw new Error('JSON dosyası bir dizi (array) olmalı.');
+    if(confirm(`${cfg().plural} kategorisine ${parsed.length} kayıt yüklenecek ve GitHub güncellenecek. Onaylıyor musun?`)){
+      const d=data(),old=d.games;d.games=parsed;
+      if(await persist())list();else d.games=old;
+    }
+  }catch(err){say('İçe aktarma hatası: '+err.message,1)}
+  e.target.value='';
+};
+
+/* =========================================================================
+   SEKME 2: DIŞ PLATFORMDAN İÇE AKTARMA (LETTERBOXD / MAL / STEAM)
+   ========================================================================= */
+const ilog=msg=>{const el=$('#impLog');el.textContent+=`\n[${new Date().toLocaleTimeString('tr-TR')}] ${msg}`;el.scrollTop=el.scrollHeight};
+$('#clrLogBtn').onclick=()=>$('#impLog').textContent='Günlük temizlendi.';
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+const normTitle=s=>String(s||'').toLowerCase().replace(/[^\p{L}\p{N}]+/gu,'').trim();
+
+/* Basit ve Güvenilir CSV Ayrıştırıcı (Tırnak içi virgülleri destekler) */
+function parseCSV(text){
+  const rows=[];let row=[],cur='',inQ=false;
+  for(let i=0;i<text.length;i++){
+    const ch=text[i],nx=text[i+1];
+    if(inQ){
+      if(ch==='"'&&nx==='"'){cur+='"';i++}
+      else if(ch==='"')inQ=false;
+      else cur+=ch;
+    }else{
+      if(ch==='"')inQ=true;
+      else if(ch===','){row.push(cur.trim());cur=''}
+      else if(ch==='\n'||ch==='\r'){
+        if(ch==='\r'&&nx==='\n')i++;
+        row.push(cur.trim());if(row.some(Boolean))rows.push(row);row=[];cur='';
+      }else cur+=ch;
+    }
+  }
+  if(cur||row.length){row.push(cur.trim());if(row.some(Boolean))rows.push(row)}
+  if(!rows.length)return[];
+  const headers=rows[0].map(h=>h.toLowerCase());
+  return rows.slice(1).map(r=>{const o={};headers.forEach((h,idx)=>o[h]=r[idx]??'');return o});
+}
+
+/* 1. LETTERBOXD CSV İÇE AKTARMA */
+$('#lbStartBtn').onclick=async()=>{
+  const f=$('#lbFile').files[0];
+  if(!f)return say('Lütfen önce bir Letterboxd CSV dosyası seçin.',1);
+  const defSt=$('#lbStatus').value;
+  const enrich=$('#lbEnrich').checked;
+  const cCfg=CATS['film'];
+  if(!cCfg)return say('Film kategorisi bulunamadı.',1);
+
+  $('#lbStartBtn').disabled=true;
+  try{
+    ilog('Letterboxd CSV okunuyor ve mevcut film arşivi kontrol ediliyor...');
+    const d=await ensureLoaded('film');
+    const existing=new Set(d.games.map(g=>normTitle(g.title)));
+    const rows=parseCSV(await f.text());
+    ilog(`${rows.length} satır bulundu. İşleniyor...`);
+
+    const added=[];
+    for(let i=0;i<rows.length;i++){
+      const r=rows[i];
+      const name=r['name']||r['title'];
+      if(!name)continue;
+      if(existing.has(normTitle(name))){
+        ilog(`Atlandı (Zaten var): ${name}`);
+        continue;
+      }
+
+      const yr=r['year']?+r['year']:null;
+      const rawRating=r['rating']?parseFloat(r['rating']):null;
+      const score=rawRating!=null&&!isNaN(rawRating)?Math.round(rawRating*2*10)/10:null;
+      const watchedDate=r['watched date']||r['date']||new Date().toISOString().slice(0,10);
+      const reviewUrl=r['letterboxd uri']||'';
+
+      let item={
+        id:(Date.now()+i).toString(36),
+        status:defSt,
+        title:name,
+        image:'',
+        platform:'Sinema / Dijital',
+        genres:[],
+        score:defSt==='bitirdim'?(score??7):score,
+        finished:defSt==='bitirdim'?watchedDate:null,
+        recommended:score!=null?(score>=6):true,
+        review:reviewUrl,
+        note:r['review']||'',
+        year:yr,
+        favorite:score!=null&&score>=9,
+        pros:[],
+        cons:[],
+        updatedAt:new Date().toISOString()
+      };
+      item[cCfg.dur.key]=120;
+      item[cCfg.person.key]='';
+
+      if(enrich&&C.tmdbKey){
+        try{
+          const qUrl=tmq('/search/movie',`&query=${encodeURIComponent(name)}${yr?'&year='+yr:''}`);
+          const sr=await fetch(qUrl).then(x=>x.json());
+          const hit=(sr.results||[])[0];
+          if(hit){
+            const det=await fetch(tmq(`/movie/${hit.id}`,'&append_to_response=credits')).then(x=>x.json());
+            const pic=det.backdrop_path?TI+'/w780'+det.backdrop_path:det.poster_path?TI+'/w500'+det.poster_path:'';
+            item.title=det.title||name;
+            item.image=pic;
+            item.genres=(det.genres||[]).map(g=>g.name);
+            if(det.runtime)item[cCfg.dur.key]=det.runtime;
+            item[cCfg.person.key]=((det.credits||{}).crew||[]).filter(c=>c.job==='Director').map(c=>c.name).join(', ');
+          }
+          await sleep(180);
+        }catch(e){ilog(`TMDB bilgisi alınamadı (${name}): ${e.message}`)}
+      }
+
+      existing.add(normTitle(item.title));
+      existing.add(normTitle(name));
+      added.push(item);
+      ilog(`+ Eklendi [${added.length}]: ${item.title} (${item.year||'-'}) ${item.score?item.score+'/10':''}`);
+    }
+
+    if(!added.length){ilog('Eklenecek yeni film bulunamadı.');return say('Tüm filmler zaten listede mevcut.')}
+    d.games=[...added,...d.games];
+    ilog(`${added.length} yeni film GitHub'a kaydediliyor...`);
+    if(await persist('film')){
+      ilog(`BAŞARILI! ${added.length} film eklendi.`);
+      if(cat==='film')list();
+    }
+  }catch(err){
+    ilog('HATA: '+err.message);
+    say('Letterboxd aktarımı başarısız: '+err.message,1);
+  }finally{
+    $('#lbStartBtn').disabled=false;
+  }
+};
+
+/* 2. MYANIMELIST (XML VEYA KULLANICI ADI) İÇE AKTARMA */
+$('#malStartBtn').onclick=async()=>{
+  const f=$('#malFile').files[0];
+  const user=$('#malUser').value.trim();
+  const enrich=$('#malEnrich').checked;
+  const cCfg=CATS['anime'];
+  if(!cCfg)return say('Anime kategorisi bulunamadı.',1);
+  if(!f&&!user)return say('Lütfen bir MAL XML dosyası seçin veya kullanıcı adı girin.',1);
+
+  $('#malStartBtn').disabled=true;
+  try{
+    const d=await ensureLoaded('anime');
+    const existing=new Set(d.games.map(g=>normTitle(g.title)));
+    const added=[];
+    const stKeys=Object.keys(cCfg.st);
+    const mapMalStatus=s=>{
+      const low=String(s||'').toLowerCase();
+      if(low.includes('completed')||low==='2')return 'bitirdim';
+      if(low.includes('watching')&&!low.includes('plan')||low==='1')return stKeys.find(k=>k.includes('izli')||k.includes('devam'))||stKeys[1]||'bitirdim';
+      if(low.includes('dropped')||low==='4')return stKeys.find(k=>k.includes('birak')||k.includes('yarim'))||stKeys[stKeys.length-1]||'bitirdim';
+      return stKeys.find(k=>k.includes('istek')||k.includes('plan'))||stKeys[stKeys.length-1]||'bitirdim';
+    };
+
+    if(f){
+      ilog('MAL XML dosyası ayrıştırılıyor...');
+      const xmlDoc=new DOMParser().parseFromString(await f.text(),'text/xml');
+      const nodes=Array.from(xmlDoc.querySelectorAll('anime'));
+      ilog(`${nodes.length} anime kaydı bulundu.`);
+
+      for(let i=0;i<nodes.length;i++){
+        const n=nodes[i];
+        const val=tag=>n.querySelector(tag)?.textContent?.trim()||'';
+        const title=val('series_title');
+        const malId=val('series_animedb_id');
+        if(!title||existing.has(normTitle(title))){if(title)ilog(`Atlandı (Zaten var): ${title}`);continue}
+
+        const st=mapMalStatus(val('my_status'));
+        const rawScore=parseInt(val('my_score'),10);
+        const score=rawScore>0?rawScore:(st==='bitirdim'?7:null);
+        const eps=parseInt(val('series_episodes')||val('my_watched_episodes'),10)||null;
+        const finDate=val('my_finish_date');
+        const validDate=finDate&&finDate!=='0000-00-00'?finDate:new Date().toISOString().slice(0,10);
+
+        let item={
+          id:(Date.now()+i).toString(36),
+          status:st,
+          title,
+          image:'',
+          platform:'Anime',
+          genres:[],
+          score,
+          finished:st==='bitirdim'?validDate:null,
+          recommended:score!=null?score>=6:true,
+          review:malId?`https://myanimelist.net/anime/${malId}`:'',
+          note:val('my_comments')||'',
+          year:null,
+          favorite:score!=null&&score>=9,
+          pros:[],
+          cons:[],
+          updatedAt:new Date().toISOString()
+        };
+        item[cCfg.dur.key]=eps||12;
+        if(cCfg.dur2)item[cCfg.dur2.key]=eps||12;
+        item[cCfg.person.key]='';
+
+        if(enrich){
+          try{
+            const aniRes = await queryAniList(title, malId);
+            const hit = aniRes[0];
+            if(hit){
+              item.title = hit.title.english || hit.title.romaji || title;
+              item.image = (hit.coverImage && (hit.coverImage.extraLarge || hit.coverImage.large)) || '';
+              item.year = (hit.startDate && hit.startDate.year) || null;
+              item.genres = (hit.genres || []).map(g => AN[g] || g);
+              item[cCfg.person.key] = ((hit.studios || {}).nodes || []).map(s => s.name).join(', ');
+              if(hit.episodes) item[cCfg.dur.key] = hit.episodes;
+            }
+            await sleep(350);
+          }catch(e){ilog(`AniList detayı alınamadı (${title})`)}
+        }
+
+        existing.add(normTitle(item.title));
+        existing.add(normTitle(title));
+        added.push(item);
+        ilog(`+ Eklendi [${added.length}]: ${item.title}`);
+      }
+    }else if(user){
+      ilog(`${user} kullanıcısının MAL profili çekiliyor...`);
+      const jikanUrl=`https://api.jikan.moe/v4/users/${encodeURIComponent(user)}/animelist`;
+      let r;
+      try{r=await fetch(jikanUrl)}catch{r=await fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(jikanUrl)}`)}
+      if(!r||!r.ok)throw new Error('MAL kullanıcı listesi alınamadı. Profil gizli olabilir veya Jikan yanıt vermiyor. XML yedek yüklemeyi deneyin.');
+      const listData=(await r.json()).data||[];
+      for(let i=0;i<listData.length;i++){
+        const entry=listData[i],a=entry.anime||{};
+        const title=a.title_english||a.title;
+        if(!title||existing.has(normTitle(title)))continue;
+        const st=mapMalStatus(entry.watching_status);
+        const score=entry.score>0?entry.score:(st==='bitirdim'?7:null);
+        let item={
+          id:(Date.now()+i).toString(36),
+          status:st,
+          title,
+          image:((a.images||{}).jpg||{}).large_image_url||'',
+          platform:'Anime',
+          genres:(a.genres||[]).map(g=>AN[g.name]||g.name),
+          score,
+          finished:st==='bitirdim'?new Date().toISOString().slice(0,10):null,
+          recommended:score!=null?score>=6:true,
+          review:a.url||'',
+          note:'',
+          year:+(String(a.year||'').slice(0,4))||null,
+          favorite:score!=null&&score>=9,
+          pros:[],
+          cons:[],
+          updatedAt:new Date().toISOString()
+        };
+        item[cCfg.dur.key]=a.episodes||entry.watched_episodes||12;
+        item[cCfg.person.key]=(a.studios||[]).map(s=>s.name).join(', ');
+        existing.add(normTitle(title));
+        added.push(item);
+        ilog(`+ Eklendi [${added.length}]: ${title}`);
+      }
+    }
+
+    if(!added.length){ilog('Eklenecek yeni anime bulunamadı.');return say('Tüm animeler zaten mevcut.')}
+    d.games=[...added,...d.games];
+    ilog(`${added.length} yeni anime GitHub'a kaydediliyor...`);
+    if(await persist('anime')){
+      ilog(`BAŞARILI! ${added.length} anime eklendi.`);
+      if(cat==='anime')list();
+    }
+  }catch(err){
+    ilog('HATA: '+err.message);
+    say('MyAnimeList aktarımı başarısız: '+err.message,1);
+  }finally{
+    $('#malStartBtn').disabled=false;
+  }
+};
+
+/* 3. STEAM KÜTÜPHANESİ İÇE AKTARMA */
+$('#stStartBtn').onclick=async()=>{
+  const apiKey=$('#stKey').value.trim();
+  const steamId=$('#stId').value.trim();
+  const minHours=parseFloat($('#stMinHours').value)||0;
+  const defSt=$('#stStatus').value;
+  const rawJson=$('#stRawJson').value.trim();
+  const enrich=$('#stEnrich').checked;
+  const cCfg=CATS['oyun'];
+
+  if(!rawJson&&(!apiKey||!steamId))return say('Steam API Key + SteamID64 girin veya JSON çıktısını yapıştırın.',1);
+
+  $('#stStartBtn').disabled=true;
+  try{
+    const d=await ensureLoaded('oyun');
+    const existing=new Set(d.games.map(g=>normTitle(g.title)));
+    let steamGames=[];
+
+    if(rawJson){
+      const parsed=JSON.parse(rawJson);
+      steamGames=(parsed.response&&parsed.response.games)||parsed.games||(Array.isArray(parsed)?parsed:[]);
+    }else{
+      ilog('Steam Web API üzerinden oyun kütüphanesi çekiliyor...');
+      const steamUrl=`https://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${encodeURIComponent(apiKey)}&steamid=${encodeURIComponent(steamId)}&include_appinfo=1&include_played_free_games=1&format=json`;
+      const proxyUrl=`https://api.allorigins.win/raw?url=${encodeURIComponent(steamUrl)}`;
+      const r=await fetch(proxyUrl);
+      if(!r.ok)throw new Error('Steam API yanıt vermedi ('+r.status+'). Bağlantıyı tarayıcıda açıp JSON çıktısını kutuya yapıştırmayı deneyin.');
+      const j=await r.json();
+      steamGames=(j.response&&j.response.games)||[];
+    }
+
+    const filtered=steamGames.filter(g=>((g.playtime_forever||0)/60)>=minHours);
+    ilog(`Toplam ${steamGames.length} oyundan ${minHours} saat üzeri oynanan ${filtered.length} oyun işleniyor...`);
+
+    const added=[];
+    for(let i=0;i<filtered.length;i++){
+      const sg=filtered[i];
+      const name=sg.name;
+      if(!name||existing.has(normTitle(name))){if(name)ilog(`Atlandı (Zaten var): ${name}`);continue}
+
+      const hours=Math.max(1,Math.round((sg.playtime_forever||0)/60));
+      let item={
+        id:(Date.now()+i).toString(36),
+        status:defSt,
+        title:name,
+        image:sg.appid?`https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/${sg.appid}/header.jpg`:'',
+        platform:'PC (Steam)',
+        genres:[],
+        score:defSt==='bitirdim'?8:null,
+        finished:defSt==='bitirdim'?new Date().toISOString().slice(0,10):null,
+        recommended:true,
+        review:'',
+        note:'',
+        year:null,
+        favorite:false,
+        pros:[],
+        cons:[],
+        updatedAt:new Date().toISOString()
+      };
+      item[cCfg.dur.key]=hours;
+      item[cCfg.person.key]='';
+
+      if(enrich&&C.rawgKey){
+        try{
+          const rr=await fetch(`https://api.rawg.io/api/games?key=${C.rawgKey}&search_precise=true&page_size=1&search=${encodeURIComponent(name)}`);
+          if(rr.ok){
+            const hit=((await rr.json()).results||[])[0];
+            if(hit){
+              if(hit.background_image)item.image=hit.background_image;
+              item.year=+(hit.released||'').slice(0,4)||null;
+              item.genres=(hit.genres||[]).map(t=>TR[t.name]||t.name);
+            }
+          }
+          await sleep(200);
+        }catch{}
+      }
+
+      existing.add(normTitle(name));
+      added.push(item);
+      ilog(`+ Eklendi [${added.length}]: ${name} (${hours} saat)`);
+    }
+
+    if(!added.length){ilog('Eklenecek yeni oyun bulunamadı.');return say('Filtreye uyan tüm oyunlar zaten listede mevcut.')}
+    d.games=[...added,...d.games];
+    ilog(`${added.length} yeni oyun GitHub'a kaydediliyor...`);
+    if(await persist('oyun')){
+      ilog(`BAŞARILI! ${added.length} Steam oyunu eklendi.`);
+      if(cat==='oyun')list();
+    }
+  }catch(err){
+    ilog('HATA: '+err.message);
+    say('Steam aktarımı başarısız: '+err.message,1);
+  }finally{
+    $('#stStartBtn').disabled=false;
+  }
+};
+
+/* SEKME 3: GELİŞMİŞ İSTATİSTİKLER, YEDEKLEME VE GERİ YÜKLEME */
+const AUTO_BACKUP_PATH='backups/latest.json';
+const LOCAL_BACKUP_KEY='gunlugum_local_backups_v1';
+let pendingFileBackup=null,pendingRemoteBackup=null;
+
+function setBackupStatus(message,isBad=false){
+  const el=$('#backupStatus');
+  if(el){el.textContent=message;el.style.borderColor=isBad?'var(--no)':'var(--line)';el.style.color=isBad?'var(--no)':'var(--ink)'}
+}
+function backupToggleEnabled(){return $('#autoBackupToggle') ? $('#autoBackupToggle').checked : true}
+function makeBackupEnvelope(data,reason='Kullanıcı yedeği'){
+  return {format:'gunlugum-backup',version:1,createdAt:new Date().toISOString(),reason,repository:`${C.owner||''}/${C.repo||''}`,branch:C.branch||'main',data};
+}
+function rememberLocalBackup(snapshot){
+  try{
+    const old=JSON.parse(localStorage.getItem(LOCAL_BACKUP_KEY)||'[]');
+    const entries=Array.isArray(old)?old:[];
+    entries.unshift(snapshot);
+    localStorage.setItem(LOCAL_BACKUP_KEY,JSON.stringify(entries.slice(0,3)));
+  }catch(e){console.warn('Tarayıcı içi yedek kaydedilemedi:',e)}
+}
+async function readCurrentRemoteSnapshot(reason='Otomatik kayıt öncesi'){
+  const data={};
+  for(const [key,cfg] of Object.entries(CATS)){
+    const remote=await getRepoFile(cfg.file);
+    if(remote){
+      const parsed=JSON.parse(b64ToStr(remote.content));
+      if(!Array.isArray(parsed))throw new Error(cfg.file+' bir JSON kayıt dizisi değil; güvenlik yedeği oluşturulmadı.');
+      data[key]=parsed;
+    }else{
+      const cached=D[key];
+      data[key]=cached&&cached.loaded&&Array.isArray(cached.games)?cached.games:[];
+    }
+  }
+  return makeBackupEnvelope(data,reason);
+}
+async function writeBackupToGithub(snapshot,commitMessage='Günlüğüm otomatik veri yedeği'){
+  const sha=await putRepoFile(AUTO_BACKUP_PATH,JSON.stringify(snapshot,null,2),commitMessage);
+  if(!sha)throw new Error('GitHub yedek dosyası kaydedilemedi. Token ve depo izinlerini kontrol et.');
+  return sha;
+}
+async function createPreSaveBackup(targetCat=cat){
+  // Her yedek, mevcut kayıtlar GitHub'a yazılmadan önce uzak depodan okunur.
+  const snapshot=await readCurrentRemoteSnapshot(`${CATS[targetCat]?.name||targetCat} kaydı öncesi otomatik yedek`);
+  rememberLocalBackup(snapshot);
+  if(backupToggleEnabled()){
+    await writeBackupToGithub(snapshot,`Otomatik yedek: ${new Date().toISOString()}`);
+    setBackupStatus(`Son otomatik yedek: ${new Date(snapshot.createdAt).toLocaleString('tr-TR')} · backups/latest.json`);
+  }else{
+    setBackupStatus(`Otomatik GitHub yedeği kapalı. Tarayıcıda yerel güvenlik kopyası tutuldu (${new Date(snapshot.createdAt).toLocaleString('tr-TR')}).`);
+  }
+  return snapshot;
+}
+function numberOrNull(value){
+  if(value===null||value===undefined||value==='')return null;
+  const n=Number(value);return Number.isFinite(n)?n:null;
+}
+function durationText(key,items){
+  const sum=fn=>items.reduce((n,x)=>n+(numberOrNull(fn(x))||0),0);
+  if(key==='oyun')return `${sum(x=>x.hours).toLocaleString('tr-TR',{maximumFractionDigits:1})} saat oynama süresi`;
+  if(key==='film')return `${(sum(x=>x.minutes)/60).toLocaleString('tr-TR',{maximumFractionDigits:1})} saat film süresi`;
+  if(key==='dizi')return `${sum(x=>x.seasons)} sezon · ${sum(x=>x.episodes)} bölüm`;
+  return `${sum(x=>x.episodes)} bölüm`;
+}
+function renderBarList(targetId,entries,emptyText='Yeterli veri yok'){
+  const host=$('#'+targetId);if(!host)return;
+  if(!entries.length){host.innerHTML=`<p class="meta">${esc(emptyText)}</p>`;return}
+  const max=Math.max(1,...entries.map(x=>x.value));
+  host.innerHTML=entries.map(x=>`<div class="bar-row"><span class="bar-label" title="${esc(x.label)}">${esc(x.label)}</span><span class="bar-track"><span class="bar-fill" style="display:block;width:${Math.max(0,Math.min(100,x.value/max*100))}%"></span></span><span class="bar-value">${esc(x.display??x.value)}</span></div>`).join('');
+}
+function collectStats(){
+  const byCat={};
+  const all=[];
+  for(const [key,cfg] of Object.entries(CATS)){
+    const raw=(D[key]&&D[key].games)||[];
+    const items=raw.filter(x=>x&&typeof x==='object'&&!Array.isArray(x));
+    const scores=items.map(x=>numberOrNull(x.score)).filter(x=>x!==null);
+    const completed=items.filter(x=>x.status==='bitirdim');
+    const favorites=items.filter(x=>x.favorite===true);
+    byCat[key]={key,cfg,items,scores,completed,favorites,avg:scores.length?scores.reduce((a,b)=>a+b,0)/scores.length:null};
+    items.forEach(item=>all.push({...item,__category:key,__categoryName:cfg.name}));
+  }
+  const scores=all.map(x=>numberOrNull(x.score)).filter(x=>x!==null);
+  const completed=all.filter(x=>x.status==='bitirdim');
+  const favorites=all.filter(x=>x.favorite===true);
+  const current=all.filter(x=>x.status==='oynuyorum');
+  const totalAvg=scores.length?scores.reduce((a,b)=>a+b,0)/scores.length:null;
+  const statuses=[
+    {key:'bitirdim',label:'Tamamlandı / izlendi'},
+    {key:'oynuyorum',label:'Devam ediyor'},
+    {key:'biraktim',label:'Yarım bırakıldı'},
+    {key:'istek',label:'İstek listesi'}
+  ].map(s=>({label:s.label,value:all.filter(x=>x.status===s.key).length})).filter(x=>x.value>0);
+  const genreCounts={};
+  all.forEach(item=>{
+    const gs=Array.isArray(item.genres)?item.genres:(typeof item.genres==='string'?item.genres.split(','):[]);
+    gs.map(x=>String(x).trim()).filter(Boolean).forEach(g=>genreCounts[g]=(genreCounts[g]||0)+1);
+  });
+  const years={};
+  completed.forEach(item=>{
+    const year=String(item.finished||'').slice(0,4);
+    if(/^\d{4}$/.test(year))years[year]=(years[year]||0)+1;
+  });
+  const topGenres=Object.entries(genreCounts).map(([label,value])=>({label,value})).sort((a,b)=>b.value-a.value||a.label.localeCompare(b.label,'tr')).slice(0,8);
+  const topYears=Object.entries(years).map(([label,value])=>({label,value})).sort((a,b)=>a.label.localeCompare(b.label)).slice(-8);
+  const rated=all.filter(x=>numberOrNull(x.score)!==null).sort((a,b)=>numberOrNull(b.score)-numberOrNull(a.score)||String(a.title||'').localeCompare(String(b.title||''),'tr')).slice(0,8);
+  return {byCat,all,scores,completed,favorites,current,totalAvg,statuses,topGenres,topYears,rated};
+}
+async function renderStats(loadAll=false){
+  const refresh=$('#loadAllStatsBtn');
+  if(loadAll){
+    if(refresh)refresh.disabled=true;
+    setBackupStatus('İstatistikler GitHub verilerinden yenileniyor…');
+    try{for(const k of Object.keys(CATS))await ensureLoaded(k,true)}
+    finally{if(refresh)refresh.disabled=false}
+  }
+  const s=collectStats();
+  const metrics=[
+    {value:s.all.length,label:'Toplam kayıt',meta:'Dört kategorinin toplamı'},
+    {value:s.completed.length,label:'Tamamlanan',meta:'Bitirildi / izlendi durumundaki'},
+    {value:s.totalAvg===null?'—':s.totalAvg.toLocaleString('tr-TR',{maximumFractionDigits:2}),label:'Genel puan ortalaması',meta:`${s.scores.length} puanlı kayıt`},
+    {value:s.favorites.length,label:'Favoriler',meta:'Favori olarak işaretlenen'},
+    {value:s.current.length,label:'Devam eden',meta:'Şu anda oynanan / izlenen'}
+  ];
+  $('#summaryStatsGrid').innerHTML=metrics.map(x=>`<div class="stat-card"><b>${esc(x.value)}</b><div>${esc(x.label)}</div><small class="meta">${esc(x.meta)}</small></div>`).join('');
+  renderBarList('statusStats',s.statuses);
+  renderBarList('genreStats',s.topGenres);
+  renderBarList('yearStats',s.topYears,'Tamamlanan kayıtların bitiş tarihi bulunamadı.');
+  $('#topRated').innerHTML=s.rated.length?s.rated.map(x=>`<div class="rating-row"><span class="rating-score">★ ${numberOrNull(x.score).toLocaleString('tr-TR',{maximumFractionDigits:1})}</span><span class="rating-title"><b title="${esc(x.title||'İsimsiz kayıt')}">${esc(x.title||'İsimsiz kayıt')}</b><small>${esc(x.__categoryName)}${x.year?' · '+esc(x.year):''}</small></span></div>`).join(''):'<p class="meta">Henüz puanlanmış kayıt yok.</p>';
+  $('#statsGrid').innerHTML=Object.entries(s.byCat).map(([key,x])=>`<div class="stat-card"><b>${x.items.length}</b><div>${esc(x.cfg.plural)}</div><small class="meta">★ Favori: ${x.favorites.length} · Ort.: ${x.avg===null?'—':x.avg.toLocaleString('tr-TR',{maximumFractionDigits:2})}</small><small class="meta" style="display:block;margin-top:6px">${esc(durationText(key,x.items))}</small><small class="meta" style="display:block">${x.completed.length} tamamlanan · ${x.scores.length} puanlı</small></div>`).join('');
+  if(loadAll)setBackupStatus(`İstatistikler güncellendi · ${new Date().toLocaleString('tr-TR')}`);
+}
+
+$('#loadAllStatsBtn').onclick=()=>renderStats(true);
+
+/* ARŞİV KONTROL MERKEZİ — kayıtları değiştirmeden kalite kontrolü yapar */
+let archiveHealthIssues=[];
+const healthSeverityLabel={error:'Hata',warning:'Uyarı',info:'Bilgi'};
+function healthAdd(issues,level,category,item,code,message){
+  issues.push({level,category,id:String(item?.id??''),title:String(item?.title??''),code,message});
+}
+function healthUrlValid(value){
+  if(!value)return true;
+  try{const u=new URL(String(value));return u.protocol==='https:'||u.protocol==='http:'}catch{return false}
+}
+function healthNormalizeTitle(value){return String(value??'').normalize('NFC').trim().replace(/\s+/g,' ').toLocaleLowerCase('tr-TR')}
+function runHealthAnalysis(){
+  const issues=[];let total=0;
+  for(const key of Object.keys(CATS)){
+    const d=D[key],c=CATS[key];
+    if(!d||!d.loaded){
+      healthAdd(issues,'error',key,{id:'',title:''},'load','Kategori GitHub’dan doğrulanarak yüklenemedi. Bağlantıyı ve depo erişimini kontrol et.');
+      continue;
+    }
+    const items=Array.isArray(d.games)?d.games:[];total+=items.length;
+    const idsSeen=new Map(),titlesSeen=new Map();
+    for(const item of items){
+      if(!item||typeof item!=='object'||Array.isArray(item)){
+        healthAdd(issues,'error',key,{id:'',title:''},'record','Kayıt beklenen nesne biçiminde değil.');continue;
+      }
+      const title=String(item.title??'').trim(),id=String(item.id??'').trim();
+      if(!title)healthAdd(issues,'error',key,item,'title-missing','Başlık boş. Kaydın adı olmadan arşivde bulunması zorlaşır.');
+      if(!id)healthAdd(issues,'error',key,item,'id-missing','Kayıt ID alanı boş.');
+      else if(idsSeen.has(id))healthAdd(issues,'error',key,item,'id-duplicate',`ID başka bir kayıtta daha kullanılıyor: ${idsSeen.get(id)}.`);
+      else idsSeen.set(id,title||'(başlıksız)');
+      const nt=healthNormalizeTitle(title);
+      if(nt){if(titlesSeen.has(nt))healthAdd(issues,'warning',key,item,'title-duplicate',`Aynı başlık bu kategoride birden fazla kayıtlı: ${titlesSeen.get(nt)}.`);else titlesSeen.set(nt,title)}
+      if(item.score!==null&&item.score!==undefined&&item.score!==''){
+        const score=Number(item.score);
+        if(!Number.isFinite(score)||score<0||score>10)healthAdd(issues,'error',key,item,'score-invalid','Puan 0–10 aralığında geçerli bir sayı olmalı.');
+      }
+      const validStatuses=Object.keys(c.st||{});
+      if(item.status&&!validStatuses.includes(item.status))healthAdd(issues,'error',key,item,'status-invalid',`Bilinmeyen durum değeri: ${String(item.status)}.`);
+      if(!item.image)healthAdd(issues,'warning',key,item,'image-missing','Kapak görseli adresi boş.');
+      else if(!healthUrlValid(item.image))healthAdd(issues,'warning',key,item,'image-invalid','Kapak görseli HTTP/HTTPS biçiminde geçerli bir URL değil.');
+      if(item.year!==null&&item.year!==undefined&&item.year!==''){
+        const year=Number(item.year),current=new Date().getFullYear();
+        if(!Number.isInteger(year)||year<1880||year>current+10)healthAdd(issues,'warning',key,item,'year-invalid','Çıkış yılı beklenmeyen bir değer içeriyor.');
+      }else healthAdd(issues,'info',key,item,'year-missing','Çıkış yılı girilmemiş.');
+      if(item.review&&!healthUrlValid(item.review))healthAdd(issues,'warning',key,item,'review-invalid','İnceleme bağlantısı geçerli bir HTTP/HTTPS URL değil.');
+      if(item.genres!==undefined&&!Array.isArray(item.genres))healthAdd(issues,'error',key,item,'genres-invalid','Türler alanı bir liste olmalı.');
+      if(item.genres===undefined||Array.isArray(item.genres)&&item.genres.length===0)healthAdd(issues,'info',key,item,'genres-missing','Tür bilgisi girilmemiş.');
+      const done=item.status==='bitirdim';
+      if(done){
+        if(item.score===null||item.score===undefined||item.score==='')healthAdd(issues,'warning',key,item,'score-missing','Tamamlanmış kaydın kişisel puanı girilmemiş.');
+        if(!item.finished)healthAdd(issues,'warning',key,item,'date-missing','Tamamlanmış kaydın bitirme/izleme tarihi girilmemiş.');
+        else if(Number.isNaN(Date.parse(item.finished)))healthAdd(issues,'error',key,item,'date-invalid','Bitiş/izleme tarihi geçerli bir tarih değil.');
+        const durationKey=(c.dur||{}).key;
+        if(durationKey&&c.dur&&c.dur.req&&(item[durationKey]===null||item[durationKey]===undefined||item[durationKey]===''))healthAdd(issues,'warning',key,item,'duration-missing','Tamamlanmış kayıtta süre bilgisi girilmemiş.');
+      }
+      if(item.updatedAt&&Number.isNaN(Date.parse(item.updatedAt)))healthAdd(issues,'warning',key,item,'updated-invalid','Son güncelleme tarihi geçerli biçimde değil.');
+    }
+  }
+  return {issues,total};
+}
+function renderHealthResults(){
+  const category=$('#healthCategoryFilter').value,severity=$('#healthSeverityFilter').value;
+  const filtered=archiveHealthIssues.filter(x=>(!category||x.category===category)&&(!severity||x.level===severity));
+  const count={error:0,warning:0,info:0};archiveHealthIssues.forEach(x=>count[x.level]++);
+  const allRecords=Object.keys(CATS).reduce((n,k)=>n+(D[k]?.loaded&&Array.isArray(D[k].games)?D[k].games.length:0),0);
+  $('#healthSummary').innerHTML=[
+    {value:allRecords,label:'İncelenen kayıt'},
+    {value:count.error,label:'Hata'},
+    {value:count.warning,label:'Uyarı'},
+    {value:count.info,label:'Bilgi'}
+  ].map(x=>`<div class="stat-card"><b>${esc(x.value)}</b><div>${esc(x.label)}</div></div>`).join('');
+  if(!archiveHealthIssues.length){$('#healthResults').innerHTML='<p class="meta">Sorun bulunmadı. Arşiv temel kontrollerden geçti.</p>';return}
+  if(!filtered.length){$('#healthResults').innerHTML='<p class="meta">Bu filtrelerle eşleşen sorun yok.</p>';return}
+  $('#healthResults').innerHTML=`<p class="meta">${filtered.length} sonuç gösteriliyor · Toplam ${archiveHealthIssues.length} bulgu</p>`+filtered.map((x,i)=>`<div class="li-adv">
+    <div class="li-info"><div class="li-text">
+      <div class="li-title"><span class="badge">${esc(healthSeverityLabel[x.level])}</span><span>${esc(x.title||'(Başlıksız kayıt)')}</span><span class="meta">${esc(CATS[x.category]?.plural||x.category)}</span></div>
+      <div class="meta">${esc(x.message)}</div>
+    </div></div>
+    ${x.id?`<div class="li-actions"><button class="btn" type="button" data-health-open="${i}" title="Kaydı içerik yönetiminde bul">Kaydı Bul</button></div>`:''}
+  </div>`).join('');
+}
+async function runArchiveHealthCheck(){
+  const btn=$('#runArchiveCheckBtn');btn.disabled=true;$('#healthStatus').textContent='Kategoriler GitHub’dan yükleniyor ve inceleniyor…';
+  try{
+    for(const key of Object.keys(CATS))await ensureLoaded(key,true);
+    const result=runHealthAnalysis();archiveHealthIssues=result.issues;renderHealthResults();
+    const errors=archiveHealthIssues.filter(x=>x.level==='error').length,warnings=archiveHealthIssues.filter(x=>x.level==='warning').length;
+    const incomplete=Object.keys(CATS).filter(k=>!D[k]?.loaded);
+    $('#healthStatus').textContent=`Tarama tamamlandı: ${result.total} kayıt incelendi, ${errors} hata ve ${warnings} uyarı bulundu.`+(incomplete.length?` Doğrulanamayan kategoriler: ${incomplete.map(k=>CATS[k].plural).join(', ')}.`:'');
+  }catch(e){$('#healthStatus').textContent='Tarama başarısız: '+e.message}
+  finally{btn.disabled=false}
+}
+$('#runArchiveCheckBtn').addEventListener('click',runArchiveHealthCheck);
+$('#healthCategoryFilter').addEventListener('change',renderHealthResults);
+$('#healthSeverityFilter').addEventListener('change',renderHealthResults);
+$('#healthResults').addEventListener('click',async e=>{
+  const btn=e.target.closest('[data-health-open]');if(!btn)return;
+  const visible=archiveHealthIssues.filter(x=>(!$('#healthCategoryFilter').value||x.category===$('#healthCategoryFilter').value)&&(!$('#healthSeverityFilter').value||x.level===$('#healthSeverityFilter').value));
+  const issue=visible[Number(btn.dataset.healthOpen)];if(!issue)return;
+  cat=issue.category;try{localStorage.setItem('admin_cat',cat)}catch{}
+  $$('.tab-btn').forEach(b=>{const active=b.dataset.tab==='content';b.setAttribute('aria-selected',String(active))});$$('.tab-pane').forEach(p=>p.hidden=p.id!=='tab-content');
+  clear();applyCat();await ensureLoaded(cat,true);$('#qFilter').value=issue.title||'';list();$('#list').scrollIntoView({behavior:'smooth',block:'start'});
+});
+
+function downloadJson(payload,filename){
+  const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json;charset=utf-8'});
+  const url=URL.createObjectURL(blob),a=document.createElement('a');
+  a.href=url;a.download=filename;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);
+}
+$('#dlAllBtn').onclick=async()=>{
+  $('#dlAllBtn').disabled=true;
+  try{
+    await renderStats(true);
+    const data={};Object.keys(CATS).forEach(k=>data[k]=(D[k]&&D[k].games)||[]);
+    const snapshot=makeBackupEnvelope(data,'Kullanıcı tarafından indirilen yedek');
+    downloadJson(snapshot,`gunlugum-yedek-${new Date().toISOString().slice(0,10)}.json`);
+    setBackupStatus(`Yedek dosyası indirildi · ${new Date().toLocaleString('tr-TR')}`);
+  }catch(e){say('Yedek indirilemedi: '+e.message,1)}
+  finally{$('#dlAllBtn').disabled=false}
+};
+function normalizeBackup(raw){
+  if(!raw||typeof raw!=='object'||Array.isArray(raw))throw new Error('Dosyanın en üst düzeyi JSON nesnesi olmalı.');
+  const payload=raw.data&&typeof raw.data==='object'&&!Array.isArray(raw.data)?raw.data:raw;
+  const data={};
+  for(const key of Object.keys(CATS)){
+    if(!Object.prototype.hasOwnProperty.call(payload,key))continue;
+    if(!Array.isArray(payload[key]))throw new Error(`${key} alanı bir kayıt dizisi değil.`);
+    if(payload[key].some(x=>!x||typeof x!=='object'||Array.isArray(x)))throw new Error(`${key} içinde geçersiz bir kayıt var.`);
+    data[key]=payload[key];
+  }
+  const keys=Object.keys(data);
+  if(!keys.length)throw new Error('Yedekte tanınan kategori bulunamadı. Beklenen alanlar: oyun, film, dizi, anime.');
+  return {data,createdAt:raw.createdAt||null,repository:raw.repository||null,reason:raw.reason||'JSON yedeği',format:raw.format||'legacy'};
+}
+function previewBackup(backup,source){
+  const groups=Object.entries(backup.data).map(([k,items])=>`${CATS[k].plural}: ${items.length} kayıt`);
+  const missing=Object.keys(CATS).filter(k=>!Object.prototype.hasOwnProperty.call(backup.data,k));
+  const date=backup.createdAt?` · Oluşturulma: ${new Date(backup.createdAt).toLocaleString('tr-TR')}`:'';
+  const note=missing.length?` · Dosyada yok: ${missing.map(k=>CATS[k].plural).join(', ')} (değiştirilmeyecek)`:'';
+  $('#backupPreview').textContent=`${source}: ${groups.join(' · ')}${date}${note}`;
+}
+$('#autoBackupToggle').checked=(()=>{try{return localStorage.getItem('gunlugum_auto_backup')!=='false'}catch{return true}})();
+$('#autoBackupToggle').addEventListener('change',()=>{
+  try{localStorage.setItem('gunlugum_auto_backup',$('#autoBackupToggle').checked?'true':'false')}catch{}
+  setBackupStatus($('#autoBackupToggle').checked?'Otomatik GitHub yedeklemesi etkin. Sonraki kayıt işleminden önce backups/latest.json güncellenecek.':'Otomatik GitHub yedeklemesi kapalı. Ön-kayıt kopyaları yalnızca bu tarayıcıda tutulacak.');
+});
+$('#backupFileInput').addEventListener('change',async e=>{
+  pendingFileBackup=null;$('#restoreFileBtn').disabled=true;
+  const file=e.target.files&&e.target.files[0];if(!file){$('#backupPreview').textContent='Henüz bir yedek seçilmedi.';return}
+  if(file.size>20*1024*1024){$('#backupPreview').textContent='Dosya 20 MB sınırını aşıyor.';return}
+  try{
+    const raw=JSON.parse(await file.text());pendingFileBackup=normalizeBackup(raw);
+    previewBackup(pendingFileBackup,`Seçilen dosya (${file.name})`);$('#restoreFileBtn').disabled=false;
+  }catch(err){$('#backupPreview').textContent='Yedek okunamadı: '+err.message}
+});
+$('#downloadLocalBackupBtn').onclick=()=>{
+  try{
+    const backups=JSON.parse(localStorage.getItem(LOCAL_BACKUP_KEY)||'[]');
+    if(!Array.isArray(backups)||!backups.length)throw new Error('Bu tarayıcıda henüz yerel yedek yok.');
+    const latest=backups[0];
+    downloadJson(latest,`gunlugum-yerel-yedek-${new Date(latest.createdAt||Date.now()).toISOString().slice(0,10)}.json`);
+    setBackupStatus('Tarayıcıdaki en yeni yerel yedek indirildi.');
+  }catch(e){setBackupStatus(e.message,true)}
+};
+$('#loadRemoteBackupBtn').onclick=async()=>{
+  $('#loadRemoteBackupBtn').disabled=true;pendingRemoteBackup=null;$('#restoreRemoteBackupBtn').disabled=true;
+  setBackupStatus('GitHub yedeği aranıyor…');
+  try{
+    const remote=await getRepoFile(AUTO_BACKUP_PATH);
+    if(!remote)throw new Error('backups/latest.json henüz oluşturulmamış. Önce en az bir kayıt işlemiyle otomatik yedek al.');
+    pendingRemoteBackup=normalizeBackup(JSON.parse(b64ToStr(remote.content)));
+    previewBackup(pendingRemoteBackup,'GitHub son otomatik yedeği');$('#restoreRemoteBackupBtn').disabled=false;
+    setBackupStatus('GitHub yedeği yüklendi. Geri yüklemeden önce mevcut arşiv de yedeklenecek.');
+  }catch(e){setBackupStatus('Yedek alınamadı: '+e.message,true)}
+  finally{$('#loadRemoteBackupBtn').disabled=false}
+};
+async function restoreBackup(backup,source){
+  if(!backup||!Object.keys(backup.data).length)return;
+  const keys=Object.keys(backup.data),summary=keys.map(k=>`${CATS[k].plural}: ${backup.data[k].length}`).join(', ');
+  const warning=`${source} geri yüklenecek.\n\n${summary}\n\nBu kategorilerdeki mevcut kayıtlar yedekteki kayıtlarla değiştirilecek. İşlemden önce mevcut arşiv yedeklenecek. Devam edilsin mi?`;
+  if(!confirm(warning))return;
+  if(!tok())return say('Geri yüklemek için yönetim paneline giriş yapmalısın.',1);
+  $('#restoreFileBtn').disabled=true;$('#restoreRemoteBackupBtn').disabled=true;
+  try{
+    setBackupStatus('Geri yükleme öncesi güvenlik yedeği oluşturuluyor…');
+    const before=await readCurrentRemoteSnapshot('Geri yükleme öncesi güvenlik yedeği');
+    rememberLocalBackup(before);
+    await writeBackupToGithub(before,'Geri yükleme öncesi otomatik güvenlik yedeği');
+    for(const key of keys){
+      const filePath=CATS[key].file;
+      const sha=await putRepoFile(filePath,JSON.stringify(backup.data[key],null,2),`${CATS[key].plural} yedekten geri yüklendi`);
+      if(!sha)throw new Error(`${filePath} kaydedilemedi; işlem kısmen tamamlanmış olabilir.`);
+      D[key]={games:backup.data[key],sha,loaded:true};
+      if(key===cat)list();
+    }
+    await renderStats(false);
+    setBackupStatus(`Geri yükleme tamamlandı · ${keys.map(k=>CATS[k].plural).join(', ')} · ${new Date().toLocaleString('tr-TR')}`);
+    say('Yedek başarıyla GitHub deposuna geri yüklendi. Sitenin yayınlanması birkaç dakika sürebilir.');
+  }catch(e){setBackupStatus('Geri yükleme sırasında hata: '+e.message,true);say('Geri yükleme tamamlanamadı: '+e.message,1)}
+  finally{$('#restoreFileBtn').disabled=!pendingFileBackup;$('#restoreRemoteBackupBtn').disabled=!pendingRemoteBackup}
+}
+$('#restoreFileBtn').onclick=()=>restoreBackup(pendingFileBackup,'Seçilen JSON yedeği');
+$('#restoreRemoteBackupBtn').onclick=()=>restoreBackup(pendingRemoteBackup,'GitHub son otomatik yedeği');
+
+/* SEKME 4: SİTE & KATEGORİ AYARLARI */
+async function initSettingsForm(){
+  ['owner','repo','branch','rawgKey','tmdbKey','vault'].forEach(k=>{
+    if($('#cfg_'+k))$('#cfg_'+k).value=C[k]||'';
+  });
+  try{
+    const f=await getRepoFile('scripts/categories.js');
+    if(f)$('#catEditor').value=b64ToStr(f.content);
+  }catch{}
+}
+$('#saveConfigBtn').onclick=async()=>{
+  const newCfg={
+    ...C,
+    owner:$('#cfg_owner').value.trim(),
+    repo:$('#cfg_repo').value.trim(),
+    branch:$('#cfg_branch').value.trim()||'main',
+    rawgKey:$('#cfg_rawgKey').value.trim(),
+    tmdbKey:$('#cfg_tmdbKey').value.trim(),
+    vault:$('#cfg_vault').value.trim()
+  };
+  const code=`window.CONFIG = ${JSON.stringify(newCfg,null,2)};\n`;
+  try{
+    await putRepoFile('scripts/config.js',code,'scripts/config.js admin panelinden güncellendi');
+    Object.assign(C,newCfg);
+    say('config.js başarıyla GitHub\'a kaydedildi!');
+  }catch(e){say('scripts/config.js kaydedilemedi: '+e.message,1)}
+};
+$('#saveCatsBtn').onclick=async()=>{
+  const code=$('#catEditor').value;
+  try{
+    await putRepoFile('scripts/categories.js',code,'scripts/categories.js admin panelinden güncellendi');
+    say('scripts/categories.js başarıyla GitHub\'a kaydedildi! Değişikliklerin yansıması için sayfayı yenileyebilirsin.');
+  }catch(e){say('scripts/categories.js kaydedilemedi: '+e.message,1)}
+};
+
+/* SEKME 5: HAM DOSYA EDİTÖRÜ */
+let currentRawSha=null,currentRawPath='';
+$('#loadFileBtn').onclick=async()=>{
+  const path=$('#customFilePath').value.trim()||$('#repoFileSelect').value;
+  if(!path)return;
+  say(path+' yükleniyor…');
+  try{
+    const f=await getRepoFile(path);
+    if(!f){$('#rawFileContent').value='';currentRawSha=null;currentRawPath=path;return say(path+' GitHub deposunda bulunamadı. Kaydettiğinde bu yolda yeni dosya oluşturulacak.',1)}
+    currentRawSha=f.sha;currentRawPath=path;
+    $('#rawFileContent').value=b64ToStr(f.content);
+    say(path+' yüklendi.');
+  }catch(e){say('Dosya okunamadı: '+e.message,1)}
+};
+$('#repoFileSelect').onchange=()=>{$('#customFilePath').value='';$('#loadFileBtn').click()};
+$('#saveRawFileBtn').onclick=async()=>{
+  const path=$('#customFilePath').value.trim()||$('#repoFileSelect').value;
+  if(!path)return say('Dosya adı seçilmedi.',1);
+  const msg=$('#commitMsgInput').value.trim()||`${path} admin panelinden güncellendi`;
+  try{
+    currentRawSha=await putRepoFile(path,$('#rawFileContent').value,msg,currentRawPath===path?currentRawSha:null);
+    currentRawPath=path;
+    say(path+' başarıyla GitHub\'a commit edildi!');
+  }catch(e){say('Dosya kaydedilemedi: '+e.message,1)}
+};
+</script>
+<script>
+/* JSON alanlarını arayüzde göstermeden seçmeli bağlantı ve kurulum profili düzenleyicileri. */
+(() => {
+  'use strict';
+  const $ = (s) => document.querySelector(s);
+  const linkTypeNames = {
+    official: 'Resmî site', store: 'Mağaza sayfası', trailer: 'Fragman / tanıtım',
+    wiki: 'Wiki / rehber', mods: 'Mod / yama', support: 'Destek sayfası',
+    community: 'Topluluk', other: 'Diğer'
+  };
+  let formLinks = [];
+  let formProfiles = [];
+  const parseHidden = (id) => {
+    try { const value = JSON.parse($('#' + id)?.value || '[]'); return Array.isArray(value) ? value : []; }
+    catch (_) { return []; }
+  };
+  const setHidden = (id, items) => { const field = $('#' + id); if (field) field.value = JSON.stringify(items); };
+  const node = (tag, className, text) => {
+    const item = document.createElement(tag);
+    if (className) item.className = className;
+    if (text !== undefined) item.textContent = text;
+    return item;
+  };
+  function syncHidden() {
+    setHidden('availabilityJson', formLinks);
+    setHidden('installProfilesJson', formProfiles);
+  }
+  function renderLinks() {
+    const host = $('#linksEditorList'); if (!host) return;
+    host.replaceChildren();
+    if (!formLinks.length) { host.appendChild(node('div','media-editor-empty','Henüz bağlantı eklenmedi.')); return; }
+    formLinks.forEach((item, index) => {
+      const row = node('div','media-editor-row');
+      const copy = node('div','media-editor-row__copy');
+      copy.append(node('strong','',item.name || linkTypeNames[item.type] || 'Bağlantı'));
+      copy.append(node('small','',`${linkTypeNames[item.type] || 'Diğer'} · ${item.url || ''}${item.note ? ' · ' + item.note : ''}`));
+      const remove = node('button','btn media-editor-row__remove','Kaldır');
+      remove.type = 'button'; remove.dataset.removeLink = String(index); remove.setAttribute('aria-label',`${item.name || 'Bağlantı'} bağlantısını kaldır`);
+      row.append(copy, remove); host.appendChild(row);
+    });
+  }
+  function renderProfiles() {
+    const host = $('#installProfilesEditorList'); if (!host) return;
+    host.replaceChildren();
+    if (!formProfiles.length) { host.appendChild(node('div','media-editor-empty','Henüz kurulum profili eklenmedi.')); return; }
+    formProfiles.forEach((profile, index) => {
+      const row = node('div','media-editor-row');
+      const copy = node('div','media-editor-row__copy');
+      copy.append(node('strong','',profile.name || `Profil ${index + 1}`));
+      const details = [profile.platform, profile.compatibility, profile.version].filter(Boolean).join(' · ');
+      copy.append(node('small','',details || 'Ek kurulum bilgileri mevcut'));
+      const remove = node('button','btn media-editor-row__remove','Kaldır');
+      remove.type = 'button'; remove.dataset.removeProfile = String(index); remove.setAttribute('aria-label',`${profile.name || 'Profil'} kaydını kaldır`);
+      row.append(copy, remove); host.appendChild(row);
+    });
+  }
+  function loadFromHidden() {
+    formLinks = parseHidden('availabilityJson').filter(x => x && typeof x === 'object' && x.url && x.name);
+    formProfiles = parseHidden('installProfilesJson').filter(x => x && typeof x === 'object' && x.name);
+    renderLinks(); renderProfiles(); syncHidden();
+  }
+  $('#addLinkItem')?.addEventListener('click', () => {
+    const type = $('#linkType').value;
+    const rawUrl = $('#linkUrl').value.trim();
+    if (!rawUrl) { $('#linkUrl').focus(); return alert('Önce bağlantı adresini gir.'); }
+    let parsed;
+    try { parsed = new URL(rawUrl); } catch (_) { $('#linkUrl').focus(); return alert('Geçerli bir URL gir.'); }
+    if (parsed.protocol !== 'https:') { $('#linkUrl').focus(); return alert('Güvenlik için bağlantı HTTPS ile başlamalı.'); }
+    const name = $('#linkName').value.trim() || linkTypeNames[type] || 'Bağlantı';
+    formLinks.push({ name, type, url: parsed.href, note: $('#linkNote').value.trim() });
+    $('#linkName').value = ''; $('#linkUrl').value = ''; $('#linkNote').value = '';
+    syncHidden(); renderLinks(); $('#linkUrl').focus();
+  });
+  $('#linksEditorList')?.addEventListener('click', (event) => {
+    const button = event.target.closest('[data-remove-link]'); if (!button) return;
+    formLinks.splice(Number(button.dataset.removeLink), 1); syncHidden(); renderLinks();
+  });
+  $('#addInstallProfile')?.addEventListener('click', () => {
+    const val = id => ($('#' + id)?.value || '').trim();
+    const name = val('profileName');
+    if (!name) { $('#profileName').focus(); return alert('Kurulum profiline bir ad ver.'); }
+    formProfiles.push({
+      name,
+      version: val('profileVersion'),
+      platform: val('profilePlatform'),
+      compatibility: val('profileCompatibility'),
+      launchOptions: val('profileLaunchOptions'),
+      graphicsSettings: val('profileGraphicsSettings'),
+      mods: val('profileMods'),
+      notes: val('profileNotes')
+    });
+    ['profileName','profileVersion','profileLaunchOptions','profileGraphicsSettings','profileMods','profileNotes'].forEach(id => { const field = $('#'+id); if (field) field.value=''; });
+    $('#profilePlatform').value=''; $('#profileCompatibility').value='';
+    syncHidden(); renderProfiles(); $('#profileName').focus();
+  });
+  $('#installProfilesEditorList')?.addEventListener('click', (event) => {
+    const button = event.target.closest('[data-remove-profile]'); if (!button) return;
+    formProfiles.splice(Number(button.dataset.removeProfile), 1); syncHidden(); renderProfiles();
+  });
+  // Capture phase: arrays are serialized before the existing save handler reads them.
+  document.addEventListener('click', (event) => {
+    if (event.target.closest('#add')) syncHidden();
+  }, true);
+  $('#clr')?.addEventListener('click', () => { window.setTimeout(loadFromHidden, 0); });
+  const title = $('#ft');
+  if (title) new MutationObserver(() => window.setTimeout(loadFromHidden, 0)).observe(title, { childList: true, characterData: true, subtree: true });
+  loadFromHidden();
+})();
+</script>
+
+</body>
+</html>

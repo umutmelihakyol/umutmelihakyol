@@ -1,0 +1,315 @@
+/* Günlüğüm — anime detay penceresi.
+   Sadece body.cat-anime kapsamındadır; oyun, film ve dizi detaylarına etki etmez. */
+body.cat-anime dialog#dlg.detail-redesign.anime-detail {
+  width: min(790px, 94vw);
+  max-width: 790px;
+  max-height: min(92vh, 920px);
+  max-height: min(92dvh, 920px);
+  overflow: auto;
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  background: var(--card);
+  color: var(--ink);
+  overscroll-behavior: contain;
+}
+
+/* Afiş görselinin oranı JavaScript tarafından algılanır. Bulanık arka plan
+   görselin aynı kaynağını kullanır; dikey afiş artık iki yanında boş siyah
+   alanlar bırakmaz, ana görselin tamamı ise kırpılmadan görünür. */
+body.cat-anime dialog#dlg.detail-redesign.anime-detail > .cover {
+  position: relative;
+  display: grid;
+  place-items: center;
+  isolation: isolate;
+  overflow: hidden;
+  width: 100%;
+  height: clamp(310px, 38vw, 370px);
+  min-height: 0;
+  max-height: 370px;
+  aspect-ratio: auto;
+  background: var(--bg, #10161a);
+}
+body.cat-anime dialog#dlg.detail-redesign.anime-detail > .cover::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  inset: -20px;
+  background-image: var(--anime-cover-image, none);
+  background-size: cover;
+  background-position: center 35%;
+  background-repeat: no-repeat;
+  filter: blur(19px) saturate(1.18);
+  opacity: .76;
+  transform: scale(1.06);
+  pointer-events: none;
+}
+body.cat-anime dialog#dlg.detail-redesign.anime-detail > .cover::after {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  height: auto;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(7, 11, 14, .12) 0%, rgba(7, 11, 14, .02) 42%, rgba(7, 11, 14, .32) 100%),
+    linear-gradient(90deg, rgba(7, 11, 14, .32), transparent 31%, transparent 69%, rgba(7, 11, 14, .32));
+}
+body.cat-anime dialog#dlg.detail-redesign.anime-detail > .cover > img {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: auto;
+  height: 100%;
+  max-width: min(58%, 320px);
+  max-height: 100%;
+  object-fit: contain;
+  object-position: center center;
+  background: transparent;
+  box-shadow: 0 12px 42px rgba(0, 0, 0, .28);
+}
+
+/* Dikey afiş: afişin tamamı görünür ve çevresi aynı görselle doldurulur. */
+body.cat-anime dialog#dlg.detail-redesign.anime-detail.anime-cover-portrait > .cover > img {
+  width: auto;
+  max-width: min(58%, 320px);
+  object-fit: contain;
+}
+/* Yatay kapak: ana görsel alanı tamamen doldurur, arka plan da aynı görselle yumuşatılır. */
+body.cat-anime dialog#dlg.detail-redesign.anime-detail.anime-cover-landscape > .cover {
+  height: clamp(230px, 30vw, 320px);
+  max-height: 320px;
+}
+body.cat-anime dialog#dlg.detail-redesign.anime-detail.anime-cover-landscape > .cover > img {
+  width: 100%;
+  max-width: none;
+  object-fit: cover;
+  object-position: center 35%;
+  box-shadow: none;
+}
+/* Kareye yakın görseller orta genişlikte gösterilir. */
+body.cat-anime dialog#dlg.detail-redesign.anime-detail.anime-cover-square > .cover > img {
+  max-width: min(72%, 350px);
+  object-fit: contain;
+}
+body.cat-anime dialog#dlg.detail-redesign.anime-detail.anime-cover-missing > .cover::before {
+  background-image: none;
+  background: radial-gradient(ellipse at center, color-mix(in srgb, var(--acc) 20%, var(--bg)) 0%, var(--bg) 74%);
+}
+
+/* Üst kapak rozetleri görsel ve bulanık zemin üstünde okunur kalır. */
+body.cat-anime dialog#dlg.detail-redesign.anime-detail > .cover .stb,
+body.cat-anime dialog#dlg.detail-redesign.anime-detail > .cover .fvb,
+body.cat-anime dialog#dlg.detail-redesign.anime-detail > .cover .score,
+body.cat-anime dialog#dlg.detail-redesign.anime-detail > .cover .recb {
+  z-index: 4;
+}
+body.cat-anime dialog#dlg.detail-redesign.anime-detail > .cover .stb {
+  top: 15px;
+  right: 17px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: .78rem;
+}
+body.cat-anime dialog#dlg.detail-redesign.anime-detail > .cover .fvb {
+  top: 15px;
+  left: 17px;
+}
+body.cat-anime dialog#dlg.detail-redesign.anime-detail > .cover .score {
+  left: 18px;
+  bottom: 16px;
+  width: 48px;
+  height: 48px;
+  font-size: 1rem;
+}
+body.cat-anime dialog#dlg.detail-redesign.anime-detail > .cover .recb {
+  right: 17px;
+  bottom: 16px;
+}
+
+/* Başlık ve meta bilgileri sitenin mevcut koyu/açık tema değişkenleriyle uyumlu. */
+body.cat-anime dialog#dlg.detail-redesign.anime-detail > .inner {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 25px 27px 26px;
+}
+body.cat-anime dialog#dlg.detail-redesign.anime-detail > .inner > h2 {
+  margin: 0;
+  font-size: clamp(1.65rem, 3.8vw, 2.15rem);
+  line-height: 1.15;
+  letter-spacing: -.045em;
+  overflow-wrap: anywhere;
+}
+body.cat-anime dialog#dlg.detail-redesign.anime-detail > .inner > .meta:not(.purchase-mini) {
+  align-self: flex-start;
+  margin: -5px 0 0;
+  padding: 5px 12px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--card) 75%, var(--bg));
+  font-size: .82rem;
+}
+body.cat-anime dialog#dlg.detail-redesign.anime-detail > .inner > .tags.wrapt {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  height: auto;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  overflow: visible;
+}
+body.cat-anime dialog#dlg.detail-redesign.anime-detail > .inner > .tags.wrapt span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 27px;
+  padding: 4px 10px;
+  border: 1px solid color-mix(in srgb, var(--acc) 22%, var(--line));
+  border-radius: 999px;
+  color: var(--acc);
+  background: color-mix(in srgb, var(--acc) 8%, var(--card));
+  font-size: .76rem;
+  line-height: 1.2;
+}
+
+/* Bölüm sayısı tam genişlikte; kalan tarihler ve yayın bilgileri dengeli kartlar. */
+body.cat-anime dialog#dlg.detail-redesign.anime-detail > .inner > p.facts:nth-child(4),
+body.cat-anime dialog#dlg.detail-redesign.anime-detail > .inner > p.facts:nth-child(5) {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 9px;
+  margin: 0;
+  min-height: 0;
+  white-space: normal;
+  overflow: visible;
+  font-size: .9rem;
+}
+body.cat-anime dialog#dlg.detail-redesign.anime-detail > .inner > p.facts:nth-child(4) > span:first-child {
+  grid-column: 1 / -1;
+}
+/* Tek kalan bitiş tarihi yarım bir kutu gibi görünmesin. */
+body.cat-anime dialog#dlg.detail-redesign.anime-detail > .inner > p.facts:nth-child(4) > span:not(:first-child):last-child {
+  grid-column: 1 / -1;
+}
+body.cat-anime dialog#dlg.detail-redesign.anime-detail > .inner > p.facts:nth-child(4) > span,
+body.cat-anime dialog#dlg.detail-redesign.anime-detail > .inner > p.facts:nth-child(5) > span {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 5px 7px;
+  min-width: 0;
+  padding: 11px 12px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--card) 55%, var(--bg));
+  overflow-wrap: anywhere;
+}
+body.cat-anime dialog#dlg.detail-redesign.anime-detail > .inner > p.facts i {
+  display: inline-block;
+  margin: 0;
+  color: var(--mute);
+  font-size: .82rem;
+  font-style: normal;
+}
+
+body.cat-anime dialog#dlg.detail-redesign.anime-detail > .inner > .full {
+  margin: 0;
+  padding: 16px 17px;
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--acc);
+  border-radius: 13px;
+  background: color-mix(in srgb, var(--card) 65%, var(--bg));
+  line-height: 1.65;
+  overflow-wrap: anywhere;
+}
+body.cat-anime dialog#dlg.detail-redesign.anime-detail > .inner > .row {
+  margin: 0;
+  padding: 0 0 2px;
+}
+body.cat-anime dialog#dlg.detail-redesign.anime-detail > .inner > .row a {
+  color: var(--acc);
+  font-weight: 700;
+  text-underline-offset: 3px;
+}
+body.cat-anime dialog#dlg.detail-redesign.anime-detail > .inner > p:last-child {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin: 0;
+  padding-top: 15px;
+  border-top: 1px solid var(--line);
+}
+body.cat-anime dialog#dlg.detail-redesign.anime-detail > .inner > p:last-child .btn {
+  min-height: 42px;
+  border-radius: 12px;
+}
+
+@media (max-width: 600px) {
+  body.cat-anime dialog#dlg.detail-redesign.anime-detail {
+    width: 96vw;
+    max-width: 96vw;
+    max-height: 94dvh;
+    border-radius: 19px;
+  }
+  body.cat-anime dialog#dlg.detail-redesign.anime-detail > .cover {
+    height: clamp(265px, 70vw, 320px);
+    max-height: 320px;
+  }
+  body.cat-anime dialog#dlg.detail-redesign.anime-detail.anime-cover-landscape > .cover {
+    height: clamp(205px, 58vw, 275px);
+    max-height: 275px;
+  }
+  body.cat-anime dialog#dlg.detail-redesign.anime-detail > .cover > img {
+    max-width: min(66%, 260px);
+  }
+  body.cat-anime dialog#dlg.detail-redesign.anime-detail.anime-cover-square > .cover > img {
+    max-width: min(76%, 285px);
+  }
+  body.cat-anime dialog#dlg.detail-redesign.anime-detail > .cover .stb {
+    top: 11px;
+    right: 11px;
+  }
+  body.cat-anime dialog#dlg.detail-redesign.anime-detail > .cover .fvb {
+    top: 11px;
+    left: 11px;
+  }
+  body.cat-anime dialog#dlg.detail-redesign.anime-detail > .cover .score {
+    left: 12px;
+    bottom: 12px;
+    width: 43px;
+    height: 43px;
+  }
+  body.cat-anime dialog#dlg.detail-redesign.anime-detail > .cover .recb {
+    right: 11px;
+    bottom: 12px;
+  }
+  body.cat-anime dialog#dlg.detail-redesign.anime-detail > .inner {
+    gap: 12px;
+    padding: 18px 15px 17px;
+  }
+  body.cat-anime dialog#dlg.detail-redesign.anime-detail > .inner > h2 {
+    font-size: clamp(1.4rem, 6vw, 1.8rem);
+  }
+  body.cat-anime dialog#dlg.detail-redesign.anime-detail > .inner > p.facts:nth-child(4),
+  body.cat-anime dialog#dlg.detail-redesign.anime-detail > .inner > p.facts:nth-child(5) {
+    gap: 7px;
+  }
+  body.cat-anime dialog#dlg.detail-redesign.anime-detail > .inner > p.facts:nth-child(4) > span,
+  body.cat-anime dialog#dlg.detail-redesign.anime-detail > .inner > p.facts:nth-child(5) > span {
+    padding: 10px;
+    font-size: .84rem;
+  }
+  body.cat-anime dialog#dlg.detail-redesign.anime-detail > .inner > p:last-child .btn {
+    flex: 1 1 auto;
+    padding: 8px 10px;
+    font-size: .86rem;
+  }
+}
+@media (max-width: 380px) {
+  body.cat-anime dialog#dlg.detail-redesign.anime-detail > .inner > p.facts:nth-child(5) {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  body.cat-anime dialog#dlg.detail-redesign.anime-detail { animation: none; }
+}
