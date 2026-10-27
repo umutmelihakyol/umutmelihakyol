@@ -1,7 +1,7 @@
 {
   "format": "gunlugum-backup",
   "version": 1,
-  "createdAt": "2026-10-27T18:36:41.979Z",
+  "createdAt": "2026-10-27T18:37:02.474Z",
   "reason": "Anime kaydı öncesi otomatik yedek",
   "repository": "umutmelihakyol/umutmelihakyol",
   "branch": "main",
@@ -3577,7 +3577,7 @@
       },
       {
         "id": "mvkjqa7l",
-        "status": "oynuyorum",
+        "status": "istek",
         "title": "Bungo Stray Dogs",
         "image": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx21311-hAXyT8Yoh6G9.jpg",
         "platform": "Anime",
@@ -3596,13 +3596,13 @@
         "favorite": false,
         "pros": [],
         "cons": [],
-        "updatedAt": "2026-10-23T10:01:26.065Z",
+        "updatedAt": "2026-10-27T18:36:39.875Z",
         "episodes": 12,
         "studio": "bones"
       },
       {
         "id": "mvkjqap9",
-        "status": "oynuyorum",
+        "status": "istek",
         "title": "DAN DA DAN",
         "image": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx171018-60q1B6GK2Ghb.jpg",
         "platform": "Anime",
@@ -3623,7 +3623,7 @@
         "favorite": false,
         "pros": [],
         "cons": [],
-        "updatedAt": "2026-10-23T10:01:55.550Z",
+        "updatedAt": "2026-10-27T18:36:39.875Z",
         "episodes": 12,
         "studio": "Science SARU"
       },
@@ -3701,7 +3701,7 @@
       },
       {
         "id": "mvkjqcn7",
-        "status": "oynuyorum",
+        "status": "istek",
         "title": "Hunter x Hunter (2011)",
         "image": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx11061-y5gsT1hoHuHw.png",
         "platform": "Anime",
@@ -3719,7 +3719,7 @@
         "favorite": false,
         "pros": [],
         "cons": [],
-        "updatedAt": "2026-10-23T10:03:10.114Z",
+        "updatedAt": "2026-10-27T18:36:39.875Z",
         "episodes": 148,
         "studio": "MADHOUSE"
       },
@@ -3749,7 +3749,7 @@
       },
       {
         "id": "mvkjqdso",
-        "status": "oynuyorum",
+        "status": "istek",
         "title": "JUJUTSU KAISEN",
         "image": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx113415-LHBAeoZDIsnF.jpg",
         "platform": "Anime",
@@ -3767,7 +3767,7 @@
         "favorite": false,
         "pros": [],
         "cons": [],
-        "updatedAt": "2026-10-23T10:04:39.307Z",
+        "updatedAt": "2026-10-27T18:36:39.875Z",
         "episodes": 24,
         "studio": "MAPPA"
       },
@@ -3852,7 +3852,7 @@
       },
       {
         "id": "mvkjqfjw",
-        "status": "oynuyorum",
+        "status": "istek",
         "title": "ONE PIECE",
         "image": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx21-ELSYx3yMPcKM.jpg",
         "platform": "Anime",
@@ -3872,7 +3872,7 @@
         "favorite": false,
         "pros": [],
         "cons": [],
-        "updatedAt": "2026-10-23T15:51:22.762Z",
+        "updatedAt": "2026-10-27T18:36:39.875Z",
         "episodes": 12,
         "studio": "Toei Animation"
       },
@@ -3902,7 +3902,7 @@
       },
       {
         "id": "mvkjqgi5",
-        "status": "oynuyorum",
+        "status": "istek",
         "title": "Re:ZERO -Starting Life in Another World-",
         "image": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx21355-wRVUrGxpvIQQ.jpg",
         "platform": "Anime",
@@ -3924,7 +3924,7 @@
         "favorite": false,
         "pros": [],
         "cons": [],
-        "updatedAt": "2026-10-23T15:51:59.327Z",
+        "updatedAt": "2026-10-27T18:36:39.875Z",
         "episodes": 25,
         "studio": "WHITE FOX"
       },
