@@ -36,3 +36,4 @@ Oyunlar için yalnızca kayıtlardaki `hours` alanları toplanır. Filmler için
 ## Son kontrol notu
 
 Kaynak kodu ve veri hesapları doğrulandı. Yayın sonrasında gerçek tarayıcıda görsel kontrol, kategori filtrelerine tıklama ve tema değiştirme akışını kontrol etmek yine de önerilir.
+- **Temiz istatistik URL’si:** Ana sayfa ve kategori menülerindeki bağlantılar `/istatistik/` yolunu kullanır; eski `/istatistik/index.html` adresi açılırsa otomatik olarak temiz adrese yönlenir. Servis çalışanı önbelleğine de `/istatistik/` yolu eklendi ve sürüm `v10` yapıldı.

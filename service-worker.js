@@ -1,8 +1,8 @@
-/* Günlüğüm Service Worker — cache v9: arşiv istatistik sayfası ve ayrı görsel önbelleği. */
+/* Günlüğüm Service Worker — cache v10: arşiv istatistik sayfası ve ayrı görsel önbelleği. */
 'use strict';
 
 const CACHE_PREFIX = 'gunlugum-pwa-';
-const CACHE_VERSION = 'v9';
+const CACHE_VERSION = 'v10';
 const APP_CACHE = `${CACHE_PREFIX}app-${CACHE_VERSION}`;
 const IMAGE_CACHE = `${CACHE_PREFIX}images-${CACHE_VERSION}`;
 const APP_ROOT = new URL('./', self.registration.scope);
@@ -14,7 +14,7 @@ const CORE_FILES = [
   'assets/icons/gunlugum-180.png', 'assets/icons/gunlugum-192.png', 'assets/icons/gunlugum-512.png', 'assets/icons/gunlugum-maskable-512.png',
   'scripts/theme.js', 'scripts/config.js', 'scripts/categories.js', 'scripts/app.js', 'scripts/stats.js', 'scripts/technopat.js', 'scripts/intro-loader.js', 'scripts/pwa.js', 'scripts/anime-detail.js', 'scripts/media-extras.js',
   'data/games.json', 'data/movies.json', 'data/series.json', 'data/anime.json', 'data/technopat.json',
-  'oyun/index.html', 'oyun/maliyet/index.html', 'film/index.html', 'dizi/index.html', 'anime/index.html', 'istatistik/index.html',
+  'oyun/index.html', 'oyun/maliyet/index.html', 'film/index.html', 'dizi/index.html', 'anime/index.html', 'istatistik/', 'istatistik/index.html',
   'technopat/incelemeler/index.html', 'technopat/rehberler/index.html'
 ];
 
