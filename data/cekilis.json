@@ -1,41 +1,4 @@
 {
   "schemaVersion": 1,
-  "draws": [
-    {
-      "id": "draw-22225d63-7554-4511-9f95-5ef901970b76",
-      "title": "Hollow Knight: Silksong",
-      "description": "Technopat Oyun Çekilişi",
-      "scheduledAt": "2026-10-28T15:45:00.000Z",
-      "spinDurationSeconds": 60,
-      "winnerCount": 1,
-      "participants": [
-        {
-          "id": "person-8946bda6-45e3-43c0-be61-bb775901ad71",
-          "name": "Umut"
-        },
-        {
-          "id": "person-5914a982-de96-499d-ac31-3097148b89a2",
-          "name": "Melih"
-        },
-        {
-          "id": "person-f7c742b5-1c39-4670-86fe-64c1a5679288",
-          "name": "Akyol"
-        }
-      ],
-      "status": "finalized",
-      "createdAt": "2026-10-28T15:36:43.203Z",
-      "commitment": "30441345bf8645b594f6e742136dee63a5cef3d55e04480e2706b5df1f1fe83d",
-      "winners": [
-        {
-          "id": "person-f7c742b5-1c39-4670-86fe-64c1a5679288",
-          "name": "Akyol"
-        }
-      ],
-      "beaconRound": 33466333,
-      "beaconRandomness": "98884056f2a2daaa478cc21620d7b4d8377ec5d932cc56385a47950d59e8f4a7",
-      "beaconSignature": "80d3547bff9521995784af238392f7102a08b604e6695565c1e9e7025fdf34b3b11c1bf39d10d1ccec82102467c5be70",
-      "finalizedAt": "2026-10-28T15:46:00.000Z",
-      "resultMethod": "drand-quicknet"
-    }
-  ]
+  "draws": []
 }
