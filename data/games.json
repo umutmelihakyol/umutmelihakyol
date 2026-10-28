@@ -15,11 +15,23 @@
     "finished": "2026-01-01",
     "recommended": true,
     "review": "",
-    "note": "",
+    "note": "Hollow Knight, bağımsız oyun dünyasının en önemli yapımlarından biri olarak kabul edilir bence. Team Cherry'nin 2017 yılında çıkardığı bu Metroidvania oyunu, atmosferi, keşif odaklı yapısı ve zorlu oynanışıyla kısa sürede geniş bir oyuncu kitlesi kazandı. Devam oyunu Silksong ise ilk kez 2019 yılında duyurulmasına rağmen yıllarca süren sessizlik nedeniyle oyun dünyasının en çok beklenen yapımlarından biri haline geldi. Bekleyiş uzadıkça beklentiler de aynı ölçüde büyüdü ve doğal olarak herkesin aklındaki soru aynıydı.\n\nSilksong, ilk oyunun başarısını tekrarlayabilecek miydi?\n\nYaklaşık 45 saat süren ilk oynanışımın ardından bu soruya rahatlıkla olumlu cevap verebilirim. Silksong, ilk oyunun temelini korurken neredeyse her sistemi geliştirmeyi başaran bir devam oyunu olmuş. Daha büyük bir dünya, daha hareketli bir ana karakter ve oynanışı çeşitlendiren yeni mekanikler sayesinde ilk oyunun üzerine sağlam bir yapı inşa edilmiş. Her ne kadar bazı tasarım kararları tartışmaya açık olsa da Team Cherry, beklentileri büyük ölçüde karşılayan bir iş ortaya koymayı başarmış.",
     "year": 2025,
     "favorite": false,
-    "pros": [],
-    "cons": [],
+    "pros": [
+      "Pharloom'u keşfetmek baştan sona kadar keyifli.",
+      "Hornet'in oynanışı hızlı, akıcı ve tatmin edici.",
+      "Crest ve Tool sistemi karakter geliştirmeye çeşitlilik katıyor.",
+      "Boss savaşları yaratıcı ve unutulmaz.",
+      "Sanat tasarımı ile müzikler yine üst düzey.",
+      "Keşif duygusunu ilk oyundaki kadar başarılı şekilde yaşatıyor."
+    ],
+    "cons": [
+      "Bazı boss savaşlarında kayıt noktaları gereğinden uzak kalabiliyor.",
+      "Rosary ekonomisi zaman zaman gereksiz farm yapmayı teşvik ediyor.",
+      "Haritanın büyüklüğü nedeniyle yön kaybetmek mümkün.",
+      "İlk saatlerdeki zorluk seviyesi bazı oyuncular için fazla sert gelebilir."
+    ],
     "ratings": {
       "story": 9,
       "gameplay": 8,
@@ -46,7 +58,7 @@
         "reason": "İlk değerlendirme"
       }
     ],
-    "updatedAt": "2026-10-28T05:14:20.106Z",
+    "updatedAt": "2026-10-28T05:42:01.171Z",
     "installProfiles": [],
     "hours": 75,
     "developer": "Team Cherry",
