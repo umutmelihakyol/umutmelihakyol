@@ -6,6 +6,8 @@
   const $ = selector => document.querySelector(selector);
   const PATH = 'data/cekilis.json';
   let data = { schemaVersion: 1, draws: [] }, baseline = [], fileSha = null, loaded = false, editingId = null, busy = false;
+  // Only IDs explicitly removed through the confirmed history-delete action may be omitted from locked records.
+  const allowedHistoryDeletes = new Set();
   const esc = value => String(value ?? '').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
   const clone = value => JSON.parse(JSON.stringify(value));
   const statusEl = $('#gwaStatus');
@@ -78,7 +80,11 @@
     host.innerHTML = sorted.map(draw => {
       const phase = Core.effectivePhase(draw, Date.now()), locked = isLocked(draw);
       const status = phaseName(draw), participants = Core.cleanParticipants(draw), winners = Array.isArray(draw.winners) ? draw.winners : [];
-      return `<article class="gwa-draw-row"><div class="gwa-draw-main"><div class="gwa-draw-title"><h3>${esc(draw.title || 'Başlıksız çekiliş')}</h3><span class="gwa-status-pill" data-phase="${esc(phase)}">${esc(status)}</span></div><p>${esc(draw.description || 'Açıklama eklenmedi.')}</p><div class="gwa-draw-meta"><span>◷ ${esc(fmtDate(draw.scheduledAt))}</span><span>♙ ${participants.length.toLocaleString('tr-TR')} kişi</span><span>🏆 ${Number(draw.winnerCount) || 0} kazanan</span><span>⏱ ${esc(fmtDuration(draw.spinDurationSeconds))}</span></div>${winners.length ? `<div class="gwa-winners-preview">Kazananlar: ${winners.map(p => `<b>${esc(p.name)}</b>`).join(' · ')}</div>` : ''}${draw.beaconRound ? `<a class="gwa-proof-link" href="${Core.relayUrl(draw.beaconRound)}" target="_blank" rel="noopener noreferrer">Rastgelelik turu #${draw.beaconRound} ↗</a>` : ''}</div><div class="gwa-row-actions">${!locked ? `<button class="btn" type="button" data-gwa-edit="${esc(draw.id)}">Düzenle</button><button class="btn gwa-danger" type="button" data-gwa-cancel="${esc(draw.id)}">İptal et</button>` : `<span class="gwa-lock-note">${phase === 'cancelled' ? 'Kilitli kayıt' : phase === 'finalized' ? 'Sonuç kilitlendi' : 'Düzenleme kilitli'}</span>`}</div></article>`;
+      const canDeleteHistory = draw.status === 'finalized' || draw.status === 'cancelled';
+      const rowActions = !locked
+        ? `<button class="btn" type="button" data-gwa-edit="${esc(draw.id)}">Düzenle</button><button class="btn gwa-danger" type="button" data-gwa-cancel="${esc(draw.id)}">İptal et</button>`
+        : `<span class="gwa-lock-note">${phase === 'cancelled' ? 'İptal kaydı kilitli' : phase === 'finalized' ? 'Kazananlar kilitli' : 'Düzenleme kilitli'}</span>${canDeleteHistory ? `<button class="btn gwa-danger gwa-history-delete" type="button" data-gwa-delete-history="${esc(draw.id)}" aria-label="${esc(draw.title || 'Çekiliş')} geçmiş kaydını sil">🗑 Geçmişten sil</button>` : ''}`;
+      return `<article class="gwa-draw-row"><div class="gwa-draw-main"><div class="gwa-draw-title"><h3>${esc(draw.title || 'Başlıksız çekiliş')}</h3><span class="gwa-status-pill" data-phase="${esc(phase)}">${esc(status)}</span></div><p>${esc(draw.description || 'Açıklama eklenmedi.')}</p><div class="gwa-draw-meta"><span>◷ ${esc(fmtDate(draw.scheduledAt))}</span><span>♙ ${participants.length.toLocaleString('tr-TR')} kişi</span><span>🏆 ${Number(draw.winnerCount) || 0} kazanan</span><span>⏱ ${esc(fmtDuration(draw.spinDurationSeconds))}</span></div>${winners.length ? `<div class="gwa-winners-preview">Kazananlar: ${winners.map(p => `<b>${esc(p.name)}</b>`).join(' · ')}</div>` : ''}${draw.beaconRound ? `<a class="gwa-proof-link" href="${Core.relayUrl(draw.beaconRound)}" target="_blank" rel="noopener noreferrer">Rastgelelik turu #${draw.beaconRound} ↗</a>` : ''}</div><div class="gwa-row-actions">${rowActions}</div></article>`;
     }).join('');
   }
   function protectLocked(proposed) {
@@ -86,6 +92,10 @@
     for (const original of baseline) {
       if (!isLocked(original)) continue;
       const candidate = map.get(original.id);
+      // A history entry may be removed only through an explicit, confirmed delete action.
+      // Any attempted mutation of an existing locked record still restores the immutable baseline.
+      const isHistorical = original.status === 'finalized' || original.status === 'cancelled';
+      if (!candidate && isHistorical && allowedHistoryDeletes.has(original.id)) continue;
       // The only allowed post-deadline mutation is the generated finalization whose locked inputs and beacon round match.
       const validFinalize = original.status === 'scheduled' && Date.now() >= Core.deadlineMs(original) && candidate?.status === 'finalized' && candidate.commitment === original.commitment && Number(candidate.beaconRound) === Core.beaconRound(original) && Array.isArray(candidate.winners) && candidate.beaconRandomness && candidate.beaconSignature;
       map.set(original.id, validFinalize ? candidate : clone(original));
@@ -195,6 +205,34 @@
     try { await saveData('Planlanmış çekiliş iptal edildi'); say('Çekiliş iptal edildi ve kaydedildi.', 'success'); }
     catch (error) { data.draws = previousDraws; renderList(); say(`İptal kaydedilemedi: ${error.message}`, 'error'); }
   }
+  async function deleteHistoryDraw(id) {
+    if (busy) return say('Başka bir kayıt işlemi devam ediyor. Biraz sonra tekrar dene.', 'error');
+    const draw = data.draws.find(item => item.id === id);
+    const original = baseline.find(item => item.id === id);
+    if (!draw || !original || !['finalized', 'cancelled'].includes(original.status) || draw.status !== original.status) {
+      return say('Yalnızca geçmişe taşınmış veya iptal edilmiş çekiliş kayıtları silinebilir. Kazanan bilgileri değiştirilemez.', 'error');
+    }
+    const winnerNames = Array.isArray(original.winners) && original.winners.length
+      ? `
+Kazananlar: ${original.winners.map(w => w.name).join(', ')}`
+      : '';
+    if (!confirm(`“${original.title || 'Başlıksız çekiliş'}” geçmiş kaydı kalıcı olarak silinsin mi?
+
+Bu işlem yalnızca arşiv kaydını kaldırır; kazananları değiştirmez. Silinen kayıt geri alınamaz.${winnerNames}`)) return;
+    const previousDraws = clone(data.draws);
+    allowedHistoryDeletes.add(id);
+    data.draws = data.draws.filter(item => item.id !== id);
+    try {
+      await saveData('Geçmiş çekiliş kaydı yönetim panelinden silindi');
+      say(`“${original.title || 'Çekiliş'}” geçmiş kaydı silindi. Diğer çekilişlerin sonuçları değiştirilmedi.`, 'success');
+    } catch (error) {
+      data.draws = previousDraws;
+      renderList();
+      say(`Geçmiş çekiliş silinemedi: ${error.message}`, 'error');
+    } finally {
+      allowedHistoryDeletes.delete(id);
+    }
+  }
   $('#gwaForm').addEventListener('submit', saveForm);
   $('#gwaParticipants').addEventListener('input', updateParticipantCount);
   $('#gwaWinnerCountInput').addEventListener('input', updateParticipantCount);
@@ -203,6 +241,7 @@
   $('#gwaList').addEventListener('click', event => {
     const edit = event.target.closest('[data-gwa-edit]'); if (edit) return editDraw(edit.dataset.gwaEdit);
     const cancel = event.target.closest('[data-gwa-cancel]'); if (cancel) return cancelDraw(cancel.dataset.gwaCancel);
+    const remove = event.target.closest('[data-gwa-delete-history]'); if (remove) return deleteHistoryDraw(remove.dataset.gwaDeleteHistory);
   });
   document.querySelectorAll('.tab-btn').forEach(button => {
     if (button.dataset.tab === 'giveaways') button.addEventListener('click', () => loadData(false));

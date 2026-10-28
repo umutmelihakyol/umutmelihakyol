@@ -1,8 +1,8 @@
-/* Günlüğüm Service Worker — cache v29: çekiliş tema ve gizli panel görünürlük hataları düzeltildi. */
+/* Günlüğüm Service Worker — cache v30: geçmiş çekilişler panelden silinebilir; kazanan sonuçlar kilitli kalır. */
 'use strict';
 
 const CACHE_PREFIX = 'gunlugum-pwa-';
-const CACHE_VERSION = 'v29';
+const CACHE_VERSION = 'v30';
 const APP_CACHE = `${CACHE_PREFIX}app-${CACHE_VERSION}`;
 const IMAGE_CACHE = `${CACHE_PREFIX}images-${CACHE_VERSION}`;
 const APP_ROOT = new URL('./', self.registration.scope);

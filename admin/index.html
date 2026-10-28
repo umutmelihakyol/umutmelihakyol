@@ -213,7 +213,7 @@
 <script>document.write('<script src="../scripts/config.js?'+Date.now()+'"><\/script>')</script>
 <script src="../scripts/categories.js"></script>
 <link rel="stylesheet" href="../assets/css/modern.css?v=8">
-<link rel="stylesheet" href="../assets/css/giveaway-admin.css?v=2">
+<link rel="stylesheet" href="../assets/css/giveaway-admin.css?v=3">
 </head>
 <body>
 <div class="wrap">
@@ -779,7 +779,7 @@ Mehmet
             </div>
             <div class="gwa-form-actions"><button class="btn pri" id="gwaSaveBtn" type="submit">Çekilişi oluştur ve kaydet</button><button class="btn" id="gwaCancelEditBtn" type="button" hidden>Düzenlemeyi bırak</button></div>
           </form>
-          <div class="gwa-fairness-note"><b>🔒 Zaman kilidi ve tarafsız sonuç</b><p>Çekiliş başladığında katılımcı listesi, saat ve kazanan sayısı kilitlenir. Kazananlar, bitiş anından sonra yayımlanan drand rastgelelik turuyla belirlenir; aynı kayıt tüm ziyaretçilerde aynı sonucu üretir. Sonuçlar otomatik olarak geçmişe taşınır ve burada düzenlenemez.</p></div>
+          <div class="gwa-fairness-note"><b>🔒 Zaman kilidi ve tarafsız sonuç</b><p>Çekiliş başladığında katılımcı listesi, saat ve kazanan sayısı kilitlenir. Kazananlar, bitiş anından sonra yayımlanan drand rastgelelik turuyla belirlenir; aynı kayıt tüm ziyaretçilerde aynı sonucu üretir. Sonuçlar otomatik olarak geçmişe taşınır ve burada düzenlenemez. İstersen geçmiş kaydını silebilirsin; bu işlem kazananı değiştirmez, çekiliş kaydını kalıcı olarak kaldırır.</p></div>
         </section>
         <section class="panel gwa-admin-list-panel"><div class="gwa-list-heading"><div><h2>Planlanan ve geçmiş çekilişler</h2><p class="meta">Zamanı dolan çekiliş sonuçları GitHub Actions tarafından otomatik arşivlenir; yönetim paneli de sonuçları gerektiğinde yeniden kontrol eder.</p></div><span id="gwaDrawCount" class="gwa-count-pill">0</span></div><div id="gwaList" class="gwa-list"><div class="gwa-empty-row">Önce GitHub’dan çekilişleri yükle.</div></div></section>
       </div>
@@ -2601,6 +2601,6 @@ $('#saveRawFileBtn').onclick=async()=>{
 
 <script src="../scripts/search-overlay.js?v=1" defer></script>
 <script src="../scripts/giveaway-core.js?v=2"></script>
-<script src="../scripts/giveaway-admin.js?v=2"></script>
+<script src="../scripts/giveaway-admin.js?v=3"></script>
 </body>
 </html>
