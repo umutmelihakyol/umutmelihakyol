@@ -213,6 +213,7 @@
 <script>document.write('<script src="../scripts/config.js?'+Date.now()+'"><\/script>')</script>
 <script src="../scripts/categories.js"></script>
 <link rel="stylesheet" href="../assets/css/modern.css?v=8">
+<link rel="stylesheet" href="../assets/css/giveaway-admin.css?v=2">
 </head>
 <body>
 <div class="wrap">
@@ -257,6 +258,7 @@
       <button class="btn tab-btn" role="tab" data-tab="stats" aria-selected="false">📊 Genel Bakış & Yedek</button>
       <button class="btn tab-btn" role="tab" data-tab="health" aria-selected="false">🩺 Arşiv Kontrol Merkezi</button>
       <button class="btn tab-btn" role="tab" data-tab="technopat" aria-selected="false">📝 Technopat İçerikleri</button>
+      <button class="btn tab-btn" role="tab" data-tab="giveaways" aria-selected="false">🎡 Çekiliş Yönetimi</button>
       <button class="btn tab-btn" role="tab" data-tab="settings" aria-selected="false">⚙️ Site & API Ayarları</button>
       <button class="btn tab-btn" role="tab" data-tab="files" aria-selected="false">💻 Dosya & Kod Editörü</button>
     </nav>
@@ -747,6 +749,40 @@
         </p>
         <p class="backup-note">“Kartı Ekle / Güncelle” yalnızca ekrandaki taslağı değiştirir. Değişiklikleri ziyaretçilerin görmesi için üstteki “Değişiklikleri GitHub'a Kaydet” düğmesini kullan.</p>
       </section>
+    </div>
+
+
+    <!-- SEKME: ZAMAN AYARLI ÇEKİLİŞ YÖNETİMİ -->
+    <div id="tab-giveaways" class="tab-pane" hidden>
+      <section class="panel">
+        <div class="gwa-panel-heading"><div><h2>Çekiliş Yönetimi</h2><p class="meta">Katılımcıları, kazanan sayısını ve başlangıç zamanını buradan belirle. Başlangıç anında çekiliş kilitlenir; sonucu yönetim panelinden değiştirmek mümkün değildir.</p></div><span class="gwa-heading-mark" aria-hidden="true">🎡</span></div>
+        <div id="gwaStatus" class="gwa-admin-status" data-state="info" role="status" aria-live="polite">Çekilişleri yönetmek için GitHub'dan yükle.</div>
+        <div class="gwa-toolbar"><button class="btn" id="gwaReloadBtn" type="button">GitHub'dan getir / yenile</button><span class="meta">Dosya: <code>data/cekilis.json</code></span></div>
+      </section>
+      <div class="gwa-admin-layout">
+        <section class="panel gwa-admin-form-panel">
+          <h2 id="gwaFormTitle">Yeni çekiliş oluştur</h2>
+          <p class="meta">Katılımcıları satır satır yaz. Aynı ad tekrar girilirse tek katılımcı olarak tutulur. Çekilişin yayımlanması için başlangıç zamanını en az 5 dakika sonrasına ayarla.</p>
+          <form id="gwaForm">
+            <input id="gwaId" type="hidden">
+            <div class="gwa-form-grid">
+              <label class="wide">Çekiliş adı<input id="gwaTitle" maxlength="120" required placeholder="Örn. Ekim oyun hediye çekilişi"></label>
+              <label class="wide">Açıklama <span class="meta">(isteğe bağlı)</span><textarea id="gwaDescription" rows="3" maxlength="500" placeholder="Çekiliş hakkında kısa bilgi"></textarea></label>
+              <label>Başlangıç tarihi ve saati<input id="gwaScheduledAt" type="datetime-local" required></label>
+              <label>Çarkın dönme süresi (saniye)<input id="gwaDuration" type="number" min="5" max="3600" step="1" value="12" required><small>5 saniye – 60 dakika</small></label>
+              <label class="wide">Kaç kazanan seçilsin?<input id="gwaWinnerCountInput" type="number" min="1" step="1" value="1" required><small>Katılımcı sayısından fazla olamaz.</small></label>
+              <label class="wide">Katılımcılar <span class="meta">(her isim ayrı satırda)</span><textarea id="gwaParticipants" rows="10" required placeholder="Umut
+Melih
+Ayşe
+Mehmet
+…"></textarea><small id="gwaParticipantCountInput">0 benzersiz katılımcı</small></label>
+            </div>
+            <div class="gwa-form-actions"><button class="btn pri" id="gwaSaveBtn" type="submit">Çekilişi oluştur ve kaydet</button><button class="btn" id="gwaCancelEditBtn" type="button" hidden>Düzenlemeyi bırak</button></div>
+          </form>
+          <div class="gwa-fairness-note"><b>🔒 Zaman kilidi ve tarafsız sonuç</b><p>Çekiliş başladığında katılımcı listesi, saat ve kazanan sayısı kilitlenir. Kazananlar, bitiş anından sonra yayımlanan drand rastgelelik turuyla belirlenir; aynı kayıt tüm ziyaretçilerde aynı sonucu üretir. Sonuçlar otomatik olarak geçmişe taşınır ve burada düzenlenemez.</p></div>
+        </section>
+        <section class="panel gwa-admin-list-panel"><div class="gwa-list-heading"><div><h2>Planlanan ve geçmiş çekilişler</h2><p class="meta">Zamanı dolan çekiliş sonuçları GitHub Actions tarafından otomatik arşivlenir; yönetim paneli de sonuçları gerektiğinde yeniden kontrol eder.</p></div><span id="gwaDrawCount" class="gwa-count-pill">0</span></div><div id="gwaList" class="gwa-list"><div class="gwa-empty-row">Önce GitHub’dan çekilişleri yükle.</div></div></section>
+      </div>
     </div>
 
     <!-- SEKME: HAM DOSYA & KOD EDİTÖRÜ -->
@@ -2564,5 +2600,7 @@ $('#saveRawFileBtn').onclick=async()=>{
 
 
 <script src="../scripts/search-overlay.js?v=1" defer></script>
+<script src="../scripts/giveaway-core.js?v=2"></script>
+<script src="../scripts/giveaway-admin.js?v=2"></script>
 </body>
 </html>
