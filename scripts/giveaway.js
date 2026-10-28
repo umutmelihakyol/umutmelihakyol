@@ -28,6 +28,7 @@
     canvas.width = logical * dpr; canvas.height = logical * dpr;
     canvasScale = dpr;
     ctx = canvas.getContext('2d');
+    if (!ctx) return;
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     drawWheel(currentDraw()?.participants || [], state.rotation);
   }
@@ -39,16 +40,18 @@
     ctx.clearRect(0, 0, size, size);
     ctx.save();
     ctx.translate(cx, cy);
+    // documentElement.dataset tema kaynağıdır; getComputedStyle() bir CSSStyleDeclaration döndürür ve dataset içermez.
+    const theme = document.documentElement?.dataset?.theme || 'dark';
+    const dark = theme !== 'light';
     // Subtle outer ring
-    ctx.beginPath(); ctx.arc(0, 0, r + 8, 0, Math.PI * 2); ctx.fillStyle = getComputedStyle(document.documentElement).dataset?.theme === 'light' ? '#e5e8e9' : '#263139'; ctx.fill();
+    ctx.beginPath(); ctx.arc(0, 0, r + 8, 0, Math.PI * 2); ctx.fillStyle = dark ? '#263139' : '#e5e8e9'; ctx.fill();
     if (!participants.length) {
-      ctx.beginPath(); ctx.arc(0, 0, r, 0, Math.PI * 2); ctx.fillStyle = getComputedStyle(document.documentElement).dataset.theme === 'dark' ? '#232d35' : '#e9eff0'; ctx.fill();
+      ctx.beginPath(); ctx.arc(0, 0, r, 0, Math.PI * 2); ctx.fillStyle = dark ? '#232d35' : '#e9eff0'; ctx.fill();
       ctx.strokeStyle = 'rgba(111,179,186,.48)'; ctx.lineWidth = 3; ctx.setLineDash([8, 10]); ctx.stroke(); ctx.setLineDash([]);
-      ctx.fillStyle = getComputedStyle(document.documentElement).dataset.theme === 'dark' ? '#e3e8ec' : '#27313a'; ctx.textAlign = 'center'; ctx.font = '800 24px "Plus Jakarta Sans", sans-serif'; ctx.fillText('Katılımcılar bekleniyor', 0, 5);
+      ctx.fillStyle = dark ? '#e3e8ec' : '#27313a'; ctx.textAlign = 'center'; ctx.font = '800 24px "Plus Jakarta Sans", sans-serif'; ctx.fillText('Katılımcılar bekleniyor', 0, 5);
       ctx.restore(); return;
     }
     const arc = Math.PI * 2 / participants.length;
-    const dark = document.documentElement.dataset.theme === 'dark';
     for (let i = 0; i < participants.length; i++) {
       const start = rotation - Math.PI / 2 + i * arc, end = start + arc;
       ctx.beginPath(); ctx.moveTo(0, 0); ctx.arc(0, 0, r, start, end); ctx.closePath();
