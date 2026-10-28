@@ -1,4 +1,34 @@
 {
   "schemaVersion": 1,
-  "draws": []
+  "draws": [
+    {
+      "id": "draw-1c79fbc3-a117-4736-9d30-884a3ce3d37e",
+      "title": "Test",
+      "description": "Test",
+      "scheduledAt": "2026-10-28T16:20:00.000Z",
+      "spinDurationSeconds": 30,
+      "winnerCount": 1,
+      "participants": [
+        {
+          "id": "person-bb11a039-0ca5-4523-b313-95323e26ff8a",
+          "name": "Umut"
+        },
+        {
+          "id": "person-ad4e4019-2ac4-45ab-beef-5acbb9a1b573",
+          "name": "Test 1"
+        },
+        {
+          "id": "person-6fadb44f-7eea-4bfa-8610-0efab80f9580",
+          "name": "Test 2"
+        },
+        {
+          "id": "person-dc5f4385-46b9-496d-bddf-ee1afe4331b8",
+          "name": "Test 3"
+        }
+      ],
+      "status": "scheduled",
+      "createdAt": "2026-10-28T16:02:40.077Z",
+      "commitment": "b7efd2afff496a8fdeec8353dbaf336d813cf4876fdc9787b0e0d58b81d8e649"
+    }
+  ]
 }
