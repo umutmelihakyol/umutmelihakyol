@@ -5,7 +5,7 @@
       "id": "draw-22225d63-7554-4511-9f95-5ef901970b76",
       "title": "Hollow Knight: Silksong",
       "description": "Technopat Oyun Çekilişi",
-      "scheduledAt": "2026-11-01T19:00:00.000Z",
+      "scheduledAt": "2026-10-28T15:45:00.000Z",
       "spinDurationSeconds": 60,
       "winnerCount": 1,
       "participants": [
@@ -24,7 +24,7 @@
       ],
       "status": "scheduled",
       "createdAt": "2026-10-28T15:36:43.203Z",
-      "commitment": "9d0c05d64dcc6ca2a797edf4e864dd6076ad8d17171ee0ed98612cf3597bf1b7"
+      "commitment": "30441345bf8645b594f6e742136dee63a5cef3d55e04480e2706b5df1f1fe83d"
     }
   ]
 }
