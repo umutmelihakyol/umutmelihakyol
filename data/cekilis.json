@@ -46,9 +46,20 @@
           "name": "Test 9"
         }
       ],
-      "status": "scheduled",
+      "status": "finalized",
       "createdAt": "2026-10-28T16:02:40.077Z",
-      "commitment": "32ebc0f0b895816b1f6314d92beeb3923ca046d56372f6002a001a876c7e265b"
+      "commitment": "32ebc0f0b895816b1f6314d92beeb3923ca046d56372f6002a001a876c7e265b",
+      "winners": [
+        {
+          "id": "person-6fadb44f-7eea-4bfa-8610-0efab80f9580",
+          "name": "Test 2"
+        }
+      ],
+      "beaconRound": 33467023,
+      "beaconRandomness": "05ed7900d5e2703b3b4c82985bb2b170a6b63c1b9963557a14eecc7f603aca17",
+      "beaconSignature": "8e954dae822e0a5457a8b87723dd78fe0c203bd096b2d7b1e90aef2575ab6f766c4073ebaa0bd49add45709850fb89bc",
+      "finalizedAt": "2026-10-28T16:20:30.000Z",
+      "resultMethod": "drand-quicknet"
     }
   ]
 }
