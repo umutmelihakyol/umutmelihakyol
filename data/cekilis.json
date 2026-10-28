@@ -24,11 +24,31 @@
         {
           "id": "person-dc5f4385-46b9-496d-bddf-ee1afe4331b8",
           "name": "Test 3"
+        },
+        {
+          "id": "person-a801082c-ca05-4a0d-8237-ef3e001bf87f",
+          "name": "Test 5"
+        },
+        {
+          "id": "person-f74ec906-1437-41c3-bfa2-f66135cc114a",
+          "name": "Test 6"
+        },
+        {
+          "id": "person-1f01d03b-0617-4878-9801-ffdcd6794ab8",
+          "name": "Test 7"
+        },
+        {
+          "id": "person-5f7fc826-c505-4fad-9f49-227b97c3bf15",
+          "name": "Test 8"
+        },
+        {
+          "id": "person-ca14a7a3-ada6-408c-95d7-116d531c9fe8",
+          "name": "Test 9"
         }
       ],
       "status": "scheduled",
       "createdAt": "2026-10-28T16:02:40.077Z",
-      "commitment": "b7efd2afff496a8fdeec8353dbaf336d813cf4876fdc9787b0e0d58b81d8e649"
+      "commitment": "32ebc0f0b895816b1f6314d92beeb3923ca046d56372f6002a001a876c7e265b"
     }
   ]
 }
