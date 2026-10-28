@@ -1,12 +1,72 @@
 {
   "format": "gunlugum-backup",
   "version": 1,
-  "createdAt": "2026-10-28T05:14:22.539Z",
+  "createdAt": "2026-10-28T05:42:03.375Z",
   "reason": "Oyun kaydı öncesi otomatik yedek",
   "repository": "umutmelihakyol/umutmelihakyol",
   "branch": "main",
   "data": {
     "oyun": [
+      {
+        "id": "mvrntkju",
+        "status": "bitirdim",
+        "title": "Hollow Knight: Silksong",
+        "image": "https://media.rawg.io/media/games/27c/27cd8b7dead05a870f8a514a9a1915ad.jpg",
+        "platform": "PC",
+        "genres": [
+          "Bağımsız",
+          "Platform",
+          "Macera",
+          "Aksiyon"
+        ],
+        "score": 9,
+        "finished": "2026-01-01",
+        "recommended": true,
+        "review": "",
+        "note": "",
+        "year": 2025,
+        "favorite": false,
+        "pros": [],
+        "cons": [],
+        "ratings": {
+          "story": 9,
+          "gameplay": 8,
+          "visuals": 8.5,
+          "audio": 9.5,
+          "characters": 9,
+          "originality": 8,
+          "pacing": 7
+        },
+        "links": [
+          {
+            "name": "Steam",
+            "type": "official",
+            "url": "https://store.steampowered.com/app/1030300/Hollow_Knight_Silksong/",
+            "note": ""
+          }
+        ],
+        "repeatHistory": [],
+        "scoreHistory": [
+          {
+            "date": "2026-10-28",
+            "previousScore": null,
+            "score": 9,
+            "reason": "İlk değerlendirme"
+          }
+        ],
+        "updatedAt": "2026-10-28T05:14:20.106Z",
+        "installProfiles": [],
+        "hours": 75,
+        "developer": "Team Cherry",
+        "acquisitionType": "purchase",
+        "purchasePrice": 25,
+        "purchaseCurrency": "TRY",
+        "purchaseStore": "Microsoft Store",
+        "purchaseDate": null,
+        "listPrice": null,
+        "ownershipStatus": "owned",
+        "purchaseNote": "Fiyat hatası ile Microsoft Store'dan alındı."
+      },
       {
         "id": "mvlmyz0n",
         "status": "oynuyorum",
