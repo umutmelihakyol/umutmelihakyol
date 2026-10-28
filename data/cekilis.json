@@ -110,9 +110,20 @@
           "name": "umut"
         }
       ],
-      "status": "scheduled",
+      "status": "finalized",
       "createdAt": "2026-10-28T16:22:56.039Z",
-      "commitment": "e6fc85b37800f673ad2dde79c28088a2d1638a3824c8b7dd225b8b48654afb2e"
+      "commitment": "e6fc85b37800f673ad2dde79c28088a2d1638a3824c8b7dd225b8b48654afb2e",
+      "winners": [
+        {
+          "id": "person-e53e73a1-7340-483e-8084-c27b1b0aa4b0",
+          "name": "test 7"
+        }
+      ],
+      "beaconRound": 33467177,
+      "beaconRandomness": "5f7c70de0e97d1e3443dbc7052405836626bfba090d797dae901ea46fae1d7e0",
+      "beaconSignature": "b0a9e8d6160029815ea95e401c2f116d632404cf5d1aec5b844b58fa0553903dcb5aaef11ca9dabaaca64c9cfc2b7f52",
+      "finalizedAt": "2026-10-28T16:28:12.000Z",
+      "resultMethod": "drand-quicknet"
     }
   ]
 }
