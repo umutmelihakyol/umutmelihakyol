@@ -248,11 +248,15 @@
         {
           "id": "person-159ffeaa-187a-4660-9f6d-cea44fd44a5d",
           "name": "gönül sabreyle"
+        },
+        {
+          "id": "person-868e6b20-614c-4bbc-ae56-7d0a7161c60f",
+          "name": "CyHaN_Atalay"
         }
       ],
       "status": "scheduled",
       "createdAt": "2026-10-28T17:45:26.772Z",
-      "commitment": "f7d25b5bff7a458bbab11c4bed6b829d3c3d8196279cc56f11e0a3f9d334c8bf"
+      "commitment": "43ba2042c5072ed1a887b116c44389e274492edcd8c0c11ce47a5b16a8669681"
     }
   ]
 }
