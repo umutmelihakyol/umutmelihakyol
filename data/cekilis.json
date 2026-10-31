@@ -264,11 +264,23 @@
         {
           "id": "person-96d39579-5f21-42de-a4fc-d40a3a3cee6c",
           "name": "S.Ganacci"
+        },
+        {
+          "id": "person-82cdee51-78de-4dff-9141-f4397675bb12",
+          "name": "SkyWellim"
+        },
+        {
+          "id": "person-7c52fb72-ac43-4897-891d-213ce4d55261",
+          "name": "Xaphyr"
+        },
+        {
+          "id": "person-d1acc6fa-1d43-4098-8466-88b33d1d557a",
+          "name": "Vavien."
         }
       ],
       "status": "scheduled",
       "createdAt": "2026-10-28T17:45:26.772Z",
-      "commitment": "f3d312328b6c05a7395ddf6c1f95c8a179f9869c2c44542dfe9f6f7f2c18962a"
+      "commitment": "fcb4def1b7451fb996e3ed6c451fa667ec4977c493f00f237441ec26f17758ed"
     }
   ]
 }
