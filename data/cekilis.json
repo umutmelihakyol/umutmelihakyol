@@ -278,9 +278,20 @@
           "name": "Vavien."
         }
       ],
-      "status": "scheduled",
+      "status": "finalized",
       "createdAt": "2026-10-28T17:45:26.772Z",
-      "commitment": "fcb4def1b7451fb996e3ed6c451fa667ec4977c493f00f237441ec26f17758ed"
+      "commitment": "fcb4def1b7451fb996e3ed6c451fa667ec4977c493f00f237441ec26f17758ed",
+      "winners": [
+        {
+          "id": "person-a20a80f1-2b63-4b0c-937f-0abdf1418324",
+          "name": "blockdz"
+        }
+      ],
+      "beaconRound": 33584823,
+      "beaconRandomness": "8660b1e9bb74c094896a143d2ce5f6f3c49f957c8e3cc2962d38457af19dc323",
+      "beaconSignature": "918a7289ff237b5599b64d2ea050a16dd212558fa36fabe99203148c97b86fe538f031cd32dbdf276f91987e81cfc072",
+      "finalizedAt": "2026-11-01T18:30:30.000Z",
+      "resultMethod": "drand-quicknet"
     }
   ]
 }
