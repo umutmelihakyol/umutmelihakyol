@@ -12,8 +12,8 @@
     "minimal-ui"
   ],
   "orientation": "any",
-  "background_color": "#eeece5",
-  "theme_color": "#171916",
+  "background_color": "#171d22",
+  "theme_color": "#171d22",
   "categories": [
     "entertainment",
     "lifestyle"
