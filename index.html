@@ -17,7 +17,7 @@
 </script>
 
 
-<meta name="theme-color" content="#171d22">
+<meta name="theme-color" content="#171916">
 <link rel="manifest" href="./manifest.webmanifest">
 <link rel="apple-touch-icon" href="./assets/icons/gunlugum-180.png">
   
@@ -67,7 +67,7 @@
 (() => {
   const meta = document.querySelector('meta[name="theme-color"]');
   const syncThemeColor = () => {
-    if (meta) meta.setAttribute('content', document.documentElement.dataset.theme === 'dark' ? '#171c21' : '#f2f4f5');
+    if (meta) meta.setAttribute('content', document.documentElement.dataset.theme === 'dark' ? '#171916' : '#eeece5');
   };
   syncThemeColor();
   const toggle = window.toggleTheme;
@@ -84,6 +84,8 @@
 <script src="./scripts/pwa.js?v=4" defer></script>
 <link rel="stylesheet" href="assets/css/modern.css?v=9">
 <link rel="stylesheet" href="assets/css/cards.css?v=7">
+<link rel="stylesheet" href="assets/css/redesign.css?v=2">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body class="home">
 <div class="site-intro-loader" id="siteIntroLoader" role="status" aria-live="polite" aria-label="Günlüğüm hazırlanıyor">
