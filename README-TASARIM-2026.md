@@ -4,8 +4,11 @@ Bu sürümde sitenin görsel arayüzü baştan sona yenilendi. Veri dosyaları v
 
 ## Tasarım sistemi
 
-- `assets/css/atelier.css`: tüm site için yeni ortak tasarım sistemi.
-- Kullanılan görsel dil: editoryal medya arşivi; kırık beyaz yüzeyler, mürekkep tonları ve kontrollü kiremit vurgular.
+- `assets/css/atelier.css`: editoryal yerleşimler ve kategori bileşenleri.
+- `assets/css/unified.css`: tüm sayfalar ve yönetim paneli için ortak renk/tema katmanı.
+- Kullanılan görsel dil: editoryal medya arşivi; koyu grafit veya sıcak kırık beyaz yüzeyler, ortak kiremit vurgu rengi.
+- Oyun, film, dizi ve anime bölümleri aynı marka rengini paylaşır; yalnızca içerik görselleri kategoriye göre değişir.
+- Yönetim paneli artık ayrı bir beyaz tema kullanmaz; siteyle aynı açık/koyu tema tercihine uyar.
 - Tipografi: DM Sans ve Space Grotesk.
 - Açık/koyu tema değişkenleri korunur.
 

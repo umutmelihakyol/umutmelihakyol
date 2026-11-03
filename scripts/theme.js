@@ -17,9 +17,9 @@
   var t = 'dark';
   try {
     var saved = localStorage.getItem('theme');
-    t = saved || ((typeof matchMedia === 'function' && matchMedia('(prefers-color-scheme:dark)').matches) ? 'dark' : 'light');
+    t = saved || 'dark';
   } catch (_) {
-    t = (typeof matchMedia === 'function' && matchMedia('(prefers-color-scheme:dark)').matches) ? 'dark' : 'light';
+    t = 'dark';
   }
   document.documentElement.dataset.theme = t;
   window.toggleTheme = function(){
