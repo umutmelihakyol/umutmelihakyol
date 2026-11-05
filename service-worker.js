@@ -1,8 +1,8 @@
-/* Günlüğüm Service Worker — cache v38: tipografi ve sayfa iç boşlukları iyileştirmesi. */
+/* Günlüğüm Service Worker — cache v39: tipografi ve sayfa iç boşlukları iyileştirmesi. */
 'use strict';
 
 const CACHE_PREFIX = 'gunlugum-pwa-';
-const CACHE_VERSION = 'v38';
+const CACHE_VERSION = 'v39';
 const APP_CACHE = `${CACHE_PREFIX}app-${CACHE_VERSION}`;
 const IMAGE_CACHE = `${CACHE_PREFIX}images-${CACHE_VERSION}`;
 const APP_ROOT = new URL('./', self.registration.scope);
