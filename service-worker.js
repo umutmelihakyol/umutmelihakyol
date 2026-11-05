@@ -1,8 +1,8 @@
-/* Günlüğüm Service Worker — cache v36: kategori kartları, Technopat hover ve arşiv bölümü yerleşimi. */
+/* Günlüğüm Service Worker — cache v37: tipografi ve sayfa iç boşlukları iyileştirmesi. */
 'use strict';
 
 const CACHE_PREFIX = 'gunlugum-pwa-';
-const CACHE_VERSION = 'v36';
+const CACHE_VERSION = 'v37';
 const APP_CACHE = `${CACHE_PREFIX}app-${CACHE_VERSION}`;
 const IMAGE_CACHE = `${CACHE_PREFIX}images-${CACHE_VERSION}`;
 const APP_ROOT = new URL('./', self.registration.scope);

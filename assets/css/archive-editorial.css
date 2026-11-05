@@ -847,3 +847,229 @@ a.tech-hub-card:focus-visible .tech-hub-arrow {
   .soonwrap, .soon a.soonc, .soon a.soonc .sth, .pills .pill { transition: none !important; }
   .soon a.soonc:hover, .soon a.soonc:focus-visible, .pills .pill:hover, .pills .pill:focus-visible { transform: none; }
 }
+
+/* v16 — calmer type rhythm and consistent breathing room for framed sections. */
+body {
+  font-size: 15.5px !important;
+  line-height: 1.74 !important;
+  font-kerning: normal;
+  font-optical-sizing: auto;
+}
+
+p, li, .meta, .note, small {
+  line-height: 1.72;
+  text-wrap: pretty;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  line-height: 1.16 !important;
+  letter-spacing: -.028em !important;
+  font-kerning: normal;
+  font-optical-sizing: auto;
+  overflow-wrap: normal;
+}
+
+/* People page: the old zero horizontal padding made the eyebrow and heading
+   visually touch the panel edge. Give the hero a real inner gutter and align
+   its width with the form/directory below it. */
+.people-hero {
+  width: 100% !important;
+  max-width: none !important;
+  margin: 24px 0 22px !important;
+  padding: clamp(24px, 3.2vw, 36px) clamp(22px, 3vw, 34px) !important;
+  color: var(--ink) !important;
+  background: var(--card) !important;
+  border: 1px solid var(--line) !important;
+  border-radius: 9px !important;
+  box-shadow: var(--sh1, 0 2px 8px rgba(0,0,0,.06)) !important;
+}
+.people-hero .people-eyebrow {
+  margin: 0 0 12px !important;
+  font-size: 10px !important;
+  line-height: 1.5 !important;
+  letter-spacing: .14em !important;
+}
+.people-hero h1 {
+  max-width: 20ch;
+  margin: 0 0 12px !important;
+  color: var(--ink) !important;
+  font: 500 clamp(36px, 4.2vw, 54px)/1.12 var(--font-display) !important;
+  letter-spacing: -.038em !important;
+}
+.people-hero > p:last-child {
+  max-width: 72ch;
+  margin: 0 !important;
+  color: var(--mute) !important;
+  font-size: 15.5px !important;
+  line-height: 1.78 !important;
+}
+.people-search-panel {
+  width: 100%;
+  min-width: 0;
+  margin: 0 0 30px !important;
+  padding: clamp(18px, 2.4vw, 26px) !important;
+  border-radius: 9px !important;
+}
+.people-search-form {
+  width: 100%;
+  min-width: 0;
+  grid-template-columns: minmax(145px, .78fr) minmax(205px, 1.08fr) minmax(250px, 1.7fr) max-content !important;
+  align-items: end !important;
+  gap: 14px !important;
+}
+.people-search-form label,
+.directory-filter-label {
+  gap: 8px !important;
+  color: var(--mute) !important;
+  font-size: 12px !important;
+  line-height: 1.4 !important;
+  font-weight: 600 !important;
+}
+.people-search-form input,
+.people-search-form select,
+.directory-filter-label input {
+  min-width: 0;
+  min-height: 46px !important;
+  padding: 11px 13px !important;
+  font-size: 14px !important;
+  line-height: 1.4 !important;
+  border-radius: 5px !important;
+}
+.people-search-form > .btn {
+  min-height: 46px !important;
+  padding: 11px 16px !important;
+  align-self: end;
+}
+.people-search-hint {
+  max-width: 82ch;
+  margin: 14px 0 0 !important;
+  color: var(--mute) !important;
+  font-size: 13px !important;
+  line-height: 1.68 !important;
+}
+.people-directory { margin-top: 36px !important; }
+.section-title-row { margin-bottom: 20px !important; }
+.section-title-row h2 { line-height: 1.18 !important; }
+.directory-filter-label { max-width: 520px !important; margin-bottom: 20px !important; }
+.entity-directory-grid { gap: 12px !important; }
+.entity-directory-card { padding: 14px 16px !important; border-radius: 7px !important; }
+.entity-directory-copy strong { font-size: 14px !important; line-height: 1.45 !important; }
+.entity-directory-copy small { font-size: 12px !important; line-height: 1.5 !important; }
+
+/* Giveaway page: inset the masthead from the wrapper edge and improve title
+   leading so Turkish diacritics and the display face do not look cramped. */
+.gw-topbar {
+  min-height: 92px !important;
+  padding: 18px 16px 18px !important;
+  gap: 18px !important;
+}
+.gw-brand { gap: 15px !important; min-width: 0; }
+.gw-brand-mark {
+  width: 46px !important;
+  height: 46px !important;
+  flex: 0 0 46px;
+  font-size: 25px !important;
+}
+.gw-brand > div { min-width: 0; }
+.gw-brand .gw-eyebrow {
+  margin: 0 0 5px !important;
+  font-size: 10px !important;
+  line-height: 1.45 !important;
+  letter-spacing: .13em !important;
+}
+.gw-topbar h1 {
+  margin: 0 !important;
+  font: 500 clamp(32px, 3.5vw, 43px)/1.12 var(--font-display) !important;
+  letter-spacing: -.04em !important;
+}
+.gw-intro {
+  margin: 22px 0 28px !important;
+  padding: clamp(24px, 3vw, 36px) !important;
+  gap: clamp(20px, 3vw, 36px) !important;
+  border-radius: 9px !important;
+}
+.gw-intro > div:first-child { min-width: 0; max-width: 800px !important; }
+.gw-intro h2 {
+  margin: 15px 0 12px !important;
+  font: 500 clamp(34px, 4.2vw, 47px)/1.12 var(--font-display) !important;
+  letter-spacing: -.038em !important;
+}
+.gw-intro p {
+  max-width: 70ch !important;
+  font-size: 15.5px !important;
+  line-height: 1.78 !important;
+}
+.gw-intro-mark {
+  width: clamp(116px, 11vw, 142px) !important;
+  height: clamp(116px, 11vw, 142px) !important;
+  border-radius: 10px !important;
+  gap: 5px !important;
+  flex: 0 0 auto;
+}
+.gw-main-grid { gap: 16px !important; }
+.gw-wheel-panel, .gw-countdown-card, .gw-participants-card {
+  padding: clamp(18px, 2vw, 26px) !important;
+  border-radius: 8px !important;
+}
+.gw-panel-head { gap: 14px !important; }
+.gw-panel-head h2, .gw-panel-head h3 {
+  margin: 5px 0 0 !important;
+  line-height: 1.18 !important;
+}
+.gw-description, .gw-schedule-line, .gw-muted {
+  font-size: 13.5px !important;
+  line-height: 1.7 !important;
+}
+.gw-fact-row { line-height: 1.5 !important; }
+.gw-footer { padding: 20px 16px 28px !important; line-height: 1.65 !important; }
+
+/* Consistent breathing room and legible control labels throughout pages. */
+.search-panel, .search-results, .people-search-panel, .people-directory,
+.stats-panel, .annual-chart-panel, .annual-best-panel, .metric-card,
+.profile-result, .tech-tools, .tech-article, .gw-wheel-panel,
+.gw-countdown-card, .gw-participants-card, .gw-history-section {
+  overflow-wrap: anywhere;
+}
+.search-hero h1, .stats-hero h1, .people-hero h1, .tech-hero h1 {
+  line-height: 1.12 !important;
+  letter-spacing: -.038em !important;
+  font-weight: 500 !important;
+}
+input, select, textarea, button, .btn {
+  font-kerning: normal;
+  line-height: 1.45;
+}
+button, .btn { letter-spacing: .005em; }
+
+@media (max-width: 900px) {
+  .people-search-form {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+  .people-query-label, .people-search-form > .btn { grid-column: 1 / -1; }
+}
+@media (max-width: 650px) {
+  .people-hero {
+    margin: 18px 0 18px !important;
+    padding: 22px 20px !important;
+  }
+  .people-hero h1 {
+    font-size: clamp(32px, 9vw, 42px) !important;
+    line-height: 1.12 !important;
+  }
+  .people-hero > p:last-child { font-size: 14px !important; line-height: 1.72 !important; }
+  .people-search-panel { padding: 16px !important; }
+  .people-search-form { grid-template-columns: minmax(0, 1fr) !important; gap: 12px !important; }
+  .people-query-label, .people-search-form > .btn { grid-column: auto; }
+  .gw-topbar { padding: 15px 8px 15px !important; min-height: 76px !important; }
+  .gw-brand { gap: 11px !important; }
+  .gw-brand-mark { width: 40px !important; height: 40px !important; flex-basis: 40px; }
+  .gw-topbar h1 { font-size: clamp(27px, 7.4vw, 34px) !important; }
+  .gw-intro { padding: 22px 19px !important; margin: 18px 0 22px !important; }
+  .gw-intro h2 { font-size: clamp(30px, 8vw, 38px) !important; line-height: 1.12 !important; }
+  .gw-intro p { font-size: 14px !important; }
+  .gw-footer { padding-inline: 8px !important; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; }
+}
