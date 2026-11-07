@@ -1,10 +1,15 @@
-Güncellendi: gelişmiş arama, sayfadan ayrılmadan açılan modal panele dönüştürüldü.
+Gelişmiş arama, kullanıcıyı mevcut sayfadan çıkarmadan modal panel olarak açılır.
 
 Davranışlar:
-- Üst menüdeki Ara düğmesi ve ana sayfadaki Gelişmiş Arama kartı paneli açar.
-- Panel kapanınca aynı sayfa, adres ve kaydırma konumu korunur.
-- Arama sorgusu/filtreler mevcut sayfanın URL'sine yazılmaz; panel kapatılıp tekrar açıldığında arama durumu korunur.
-- Bir sonuca tıklanırsa ilgili kategori sayfasına gidilir ve kayıt kimliği URL parçasına eklenir; kategori sayfası ayrıntıyı açar.
+- Üst arama düğmesi, ana sayfadaki arama kartı, ortak gezinme menüsündeki Arama bağlantısı ve arama sayfasına giden diğer site içi bağlantılar aynı paneli açar.
+- Panel ekranın önünde görünür; arka plan koyulaşır ve blur efekti uygulanır.
+- Panel kapatılınca aynı sayfa, adres ve kaydırma konumu korunur.
+- ESC, kapatma düğmesi veya panel dışındaki alana tıklama paneli kapatır.
+- Arama sorgusu/filtreler mevcut sayfanın URL'sine yazılmaz; panel kapatılıp tekrar açıldığında panel durumu korunur.
 - Ctrl+K / Cmd+K arama panelini açar.
+- Panel yüklenemezse kullanıcı otomatik olarak yeni bir sayfaya yönlendirilmez; ekranda hata bildirimi gösterilir.
+- Bir sonuca tıklanırsa ilgili kategori sayfasına gidilir ve kayıt kimliği URL parçasına eklenir.
 - /ara/ adresi doğrudan açıldığında tam sayfa gelişmiş arama ekranı olarak çalışmayı sürdürür.
-- Service Worker önbelleği v25'e yükseltildi.
+- Ortak gezinme menüsünün bulunduğu tüm sayfalarda panel betiği yüklenir.
+
+Service Worker önbellek sürümü: v47.

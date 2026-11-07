@@ -23,7 +23,8 @@
       id === 'technopat' ? path.startsWith('/technopat/') :
       id === 'oyun' ? path === '/oyun' || path.startsWith('/oyun/') :
       path === href.replace(/\/$/, '');
-    return `<a href="${href}"${isActive ? ' aria-current="page"' : ''}><span>${label}</span></a>`;
+    const searchAttrs = id === 'search' ? ' class="top-search-link" aria-label="Arama penceresini aç" title="Ara" aria-haspopup="dialog" aria-expanded="false"' : '';
+    return `<a href="${href}"${searchAttrs}${isActive ? ' aria-current="page"' : ''}><span>${label}</span></a>`;
   }).join('');
 
   const header = document.querySelector('.top, .tech-page-top, .gw-topbar');
