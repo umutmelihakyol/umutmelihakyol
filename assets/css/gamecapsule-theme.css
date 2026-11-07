@@ -509,7 +509,6 @@ a.rc small { display:block;color:#8f99b4 !important;font-size:10px; }
 .gc-shell-mounted #dlg img,
 .gc-shell-mounted dialog img,
 .gc-shell-mounted .detail-redesign img { border-radius:12px; }
-.gc-shell-mounted .library-action,
 .gc-shell-mounted .library-action__link { border-radius:12px !important; }
 
 /* Search page */

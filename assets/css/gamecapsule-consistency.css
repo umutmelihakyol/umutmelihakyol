@@ -241,7 +241,7 @@ body a:hover { color: var(--ink) !important; }
 }
 
 /* Buttons share one purple-to-blue action hierarchy. */
-.gc-shell-mounted :is(.btn,button.btn,a.btn,.cx-share-btn,.more,.detail-actions button,.library-action,.library-action__link) {
+.gc-shell-mounted :is(.btn,button.btn,a.btn,.cx-share-btn,.more,.detail-actions button,.library-action__link) {
   color: #d8d4f5 !important;
   background: linear-gradient(145deg, #202238, #171b29) !important;
   border: 1px solid rgba(149, 139, 202, .30) !important;
@@ -250,7 +250,7 @@ body a:hover { color: var(--ink) !important; }
   text-decoration: none !important;
   transition: transform .18s ease, background .18s ease, border-color .18s ease, box-shadow .18s ease !important;
 }
-.gc-shell-mounted :is(.btn:hover,button.btn:hover,a.btn:hover,.cx-share-btn:hover,.more:hover,.detail-actions button:hover,.library-action:hover,.library-action__link:hover) {
+.gc-shell-mounted :is(.btn:hover,button.btn:hover,a.btn:hover,.cx-share-btn:hover,.more:hover,.detail-actions button:hover,.library-action__link:hover) {
   color: #fff !important;
   background: linear-gradient(145deg, #30284e, #1d2a40) !important;
   border-color: rgba(177, 157, 255, .62) !important;
@@ -603,4 +603,40 @@ body.gc-shell-mounted.cat-anime {
   --acc: #7250d6 !important;
   --brand-accent: #7250d6 !important;
   --matte-accent: #7250d6 !important;
+}
+
+
+/* Library CTA: the wrapper is layout-only; only the anchor is a button.
+   This prevents a second, full-width border from surrounding the CTA. */
+.gc-shell-mounted .library-action {
+  display: flex !important;
+  width: 100%;
+  min-height: 0 !important;
+  height: auto !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  gap: 0 !important;
+  margin: 4px 0 12px !important;
+  padding: 0 !important;
+  color: inherit !important;
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+.gc-shell-mounted .library-action:hover {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+.gc-shell-mounted .library-action__link {
+  display: inline-flex !important;
+  width: max-content;
+  max-width: 100%;
+  min-height: 40px;
+  box-sizing: border-box;
+  align-items: center;
+  justify-content: center;
 }
