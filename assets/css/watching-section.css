@@ -76,3 +76,46 @@ html[data-theme="light"] .soon a.soonc, html[data-theme="light"] .soon a.soonc:v
   .soon a.soonc, .soon a.soonc:visited { min-height: 98px; } .soon-media { flex-basis: 66px; width: 66px; height: 82px; } }
 @media (prefers-reduced-motion: reduce) { .soonwrap, .soon a.soonc, .soon a.soonc::before, .soon a.soonc .sth, .soon-media-mark { transition: none !important; }
   .soon a.soonc:hover, .soon a.soonc:focus-visible { transform: none; } }
+
+/* Mobilde aktif takip kartları parmak hareketiyle yatay kaydırılır. */
+@media (max-width: 700px) {
+  .soon {
+    display: flex !important;
+    flex-flow: row nowrap !important;
+    justify-content: flex-start;
+    align-items: stretch;
+    gap: 10px !important;
+    width: 100% !important;
+    max-width: 100%;
+    min-width: 0;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    padding: 2px 2px 9px !important;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: 2px;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+    touch-action: auto;
+    cursor: grab;
+  }
+
+  .soon a.soonc,
+  .soon a.soonc:visited {
+    flex: 0 0 min(78vw, 300px) !important;
+    width: min(78vw, 300px) !important;
+    min-width: min(78vw, 300px) !important;
+    max-width: min(78vw, 300px) !important;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+
+  .soon.is-mouse-dragging { cursor: grabbing !important; }
+}
+
+@media (max-width: 430px) {
+  .soon { grid-template-columns: none !important; }
+  .soon a.soonc,
+  .soon a.soonc:visited {
+    min-height: 98px;
+  }
+}
