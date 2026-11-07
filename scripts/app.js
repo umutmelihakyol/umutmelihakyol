@@ -144,7 +144,7 @@ function card(g){
   ${meta?`<p class="cx-meta">${meta}</p>`:''}${chips?`<div class="cx-chips">${chips}</div>`:''}${cardFacts(g)}
   <div class="cx-foot"><a class="more" href="#${id}">Ayrıntılar</a><button class="cx-share-btn" type="button" data-id="${id}" aria-label="${esc(g.title)} için paylaşılabilir inceleme kartı oluştur" title="İnceleme kartı oluştur">${shareIcon}<span>Paylaş</span></button></div></div></article>`;
 }
-const thumb=(g,c)=>imageSrc(g.image,185)?`<img class="${c}" src="${imageSrc(g.image,185)}" alt="" loading="lazy" decoding="async" fetchpriority="low" width="64" height="44" referrerpolicy="no-referrer" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'${c} ph','aria-hidden':'true'}))">`:`<span class="${c} ph" aria-hidden="true"></span>`;
+const thumb=(g,c)=>{const isSoon=c==='sth';const width=isSoon?78:56,height=isSoon?100:36;return imageSrc(g.image,185)?`<img class="${c}" src="${imageSrc(g.image,185)}" alt="" loading="lazy" decoding="async" fetchpriority="low" width="${width}" height="${height}" referrerpolicy="no-referrer" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'${c} ph','aria-hidden':'true'}))">`:`<span class="${c} ph" aria-hidden="true"></span>`};
 function table(l){
   const row=g=>`<tr data-id="${esc(g.id)}"><td><div class="nm">${thumb(g,'th')}<a class="tl" href="#${esc(g.id)}">${g.favorite===true?`<span class="hrt">${HEART}</span>`:''}${esc(g.title)}</a></div></td>
   <td class="c-pl">${esc(g.platform)||'—'}</td><td><span class="s-${stOf(g)}">${ST[stOf(g)]}</span></td><td class="sc">${has(g.score)?num(g.score):'—'}</td>
@@ -153,8 +153,22 @@ function table(l){
   return `<table class="tbl"><thead><tr><th>${cfg.name}</th><th class="c-pl">${cfg.plat.label}</th><th>Durum</th><th>Puan</th><th class="c-hr">${cfg.dur.label||'Uzunluk'}</th><th class="c-dt">${cfg.dateLabel}</th><th class="c-rc">Öneri</th></tr></thead><tbody>${l.map(row).join('')}</tbody></table>`;
 }
 function soon(){
-  const l=games.filter(g=>stOf(g)==='oynuyorum');$('#soon').hidden=!l.length;
-  $('#soonList').innerHTML=l.map(g=>`<a class="soonc" href="#${esc(g.id)}">${thumb(g,'sth')}<span><b>${esc(g.title)}</b><small>${esc(g.platform)||ST.oynuyorum}</small></span></a>`).join('');
+  const l=games.filter(g=>stOf(g)==='oynuyorum');
+  const section=$('#soon');
+  section.hidden=!l.length;
+  const count=$('#soonCount');
+  if(count) count.textContent=`${l.length} içerik`;
+  $('#soonList').innerHTML=l.map(g=>{
+    const meta=[has(g.year)?g.year:null,g.platform||cfg.name].filter(Boolean).map(esc).join(' · ');
+    return `<a class="soonc" href="#${esc(g.id)}" aria-label="${esc(g.title)} ayrıntılarını aç">
+      <span class="soon-media">${thumb(g,'sth')}<span class="soon-media-mark" aria-hidden="true">↗</span></span>
+      <span class="soon-copy">
+        <span class="soon-card-kicker"><i aria-hidden="true"></i> DEVAM EDİYOR</span>
+        <b>${esc(g.title)}</b>
+        <small>${meta||esc(ST.oynuyorum)}</small>
+      </span>
+    </a>`;
+  }).join('');
 }
 function foot(){
   const u=games.map(g=>g.updatedAt).filter(Boolean).sort().pop();

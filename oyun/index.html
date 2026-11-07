@@ -137,6 +137,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/css/arsivim.css?v=1">
   <link rel="stylesheet" href="../assets/css/white-theme-fixes.css?v=1">
+<link rel="stylesheet" href="../assets/css/watching-section.css?v=20261107-1">
 </head>
 <body data-cat="oyun" class="cat-oyun">
 <div class="site-intro-loader" id="siteIntroLoader" role="status" aria-live="polite" aria-label="Günlüğüm hazırlanıyor">
@@ -170,7 +171,17 @@
     <a class="btn library-action__link" href="./maliyet/">💰 Maliyet ve Kütüphane</a>
   </div>
   <div class="stats" id="stats"></div>
-  <section class="soonwrap" id="soon" hidden><h2 id="soonTitle"></h2><div class="soon" id="soonList"></div></section>
+  <section class="soonwrap" id="soon" hidden aria-labelledby="soonTitle">
+    <div class="soon-head">
+      <div class="soon-heading-copy">
+        <span class="soon-eyebrow">AKTİF TAKİBİM</span>
+        <h2 id="soonTitle"></h2>
+        <p class="soon-description">Kaldığın yerden devam etmek için bir yapım seç.</p>
+      </div>
+      <span class="soon-count" id="soonCount" aria-live="polite"></span>
+    </div>
+    <div class="soon" id="soonList"></div>
+  </section>
   <div class="pills" id="pills" role="group" aria-label="Duruma göre filtre"></div>
   <div class="tools">
     <input id="q" type="search" aria-label="Ara">
@@ -192,7 +203,7 @@
 </div>
 <dialog id="dlg"></dialog>
 <script src="../scripts/review-card.js?v=2"></script>
-<script src="../scripts/app.js?v=16"></script>
+<script src="../scripts/app.js?v=17"></script>
 <script src="../scripts/media-extras.js?v=4" defer></script>
 
 <script src="../scripts/search-overlay.js?v=2" defer></script>
