@@ -1,0 +1,77 @@
+/* ==========================================================
+   GÜNLÜĞÜM — ARŞİVİM TASARIM KATMANI (en son yüklenen stil dosyası)
+   Mantığa/HTML yapısına dokunmaz; sadece görünümü ortak bir tasarım diline çeker.
+   Renk, yarıçap, font değiştirmek için sadece aşağıdaki :root bloklarını düzenle.
+   Önceki katmanlar (atelier, matte, gamecapsule...) !important kullandığı için
+   buradaki kurallar da !important içerir ve en son yüklenmelidir.
+   ========================================================== */
+:root:root{
+  color-scheme:dark;
+  --bg:#0c0c11;--card:#14141b;--ink:#e8e8ee;--mute:#8b8b9c;--line:rgba(255,255,255,.08);
+  --acc:#8b5cf6;--accink:#fff;--r:16px;--shadow:0 10px 30px rgba(0,0,0,.35);--sh2:0 10px 30px rgba(0,0,0,.35);
+  --gc-bg:#0c0c11;--gc-bg-2:#14141b;--gc-panel:#14141b;--gc-panel-2:#1a1a23;--gc-ink:#e8e8ee;--gc-muted:#8b8b9c;
+  --gc-line:rgba(255,255,255,.08);--gc-line-strong:rgba(139,92,246,.45);--gc-purple:#8b5cf6;--gc-purple-light:#c4b5fd;--gc-radius:16px;
+  --gc-font:'Inter',system-ui,sans-serif;
+  --pill:rgba(255,255,255,.05);
+}
+:root[data-theme=light]:root{
+  color-scheme:light;
+  --bg:#f5f5f9;--card:#fff;--ink:#1b1b24;--mute:#6b6b7c;--line:rgba(20,20,40,.1);--acc:#7c4ddb;--accink:#fff;
+  --shadow:0 10px 30px rgba(30,30,60,.1);--sh2:0 10px 30px rgba(30,30,60,.1);
+  --gc-bg:#f5f5f9;--gc-bg-2:#fff;--gc-panel:#fff;--gc-panel-2:#fff;--gc-ink:#1b1b24;--gc-muted:#6b6b7c;--gc-line:rgba(20,20,40,.1);
+  --pill:rgba(20,20,40,.05);
+}
+
+/* Zemin + tipografi */
+html body{background:var(--bg) !important;background-image:none !important;color:var(--ink) !important;font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif !important}
+body::before,body::after{display:none !important}
+h1,h2,h3,h4,.cx-heading,.tbody h3{font-family:'Inter',system-ui,sans-serif !important;letter-spacing:-.02em !important}
+.wrap{max-width:1120px !important}
+
+/* Üst başlık + sabit gezinme çubuğu */
+header.top,.tech-page-top,.gw-topbar{background:transparent !important;border:0 !important;box-shadow:none !important;min-height:0 !important;padding:22px 0 10px !important}
+header.top h1{font-size:1.15rem !important;font-weight:800 !important}
+.folio-nav{position:sticky !important;top:0 !important;z-index:60 !important;display:flex !important;gap:4px !important;overflow-x:auto !important;scrollbar-width:none;
+  margin:0 -20px 8px !important;padding:10px 20px !important;border:0 !important;border-bottom:1px solid var(--line) !important;border-radius:0 !important;
+  background:color-mix(in srgb,var(--bg) 86%,transparent) !important;backdrop-filter:blur(14px);box-shadow:none !important}
+.folio-nav a{flex:none;padding:8px 13px !important;border-radius:10px !important;border:0 !important;background:transparent !important;color:var(--mute) !important;font-weight:600 !important;font-size:.88rem !important;transition:.2s}
+.folio-nav a:hover{color:var(--ink) !important;background:var(--pill) !important}
+.folio-nav a[aria-current=page]{color:var(--ink) !important;background:var(--pill) !important;box-shadow:inset 0 -2px 0 var(--acc) !important}
+
+/* Ana sayfa hero */
+body.home .hero{background:transparent !important;border:0 !important;box-shadow:none !important;padding:64px 0 36px !important}
+body.home .hero::before,body.home .hero::after{display:none !important}
+body.home .hero h2#tagline{font-size:clamp(2.2rem,5vw,3.6rem) !important;line-height:1.08 !important;font-weight:800 !important;letter-spacing:-.035em !important;max-width:14em;color:var(--ink) !important}
+.home-intro-copy{color:var(--mute) !important;max-width:34em;font-size:1.05rem !important}
+.home-eyebrow,.home-section-kicker,.tech-eyebrow{color:var(--acc) !important;font-weight:700 !important;letter-spacing:.08em !important;font-size:.72rem !important;background:none !important;border:0 !important;padding:0 !important}
+.home-section-head h2,.tech-hub-head h2{font-size:1.3rem !important;font-weight:700 !important}
+.home-section-count{color:var(--mute) !important;background:none !important;border:0 !important;font-size:.78rem !important}
+
+/* Kartlar / paneller: tek tip yüzey */
+.card,.card.cx,.panel,.tile,.home-tool-card,.tech-hub-card,.detail-score-card,.stat-card,.people-card{
+  background:var(--card) !important;border:1px solid var(--line) !important;border-radius:var(--r) !important;box-shadow:none !important;color:var(--ink) !important;transition:transform .25s,border-color .25s !important}
+.card:hover,.card.cx:hover,.tile:hover,.home-tool-card:hover,.tech-hub-card:hover{transform:translateY(-3px) !important;border-color:color-mix(in srgb,var(--acc) 55%,transparent) !important;box-shadow:none !important}
+.tile{min-height:190px !important;background:radial-gradient(120% 90% at 100% 0,color-mix(in srgb,var(--acc) 20%,transparent),transparent 60%),var(--card) !important}
+.tile.has-cover{background-color:var(--card) !important}
+.tile .tbody h3{color:var(--ink) !important;font-size:1.25rem !important;font-weight:800 !important}
+.tile .tbody p,.tile .tile-latest-title{color:var(--mute) !important}
+.tile .ticon,.home-tool-icon,.tech-hub-icon{background:color-mix(in srgb,var(--acc) 14%,transparent) !important;border:0 !important;color:var(--acc) !important;border-radius:12px !important}
+.cx-heading{font-size:.98rem !important;font-weight:700 !important}
+.cx-meta,.meta,.note,.cx-facts,.cx-body small{color:var(--mute) !important}
+.cx-chips span,.chip{background:color-mix(in srgb,var(--acc) 15%,transparent) !important;color:color-mix(in srgb,var(--acc) 70%,var(--ink)) !important;border:0 !important;border-radius:99px !important;font-weight:600 !important}
+.cx-media .score,.cover .score,.cx-score{background:rgba(8,8,12,.85) !important;color:#fff !important;border:1px solid var(--line) !important;border-radius:10px !important;font-weight:800 !important;backdrop-filter:blur(6px)}
+.card .cover img,.cx-media img{transition:transform .5s !important}
+.card:hover .cover img,.card.cx:hover .cx-media img{transform:scale(1.04) !important}
+
+/* Butonlar + form alanları */
+.btn{background:var(--card) !important;border:1px solid var(--line) !important;border-radius:12px !important;color:var(--ink) !important;font-weight:600 !important;box-shadow:none !important}
+.btn:hover{border-color:color-mix(in srgb,var(--acc) 55%,transparent) !important}
+.btn.pri,.btn.primary{background:var(--acc) !important;border-color:var(--acc) !important;color:var(--accink) !important;font-weight:700 !important}
+input,select,textarea{background:var(--card) !important;border:1px solid var(--line) !important;border-radius:12px !important;color:var(--ink) !important;box-shadow:none !important}
+input:focus,select:focus,textarea:focus{border-color:var(--acc) !important;outline:0 !important}
+.pills button,.seg button{border-radius:99px !important;border:1px solid var(--line) !important;background:var(--card) !important;color:var(--mute) !important}
+.pills button.on,.pills button[aria-pressed=true],.seg button.on{background:var(--acc) !important;border-color:var(--acc) !important;color:var(--accink) !important}
+.tbl{border-collapse:separate !important;border-spacing:0 !important}.tbl th{color:var(--mute) !important;font-weight:600 !important}.tbl td,.tbl th{border-color:var(--line) !important}
+a{text-decoration-color:color-mix(in srgb,var(--acc) 50%,transparent)}
+.foot,footer{border-top:1px solid var(--line) !important;color:var(--mute) !important;background:transparent !important}
+@media(max-width:640px){.folio-nav{margin:0 -16px 8px !important;padding:8px 16px !important}body.home .hero{padding:40px 0 24px !important}}
