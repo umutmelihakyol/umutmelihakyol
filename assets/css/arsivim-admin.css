@@ -1,0 +1,47 @@
+/* ==========================================================
+   GÜNLÜĞÜM — YÖNETİM PANELİ TASARIMI (arsivim.css'ten sonra, sadece admin/index.html'de yüklenir)
+   Panelin kendi değişkenlerini (--bd, --fg, --pri) site paletine bağlar ve bileşenleri aynı dile çeker.
+   ========================================================== */
+body.admin-page{--bd:var(--line);--fg:var(--ink);--pri:var(--acc);--bg2:var(--card)}
+body.admin-page .wrap{max-width:1040px !important}
+
+/* Panel başlığı + sekmeler */
+body.admin-page header.top{padding:26px 0 14px !important}
+body.admin-page header.top h1{font-size:1.4rem !important}
+.admin-nav{gap:6px !important;border-bottom:1px solid var(--line) !important;padding-bottom:14px !important;margin-bottom:22px !important}
+.tab-btn{border-radius:10px !important;opacity:1 !important;color:var(--mute) !important;font-weight:600 !important;background:transparent !important;border:1px solid transparent !important}
+.tab-btn:hover{color:var(--ink) !important;background:var(--pill) !important}
+.tab-btn[aria-selected="true"]{color:var(--ink) !important;background:color-mix(in srgb,var(--acc) 16%,transparent) !important;border-color:color-mix(in srgb,var(--acc) 45%,transparent) !important}
+
+/* Paneller, istatistik kutuları, listeler */
+.panel,.imp-box,.gwa-admin-form-panel,.gwa-admin-list-panel,.media-feature-panel,.analytics-box,.game-cost-panel,.trash-panel{
+  background:var(--card) !important;border:1px solid var(--line) !important;border-radius:var(--r) !important;box-shadow:none !important}
+.panel h2,.panel h3,.imp-box h3{font-weight:700 !important;font-size:1.05rem !important}
+.stat-card{background:var(--card) !important;border:1px solid var(--line) !important;border-radius:14px !important;text-align:left !important;padding:16px !important}
+.stat-card b{font-family:'Inter',sans-serif !important;font-weight:800 !important;color:var(--acc) !important;letter-spacing:-.02em}
+.stat-card span,.stat-card small{color:var(--mute) !important}
+.li-adv{border-bottom:1px solid var(--line) !important;padding:12px 0 !important}
+.li-thumb{border-radius:10px !important;background:var(--pill) !important}
+.li-title{font-weight:700 !important}
+.badge{background:color-mix(in srgb,var(--acc) 15%,transparent) !important;color:color-mix(in srgb,var(--acc) 70%,var(--ink)) !important;font-weight:600 !important}
+.img-preview{border-radius:12px !important;border:1px solid var(--line) !important}
+.fav-star.active{color:#fbbf24 !important}
+
+/* Form alanları */
+.f label,.media-form-grid label,.gwa-form-grid label,.tech-admin-form-grid label{color:var(--mute) !important;font-size:.82rem !important;font-weight:500}
+.toolbar input,.toolbar select,.f input,.f select,.f textarea,.media-form-grid input,.media-form-grid select,.media-form-grid textarea,
+.gwa-form-grid input,.gwa-form-grid select,.gwa-form-grid textarea,.tech-admin-form-grid input,.tech-admin-form-grid select,.tech-admin-form-grid textarea{
+  background:var(--bg) !important;color:var(--ink) !important;border:1px solid var(--line) !important;border-radius:12px !important;padding:10px 14px !important}
+.toolbar input:focus,.toolbar select:focus,.f input:focus,.f select:focus,.f textarea:focus,.code-editor:focus{outline:0 !important;border-color:var(--acc) !important}
+.toolbar select option{background:var(--card) !important;color:var(--ink) !important}
+.code-editor,.imp-log{background:var(--bg) !important;color:var(--ink) !important;border:1px solid var(--line) !important;border-radius:12px !important}
+
+/* Butonlar */
+.btn.del,.btn.danger{color:#f87171 !important}
+.btn.del:hover{border-color:rgba(248,113,113,.5) !important}
+.res button{background:var(--bg) !important;border:1px solid var(--line) !important;border-radius:12px !important;color:var(--ink) !important}
+.res button:hover{border-color:var(--acc) !important}
+.msg,.backup-note,.gwa-fairness-note,.tech-admin-status,.gwa-admin-status{color:var(--mute) !important;background:var(--pill) !important;border:1px solid var(--line) !important;border-radius:12px !important}
+.bar-list i,.bar-list .bar{background:var(--acc) !important;border-radius:99px}
+.gwa-count-pill{background:color-mix(in srgb,var(--acc) 15%,transparent) !important;color:var(--acc) !important;border:0 !important;border-radius:99px !important}
+.gwa-heading-mark{background:color-mix(in srgb,var(--acc) 15%,transparent) !important;color:var(--acc) !important;border-radius:10px !important}

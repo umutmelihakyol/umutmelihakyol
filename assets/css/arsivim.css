@@ -75,3 +75,11 @@ input:focus,select:focus,textarea:focus{border-color:var(--acc) !important;outli
 a{text-decoration-color:color-mix(in srgb,var(--acc) 50%,transparent)}
 .foot,footer{border-top:1px solid var(--line) !important;color:var(--mute) !important;background:transparent !important}
 @media(max-width:640px){.folio-nav{margin:0 -16px 8px !important;padding:8px 16px !important}body.home .hero{padding:40px 0 24px !important}}
+
+/* ÜST BÖLÜM KALDIRILDI: başlık+butonlar ve menü satırı gizli (admin paneli hariç).
+   Geri getirmek için bu bloğu silmen yeterli. JS'in beklediği öğeler DOM'da kaldığı için hiçbir şey bozulmaz. */
+body:not(.admin-page) header.top,
+body:not(.admin-page) .tech-page-top,
+body:not(.admin-page) .gw-topbar,
+body:not(.admin-page) .folio-nav{display:none !important}
+body:not(.admin-page) .wrap{padding-top:24px !important}
