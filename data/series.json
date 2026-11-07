@@ -1,5 +1,40 @@
 [
   {
+    "id": "mw6nqdba",
+    "status": "bitirdim",
+    "title": "Prison Break",
+    "image": "https://image.tmdb.org/t/p/w780/n3Brk7roueE9HOwVmYlJx5j462g.jpg",
+    "platform": "",
+    "genres": [
+      "Aksiyon & Macera",
+      "Suç",
+      "Dram"
+    ],
+    "score": 8,
+    "finished": "2026-11-07",
+    "recommended": true,
+    "review": "",
+    "note": "",
+    "year": 2005,
+    "favorite": false,
+    "pros": [],
+    "cons": [],
+    "links": [],
+    "repeatHistory": [],
+    "scoreHistory": [
+      {
+        "date": "2026-11-07",
+        "previousScore": null,
+        "score": 8,
+        "reason": "İlk değerlendirme"
+      }
+    ],
+    "updatedAt": "2026-11-07T17:08:23.398Z",
+    "seasons": 5,
+    "episodes": 88,
+    "creator": "Paul T. Scheuring"
+  },
+  {
     "id": "mviljqp4",
     "status": "bitirdim",
     "title": "The Rookie",
