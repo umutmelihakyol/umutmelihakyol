@@ -1,47 +1,64 @@
 /* ==========================================================
-   GÜNLÜĞÜM — YÖNETİM PANELİ TASARIMI (arsivim.css'ten sonra, sadece admin/index.html'de yüklenir)
-   Panelin kendi değişkenlerini (--bd, --fg, --pri) site paletine bağlar ve bileşenleri aynı dile çeker.
+   GÜNLÜĞÜM — YÖNETİM PANELİ (sadece admin/index.html, arsivim.css'ten sonra yüklenir)
+   Renkler arsivim.css'teki paletten gelir; burada sadece yerleşim ve bileşen stili var.
    ========================================================== */
-body.admin-page{--bd:var(--line);--fg:var(--ink);--pri:var(--acc);--bg2:var(--card)}
-body.admin-page .wrap{max-width:1040px !important}
+body.admin-page{--bd:var(--line) !important;--fg:var(--ink) !important;--pri:var(--acc) !important;--bg2:var(--card) !important;
+  background:var(--bg) !important;font-family:'Inter',system-ui,sans-serif !important}
+body.admin-page .folio-nav{display:none !important}
+body.admin-page .wrap{width:min(1040px,calc(100% - 40px)) !important;max-width:1040px !important;margin:0 auto !important;padding:0 0 80px !important}
 
-/* Panel başlığı + sekmeler */
-body.admin-page header.top{padding:26px 0 14px !important}
-body.admin-page header.top h1{font-size:1.4rem !important}
-.admin-nav{gap:6px !important;border-bottom:1px solid var(--line) !important;padding-bottom:14px !important;margin-bottom:22px !important}
-.tab-btn{border-radius:10px !important;opacity:1 !important;color:var(--mute) !important;font-weight:600 !important;background:transparent !important;border:1px solid transparent !important}
-.tab-btn:hover{color:var(--ink) !important;background:var(--pill) !important}
-.tab-btn[aria-selected="true"]{color:var(--ink) !important;background:color-mix(in srgb,var(--acc) 16%,transparent) !important;border-color:color-mix(in srgb,var(--acc) 45%,transparent) !important}
+/* Başlık alanı */
+body.admin-page header.top{display:flex !important;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px;
+  padding:36px 0 20px !important;margin:0 0 20px !important;border:0 !important;border-bottom:1px solid var(--line) !important;background:none !important}
+body.admin-page header.top::before{color:var(--acc) !important;font-weight:700 !important;letter-spacing:.08em !important;font-size:.72rem !important}
+body.admin-page header.top h1{font-size:clamp(1.6rem,3vw,2.1rem) !important;font-weight:800 !important;letter-spacing:-.03em !important;color:var(--ink) !important}
+body.admin-page header.top>span{display:flex !important;flex-wrap:wrap;gap:8px}
 
-/* Paneller, istatistik kutuları, listeler */
-.panel,.imp-box,.gwa-admin-form-panel,.gwa-admin-list-panel,.media-feature-panel,.analytics-box,.game-cost-panel,.trash-panel{
-  background:var(--card) !important;border:1px solid var(--line) !important;border-radius:var(--r) !important;box-shadow:none !important}
-.panel h2,.panel h3,.imp-box h3{font-weight:700 !important;font-size:1.05rem !important}
-.stat-card{background:var(--card) !important;border:1px solid var(--line) !important;border-radius:14px !important;text-align:left !important;padding:16px !important}
-.stat-card b{font-family:'Inter',sans-serif !important;font-weight:800 !important;color:var(--acc) !important;letter-spacing:-.02em}
-.stat-card span,.stat-card small{color:var(--mute) !important}
-.li-adv{border-bottom:1px solid var(--line) !important;padding:12px 0 !important}
-.li-thumb{border-radius:10px !important;background:var(--pill) !important}
-.li-title{font-weight:700 !important}
-.badge{background:color-mix(in srgb,var(--acc) 15%,transparent) !important;color:color-mix(in srgb,var(--acc) 70%,var(--ink)) !important;font-weight:600 !important}
-.img-preview{border-radius:12px !important;border:1px solid var(--line) !important}
-.fav-star.active{color:#fbbf24 !important}
+/* Sekmeler: kapsayıcı yok, düz yatay menü */
+body.admin-page .admin-nav{display:flex !important;gap:4px !important;flex-wrap:wrap;overflow-x:auto;padding:0 0 14px !important;margin:0 0 22px !important;
+  background:none !important;border:0 !important;border-bottom:1px solid var(--line) !important;border-radius:0 !important;box-shadow:none !important}
+body.admin-page .tab-btn{background:transparent !important;border:0 !important;border-radius:10px !important;box-shadow:none !important;opacity:1 !important;
+  color:var(--mute) !important;font-weight:600 !important;font-size:.88rem !important;padding:9px 14px !important}
+body.admin-page .tab-btn:hover{color:var(--ink) !important;background:var(--pill) !important}
+body.admin-page .tab-btn[aria-selected="true"]{color:#fff !important;background:var(--acc) !important}
 
-/* Form alanları */
-.f label,.media-form-grid label,.gwa-form-grid label,.tech-admin-form-grid label{color:var(--mute) !important;font-size:.82rem !important;font-weight:500}
-.toolbar input,.toolbar select,.f input,.f select,.f textarea,.media-form-grid input,.media-form-grid select,.media-form-grid textarea,
-.gwa-form-grid input,.gwa-form-grid select,.gwa-form-grid textarea,.tech-admin-form-grid input,.tech-admin-form-grid select,.tech-admin-form-grid textarea{
-  background:var(--bg) !important;color:var(--ink) !important;border:1px solid var(--line) !important;border-radius:12px !important;padding:10px 14px !important}
-.toolbar input:focus,.toolbar select:focus,.f input:focus,.f select:focus,.f textarea:focus,.code-editor:focus{outline:0 !important;border-color:var(--acc) !important}
-.toolbar select option{background:var(--card) !important;color:var(--ink) !important}
-.code-editor,.imp-log{background:var(--bg) !important;color:var(--ink) !important;border:1px solid var(--line) !important;border-radius:12px !important}
+/* Yüzeyler */
+body.admin-page .panel,body.admin-page .imp-box,body.admin-page .media-feature-panel,body.admin-page .game-cost-panel,body.admin-page .trash-panel,
+body.admin-page .analytics-box,body.admin-page .gwa-admin-form-panel,body.admin-page .gwa-admin-list-panel,body.admin-page fieldset{
+  background:var(--card) !important;border:1px solid var(--line) !important;border-radius:var(--r) !important;box-shadow:none !important;padding:22px !important;margin-bottom:18px !important}
+body.admin-page .panel h2,body.admin-page .panel>h3{font-size:1.05rem !important;font-weight:700 !important;letter-spacing:-.01em !important;margin:0 0 16px !important;padding:0 0 12px !important;border-bottom:1px solid var(--line) !important}
+body.admin-page .stat-card{background:var(--bg) !important;border:1px solid var(--line) !important;border-radius:14px !important;text-align:left !important;padding:16px !important}
+body.admin-page .stat-card b{font-family:'Inter',sans-serif !important;font-weight:800 !important;color:var(--acc) !important;letter-spacing:-.02em}
+body.admin-page .li-adv{border-bottom:1px solid var(--line) !important;padding:12px 0 !important}
+body.admin-page .li-thumb,body.admin-page .img-preview{border-radius:10px !important;border:1px solid var(--line) !important;background:var(--pill) !important}
+body.admin-page .badge{background:color-mix(in srgb,var(--acc) 15%,transparent) !important;color:color-mix(in srgb,var(--acc) 70%,var(--ink)) !important;font-weight:600 !important}
+body.admin-page .meta,body.admin-page .backup-note{color:var(--mute) !important}
 
-/* Butonlar */
-.btn.del,.btn.danger{color:#f87171 !important}
-.btn.del:hover{border-color:rgba(248,113,113,.5) !important}
-.res button{background:var(--bg) !important;border:1px solid var(--line) !important;border-radius:12px !important;color:var(--ink) !important}
-.res button:hover{border-color:var(--acc) !important}
-.msg,.backup-note,.gwa-fairness-note,.tech-admin-status,.gwa-admin-status{color:var(--mute) !important;background:var(--pill) !important;border:1px solid var(--line) !important;border-radius:12px !important}
-.bar-list i,.bar-list .bar{background:var(--acc) !important;border-radius:99px}
-.gwa-count-pill{background:color-mix(in srgb,var(--acc) 15%,transparent) !important;color:var(--acc) !important;border:0 !important;border-radius:99px !important}
-.gwa-heading-mark{background:color-mix(in srgb,var(--acc) 15%,transparent) !important;color:var(--acc) !important;border-radius:10px !important}
+/* Form */
+body.admin-page label{color:var(--mute) !important;font-size:.8rem !important;font-weight:500 !important}
+body.admin-page input:not([type=checkbox]):not([type=radio]):not([type=file]),body.admin-page select,body.admin-page textarea{
+  background:var(--bg) !important;color:var(--ink) !important;border:1px solid var(--line) !important;border-radius:12px !important;padding:10px 14px !important;box-shadow:none !important}
+body.admin-page input:focus,body.admin-page select:focus,body.admin-page textarea:focus{border-color:var(--acc) !important;outline:0 !important}
+body.admin-page input::placeholder,body.admin-page textarea::placeholder{color:color-mix(in srgb,var(--mute) 70%,transparent) !important}
+body.admin-page select option{background:var(--card) !important;color:var(--ink) !important}
+body.admin-page .code-editor,body.admin-page .imp-log{background:var(--bg) !important;color:var(--ink) !important;border:1px solid var(--line) !important;border-radius:12px !important}
+body.admin-page .rating-breakdown{background:var(--bg) !important;border:1px solid var(--line) !important;border-radius:14px !important}
+
+/* Butonlar: düz renk, parlama yok */
+body.admin-page .btn{background:var(--bg) !important;background-image:none !important;border:1px solid var(--line) !important;border-radius:12px !important;box-shadow:none !important;color:var(--ink) !important;font-weight:600 !important}
+body.admin-page .btn:hover{border-color:color-mix(in srgb,var(--acc) 55%,transparent) !important;transform:none !important}
+body.admin-page .btn.pri{background:var(--acc) !important;border-color:var(--acc) !important;color:#fff !important;font-weight:700 !important}
+body.admin-page .btn.pri:hover{filter:brightness(1.1)}
+body.admin-page .btn.del,body.admin-page .btn.danger{color:var(--no) !important}
+body.admin-page .btn.del:hover{border-color:color-mix(in srgb,var(--no) 55%,transparent) !important}
+body.admin-page .pills{background:none !important;border:0 !important;padding:0 !important;display:flex;flex-wrap:wrap;gap:8px}
+body.admin-page .pill,body.admin-page .pills button{background:var(--bg) !important;border:1px solid var(--line) !important;border-radius:99px !important;box-shadow:none !important;color:var(--mute) !important;font-weight:600 !important}
+body.admin-page .pill[aria-pressed=true],body.admin-page .pills button.on{background:var(--acc) !important;border-color:var(--acc) !important;color:#fff !important}
+body.admin-page .res button{background:var(--bg) !important;border:1px solid var(--line) !important;border-radius:12px !important;color:var(--ink) !important}
+body.admin-page .res button:hover{border-color:var(--acc) !important}
+body.admin-page .msg,body.admin-page .tech-admin-status,body.admin-page .gwa-admin-status,body.admin-page .gwa-fairness-note{background:var(--pill) !important;border:1px solid var(--line) !important;border-radius:12px !important;color:var(--mute) !important}
+body.admin-page .gwa-count-pill,body.admin-page .gwa-heading-mark{background:color-mix(in srgb,var(--acc) 15%,transparent) !important;color:var(--acc) !important;border:0 !important}
+@media(max-width:640px){body.admin-page .wrap{width:calc(100% - 28px) !important}body.admin-page .panel{padding:16px !important}}
+body.admin-page .btn,body.admin-page .tab-btn,body.admin-page .pill{filter:none !important;text-shadow:none !important}
+body.admin-page .btn.pri,body.admin-page .tab-btn[aria-selected="true"],body.admin-page .pill[aria-pressed=true]{box-shadow:none !important}
+body.admin-page .btn::before,body.admin-page .btn::after,body.admin-page .tab-btn::before,body.admin-page .tab-btn::after{display:none !important}
