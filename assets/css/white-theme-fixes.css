@@ -1,0 +1,434 @@
+/* ================================================================
+   GÜNLÜĞÜM — AÇIK TEMA DÜZENLEMELERİ
+   Açık temadaki eski koyu bileşen artıklarını giderir. İçerik ve işlev
+   değişmez; bu dosya tüm ortak tema katmanlarından sonra yüklenir.
+   ================================================================ */
+
+:root[data-theme="light"],
+html[data-theme="light"] body,
+html[data-theme="light"] body[class] {
+  color-scheme: light !important;
+  --bg: #f5f6fa !important;
+  --card: #ffffff !important;
+  --surface-2: #f1f3f8 !important;
+  --surface-3: #e9edf5 !important;
+  --ink: #24283a !important;
+  --mute: #697287 !important;
+  --line: #e1e5ee !important;
+  --acc: #7654c8 !important;
+  --accink: #ffffff !important;
+  --acc2: #5579b8 !important;
+  --yes: #267a59 !important;
+  --no: #b64e5b !important;
+  --pill: #f1f2f8 !important;
+  --glass: rgba(255, 255, 255, .94) !important;
+  --shadow: 0 8px 24px rgba(39, 45, 75, .055) !important;
+  --sh1: 0 1px 2px rgba(34, 40, 68, .035), 0 7px 20px rgba(34, 40, 68, .045) !important;
+  --sh2: 0 12px 30px rgba(34, 40, 68, .10) !important;
+  --gc-bg: #f5f6fa !important;
+  --gc-bg-2: #eef0f6 !important;
+  --gc-panel: #ffffff !important;
+  --gc-panel-2: #fafbfe !important;
+  --gc-panel-soft: #f4f5fa !important;
+  --gc-ink: #24283a !important;
+  --gc-muted: #697287 !important;
+  --gc-dim: #838ba0 !important;
+  --gc-line: #e1e5ee !important;
+  --gc-line-strong: #c9c3e4 !important;
+  --gc-purple: #7654c8 !important;
+  --gc-purple-light: #674bb4 !important;
+  --gc-blue: #477bb8 !important;
+  --gc-green: #267a59 !important;
+  --gc-radius: 14px !important;
+  --tile-accent: #7654c8 !important;
+}
+
+html[data-theme="light"],
+html[data-theme="light"] body,
+html[data-theme="light"] body[class] {
+  color-scheme: light !important;
+  color: var(--ink) !important;
+  background: var(--bg) !important;
+  background-image: none !important;
+}
+:root[data-theme="light"] body::before,
+:root[data-theme="light"] body::after { display: none !important; }
+:root[data-theme="light"] ::selection { color: #fff !important; background: #7654c8 !important; }
+:root[data-theme="light"] ::-webkit-scrollbar-track { background: #eef0f5 !important; }
+:root[data-theme="light"] ::-webkit-scrollbar-thumb { background: #c9cedb !important; border-color: #eef0f5 !important; }
+:root[data-theme="light"] ::-webkit-scrollbar-thumb:hover { background: #aeb5c6 !important; }
+
+/* Yazı kontrastı ve bağlantılar */
+:root[data-theme="light"] body :is(h1,h2,h3,h4,h5,h6,strong,b,legend),
+:root[data-theme="light"] .gc-shell-mounted :is(h1,h2,h3,h4,h5,h6,strong,b,legend) {
+  color: #24283a !important;
+}
+:root[data-theme="light"] body :is(p,small,label,.meta,.note,.muted,.subtle,.muted-text),
+:root[data-theme="light"] .gc-shell-mounted :is(.meta,.note,.muted,.subtle,.muted-text) {
+  color: #697287 !important;
+}
+:root[data-theme="light"] body a,
+:root[data-theme="light"] body a:visited { color: #674bb4 !important; }
+:root[data-theme="light"] body a:hover { color: #49318d !important; }
+:root[data-theme="light"] :focus-visible { outline-color: #7654c8 !important; }
+
+/* Üst gezinme, çekmece ve mobil alt menü */
+:root[data-theme="light"] .gc-header {
+  color: #24283a !important;
+  background: rgba(255,255,255,.96) !important;
+  border-bottom: 1px solid #e1e5ee !important;
+  box-shadow: 0 4px 18px rgba(34,40,68,.045) !important;
+  backdrop-filter: blur(16px) saturate(1.15) !important;
+}
+:root[data-theme="light"] .gc-brand,
+:root[data-theme="light"] .gc-brand:visited,
+:root[data-theme="light"] .gc-brand-copy,
+:root[data-theme="light"] .gc-brand-copy strong { color: #24283a !important; }
+:root[data-theme="light"] .gc-brand-copy small { color: #81899c !important; }
+:root[data-theme="light"] .gc-nav-links a { color: #697287 !important; }
+:root[data-theme="light"] .gc-nav-links a:hover,
+:root[data-theme="light"] .gc-nav-links a[aria-current="page"] { color: #674bb4 !important; }
+:root[data-theme="light"] .gc-icon-button,
+:root[data-theme="light"] .gc-menu-trigger,
+:root[data-theme="light"] .gc-menu-close {
+  color: #555e76 !important;
+  background: #fff !important;
+  border: 1px solid #e1e5ee !important;
+  box-shadow: 0 1px 3px rgba(34,40,68,.035) !important;
+}
+:root[data-theme="light"] .gc-menu-panel {
+  color: #24283a !important;
+  background: #fff !important;
+  border-left: 1px solid #e1e5ee !important;
+  box-shadow: -18px 0 55px rgba(34,40,68,.12) !important;
+}
+:root[data-theme="light"] .gc-menu-head,
+:root[data-theme="light"] .gc-menu-group + .gc-menu-group { border-color: #e8eaf1 !important; }
+:root[data-theme="light"] .gc-menu-label,
+:root[data-theme="light"] .gc-menu-copy small { color: #81899c !important; }
+:root[data-theme="light"] .gc-menu-link { color: #4f5870 !important; background: transparent !important; }
+:root[data-theme="light"] .gc-menu-link:hover,
+:root[data-theme="light"] .gc-menu-link.is-active {
+  color: #4d398f !important;
+  background: #f2effb !important;
+  border-color: #e3dcf6 !important;
+}
+:root[data-theme="light"] .gc-mobile-nav {
+  background: rgba(255,255,255,.97) !important;
+  border: 1px solid #e1e5ee !important;
+  box-shadow: 0 8px 28px rgba(34,40,68,.13) !important;
+  backdrop-filter: blur(18px) !important;
+}
+:root[data-theme="light"] .gc-mobile-link { color: #788196 !important; }
+:root[data-theme="light"] .gc-mobile-link[aria-current="page"] { color: #674bb4 !important; }
+:root[data-theme="light"] .gc-mobile-link.gc-mobile-home {
+  color: #fff !important;
+  background: #7654c8 !important;
+  border-color: #7654c8 !important;
+  box-shadow: 0 3px 9px rgba(118,84,200,.22) !important;
+}
+
+/* Ana alan ve ortak kart yüzeyleri */
+:root[data-theme="light"] .gc-shell-mounted :is(
+  .panel,.card,.card.cx,.item,.entry,.result-card,.search-result-card,.home-tool-card,.tech-hub,.tech-hub-card,.tech-card,.recent-card,.media-card,
+  .person-card,.entity-card,.entity-directory-card,.profile-card,.profile-work-card,.profile-archive-pill,.profile-result,.metric-card,.metric-line,.stats-panel,
+  .analytics-box,.comparison-section,.subscore-section,.status-panel,.top-rated-section,
+  .annual-chart-panel,.annual-best-panel,.annual-section,.search-panel,.people-search-panel,
+  .tech-tools,.tech-article,.tech-article-card,.tech-articles article,.gw-card,.gw-wheel-panel,.gw-countdown-card,
+  .gw-participants-card,.gw-history-card,.cost-intro,.cost-kpi,.cost-card,.cost-tools,
+  .detail-section,.rating-breakdown,.purchase-detail,.tech-article-band,.tech-empty,.soon-card,.empty-state,
+  .gw-global-status,.gw-empty,.cost-empty,.search-empty,.search-notice,.stats-notice,
+  .year-category-summary,.tier-list,.directory-filter-label
+) {
+  color: #24283a !important;
+  background: #fff !important;
+  border-color: #e1e5ee !important;
+  box-shadow: 0 5px 18px rgba(34,40,68,.045) !important;
+}
+:root[data-theme="light"] .gc-shell-mounted :is(
+  .panel,.card.cx,.item,.entry,.result-card,.search-result-card,.home-tool-card,.tech-hub,.tech-hub-card,.tech-card,.recent-card,.media-card,
+  .person-card,.entity-card,.entity-directory-card,.profile-card,.profile-work-card,.profile-archive-pill,.profile-result,.metric-card,.stats-panel,.analytics-box,
+  .comparison-section,.subscore-section,.status-panel,.top-rated-section,.annual-chart-panel,
+  .annual-best-panel,.annual-section,.search-panel,.people-search-panel,.tech-tools,
+  .tech-article,.tech-article-card,.gw-wheel-panel,.gw-countdown-card,.gw-participants-card,
+  .gw-history-card,.gw-card,.tech-articles article,.soon-card,.empty-state,.cost-intro,.cost-kpi,.cost-card,.cost-tools,.detail-section,
+  .rating-breakdown,.purchase-detail,.gw-global-status,.year-category-summary,.tier-list
+) { border-radius: 14px !important; }
+:root[data-theme="light"] .gc-shell-mounted :is(
+  .panel,.card,.card.cx,.home-tool-card,.tech-hub-card,.recent-card,.media-card,
+  .person-card,.entity-card,.profile-result,.metric-card,.stats-panel,.analytics-box,
+  .search-panel,.people-search-panel,.tech-tools,.tech-article,.tech-article-card,
+  .gw-wheel-panel,.gw-countdown-card,.gw-participants-card,.gw-history-card,
+  .cost-card,.detail-section,.rating-breakdown,.purchase-detail
+):hover {
+  border-color: #cfc6e9 !important;
+  box-shadow: 0 8px 22px rgba(49,43,91,.075) !important;
+}
+:root[data-theme="light"] body[data-cat] .stats,
+:root[data-theme="light"] .gc-shell-mounted .cx-body,
+:root[data-theme="light"] .gc-shell-mounted .card.cx .cx-body { background: transparent !important; }
+:root[data-theme="light"] .gc-shell-mounted .tile:not(.has-cover) {
+  color: #24283a !important;
+  background: #fff !important;
+  border: 1px solid #e1e5ee !important;
+  box-shadow: 0 5px 18px rgba(34,40,68,.045) !important;
+}
+:root[data-theme="light"] .gc-shell-mounted .tile:not(.has-cover) :is(h2,h3,h4,p,small,.tile-latest-title) { color: #24283a !important; }
+:root[data-theme="light"] .gc-shell-mounted .tile:not(.has-cover) .tbody p { color: #697287 !important; }
+:root[data-theme="light"] .gc-shell-mounted .tile.has-cover { border-color: #dfe2ec !important; }
+:root[data-theme="light"] .gc-shell-mounted .tile.has-cover .tbody :is(h2,h3,h4,p,small,.tile-latest-title) { color: #fff !important; }
+:root[data-theme="light"] .gc-shell-mounted :is(.ticon,.home-tool-icon,.tech-hub-icon) {
+  color: #674bb4 !important;
+  background: #f0ecfa !important;
+  border: 1px solid #e4dcf5 !important;
+}
+:root[data-theme="light"] .gc-shell-mounted :is(.home-tool-copy strong,.tech-hub-copy strong,.tech-hub-head h2,.home-section-head h2,.section-title-row h2,.panel-heading h2,.cx-title,.cx-title a) { color: #24283a !important; }
+:root[data-theme="light"] .gc-shell-mounted :is(.home-tool-copy small,.home-tool-foot,.tech-hub-copy>span:last-child,.tech-hub-head p,.home-section-count,.cx-meta,.cx-facts) { color: #697287 !important; }
+:root[data-theme="light"] .gc-shell-mounted .tech-hub { color: #24283a !important; background: #fff !important; border-color: #e1e5ee !important; box-shadow: 0 5px 18px rgba(34,40,68,.045) !important; }
+:root[data-theme="light"] .gc-shell-mounted .tech-hub-card:hover { background: #faf9fe !important; }
+:root[data-theme="light"] .gc-shell-mounted :is(.search-result-card,.entity-directory-card,.profile-archive-pill,.profile-work-card) { color: #30364b !important; background: #fff !important; border-color: #e1e5ee !important; }
+:root[data-theme="light"] .gc-shell-mounted :is(.search-result-copy strong,.entity-directory-copy strong,.profile-work-text strong) { color: #24283a !important; }
+
+/* Kategori sekmeleri, filtreler ve arama araçları */
+:root[data-theme="light"] .gc-shell-mounted :is(.cats,.tools,.pills,.admin-nav,.tech-nav,.stats-filters,.cost-tools,.toolbar,.bulk-toolbar,.gwa-toolbar) {
+  color: #4f5870 !important;
+  background: #f8f9fc !important;
+  border-color: #e1e5ee !important;
+  box-shadow: none !important;
+}
+:root[data-theme="light"] .gc-shell-mounted :is(
+  .pill,.filter-chip,.search-chip,.tech-nav a,.tech-filter,.tech-clear-btn,
+  .tab-btn,.admin-nav button,.cats a,.cats button,.seg button,
+  .stats-filters button,.pills button
+) {
+  color: #59637b !important;
+  background: #fff !important;
+  border: 1px solid #e1e5ee !important;
+  box-shadow: none !important;
+}
+:root[data-theme="light"] .gc-shell-mounted :is(
+  .pill[aria-pressed="true"],.filter-chip[aria-pressed="true"],.search-chip[aria-pressed="true"],
+  .tab-btn[aria-selected="true"],.admin-nav button[aria-selected="true"],
+  .cats a[aria-current="page"],.cats button[aria-pressed="true"],
+  .seg button[aria-pressed="true"],.stats-filters button[aria-pressed="true"],
+  .pills button.on,.pills button[aria-pressed="true"]
+) {
+  color: #fff !important;
+  background: #7654c8 !important;
+  border-color: #7654c8 !important;
+}
+:root[data-theme="light"] .gc-shell-mounted :is(.pill,.filter-chip,.search-chip,.tech-nav a,.tech-filter,.tab-btn,.cats a,.seg button):hover {
+  color: #4d398f !important;
+  background: #f2effb !important;
+  border-color: #dcd3f0 !important;
+}
+:root[data-theme="light"] .gc-shell-mounted :is(input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),select,textarea) {
+  color: #24283a !important;
+  background: #fff !important;
+  border: 1px solid #dce1eb !important;
+  box-shadow: none !important;
+}
+:root[data-theme="light"] .gc-shell-mounted :is(input,select,textarea):focus {
+  border-color: #9c85d6 !important;
+  box-shadow: 0 0 0 3px rgba(118,84,200,.11) !important;
+  outline: 0 !important;
+}
+:root[data-theme="light"] .gc-shell-mounted :is(input,textarea)::placeholder { color: #838b9e !important; opacity: 1 !important; }
+:root[data-theme="light"] .gc-shell-mounted select option { color: #24283a !important; background: #fff !important; }
+:root[data-theme="light"] .gc-shell-mounted :is(input[type="checkbox"],input[type="radio"]) { accent-color: #7654c8 !important; }
+:root[data-theme="light"] .gc-shell-mounted input[type="range"] { accent-color: #7654c8 !important; }
+
+/* Düğmeler ve durum etiketleri */
+:root[data-theme="light"] .gc-shell-mounted .btn,
+:root[data-theme="light"] .gc-shell-mounted button:not(.gc-menu-trigger):not(.gc-menu-close) {
+  color: #4f5870 !important;
+  background: #fff !important;
+  border-color: #dfe3ed !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+}
+:root[data-theme="light"] .gc-shell-mounted .btn:hover,
+:root[data-theme="light"] .gc-shell-mounted button:not(.gc-menu-trigger):not(.gc-menu-close):hover {
+  color: #4d398f !important;
+  background: #f6f3fc !important;
+  border-color: #cfc4e9 !important;
+}
+:root[data-theme="light"] .gc-shell-mounted .btn.pri,
+:root[data-theme="light"] .gc-shell-mounted .btn.primary,
+:root[data-theme="light"] .gc-shell-mounted button.btn.pri,
+:root[data-theme="light"] .gc-shell-mounted button.primary {
+  color: #fff !important;
+  background: #7654c8 !important;
+  border-color: #7654c8 !important;
+}
+:root[data-theme="light"] .gc-shell-mounted :is(.btn.del,.btn.danger,button.del,button.danger) { color: #b64e5b !important; border-color: #e7c9ce !important; }
+:root[data-theme="light"] .gc-shell-mounted :is(.btn.del,.btn.danger,button.del,button.danger):hover { color: #973b48 !important; background: #fff5f6 !important; border-color: #d9aeb5 !important; }
+:root[data-theme="light"] .gc-shell-mounted .btn.pri:hover,
+:root[data-theme="light"] .gc-shell-mounted .btn.primary:hover { background: #6748b6 !important; border-color: #6748b6 !important; }
+:root[data-theme="light"] .gc-shell-mounted :is(.badge,.chip,.cx-chips span,.gw-phase,.gw-count-pill,.tech-badge,.tech-read-link,.gwa-count-pill,.gwa-heading-mark) {
+  color: #6048a4 !important;
+  background: #f0ecfa !important;
+  border-color: #e2daf4 !important;
+}
+:root[data-theme="light"] .gc-shell-mounted :is(.yes,.success,[data-state="success"]) { color: #267a59 !important; }
+:root[data-theme="light"] .gc-shell-mounted :is(.no,.error,[data-state="error"]) { color: #b64e5b !important; }
+
+/* Detay pencereleri — eski koyu modal renklerini tamamen temizle */
+:root[data-theme="light"] .gc-shell-mounted :is(dialog,#dlg,.detail-redesign) {
+  color: #24283a !important;
+  background: #fff !important;
+  border: 1px solid #dfe3ed !important;
+  border-radius: 18px !important;
+  box-shadow: 0 22px 65px rgba(25,31,55,.22) !important;
+}
+:root[data-theme="light"] .gc-shell-mounted :is(dialog,#dlg,.detail-redesign)::backdrop {
+  background: rgba(26,30,47,.48) !important;
+  backdrop-filter: blur(5px) !important;
+}
+:root[data-theme="light"] .gc-shell-mounted :is(dialog,#dlg,.detail-redesign) :is(.inner,.detail-content,.detail-intro,.detail-history-section,.rating-breakdown-public,.purchase-detail) {
+  color: #24283a !important;
+  background: #fff !important;
+  border-color: #e1e5ee !important;
+}
+:root[data-theme="light"] .gc-shell-mounted :is(dialog,#dlg,.detail-redesign) :is(.detail-section,.detail-info-grid>*,.detail-score-card,.detail-history-section,.rating-breakdown-public,.purchase-detail) {
+  color: #30364b !important;
+  background: #f7f8fc !important;
+  border: 1px solid #e5e8f0 !important;
+}
+:root[data-theme="light"] .gc-shell-mounted :is(dialog,#dlg,.detail-redesign) :is(h1,h2,h3,h4,strong,.detail-title,.detail-section-heading) { color: #24283a !important; }
+:root[data-theme="light"] .gc-shell-mounted :is(dialog,#dlg,.detail-redesign) :is(p,small,dt,.detail-eyebrow,.detail-cover-subtitle,.detail-meta) { color: #697287 !important; }
+:root[data-theme="light"] .gc-shell-mounted :is(dialog,#dlg,.detail-redesign) :is(.detail-section-icon,.detail-genre-row span,.tags.wrapt span,.detail-badge) {
+  color: #674bb4 !important;
+  background: #f0ecfa !important;
+  border-color: #e2daf4 !important;
+}
+:root[data-theme="light"] .gc-shell-mounted :is(dialog,#dlg,.detail-redesign) .detail-actions {
+  color: #4f5870 !important;
+  background: rgba(255,255,255,.97) !important;
+  border-top: 1px solid #e1e5ee !important;
+}
+:root[data-theme="light"] .gc-shell-mounted :is(dialog,#dlg,.detail-redesign) .detail-actions :is(.copy,.detail-close) {
+  color: #4f5870 !important;
+  background: #f7f8fc !important;
+  border-color: #e1e5ee !important;
+}
+:root[data-theme="light"] .gc-shell-mounted :is(dialog,#dlg,.detail-redesign) .detail-actions .card-gen-btn {
+  color: #fff !important;
+  background: #7654c8 !important;
+  border-color: #7654c8 !important;
+}
+
+/* İstatistik, maliyet, Technopat, kişiler ve çekiliş sayfaları */
+:root[data-theme="light"] .gc-shell-mounted :is(.stats-hero,.search-hero,.tech-hero,.people-hero,.gw-intro,.cost-intro) {
+  color: #24283a !important;
+  background: #fff !important;
+  border: 1px solid #e1e5ee !important;
+  box-shadow: 0 5px 18px rgba(34,40,68,.045) !important;
+}
+:root[data-theme="light"] .gc-shell-mounted :is(.stats-hero,.search-hero,.tech-hero,.people-hero,.gw-intro,.cost-intro) :is(h1,h2,h3,strong) { color: #24283a !important; }
+:root[data-theme="light"] .gc-shell-mounted :is(.stats-hero,.search-hero,.tech-hero,.people-hero,.gw-intro,.cost-intro) p { color: #697287 !important; }
+:root[data-theme="light"] .gc-shell-mounted :is(.metric-card,.metric-line,.cost-kpi,.cost-card,.stat-card,.annual-best-panel,.annual-chart-panel,.status-panel,.top-rated-section,.comparison-section,.subscore-section) {
+  color: #30364b !important;
+  background: #fff !important;
+  border: 1px solid #e1e5ee !important;
+}
+:root[data-theme="light"] .gc-shell-mounted :is(.metric-card,.metric-line,.cost-kpi,.cost-card,.stat-card) :is(strong,b,.metric-label,.metric-value) { color: #30364b !important; }
+:root[data-theme="light"] .gc-shell-mounted :is(.metric-card,.metric-line,.cost-kpi,.cost-card,.stat-card) small { color: #697287 !important; }
+:root[data-theme="light"] .gc-shell-mounted :is(.metric-amber,.metric-cyan,.metric-green,.metric-violet) { background: #fff !important; }
+:root[data-theme="light"] .gc-shell-mounted :is(.tech-article,.tech-article-card,.tech-empty,.tech-article-band) {
+  color: #30364b !important;
+  background: #fff !important;
+  border-color: #e1e5ee !important;
+  box-shadow: 0 5px 18px rgba(34,40,68,.045) !important;
+}
+:root[data-theme="light"] .gc-shell-mounted :is(.tech-article,.tech-article-card) :is(h1,h2,h3,h4,strong) { color: #24283a !important; }
+:root[data-theme="light"] .gc-shell-mounted :is(.tech-article,.tech-article-card) :is(p,small,.tech-article-category) { color: #697287 !important; }
+:root[data-theme="light"] .gc-shell-mounted :is(.tech-profile-link,.tech-hub-label,.tech-badge,.tech-read-link) { color: #674bb4 !important; }
+:root[data-theme="light"] .gc-shell-mounted :is(.gw-time-unit,.gw-person-chip,.gw-participant-search,.gw-global-status,.gw-empty) {
+  color: #30364b !important;
+  background: #f7f8fc !important;
+  border-color: #e1e5ee !important;
+}
+:root[data-theme="light"] .gc-shell-mounted :is(.gw-time-unit,.gw-person-chip) b { color: #24283a !important; }
+:root[data-theme="light"] .gc-shell-mounted :is(.gw-time-unit,.gw-person-chip) small { color: #697287 !important; }
+:root[data-theme="light"] .gc-shell-mounted :is(.gw-fact-row b,.gw-panel-head h2,.gw-panel-head h3,.gw-history-top h3,.gw-empty h2) { color: #24283a !important; }
+:root[data-theme="light"] .gc-shell-mounted :is(.gw-fact-row span,.gw-muted,.gw-schedule-line,.gw-empty p) { color: #697287 !important; }
+:root[data-theme="light"] .gc-shell-mounted :is(.foot,.site-footer,.tech-page-footer,.gw-footer,.stats-footer,.people-footer) {
+  color: #7b8498 !important;
+  border-color: #e1e5ee !important;
+  background: transparent !important;
+}
+:root[data-theme="light"] .gc-shell-mounted :is(.foot,.site-footer,.tech-page-footer,.gw-footer,.stats-footer,.people-footer) a { color: #674bb4 !important; }
+
+
+/* Eksik kalan küçük kartlar, sonuç listeleri ve durum mesajları */
+:root[data-theme="light"] .gc-shell-mounted :is(.tech-card,.search-result-card,.profile-card,.profile-work-card,.profile-archive-pill,.entity-directory-card,.gw-card,.soon-card,.empty-state) {
+  color: #30364b !important; background: #fff !important; border-color: #e1e5ee !important;
+}
+:root[data-theme="light"] .gc-shell-mounted :is(.empty,.empty-inline,.duration-disclaimer,.cost-help,.tech-results-meta,.people-status,.people-count,.section-meta,.panel-count,.home-tool-label) { color: #737d91 !important; }
+:root[data-theme="light"] .gc-shell-mounted :is(.stats-notice,.search-notice,.notice,.alert) {
+  color: #4d5f80 !important; background: #f1f5fc !important; border: 1px solid #dce5f3 !important;
+}
+:root[data-theme="light"] .gc-shell-mounted :is(.search-result-card,.entity-directory-card,.profile-archive-pill,.profile-work-card) :is(strong,b) { color: #24283a !important; }
+
+/* Yönetim paneli: tüm formlar, tablolar, yedek ve kontrol alanları */
+:root[data-theme="light"] body.admin-page :is(.panel,.analytics-box,.gwa-admin-form-panel,.gwa-admin-list-panel,.game-cost-panel,.trash-panel,.media-feature-panel,.imp-box,.backup-file,.backup-state,.health-results,.health-summary,.imp-log) {
+  color: #30364b !important;
+  background: #fff !important;
+  border-color: #e1e5ee !important;
+  box-shadow: 0 4px 16px rgba(34,40,68,.04) !important;
+}
+:root[data-theme="light"] body.admin-page :is(.panel,.analytics-box,.gwa-admin-form-panel,.gwa-admin-list-panel,.game-cost-panel,.trash-panel,.media-feature-panel,.imp-box) :is(h1,h2,h3,h4,legend,strong) { color: #24283a !important; }
+:root[data-theme="light"] body.admin-page :is(.panel,.analytics-box,.gwa-admin-form-panel,.gwa-admin-list-panel,.game-cost-panel,.trash-panel,.media-feature-panel,.imp-box) :is(p,small,label,.meta) { color: #697287 !important; }
+:root[data-theme="light"] body.admin-page .admin-nav {
+  background: #f8f9fc !important;
+  border-color: #e1e5ee !important;
+  box-shadow: none !important;
+}
+:root[data-theme="light"] body.admin-page .admin-nav .tab-btn { color: #59637b !important; background: transparent !important; border-color: transparent !important; }
+:root[data-theme="light"] body.admin-page .admin-nav .tab-btn:hover { color: #4d398f !important; background: #f2effb !important; }
+:root[data-theme="light"] body.admin-page .admin-nav .tab-btn[aria-selected="true"] { color: #fff !important; background: #7654c8 !important; border-color: #7654c8 !important; }
+:root[data-theme="light"] body.admin-page .stat-card { color: #30364b !important; background: #f8f9fc !important; border-color: #e1e5ee !important; }
+:root[data-theme="light"] body.admin-page .stat-card b { color: #674bb4 !important; }
+:root[data-theme="light"] body.admin-page :is(input:not([type="checkbox"]):not([type="radio"]):not([type="file"]),select,textarea) {
+  color: #24283a !important; background: #fff !important; border-color: #dce1eb !important;
+}
+:root[data-theme="light"] body.admin-page :is(input,textarea)::placeholder { color: #9299aa !important; }
+:root[data-theme="light"] body.admin-page select option { color: #24283a !important; background: #fff !important; }
+:root[data-theme="light"] body.admin-page :is(input[type="checkbox"],input[type="radio"]) { accent-color: #7654c8 !important; }
+:root[data-theme="light"] body.admin-page :is(.toolbar,.bulk-toolbar,.gwa-toolbar,.backup-note,.backup-state,.backup-file,.imp-box,.health-results,.health-summary) {
+  color: #59637b !important; background: #f8f9fc !important; border-color: #e1e5ee !important;
+}
+:root[data-theme="light"] body.admin-page table { color: #30364b !important; border-color: #e1e5ee !important; }
+:root[data-theme="light"] body.admin-page th { color: #4d398f !important; background: #f0ecfa !important; }
+:root[data-theme="light"] body.admin-page :is(th,td) { border-color: #e4e7ef !important; }
+:root[data-theme="light"] body.admin-page tr:nth-child(even) td { background: #fafbfe !important; }
+:root[data-theme="light"] body.admin-page .res button,
+:root[data-theme="light"] body.admin-page .media-editor-list > *,
+:root[data-theme="light"] body.admin-page :is(.tech-admin-list,.trash-list,.gwa-list,.bar-list,.rating-list) > *,
+:root[data-theme="light"] body.admin-page .li-adv,
+:root[data-theme="light"] body.admin-page .rating-row { color: #30364b !important; background: #fafbfe !important; border-color: #e1e5ee !important; }
+:root[data-theme="light"] body.admin-page .code-editor,
+:root[data-theme="light"] body.admin-page .imp-log {
+  color: #30364b !important; background: #f7f8fc !important; border-color: #dfe3ed !important;
+}
+:root[data-theme="light"] body.admin-page .img-preview,
+:root[data-theme="light"] body.admin-page .li-thumb { background: #f4f5f9 !important; border-color: #e1e5ee !important; }
+:root[data-theme="light"] body.admin-page .badge,
+:root[data-theme="light"] body.admin-page .gwa-count-pill,
+:root[data-theme="light"] body.admin-page .gwa-heading-mark { color: #6048a4 !important; background: #f0ecfa !important; border-color: #e2daf4 !important; }
+:root[data-theme="light"] body.admin-page .msg,
+:root[data-theme="light"] body.admin-page .tech-admin-status,
+:root[data-theme="light"] body.admin-page .gwa-admin-status,
+:root[data-theme="light"] body.admin-page .gwa-fairness-note { color: #59637b !important; background: #f8f9fc !important; border-color: #e1e5ee !important; }
+:root[data-theme="light"] body.admin-page .btn { color: #4f5870 !important; background: #fff !important; border-color: #dfe3ed !important; }
+:root[data-theme="light"] body.admin-page .btn.pri { color: #fff !important; background: #7654c8 !important; border-color: #7654c8 !important; }
+
+/* Küçük ekranlarda taşma ve sıkışmayı önle */
+@media (max-width: 700px) {
+  :root[data-theme="light"] .gc-mobile-nav { left: 12px !important; right: 12px !important; }
+  :root[data-theme="light"] .gc-menu-panel { width: min(390px, 94vw) !important; }
+  :root[data-theme="light"] body.admin-page .admin-nav { gap: 6px !important; }
+  :root[data-theme="light"] body.admin-page .admin-nav .tab-btn { flex: 1 1 145px !important; }
+  :root[data-theme="light"] .gc-shell-mounted :is(.panel,.card,.stats-panel,.search-panel,.people-search-panel,.cost-card) { box-shadow: 0 3px 12px rgba(34,40,68,.04) !important; }
+}
