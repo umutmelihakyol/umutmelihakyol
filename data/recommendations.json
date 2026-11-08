@@ -1,1 +1,38 @@
-[]
+[
+  {
+    "id": "rec-mw86rt2a-t1r23j",
+    "category": "oyun",
+    "itemId": "mvjwe53o",
+    "title": "Pragmata",
+    "image": "https://media.rawg.io/media/games/9b2/9b20adbf00491d56ad6793654067f2fd.jpg",
+    "score": 8,
+    "review": "Oyun önerisi #3",
+    "link": "",
+    "createdAt": "2026-11-08T18:49:09.346Z",
+    "updatedAt": "2026-11-08T18:49:09.346Z"
+  },
+  {
+    "id": "rec-mw86roc2-arfilu",
+    "category": "oyun",
+    "itemId": "mvlmyz0n",
+    "title": "Call of Duty: Modern Warfare 4",
+    "image": "https://media.rawg.io/media/games/a93/a9304d97c8f264da59566a0f5e0a2181.jpeg",
+    "score": 9,
+    "review": "Oyun önerisi #2",
+    "link": "",
+    "createdAt": "2026-11-08T18:49:03.218Z",
+    "updatedAt": "2026-11-08T18:49:03.218Z"
+  },
+  {
+    "id": "rec-mw86rdv2-4j7bvz",
+    "category": "oyun",
+    "itemId": "mvilqdck",
+    "title": "007 First Light",
+    "image": "https://media.rawg.io/media/games/86f/86f2dc1b9671f25a13ff92e069b51786.jpg",
+    "score": 8.5,
+    "review": "Oyun önerisi #1",
+    "link": "",
+    "createdAt": "2026-11-08T18:48:49.646Z",
+    "updatedAt": "2026-11-08T18:48:49.646Z"
+  }
+]
