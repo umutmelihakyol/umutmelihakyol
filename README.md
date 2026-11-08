@@ -351,9 +351,13 @@ Büyük toplu içe aktarma, JSON düzenleme veya çok sayıda kaydı silme işle
 
 ## Önerilerim sayfası
 
-`/oneriler/` adresinde oyun, film, dizi ve anime önerilerimi ayrı bir seçki olarak yayımlıyorum. Bu sayfadaki kayıtlar mevcut arşivlerden seçilir; başlık ve kapak görseli arşiv kaydından alınır. Her öneri için kendi puanımı (0–10) ve kişisel değerlendirme metnimi ayrıca belirleyebilirim.
+`/oneriler/` adresinde oyun, dizi, film ve anime önerilerimi dört ayrı listede yayımlıyorum. Sayfanın üstündeki kategori düğmeleri arasında geçiş yaparak yalnızca ilgili listedeki yapımları görüntüleyebilirim. Seçili kategori adres çubuğundaki `?kategori=oyun`, `?kategori=dizi`, `?kategori=film` veya `?kategori=anime` parametresiyle paylaşılabilir; böylece gönderdiğim bağlantı doğrudan doğru listeyi açar.
 
-Öneri kartlarında özellikle yalnızca yapımın adı, kategori etiketi, verdiğim puan ve değerlendirmem gösterilir. Arşivde bulunan çıkış yılı, platform, tür, izleme/oynama durumu gibi diğer bilgiler bu kartlara taşınmaz. Ziyaretçiler kategori filtreleriyle yalnızca oyun, film, dizi veya anime önerilerini görüntüleyebilir; uygun kayıtlardaki “Arşivde görüntüle” bağlantısıyla ilgili yapımın ayrıntısına geçebilir.
+Bu sayfadaki kayıtları mevcut arşivlerimden seçiyorum. Yapımın adı ve kapak görseli arşiv kaydından alınırken kartta kendi puanım (0–10) ve kişisel değerlendirme metnim gösteriliyor. Arşivdeki yayın yılı, platform, tür ve izleme/oynama durumu gibi ek bilgiler öneri kartlarına taşınmıyor.
+
+Her karttaki **Öneriyi paylaş** düğmesi, o yapımın sitedeki puan ve değerlendirme kartına ait doğrudan bağlantıyı paylaşır. Telefon ve destekleyen tarayıcılarda sistemin paylaşım menüsü açılır; paylaşım API'si bulunmuyorsa kartın bağlantısı panoya kopyalanır. Admin panelinde isteğe bağlı olarak Steam, IMDb veya resmî site gibi bir **dış içerik bağlantısı** da ekleyebilirim. Bu adres, kartta ayrı bir **Dış bağlantıyı aç** seçeneği olarak gösterilir; öneri kartının paylaşım bağlantısıyla karıştırılmaz.
+
+Kategori araçlarındaki **Tüm oyun/dizi/film/anime isimlerini kopyala** düğmesi, yalnızca o an açık olan listedeki yapım adlarını satır satır panoya kopyalar. Puan, değerlendirme veya bağlantı bilgisi kopyalama metnine eklenmez. **Liste bağlantısını kopyala** düğmesi ise seçili kategoriye doğrudan giden URL'yi kopyalar.
 
 ### Önerileri yönetme
 
@@ -361,10 +365,11 @@ Büyük toplu içe aktarma, JSON düzenleme veya çok sayıda kaydı silme işle
 2. **Önerilerim** sekmesini aç ve **GitHub’dan Getir / Yenile** düğmesine bas.
 3. Kategori seçip mevcut arşivden önermek istediğim yapımı belirle.
 4. 0–10 arasında puan ver ve ziyaretçilerin göreceği değerlendirmeyi yaz.
-5. **Önerilere ekle** düğmesiyle taslağa ekle. Mevcut kayıtları **Düzenle** veya **Kaldır** seçenekleriyle yönet.
-6. Değişiklikleri yayımlamak için **Değişiklikleri GitHub’a Kaydet** düğmesine bas.
+5. İstersen Steam, IMDb veya resmî site gibi `https://` ile başlayan bir dış içerik bağlantısı gir. Bu alan isteğe bağlıdır.
+6. **Önerilere ekle** düğmesiyle taslağa ekle. Mevcut kayıtları **Düzenle** veya **Kaldır** seçenekleriyle yönet.
+7. Değişiklikleri yayımlamak için **Değişiklikleri GitHub’a Kaydet** düğmesine bas.
 
-Öneri listesi `data/recommendations.json` dosyasında saklanır. Her kayıtta `id`, `category`, `itemId`, `title`, `image`, `score`, `review`, `createdAt` ve `updatedAt` alanları bulunur. `title` ve `image` bilgileri kayıt oluşturulurken arşivden kopyalandığından, bir arşiv öğesi daha sonra silinse bile öneri kartı kendi başına görüntülenebilir.
+Öneri listesi `data/recommendations.json` dosyasında saklanır. Her kayıtta `id`, `category`, `itemId`, `title`, `image`, `score`, `review`, isteğe bağlı `link`, `createdAt` ve `updatedAt` alanları bulunur. `link` alanı dış içerik adresidir; sitedeki kişisel öneri kartının bağlantısı ise kayıt kimliğinden üretilir. `title` ve `image` bilgileri kayıt oluşturulurken arşivden kopyalandığından, bir arşiv öğesi daha sonra silinse bile öneri kartı kendi başına görüntülenebilir.
 
 ## Güvenlik ve gizlilik notları
 

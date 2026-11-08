@@ -1,8 +1,8 @@
-/* Günlüğüm Service Worker — cache v53: Önerilerim sayfası ve yönetim paneli eklendi. */
+/* Günlüğüm Service Worker — cache v55: Öneri kartı paylaşımı ve dış içerik bağlantısı ayrımı güncellendi. */
 'use strict';
 
 const CACHE_PREFIX = 'gunlugum-pwa-';
-const CACHE_VERSION = 'v53';
+const CACHE_VERSION = 'v55';
 const APP_CACHE = `${CACHE_PREFIX}app-${CACHE_VERSION}`;
 const IMAGE_CACHE = `${CACHE_PREFIX}images-${CACHE_VERSION}`;
 const APP_ROOT = new URL('./', self.registration.scope);
