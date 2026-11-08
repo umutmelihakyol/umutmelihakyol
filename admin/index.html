@@ -22,7 +22,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700&family=Nunito+Sans:wght@400;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/css/style.css">
 <link rel="stylesheet" href="../assets/css/yearly-favorites-admin.css?v=1">
-<link rel="stylesheet" href="../assets/css/recommendations-admin.css?v=1">
+<link rel="stylesheet" href="../assets/css/recommendations-admin.css?v=3">
 <style>
   /* Gelişmiş Admin Paneli Ek Stilleri */
   .admin-nav { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; border-bottom: 1px solid var(--bd, rgba(128,128,128,0.2)); padding-bottom: 12px; }
@@ -756,7 +756,7 @@
     <div id="tab-recommendations" class="tab-pane" hidden>
       <section class="panel">
         <h2>Önerilerim</h2>
-        <p class="meta">Ziyaretçilere önermek istediğin oyun, film, dizi ve animeleri buradan yönet. Önce mevcut arşivden bir yapım seç; ardından yalnızca kendi puanını ve değerlendirme metnini gir. Bu sayfada platform, çıkış yılı, tür veya izleme/oynama durumu gösterilmez.</p>
+        <p class="meta">Oyun, dizi, film ve anime önerilerini ayrı listeler hâlinde yönet. Arşivden yapımı seç, puanını ve değerlendirmeyi gir. İstersen Steam, IMDb veya resmî site gibi bir dış içerik bağlantısı da ekle. Ziyaretçinin “Öneriyi paylaş” düğmesi her zaman sitendeki puan ve değerlendirme kartının doğrudan bağlantısını paylaşır.</p>
         <div class="rec-admin-status" id="recAdminStatus" data-state="info" role="status" aria-live="polite">Önerilerini yönetmek için GitHub’dan getir.</div>
         <div class="rec-admin-toolbar">
           <button class="btn" id="recLoadBtn" type="button">GitHub’dan Getir / Yenile</button>
@@ -776,11 +776,14 @@
           <label>Puanım (0–10)
             <input id="recScore" type="number" min="0" max="10" step="0.1" inputmode="decimal" placeholder="Örn. 9">
           </label>
+          <label class="rec-form-wide">Dış içerik bağlantısı (isteğe bağlı)
+            <input id="recLink" type="url" inputmode="url" placeholder="https://store.steampowered.com/... veya IMDb bağlantısı">
+          </label>
           <label class="rec-form-wide">Değerlendirmem
             <textarea id="recReview" rows="5" maxlength="1800" placeholder="Bu yapımı neden önerdiğimi, bende bıraktığı etkiyi ve öne çıkan yanlarını yaz…"></textarea>
           </label>
         </div>
-        <p class="meta rec-form-note">Seçtiğin yapımın adı ve kapağı arşivden otomatik alınır. Ziyaretçilere kartta yalnızca yapımın adı, senin puanın ve bu değerlendirme gösterilir.</p>
+        <p class="meta rec-form-note">Yapım adı ve kapak görseli arşivden alınır. Dış bağlantı, kartta ayrı bir “Dış bağlantıyı aç” seçeneği olarak görünür. “Öneriyi paylaş” ise ziyaretçiyi senin puanını ve değerlendirmelerini içeren doğrudan öneri kartına yönlendirir.</p>
         <div class="rec-admin-form-actions">
           <button class="btn pri" id="recAddBtn" type="button">+ Önerilere ekle</button>
           <button class="btn" id="recCancelEditBtn" type="button" hidden>Düzenlemeyi iptal et</button>
@@ -2688,7 +2691,7 @@ $('#saveRawFileBtn').onclick=async()=>{
 
 
 <script src="../scripts/yearly-favorites-admin.js?v=1"></script>
-<script src="../scripts/recommendations-admin.js?v=1"></script>
+<script src="../scripts/recommendations-admin.js?v=3"></script>
 <script src="../scripts/search-overlay.js?v=2" defer></script>
 <script src="../scripts/giveaway-core.js?v=2"></script>
 <script src="../scripts/giveaway-admin.js?v=3"></script>

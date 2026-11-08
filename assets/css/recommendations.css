@@ -82,3 +82,43 @@
 }
 @media(max-width:380px) { .recommendation-card { grid-template-columns:94px minmax(0,1fr); } .recommendation-card-title { font-size:13px; } }
 @media(prefers-reduced-motion:reduce) { .recommendation-card,.recommendation-card-media img,.recommendation-filter,.recommendation-card-link span { transition:none !important; } .recommendation-card:hover { transform:none; } }
+
+/* Kategori bazlı öneri listeleri, toplu kopyalama ve paylaşım aksiyonları */
+.recommendations-toolbar { align-items:flex-start; }
+.recommendations-list-tools { display:flex; align-items:center; justify-content:flex-end; flex-wrap:wrap; gap:8px; min-width:0; }
+.recommendations-tool-button { display:inline-flex; align-items:center; justify-content:center; gap:7px; min-height:38px; padding:8px 13px; border:1px solid color-mix(in srgb,var(--rec-accent) 42%,var(--line)); border-radius:11px; color:#fff; background:linear-gradient(135deg,#8f73ec,#685cce); box-shadow:0 5px 14px rgba(125,99,230,.15); font:inherit; font-size:11px; font-weight:800; cursor:pointer; transition:transform .18s ease,box-shadow .18s ease,opacity .18s ease; }
+.recommendations-tool-button:hover:not(:disabled) { transform:translateY(-2px); box-shadow:0 8px 18px rgba(125,99,230,.22); }
+.recommendations-tool-button:disabled { opacity:.42; cursor:not-allowed; box-shadow:none; }
+.recommendations-tool-button--quiet { color:var(--ink); background:var(--card); box-shadow:none; }
+.recommendations-tool-button--quiet:hover:not(:disabled) { border-color:var(--rec-accent); box-shadow:0 6px 15px rgba(0,0,0,.08); }
+.recommendations-section-heading { display:flex; align-items:center; justify-content:space-between; gap:18px; margin:3px 0 15px; padding:17px 19px; border:1px solid var(--line); border-radius:15px; background:linear-gradient(110deg,color-mix(in srgb,var(--rec-accent) 9%,var(--card)),var(--card) 65%); }
+.recommendations-section-heading h2 { margin:0; color:var(--ink); font-size:21px; font-weight:850; letter-spacing:-.045em; }
+.recommendations-section-heading p { margin:5px 0 0; color:var(--mute); font-size:11px; line-height:1.55; }
+.recommendations-section-heading > span { color:var(--rec-accent); font-size:25px; }
+.recommendation-card-placeholder { display:grid; width:100%; height:100%; place-items:center; color:color-mix(in srgb,var(--rec-accent) 72%,var(--mute)); font-size:40px; }
+.recommendation-card-actions { display:flex; align-items:center; flex-wrap:wrap; gap:8px 14px; margin-top:auto; padding-top:16px; }
+.recommendation-card-action { display:inline-flex; align-items:center; gap:6px; min-height:28px; padding:0; border:0; color:var(--acc) !important; background:transparent; font:inherit; font-size:11px; font-weight:850; text-decoration:none; cursor:pointer; }
+.recommendation-card-action span { transition:transform .18s ease; }
+.recommendation-card-action:hover span { transform:translate(2px,-2px); }
+.recommendation-card-share { color:var(--rec-accent) !important; }
+.recommendations-status[data-state="success"] { color:#299d68; }
+.recommendations-status[data-state="error"] { color:#df5d68; }
+.recommendations-status[data-state="success"],.recommendations-status[data-state="error"] { padding:9px 12px; border:1px solid currentColor; border-radius:10px; background:color-mix(in srgb,currentColor 7%,var(--card)); }
+@media(max-width:980px) {
+  .recommendations-toolbar { align-items:flex-start; flex-direction:column; }
+  .recommendations-list-tools { justify-content:flex-start; }
+}
+@media(max-width:640px) {
+  .recommendations-list-tools { width:100%; display:grid; grid-template-columns:1fr 1fr; }
+  .recommendations-count { grid-column:1/-1; }
+  .recommendations-tool-button { min-height:36px; padding:8px 9px; font-size:10px; }
+  .recommendations-section-heading { margin-top:0; padding:13px 14px; }
+  .recommendations-section-heading h2 { font-size:18px; }
+  .recommendations-section-heading p { font-size:10px; }
+  .recommendation-card-actions { gap:7px 12px; padding-top:9px; }
+  .recommendation-card-action { min-height:25px; font-size:9px; }
+}
+@media(prefers-reduced-motion:reduce) {
+  .recommendations-tool-button,.recommendation-card-action span { transition:none !important; }
+  .recommendations-tool-button:hover:not(:disabled) { transform:none; }
+}

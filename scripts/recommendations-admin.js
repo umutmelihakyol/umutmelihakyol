@@ -18,6 +18,12 @@
     try { const url = new URL(String(value || '')); return /^https?:$/.test(url.protocol) ? url.href : ''; }
     catch (_) { return ''; }
   };
+  const safeExternalLink = value => {
+    const raw = String(value || '').trim();
+    if (!raw) return '';
+    try { const url = new URL(raw); return /^https?:$/.test(url.protocol) ? url.href : ''; }
+    catch (_) { return ''; }
+  };
   const formatScore = value => Number(value).toLocaleString('tr-TR', { maximumFractionDigits: 1 });
   const newId = () => `rec-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;
 
@@ -45,6 +51,7 @@
       return {
         id, category, itemId: String(entry.itemId || ''), title,
         image: safeImage(entry.image), score, review,
+        link: safeExternalLink(entry.link),
         createdAt: String(entry.createdAt || new Date().toISOString()),
         updatedAt: String(entry.updatedAt || entry.createdAt || new Date().toISOString())
       };
@@ -91,6 +98,7 @@
           <strong>${escapeHtml(item.title)}</strong>
           <small>${LABELS[item.category]} · <span class="rec-admin-item__score">★ ${formatScore(item.score)} / 10</span></small>
           <p>${escapeHtml(item.review)}</p>
+          ${item.link ? `<a class="rec-admin-item__link" href="${escapeHtml(item.link)}" target="_blank" rel="noopener noreferrer">Dış içerik bağlantısını aç ↗</a>` : '<small class="rec-admin-item__no-link">Dış içerik bağlantısı eklenmemiş</small>'}
         </div>
         <div class="rec-admin-item__actions">
           <button class="btn" type="button" data-rec-edit="${escapeHtml(item.id)}">Düzenle</button>
@@ -110,6 +118,7 @@
     el('recCategory').value = 'oyun';
     populateArchiveOptions();
     el('recScore').value = '';
+    el('recLink').value = '';
     el('recReview').value = '';
     el('recFormHeading').textContent = 'Yeni öneri ekle';
     el('recAddBtn').textContent = '+ Önerilere ekle';
@@ -167,7 +176,10 @@
     const rawScore = el('recScore').value.trim();
     const score = rawScore === '' ? NaN : Number(rawScore);
     const review = el('recReview').value.trim();
+    const rawLink = el('recLink').value.trim();
+    const link = safeExternalLink(rawLink);
     if (!record) { status('Önce arşivinden önermek istediğin yapımı seç.', 'error'); el('recArchiveItem').focus(); return; }
+    if (rawLink && !link) { status('Paylaşım bağlantısı http:// veya https:// ile başlayan geçerli bir adres olmalı.', 'error'); el('recLink').focus(); return; }
     if (!Number.isFinite(score) || score < 0 || score > 10) { status('Puan 0 ile 10 arasında olmalı.', 'error'); el('recScore').focus(); return; }
     if (!review) { status('Kartta gösterilecek değerlendirmeyi yaz.', 'error'); el('recReview').focus(); return; }
     if (review.length > 1800) { status('Değerlendirme 1800 karakterden uzun olamaz.', 'error'); el('recReview').focus(); return; }
@@ -178,10 +190,10 @@
       const index = items.findIndex(item => item.id === editingId);
       if (index < 0) { status('Düzenlenecek öneri bulunamadı. Listeyi yenile.', 'error'); return; }
       const previous = items[index];
-      items[index] = { ...previous, category, itemId: String(itemId), title: String(record.title || 'Başlıksız içerik'), image: safeImage(record.image), score, review, updatedAt: now };
+      items[index] = { ...previous, category, itemId: String(itemId), title: String(record.title || 'Başlıksız içerik'), image: safeImage(record.image), score, review, link, updatedAt: now };
       status('Öneri güncellendi. Ziyaretçilere yansıtmak için GitHub’a kaydet.', 'dirty');
     } else {
-      items.unshift({ id: newId(), category, itemId: String(itemId), title: String(record.title || 'Başlıksız içerik'), image: safeImage(record.image), score, review, createdAt: now, updatedAt: now });
+      items.unshift({ id: newId(), category, itemId: String(itemId), title: String(record.title || 'Başlıksız içerik'), image: safeImage(record.image), score, review, link, createdAt: now, updatedAt: now });
       status('Öneri listeye eklendi. Ziyaretçilere yansıtmak için GitHub’a kaydet.', 'dirty');
     }
     dirty = true;
@@ -199,6 +211,7 @@
       el('recCategory').value = item.category;
       populateArchiveOptions(item.itemId);
       el('recScore').value = String(item.score);
+      el('recLink').value = item.link || '';
       el('recReview').value = item.review;
       el('recFormHeading').textContent = 'Öneriyi düzenle';
       el('recAddBtn').textContent = 'Değişiklikleri uygula';

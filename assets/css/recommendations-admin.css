@@ -32,3 +32,6 @@
   .rec-admin-item img,.rec-admin-item__placeholder { width:52px; height:68px; }
   .rec-admin-item__actions { grid-column:2; }
 }
+.rec-admin-item__link { display:inline-flex; margin-top:5px; color:var(--acc) !important; font-size:.73rem; font-weight:750; text-decoration:none; }
+.rec-admin-item__no-link { display:block; margin-top:5px; color:var(--mute); font-size:.7rem; }
+.rec-admin-item__link:hover { text-decoration:underline; }

@@ -29,7 +29,7 @@
   <link rel="stylesheet" href="../assets/css/arsivim.css?v=1">
   <link rel="stylesheet" href="../assets/css/white-theme-fixes.css?v=1">
   <link rel="stylesheet" href="../assets/css/search-overlay.css?v=2">
-  <link rel="stylesheet" href="../assets/css/recommendations.css?v=1">
+  <link rel="stylesheet" href="../assets/css/recommendations.css?v=3">
 </head>
 <body class="recommendations-page">
   <div class="wrap">
@@ -46,23 +46,30 @@
         <div class="recommendations-hero-copy">
           <p class="recommendations-eyebrow"><span aria-hidden="true"></span>GÜNLÜĞÜM · KİŞİSEL SEÇKİM</p>
           <h1 id="recommendationsTitle">Önerilerim</h1>
-          <p>Sevdiğim ve başkalarına da tavsiye etmek istediğim oyunları, filmleri, dizileri ve animeleri burada topluyorum. Her kartta kendi puanım ve kişisel değerlendirmem yer alıyor.</p>
+          <p>Oyun, dizi, film ve anime önerilerimi ayrı listelerde topluyorum. Her yapım için kendi puanımı ve değerlendirmemi görebilir, tek tek paylaşabilir veya seçili listenin tüm isimlerini kopyalayabilirsin.</p>
         </div>
         <div class="recommendations-hero-mark" aria-hidden="true"><span>✦</span><small>SEÇTİKLERİM</small></div>
       </section>
 
       <section class="recommendations-library" aria-label="Öneri koleksiyonum">
         <div class="recommendations-toolbar">
-          <div class="recommendations-filters" role="group" aria-label="Öneri kategorisi">
-            <button type="button" class="recommendation-filter" data-recommendation-filter="all" aria-pressed="true">Tümü</button>
-            <button type="button" class="recommendation-filter" data-recommendation-filter="oyun" aria-pressed="false">Oyunlar</button>
-            <button type="button" class="recommendation-filter" data-recommendation-filter="film" aria-pressed="false">Filmler</button>
-            <button type="button" class="recommendation-filter" data-recommendation-filter="dizi" aria-pressed="false">Diziler</button>
-            <button type="button" class="recommendation-filter" data-recommendation-filter="anime" aria-pressed="false">Animeler</button>
+          <nav class="recommendations-filters" aria-label="Öneri kategorileri">
+            <button type="button" class="recommendation-filter" data-recommendation-filter="oyun" aria-pressed="true">🎮 Oyunlar</button>
+            <button type="button" class="recommendation-filter" data-recommendation-filter="dizi" aria-pressed="false">▣ Diziler</button>
+            <button type="button" class="recommendation-filter" data-recommendation-filter="film" aria-pressed="false">🎬 Filmler</button>
+            <button type="button" class="recommendation-filter" data-recommendation-filter="anime" aria-pressed="false">✦ Animeler</button>
+          </nav>
+          <div class="recommendations-list-tools">
+            <span class="recommendations-count" id="recommendationsCount">Öneriler yükleniyor…</span>
+            <button class="recommendations-tool-button" id="recommendationsCopyNames" type="button" disabled>Oyun isimlerini kopyala</button>
+            <button class="recommendations-tool-button recommendations-tool-button--quiet" id="recommendationsShareList" type="button">Oyun listesinin bağlantısını kopyala</button>
           </div>
-          <span class="recommendations-count" id="recommendationsCount">Öneriler yükleniyor…</span>
         </div>
 
+        <div class="recommendations-section-heading">
+          <div><h2 id="recommendationsCategoryHeading">Oyunlar</h2><p id="recommendationsCategoryDescription">Oynamaktan keyif aldığım ve başkalarına da önerdiğim oyunlar.</p></div>
+          <span aria-hidden="true">✦</span>
+        </div>
         <p class="recommendations-status" id="recommendationsStatus" role="status" aria-live="polite">Önerilerim yükleniyor…</p>
         <div class="recommendations-grid" id="recommendationsGrid" aria-live="polite"></div>
         <div class="recommendations-empty" id="recommendationsEmpty" hidden>
@@ -78,7 +85,7 @@
       </footer>
     </main>
   </div>
-  <script src="../scripts/recommendations.js?v=1" defer></script>
+  <script src="../scripts/recommendations.js?v=3" defer></script>
   <script src="../scripts/search-overlay.js?v=2" defer></script>
   <script src="../scripts/gamecapsule-theme.js?v=2" defer></script>
 </body>
