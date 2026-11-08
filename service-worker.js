@@ -1,8 +1,8 @@
-/* Günlüğüm Service Worker — cache v51: yıllara göre favoriler vitrini ve admin yönetimi. */
+/* Günlüğüm Service Worker — cache v52: yıllık favoriler vitrini yatay hizalama düzeltmesi. */
 'use strict';
 
 const CACHE_PREFIX = 'gunlugum-pwa-';
-const CACHE_VERSION = 'v51';
+const CACHE_VERSION = 'v52';
 const APP_CACHE = `${CACHE_PREFIX}app-${CACHE_VERSION}`;
 const IMAGE_CACHE = `${CACHE_PREFIX}images-${CACHE_VERSION}`;
 const APP_ROOT = new URL('./', self.registration.scope);

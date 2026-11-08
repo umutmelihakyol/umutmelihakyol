@@ -72,3 +72,30 @@
 }
 @media(max-width:360px) { .yf-grid { grid-template-columns:1fr; } .yf-card { min-height:310px; aspect-ratio:1.05; } }
 @media(prefers-reduced-motion:reduce) { .yf-card,.yf-card-media img,.yf-year-tabs button,.yf-card-arrow { transition:none !important; } }
+
+/* Kart ızgarasını bölümün gerçek içerik genişliğinde tut: en-boy oranı nedeniyle sağa taşmayı önle. */
+#yearlyFavorites .yf-grid {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  margin-inline: auto;
+}
+#yearlyFavorites .yf-card {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  height: clamp(270px, 29vw, 365px);
+  min-height: 0;
+  aspect-ratio: auto;
+  box-sizing: border-box;
+}
+@media (max-width: 900px) {
+  #yearlyFavorites .yf-card { height: 320px; }
+}
+@media (max-width: 560px) {
+  #yearlyFavorites .yf-card { height: 245px; }
+}
+@media (max-width: 360px) {
+  #yearlyFavorites .yf-card { height: 310px; }
+}
