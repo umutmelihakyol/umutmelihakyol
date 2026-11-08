@@ -102,6 +102,7 @@
 <link rel="stylesheet" href="assets/css/arsivim.css?v=1">
   <link rel="stylesheet" href="assets/css/white-theme-fixes.css?v=1">
 <link rel="stylesheet" href="assets/css/recent-showcase.css?v=1">
+<link rel="stylesheet" href="assets/css/yearly-favorites.css?v=1">
 </head>
 <body class="home">
 <div class="site-intro-loader" id="siteIntroLoader" role="status" aria-live="polite" aria-label="Günlüğüm hazırlanıyor">
@@ -145,6 +146,18 @@
       <span class="home-section-count">4 ARŞİV</span>
     </div>
     <nav class="tiles" id="tiles" aria-label="Kategoriler"></nav>
+  </section>
+  <section id="yearlyFavorites" class="yf-section" hidden aria-labelledby="yfTitle">
+    <div class="yf-head">
+      <div class="yf-heading-copy">
+        <span class="yf-kicker">YILLAR İÇİNDEKİ FAVORİLERİM</span>
+        <h2 class="yf-title" id="yfTitle">Yıllara göre favorilerim</h2>
+        <p class="yf-description">Her yılın bende iz bırakan oyunları, filmleri, dizileri ve animeleri.</p>
+      </div>
+      <div class="yf-head-mark"><span aria-hidden="true">✦</span><span id="yfYearCount">4 / 4 FAVORİ</span></div>
+    </div>
+    <nav class="yf-year-tabs" id="yfYearTabs" aria-label="Favori yılı"></nav>
+    <div class="yf-grid" id="yfGrid" aria-live="polite"></div>
   </section>
   <section class="home-tools" aria-labelledby="homeToolsTitle">
     <div class="home-section-head home-tools-head">
@@ -442,11 +455,14 @@ Promise.all(Object.entries(CATS).map(async([k,c])=>{
 
   const u=res.flatMap(([k,l])=>l.map(g=>g.updatedAt)).filter(Boolean).sort().pop();
   $('#foot').textContent=u?'Son güncelleme: '+new Date(u).toLocaleDateString('tr-TR',{day:'numeric',month:'long',year:'numeric'}):'';
+  window.__gunlugumContentData = D;
+  window.renderYearlyFavorites?.(D);
   window.__gunlugumContentReady = true;
   window.dispatchEvent(new Event('gunlugum:content-ready'));
 });
 </script>
 
+<script src="scripts/yearly-favorites.js?v=1"></script>
 <script src="scripts/search-overlay.js?v=2" defer></script>
 <script src="scripts/gamecapsule-theme.js?v=2" defer></script>
 </body>

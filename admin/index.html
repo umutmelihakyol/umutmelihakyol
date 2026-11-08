@@ -21,6 +21,7 @@
 <title>Yönetim Paneli</title>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700&family=Nunito+Sans:wght@400;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/css/style.css">
+<link rel="stylesheet" href="../assets/css/yearly-favorites-admin.css?v=1">
 <style>
   /* Gelişmiş Admin Paneli Ek Stilleri */
   .admin-nav { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; border-bottom: 1px solid var(--bd, rgba(128,128,128,0.2)); padding-bottom: 12px; }
@@ -277,6 +278,7 @@
       <button class="btn tab-btn" role="tab" data-tab="stats" aria-selected="false">📊 Genel Bakış & Yedek</button>
       <button class="btn tab-btn" role="tab" data-tab="health" aria-selected="false">🩺 Arşiv Kontrol Merkezi</button>
       <button class="btn tab-btn" role="tab" data-tab="technopat" aria-selected="false">📝 Technopat İçerikleri</button>
+      <button class="btn tab-btn" role="tab" data-tab="yearly-favorites" aria-selected="false">★ Yıllık Favoriler</button>
       <button class="btn tab-btn" role="tab" data-tab="giveaways" aria-selected="false">🎡 Çekiliş Yönetimi</button>
       <button class="btn tab-btn" role="tab" data-tab="settings" aria-selected="false">⚙️ Site & API Ayarları</button>
       <button class="btn tab-btn" role="tab" data-tab="files" aria-selected="false">💻 Dosya & Kod Editörü</button>
@@ -724,6 +726,29 @@
       </section>
     </div>
 
+    <!-- SEKME: YILLARA GÖRE FAVORİLER -->
+    <div id="tab-yearly-favorites" class="tab-pane" hidden>
+      <section class="panel">
+        <h2>Yıllara Göre Favoriler Vitrini</h2>
+        <p class="meta">Anasayfada görünecek her yılın favori oyununu, dizisini, filmini ve animesini seç. Açılır listeler mevcut arşiv kayıtlarından oluşur; yeni içerik eklemek gerekmez.</p>
+        <div id="yfaStatus" class="yfa-status" data-state="info" role="status" aria-live="polite">Favori vitrinini yönetmek için GitHub'dan getir.</div>
+        <div class="yfa-toolbar">
+          <button class="btn" id="yfaLoadBtn" type="button">GitHub'dan Getir / Yenile</button>
+          <button class="btn pri" id="yfaSaveBtn" type="button">Değişiklikleri GitHub'a Kaydet</button>
+          <span class="meta" id="yfaSummary">Henüz yüklenmedi.</span>
+        </div>
+      </section>
+      <section class="panel">
+        <h2>Yıl ekle</h2>
+        <p class="yfa-help">2025, 2026 ve 2027 yılları başlangıç olarak hazır gelir. İstediğin başka yılları da ekleyebilirsin. Her yıl için kategori başına bir favori seçebilirsin.</p>
+        <div class="yfa-add-year">
+          <label for="yfaNewYear">Yıl <input id="yfaNewYear" type="number" min="1900" max="2100" step="1" value="2028"></label>
+          <button class="btn" id="yfaAddYearBtn" type="button">+ Yıl ekle</button>
+        </div>
+        <div id="yfaYears" class="yfa-years"><div class="yfa-empty">Önce GitHub'dan Getir düğmesine bas.</div></div>
+      </section>
+    </div>
+
     <!-- SEKME: TECHNOPAT İÇERİK YÖNETİMİ -->
     <div id="tab-technopat" class="tab-pane" hidden>
       <section class="panel">
@@ -827,6 +852,7 @@ Mehmet
             <option value="data/series.json">data/series.json (Dizi Kayıtları)</option>
             <option value="data/anime.json">data/anime.json (Anime Kayıtları)</option>
             <option value="data/technopat.json">data/technopat.json (Technopat İnceleme ve Rehber Kartları)</option>
+            <option value="data/yearly-favorites.json">data/yearly-favorites.json (Yıllık Favori Vitrini)</option>
             <option value="README.md">README.md</option>
           </select>
           <input id="customFilePath" placeholder="Veya özel dosya adı (örn: data/games.json)">
@@ -2618,6 +2644,7 @@ $('#saveRawFileBtn').onclick=async()=>{
 </script>
 
 
+<script src="../scripts/yearly-favorites-admin.js?v=1"></script>
 <script src="../scripts/search-overlay.js?v=2" defer></script>
 <script src="../scripts/giveaway-core.js?v=2"></script>
 <script src="../scripts/giveaway-admin.js?v=3"></script>
