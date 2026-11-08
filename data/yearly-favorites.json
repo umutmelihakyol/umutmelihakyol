@@ -1,7 +1,22 @@
 {
   "years": [
-    { "year": 2027, "favorites": { "oyun": "", "dizi": "", "film": "", "anime": "" } },
-    { "year": 2026, "favorites": { "oyun": "", "dizi": "", "film": "", "anime": "" } },
-    { "year": 2025, "favorites": { "oyun": "", "dizi": "", "film": "", "anime": "" } }
+    {
+      "year": 2026,
+      "favorites": {
+        "oyun": "mvlmyz0n",
+        "dizi": "mviljqp4",
+        "film": "mvinjc53",
+        "anime": "mvk1ifbb"
+      }
+    },
+    {
+      "year": 2025,
+      "favorites": {
+        "oyun": "",
+        "dizi": "",
+        "film": "",
+        "anime": "mvkjqf4r"
+      }
+    }
   ]
 }
