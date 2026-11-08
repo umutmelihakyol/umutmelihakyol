@@ -101,6 +101,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/arsivim.css?v=1">
   <link rel="stylesheet" href="assets/css/white-theme-fixes.css?v=1">
+<link rel="stylesheet" href="assets/css/recent-showcase.css?v=1">
 </head>
 <body class="home">
 <div class="site-intro-loader" id="siteIntroLoader" role="status" aria-live="polite" aria-label="Günlüğüm hazırlanıyor">
@@ -214,7 +215,17 @@
     </div>
   </section>
 
-  <section id="recentWrap" hidden><h2 class="sech">Son eklenenler</h2><div class="recent" id="recent"></div></section>
+  <section id="recentWrap" class="recent-showcase" hidden aria-labelledby="recentTitle">
+    <div class="recent-showcase-head">
+      <div class="recent-heading-copy">
+        <span class="recent-kicker">ARŞİVE YENİ EKLENENLER</span>
+        <h2 id="recentTitle">Son eklenenler</h2>
+        <p>Arşivime en son eklediğim oyunları ve yapımları keşfet.</p>
+      </div>
+      <div class="recent-head-stat"><span class="recent-head-stat-dot" aria-hidden="true"></span><span id="recentCount">8 içerik</span><span class="recent-head-stat-label">EN YENİ KAYITLAR</span></div>
+    </div>
+    <div class="recent" id="recent" aria-label="Son eklenen içerikler"></div>
+  </section>
   <footer class="foot" id="foot"></footer>
 </div>
 <script src="scripts/review-card.js?v=2"></script>
@@ -400,7 +411,24 @@ Promise.all(Object.entries(CATS).map(async([k,c])=>{
 
   const all=res.flatMap(([k,l])=>l.map(g=>({k,g}))).sort((a,b)=>stamp(b.g).localeCompare(stamp(a.g))).slice(0,8);
   $('#recentWrap').hidden=!all.length;
-  $('#recent').innerHTML=all.map(({k,g})=>`<div class="rc-wrap"><a class="rc" href="${CATS[k].page}#${esc(g.id)}">${typeof IMAGE_SRC==='function'&&IMAGE_SRC(g.image,185)?`<img class="sth" src="${safeUrl(IMAGE_SRC(g.image,185))}" alt="" loading="lazy" decoding="async" fetchpriority="low" width="64" height="44" referrerpolicy="no-referrer" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'sth ph','aria-hidden':'true'}))">`:'<span class="sth ph" aria-hidden="true"></span>'}<span><b>${esc(g.title)}</b><small>${CATS[k].name}${has(g.score)?', puan '+(+g.score).toLocaleString('tr',{maximumFractionDigits:1}):''}</small></span></a><button class="btn quick-card-btn" data-k="${k}" data-id="${esc(g.id)}" title="Bu içeriğin inceleme kartını oluştur">📷</button></div>`).join('');
+  $('#recentCount').textContent=`${all.length} içerik`;
+  $('#recent').innerHTML=all.map(({k,g})=>{
+    const image=typeof IMAGE_SRC==='function'?IMAGE_SRC(g.image,500):g.image;
+    const imageHtml=image
+      ? `<img class="sth" src="${safeUrl(image)}" alt="" loading="lazy" decoding="async" fetchpriority="low" width="88" height="108" referrerpolicy="no-referrer" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'sth ph','aria-hidden':'true'}))">`
+      : '<span class="sth ph" aria-hidden="true"></span>';
+    const details=[has(g.year)?g.year:'',has(g.platform)?g.platform:''].filter(Boolean).join(' · ')||CATS[k].name;
+    const score=has(g.score)?`<span class="rc-score" aria-label="Puan ${(+g.score).toLocaleString('tr',{maximumFractionDigits:1})}">★ ${(+g.score).toLocaleString('tr',{maximumFractionDigits:1})}</span>`:'';
+    return `<article class="rc-wrap">
+      <a class="rc" href="${CATS[k].page}#${esc(g.id)}" aria-label="${esc(g.title)} ayrıntılarını görüntüle">
+        <span class="rc-cover">${imageHtml}<span class="rc-cover-tag">${esc(CATS[k].name)}</span></span>
+        <span class="rc-copy"><span class="rc-kicker">YENİ EKLENDİ</span><b>${esc(g.title)}</b><span class="rc-meta-row"><span class="rc-meta">${esc(details)}</span>${score}</span></span>
+      </a>
+      <button class="btn quick-card-btn" type="button" data-k="${k}" data-id="${esc(g.id)}" aria-label="${esc(g.title)} için inceleme kartı oluştur" title="İnceleme kartı oluştur">
+        <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4H5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><circle cx="10" cy="13" r="3"/><path d="m16 3 5 5M17.5 1.5l5 5"/></svg>
+      </button>
+    </article>`;
+  }).join('');
 
   $('#recent').addEventListener('click',e=>{
     const b=e.target.closest('.quick-card-btn');if(!b)return;
