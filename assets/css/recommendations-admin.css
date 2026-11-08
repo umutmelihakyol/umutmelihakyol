@@ -1,0 +1,34 @@
+/* Admin — Önerilerim yönetimi */
+.rec-admin-status { margin:10px 0 14px; padding:11px 13px; border:1px solid var(--bd,rgba(128,128,128,.22)); border-radius:10px; background:rgba(128,128,128,.045); font-size:.9rem; }
+.rec-admin-status[data-state="success"] { border-color:var(--yes,#16a34a); }
+.rec-admin-status[data-state="dirty"] { border-color:var(--pri,#8b5cf6); }
+.rec-admin-status[data-state="error"] { border-color:var(--no,#ef4444); color:var(--no,#ef4444); }
+.rec-admin-toolbar { display:flex; align-items:center; flex-wrap:wrap; gap:9px; margin:12px 0 3px; }
+.rec-admin-toolbar #recSummary { flex:1 1 180px; }
+.rec-admin-form { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:13px; }
+.rec-admin-form label { display:grid; align-content:start; gap:6px; min-width:0; color:var(--mute); font-size:.86rem; font-weight:750; }
+.rec-admin-form .rec-form-wide { grid-column:1/-1; }
+.rec-admin-form input,.rec-admin-form select,.rec-admin-form textarea { width:100%; min-width:0; box-sizing:border-box; }
+.rec-admin-form textarea { min-height:122px; padding:10px 12px; resize:vertical; line-height:1.55; }
+.rec-form-note { margin:11px 0 13px; font-size:.82rem; line-height:1.55; }
+.rec-admin-form-actions { display:flex; flex-wrap:wrap; gap:8px; }
+.rec-admin-list-head { display:flex; align-items:center; justify-content:space-between; gap:12px; }
+.rec-admin-list-head h2 { margin-top:0; }
+.rec-admin-list { display:grid; gap:9px; }
+.rec-admin-item { display:grid; grid-template-columns:62px minmax(0,1fr) auto; align-items:center; gap:12px; min-width:0; padding:10px; border:1px solid var(--line,var(--bd)); border-radius:12px; background:color-mix(in srgb,var(--card) 90%,transparent); }
+.rec-admin-item img,.rec-admin-item__placeholder { display:block; width:62px; height:76px; object-fit:cover; border-radius:8px; background:var(--surface-2,var(--card)); }
+.rec-admin-item__copy { min-width:0; }
+.rec-admin-item__copy strong { display:block; overflow:hidden; color:var(--ink); font-size:.94rem; text-overflow:ellipsis; white-space:nowrap; }
+.rec-admin-item__copy small { display:block; margin:3px 0 4px; color:var(--mute); font-size:.76rem; }
+.rec-admin-item__copy p { display:-webkit-box; max-width:100%; margin:0; overflow:hidden; color:var(--mute); font-size:.78rem; line-height:1.45; -webkit-line-clamp:2; -webkit-box-orient:vertical; }
+.rec-admin-item__score { color:var(--acc); font-weight:800; }
+.rec-admin-item__actions { display:flex; align-items:center; flex-wrap:wrap; gap:6px; }
+.rec-admin-item__actions .btn { min-height:33px; padding:6px 9px; font-size:.77rem; }
+@media(max-width:650px) {
+  .rec-admin-form { grid-template-columns:1fr; }
+  .rec-admin-form .rec-form-wide { grid-column:auto; }
+  .rec-admin-toolbar > button { flex:1 1 100%; }
+  .rec-admin-item { grid-template-columns:52px minmax(0,1fr); gap:9px; }
+  .rec-admin-item img,.rec-admin-item__placeholder { width:52px; height:68px; }
+  .rec-admin-item__actions { grid-column:2; }
+}

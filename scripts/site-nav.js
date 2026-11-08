@@ -12,6 +12,7 @@
     ['/technopat/incelemeler/', 'Yazılarım', 'technopat'],
     ['/istatistik/', 'İstatistik', 'stats'],
     ['/kisiler/', 'Kişiler', 'people'],
+    ['/oneriler/', 'Önerilerim', 'recommendations'],
     ['/cekilis/', 'Çekiliş', 'giveaway'],
     ['/ara/', 'Arama', 'search']
   ];

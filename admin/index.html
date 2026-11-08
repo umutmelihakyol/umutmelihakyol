@@ -22,6 +22,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700&family=Nunito+Sans:wght@400;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/css/style.css">
 <link rel="stylesheet" href="../assets/css/yearly-favorites-admin.css?v=1">
+<link rel="stylesheet" href="../assets/css/recommendations-admin.css?v=1">
 <style>
   /* Gelişmiş Admin Paneli Ek Stilleri */
   .admin-nav { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; border-bottom: 1px solid var(--bd, rgba(128,128,128,0.2)); padding-bottom: 12px; }
@@ -279,6 +280,7 @@
       <button class="btn tab-btn" role="tab" data-tab="health" aria-selected="false">🩺 Arşiv Kontrol Merkezi</button>
       <button class="btn tab-btn" role="tab" data-tab="technopat" aria-selected="false">📝 Technopat İçerikleri</button>
       <button class="btn tab-btn" role="tab" data-tab="yearly-favorites" aria-selected="false">★ Yıllık Favoriler</button>
+      <button class="btn tab-btn" role="tab" data-tab="recommendations" aria-selected="false">✦ Önerilerim</button>
       <button class="btn tab-btn" role="tab" data-tab="giveaways" aria-selected="false">🎡 Çekiliş Yönetimi</button>
       <button class="btn tab-btn" role="tab" data-tab="settings" aria-selected="false">⚙️ Site & API Ayarları</button>
       <button class="btn tab-btn" role="tab" data-tab="files" aria-selected="false">💻 Dosya & Kod Editörü</button>
@@ -746,6 +748,47 @@
           <button class="btn" id="yfaAddYearBtn" type="button">+ Yıl ekle</button>
         </div>
         <div id="yfaYears" class="yfa-years"><div class="yfa-empty">Önce GitHub'dan Getir düğmesine bas.</div></div>
+      </section>
+    </div>
+
+
+    <!-- SEKME: ÖNERİLERİM -->
+    <div id="tab-recommendations" class="tab-pane" hidden>
+      <section class="panel">
+        <h2>Önerilerim</h2>
+        <p class="meta">Ziyaretçilere önermek istediğin oyun, film, dizi ve animeleri buradan yönet. Önce mevcut arşivden bir yapım seç; ardından yalnızca kendi puanını ve değerlendirme metnini gir. Bu sayfada platform, çıkış yılı, tür veya izleme/oynama durumu gösterilmez.</p>
+        <div class="rec-admin-status" id="recAdminStatus" data-state="info" role="status" aria-live="polite">Önerilerini yönetmek için GitHub’dan getir.</div>
+        <div class="rec-admin-toolbar">
+          <button class="btn" id="recLoadBtn" type="button">GitHub’dan Getir / Yenile</button>
+          <button class="btn pri" id="recSaveBtn" type="button">Değişiklikleri GitHub’a Kaydet</button>
+          <span class="meta" id="recSummary">Henüz yüklenmedi.</span>
+        </div>
+      </section>
+      <section class="panel" id="recEditorPanel">
+        <h2 id="recFormHeading">Yeni öneri ekle</h2>
+        <div class="rec-admin-form">
+          <label>Kategori
+            <select id="recCategory"><option value="oyun">Oyun</option><option value="film">Film</option><option value="dizi">Dizi</option><option value="anime">Anime</option></select>
+          </label>
+          <label class="rec-form-wide">Arşivden yapım seç
+            <select id="recArchiveItem"><option value="">Önce arşivleri GitHub’dan yükle</option></select>
+          </label>
+          <label>Puanım (0–10)
+            <input id="recScore" type="number" min="0" max="10" step="0.1" inputmode="decimal" placeholder="Örn. 9">
+          </label>
+          <label class="rec-form-wide">Değerlendirmem
+            <textarea id="recReview" rows="5" maxlength="1800" placeholder="Bu yapımı neden önerdiğimi, bende bıraktığı etkiyi ve öne çıkan yanlarını yaz…"></textarea>
+          </label>
+        </div>
+        <p class="meta rec-form-note">Seçtiğin yapımın adı ve kapağı arşivden otomatik alınır. Ziyaretçilere kartta yalnızca yapımın adı, senin puanın ve bu değerlendirme gösterilir.</p>
+        <div class="rec-admin-form-actions">
+          <button class="btn pri" id="recAddBtn" type="button">+ Önerilere ekle</button>
+          <button class="btn" id="recCancelEditBtn" type="button" hidden>Düzenlemeyi iptal et</button>
+        </div>
+      </section>
+      <section class="panel">
+        <div class="rec-admin-list-head"><h2>Yayındaki öneriler</h2><span class="meta" id="recListCount">0 öneri</span></div>
+        <div id="recAdminList" class="rec-admin-list"><p class="meta">Öneriler henüz yüklenmedi.</p></div>
       </section>
     </div>
 
@@ -2645,6 +2688,7 @@ $('#saveRawFileBtn').onclick=async()=>{
 
 
 <script src="../scripts/yearly-favorites-admin.js?v=1"></script>
+<script src="../scripts/recommendations-admin.js?v=1"></script>
 <script src="../scripts/search-overlay.js?v=2" defer></script>
 <script src="../scripts/giveaway-core.js?v=2"></script>
 <script src="../scripts/giveaway-admin.js?v=3"></script>
