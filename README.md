@@ -349,6 +349,23 @@ Geri yükleme, seçilen yedekte bulunan kategori verilerini mevcut dosyaların �
 
 Büyük toplu içe aktarma, JSON düzenleme veya çok sayıda kaydı silme işleminden önce ayrıca yerel bir yedek indirmeyi tercih ediyorum.
 
+## Önerilerim sayfası
+
+`/oneriler/` adresinde oyun, film, dizi ve anime önerilerimi ayrı bir seçki olarak yayımlıyorum. Bu sayfadaki kayıtlar mevcut arşivlerden seçilir; başlık ve kapak görseli arşiv kaydından alınır. Her öneri için kendi puanımı (0–10) ve kişisel değerlendirme metnimi ayrıca belirleyebilirim.
+
+Öneri kartlarında özellikle yalnızca yapımın adı, kategori etiketi, verdiğim puan ve değerlendirmem gösterilir. Arşivde bulunan çıkış yılı, platform, tür, izleme/oynama durumu gibi diğer bilgiler bu kartlara taşınmaz. Ziyaretçiler kategori filtreleriyle yalnızca oyun, film, dizi veya anime önerilerini görüntüleyebilir; uygun kayıtlardaki “Arşivde görüntüle” bağlantısıyla ilgili yapımın ayrıntısına geçebilir.
+
+### Önerileri yönetme
+
+1. `/admin/` yönetim paneline giriş yap.
+2. **Önerilerim** sekmesini aç ve **GitHub’dan Getir / Yenile** düğmesine bas.
+3. Kategori seçip mevcut arşivden önermek istediğim yapımı belirle.
+4. 0–10 arasında puan ver ve ziyaretçilerin göreceği değerlendirmeyi yaz.
+5. **Önerilere ekle** düğmesiyle taslağa ekle. Mevcut kayıtları **Düzenle** veya **Kaldır** seçenekleriyle yönet.
+6. Değişiklikleri yayımlamak için **Değişiklikleri GitHub’a Kaydet** düğmesine bas.
+
+Öneri listesi `data/recommendations.json` dosyasında saklanır. Her kayıtta `id`, `category`, `itemId`, `title`, `image`, `score`, `review`, `createdAt` ve `updatedAt` alanları bulunur. `title` ve `image` bilgileri kayıt oluşturulurken arşivden kopyalandığından, bir arşiv öğesi daha sonra silinse bile öneri kartı kendi başına görüntülenebilir.
+
 ## Güvenlik ve gizlilik notları
 
 - Bu proje statik olarak yayımlandığı için `data/*.json` dosyaları ziyaretçiler tarafından okunabilir. Kişisel parola, özel mesaj, adres, ödeme bilgisi veya yayımlanmasını istemediğim başka verileri bu dosyalara eklemiyorum.

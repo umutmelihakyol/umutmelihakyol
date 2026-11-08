@@ -1,8 +1,8 @@
-/* Günlüğüm Service Worker — cache v52: yıllık favoriler vitrini yatay hizalama düzeltmesi. */
+/* Günlüğüm Service Worker — cache v53: Önerilerim sayfası ve yönetim paneli eklendi. */
 'use strict';
 
 const CACHE_PREFIX = 'gunlugum-pwa-';
-const CACHE_VERSION = 'v52';
+const CACHE_VERSION = 'v53';
 const APP_CACHE = `${CACHE_PREFIX}app-${CACHE_VERSION}`;
 const IMAGE_CACHE = `${CACHE_PREFIX}images-${CACHE_VERSION}`;
 const APP_ROOT = new URL('./', self.registration.scope);
@@ -10,11 +10,11 @@ const OFFLINE_URL = new URL('offline/', APP_ROOT).href;
 
 const CORE_FILES = [
   '', 'offline/', 'manifest.webmanifest',
-  'assets/css/style.css', 'assets/css/recent-showcase.css', 'assets/css/yearly-favorites.css', 'assets/css/yearly-favorites-admin.css', 'assets/css/arsivim.css', 'assets/css/white-theme-fixes.css', 'assets/css/arsivim-admin.css', 'assets/css/gamecapsule-theme.css', 'assets/css/gamecapsule-consistency.css', 'assets/css/archive-editorial.css', 'assets/css/matte.css', 'assets/css/atelier.css', 'assets/css/unified.css', 'assets/css/modern.css', 'assets/css/stats.css', 'assets/css/search.css', 'assets/css/cards.css', 'assets/css/detail-comfort.css', 'assets/css/people.css', 'assets/css/card-hover-glow.css', 'assets/css/media-extras.css', 'assets/css/technopat.css', 'assets/css/intro-loader.css', 'assets/css/pwa.css', 'assets/css/anime-detail.css', 'assets/css/search-overlay.css', 'assets/css/watching-section.css', 'assets/css/giveaway.css', 'assets/css/giveaway-admin.css',
+  'assets/css/style.css', 'assets/css/recommendations.css', 'assets/css/recommendations-home.css', 'assets/css/recommendations-admin.css', 'assets/css/recent-showcase.css', 'assets/css/yearly-favorites.css', 'assets/css/yearly-favorites-admin.css', 'assets/css/arsivim.css', 'assets/css/white-theme-fixes.css', 'assets/css/arsivim-admin.css', 'assets/css/gamecapsule-theme.css', 'assets/css/gamecapsule-consistency.css', 'assets/css/archive-editorial.css', 'assets/css/matte.css', 'assets/css/atelier.css', 'assets/css/unified.css', 'assets/css/modern.css', 'assets/css/stats.css', 'assets/css/search.css', 'assets/css/cards.css', 'assets/css/detail-comfort.css', 'assets/css/people.css', 'assets/css/card-hover-glow.css', 'assets/css/media-extras.css', 'assets/css/technopat.css', 'assets/css/intro-loader.css', 'assets/css/pwa.css', 'assets/css/anime-detail.css', 'assets/css/search-overlay.css', 'assets/css/watching-section.css', 'assets/css/giveaway.css', 'assets/css/giveaway-admin.css',
   'assets/icons/gunlugum-180.png', 'assets/icons/gunlugum-192.png', 'assets/icons/gunlugum-512.png', 'assets/icons/gunlugum-maskable-512.png',
-  'scripts/theme.js', 'scripts/yearly-favorites.js', 'scripts/yearly-favorites-admin.js', 'scripts/site-nav.js', 'scripts/gamecapsule-theme.js', 'scripts/config.js', 'scripts/categories.js', 'scripts/search-overlay.js', 'scripts/giveaway-core.js', 'scripts/giveaway.js', 'scripts/giveaway-admin.js', 'scripts/app.js', 'scripts/people.js', 'scripts/review-card.js', 'scripts/stats.js', 'scripts/search.js', 'scripts/technopat.js', 'scripts/intro-loader.js', 'scripts/pwa.js', 'scripts/anime-detail.js', 'scripts/media-extras.js',
-  'data/games.json', 'data/movies.json', 'data/series.json', 'data/anime.json', 'data/yearly-favorites.json', 'data/technopat.json', 'data/cekilis.json',
-  'oyun/', 'oyun/maliyet/', 'film/', 'dizi/', 'anime/', 'istatistik/', 'ara/', 'kisiler/',
+  'scripts/theme.js', 'scripts/recommendations.js', 'scripts/recommendations-admin.js', 'scripts/yearly-favorites.js', 'scripts/yearly-favorites-admin.js', 'scripts/site-nav.js', 'scripts/gamecapsule-theme.js', 'scripts/config.js', 'scripts/categories.js', 'scripts/search-overlay.js', 'scripts/giveaway-core.js', 'scripts/giveaway.js', 'scripts/giveaway-admin.js', 'scripts/app.js', 'scripts/people.js', 'scripts/review-card.js', 'scripts/stats.js', 'scripts/search.js', 'scripts/technopat.js', 'scripts/intro-loader.js', 'scripts/pwa.js', 'scripts/anime-detail.js', 'scripts/media-extras.js',
+  'data/games.json', 'data/movies.json', 'data/series.json', 'data/anime.json', 'data/recommendations.json', 'data/yearly-favorites.json', 'data/technopat.json', 'data/cekilis.json',
+  'oyun/', 'oyun/maliyet/', 'film/', 'dizi/', 'anime/', 'istatistik/', 'ara/', 'kisiler/', 'oneriler/',
   'technopat/incelemeler/', 'technopat/rehberler/', 'cekilis/'
 ];
 
