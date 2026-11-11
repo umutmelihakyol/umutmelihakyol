@@ -452,8 +452,10 @@ SOFTWARE.
 ```
 
 
-## Technopat dizi ve film önerilerim
+## Technopat dizi ve film incelemelerim
 
-Technopat Sosyal üzerinde paylaştığım dizi ve film önerilerini ayrı bir sayfada topluyorum. Sayfa adresi `technopat/dizi-film-onerileri/` şeklindedir. Film ve dizi listeleri birbirinden ayrıdır; ziyaretçiler kategori filtrelerini ve arama alanını kullanabilir. Her kart ilgili Technopat konusuna yönlendirir.
+Technopat Sosyal üzerinde yayımladığım film ve dizi incelemelerini ayrı bir sayfada topluyorum. Sayfa adresi `technopat/dizi-film-incelemeleri/` şeklindedir. Film ve dizi kayıtları ayrı türler olarak saklanır; ziyaretçiler başlık araması ve tür filtresiyle incelemeler arasında gezinebilir. Her kart, ilgili yazının Technopat Sosyal konu sayfasına yönlendirir.
 
-Önerileri yönetim panelindeki **Technopat Dizi/Film Önerileri** sekmesinden ekleyebilir, düzenleyebilir veya kaldırabilirsin. Her kayıt için başlık ve Technopat konu bağlantısı zorunludur. Kısa açıklama ve kapak görseli isteğe bağlıdır. Değişiklikler önce taslakta tutulur; ziyaretçilere yansıtmak için **Değişiklikleri GitHub'a Kaydet** düğmesine basılmalıdır. Kayıtlar `data/technopat-recommendations.json` dosyasında tutulur; böylece mevcut `data/technopat.json` inceleme ve rehber kayıtları etkilenmez.
+Bu sayfada öneri veya izleme tavsiyesi listesi sunmuyorum; Technopat'ta yayımladığım kendi inceleme yazılarımı arşivliyorum. Kartlarda yapımın adı, film/dizi etiketi, isteğe bağlı kapak görseli ve admin panelinde girdiğim kısa inceleme özeti yer alır. Karttaki bağlantı **İncelemeyi Technopat'ta oku** metniyle doğrudan forum yazısını açar.
+
+Kayıtları yönetim panelindeki **Dizi/Film İncelemeleri** sekmesinden ekleyebilir, düzenleyebilir veya silebilirim. Her kayıt için içerik türü, başlık ve Technopat konu bağlantısı zorunludur. İnceleme özeti ve kapak görseli isteğe bağlıdır. Değişiklikler önce taslakta tutulur; ziyaretçilere yansıtmak için **Değişiklikleri GitHub'a Kaydet** düğmesine basılmalıdır. Kayıtlar `data/technopat-media-reviews.json` dosyasında saklanır ve mevcut `data/technopat.json` içindeki genel Technopat inceleme/rehber arşivinden bağımsızdır.
