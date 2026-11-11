@@ -15,7 +15,7 @@
     "yearlyFavoritesTitle": "Yıllara göre favorilerim",
     "yearlyFavoritesDescription": "Her yılın bende iz bırakan oyunları, filmleri, dizileri ve animeleri.",
     "technopatKicker": "TECHNOPAT SOSYAL",
-    "technopatTitle": "Technopat'taki yazılarım",
+    "technopatTitle": "Technopat İçeriklerim",
     "technopatDescription": "İncelemelerimi, rehberlerimi ve Technopat'ta yayımladığım dizi-film yazılarını tek yerde keşfet.",
     "recentKicker": "ARŞİVE YENİ EKLENENLER",
     "recentTitle": "Son eklenenler",
@@ -50,38 +50,46 @@
     "giveawayTitle": "Çekiliş Arenası",
     "costTitle": "Oyun Maliyeti ve Kütüphane"
   },
+  "homeVisibility": {
+    "intro": true,
+    "collections": true,
+    "yearlyFavorites": true,
+    "tools": true,
+    "technopat": true,
+    "recent": true
+  },
   "coreCategories": {
     "oyun": {
-      "navLabel": "Oyunlar",
       "plural": "Oyunlar",
       "title": "Oyunlarım",
       "description": "Oynadığım oyunlar, puanlarım ve incelemelerim",
       "soon": "Yakında bitireceklerim",
-      "visible": true
+      "visible": true,
+      "navLabel": "Oyunlar"
     },
     "film": {
-      "navLabel": "Filmler",
       "plural": "Filmler",
       "title": "Filmlerim",
       "description": "İzlediğim filmler, puanlarım ve yorumlarım",
       "soon": "Şu an izlediklerim",
-      "visible": true
+      "visible": true,
+      "navLabel": "Filmler"
     },
     "dizi": {
-      "navLabel": "Diziler",
       "plural": "Diziler",
       "title": "Dizilerim",
       "description": "İzlediğim diziler, puanlarım ve yorumlarım",
       "soon": "Şu an izlediklerim",
-      "visible": true
+      "visible": true,
+      "navLabel": "Diziler"
     },
     "anime": {
-      "navLabel": "Anime",
       "plural": "Animeler",
       "title": "Animelerim",
       "description": "İzlediğim animeler, puanlarım ve yorumlarım",
       "soon": "Şu an izlediklerim",
-      "visible": true
+      "visible": true,
+      "navLabel": "Anime"
     }
   },
   "navigation": [
@@ -171,13 +179,5 @@
     }
   ],
   "customCategories": [],
-  "customTextOverrides": [],
-  "homeVisibility": {
-    "intro": true,
-    "collections": true,
-    "yearlyFavorites": true,
-    "tools": true,
-    "technopat": true,
-    "recent": true
-  }
+  "customTextOverrides": []
 }
