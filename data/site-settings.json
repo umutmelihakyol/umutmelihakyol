@@ -1,0 +1,183 @@
+{
+  "version": 1,
+  "site": {
+    "title": "Günlüğüm",
+    "tagline": "Oynadığım, izlediğim her şey tek yerde.",
+    "introText": "Oyunlarımı ve izlediğim yapımları tek yerde topluyor, kendi arşivimi keşfediyorum."
+  },
+  "home": {
+    "collectionsEyebrow": "KOLEKSİYONLARIM",
+    "collectionsTitle": "Kategorilere göz at",
+    "toolsEyebrow": "KEŞFET VE YÖNET",
+    "toolsTitle": "Arşiv araçları",
+    "toolsDescription": "Arşivini analiz et, içeriklerini bul, yaratıcıları keşfet ve önerilerimi incele.",
+    "yearlyFavoritesKicker": "YILLAR İÇİNDEKİ FAVORİLERİM",
+    "yearlyFavoritesTitle": "Yıllara göre favorilerim",
+    "yearlyFavoritesDescription": "Her yılın bende iz bırakan oyunları, filmleri, dizileri ve animeleri.",
+    "technopatKicker": "TECHNOPAT SOSYAL",
+    "technopatTitle": "Technopat'taki yazılarım",
+    "technopatDescription": "İncelemelerimi, rehberlerimi ve Technopat'ta yayımladığım dizi-film yazılarını tek yerde keşfet.",
+    "recentKicker": "ARŞİVE YENİ EKLENENLER",
+    "recentTitle": "Son eklenenler",
+    "recentDescription": "Arşivime en son eklediğim oyunları ve yapımları keşfet.",
+    "statsCardTitle": "Arşiv istatistiklerim",
+    "statsCardDescription": "Puanlarını, tamamladığın yapımları ve izleme/oynama sürelerini incele.",
+    "statsCardAction": "İstatistikleri görüntüle",
+    "searchCardTitle": "Gelişmiş arama",
+    "searchCardDescription": "Tür, puan, durum, yıl ve platform filtreleriyle aradığın kayda ulaş.",
+    "searchCardAction": "Arşivde ara",
+    "peopleCardTitle": "Kişiler ve stüdyolar",
+    "peopleCardDescription": "Oyun geliştiricilerini, yönetmenleri ve sevdiğin yapımların arkasındaki ekipleri keşfet.",
+    "peopleCardAction": "Profilleri keşfet",
+    "recommendationsCardTitle": "Önerilerim",
+    "recommendationsCardDescription": "Beğendiğim oyunları, filmleri, dizileri ve animeleri kendi puanım ve değerlendirmemle keşfet.",
+    "recommendationsCardAction": "Önerilerimi görüntüle",
+    "technopatReviewsCardTitle": "İncelemeler",
+    "technopatReviewsCardDescription": "Deneyimlerim, değerlendirmelerim ve puanladığım yapımlar.",
+    "technopatGuidesCardTitle": "Rehberler",
+    "technopatGuidesCardDescription": "Oyunlar ve teknoloji hakkında hazırladığım yol gösterici içerikler.",
+    "technopatMediaCardTitle": "Dizi ve Film İncelemelerim",
+    "technopatMediaCardDescription": "Technopat Sosyal üzerinde yayımladığım dizi ve film incelemeleri."
+  },
+  "pages": {
+    "statsTitle": "Arşiv İstatistikleri",
+    "recommendationsTitle": "Önerilerim",
+    "technopatMediaTitle": "Dizi ve Film İncelemelerim",
+    "technopatReviewsTitle": "Technopat İncelemelerim",
+    "technopatGuidesTitle": "Technopat Rehberlerim",
+    "peopleTitle": "Kişiler ve Stüdyolar",
+    "searchTitle": "Gelişmiş Arama",
+    "giveawayTitle": "Çekiliş Arenası",
+    "costTitle": "Oyun Maliyeti ve Kütüphane"
+  },
+  "coreCategories": {
+    "oyun": {
+      "navLabel": "Oyunlar",
+      "plural": "Oyunlar",
+      "title": "Oyunlarım",
+      "description": "Oynadığım oyunlar, puanlarım ve incelemelerim",
+      "soon": "Yakında bitireceklerim",
+      "visible": true
+    },
+    "film": {
+      "navLabel": "Filmler",
+      "plural": "Filmler",
+      "title": "Filmlerim",
+      "description": "İzlediğim filmler, puanlarım ve yorumlarım",
+      "soon": "Şu an izlediklerim",
+      "visible": true
+    },
+    "dizi": {
+      "navLabel": "Diziler",
+      "plural": "Diziler",
+      "title": "Dizilerim",
+      "description": "İzlediğim diziler, puanlarım ve yorumlarım",
+      "soon": "Şu an izlediklerim",
+      "visible": true
+    },
+    "anime": {
+      "navLabel": "Anime",
+      "plural": "Animeler",
+      "title": "Animelerim",
+      "description": "İzlediğim animeler, puanlarım ve yorumlarım",
+      "soon": "Şu an izlediklerim",
+      "visible": true
+    }
+  },
+  "navigation": [
+    {
+      "id": "home",
+      "label": "Ana sayfa",
+      "href": "/",
+      "enabled": true,
+      "builtin": true
+    },
+    {
+      "id": "oyun",
+      "label": "Oyunlar",
+      "href": "/oyun/",
+      "enabled": true,
+      "builtin": true
+    },
+    {
+      "id": "film",
+      "label": "Filmler",
+      "href": "/film/",
+      "enabled": true,
+      "builtin": true
+    },
+    {
+      "id": "dizi",
+      "label": "Diziler",
+      "href": "/dizi/",
+      "enabled": true,
+      "builtin": true
+    },
+    {
+      "id": "anime",
+      "label": "Anime",
+      "href": "/anime/",
+      "enabled": true,
+      "builtin": true
+    },
+    {
+      "id": "technopat",
+      "label": "Yazılarım",
+      "href": "/technopat/incelemeler/",
+      "enabled": true,
+      "builtin": true
+    },
+    {
+      "id": "tech-media-reviews",
+      "label": "Dizi/Film incelemelerim",
+      "href": "/technopat/dizi-film-incelemeleri/",
+      "enabled": true,
+      "builtin": true
+    },
+    {
+      "id": "stats",
+      "label": "İstatistik",
+      "href": "/istatistik/",
+      "enabled": true,
+      "builtin": true
+    },
+    {
+      "id": "people",
+      "label": "Kişiler",
+      "href": "/kisiler/",
+      "enabled": true,
+      "builtin": true
+    },
+    {
+      "id": "recommendations",
+      "label": "Önerilerim",
+      "href": "/oneriler/",
+      "enabled": true,
+      "builtin": true
+    },
+    {
+      "id": "giveaway",
+      "label": "Çekiliş",
+      "href": "/cekilis/",
+      "enabled": true,
+      "builtin": true
+    },
+    {
+      "id": "search",
+      "label": "Arama",
+      "href": "/ara/",
+      "enabled": true,
+      "builtin": true
+    }
+  ],
+  "customCategories": [],
+  "customTextOverrides": [],
+  "homeVisibility": {
+    "intro": true,
+    "collections": true,
+    "yearlyFavorites": true,
+    "tools": true,
+    "technopat": true,
+    "recent": true
+  }
+}
