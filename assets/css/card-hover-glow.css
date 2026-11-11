@@ -1,0 +1,29 @@
+/* Günlüğüm — Kartların üzerine gelince hafif kenar parlaması */
+@media (hover: hover) and (pointer: fine) {
+  .card {
+    transition:
+      transform .18s ease,
+      border-color .18s ease,
+      box-shadow .18s ease;
+  }
+
+  .card:hover {
+    border-color: var(--acc);
+    box-shadow:
+      0 0 0 1px color-mix(in srgb, var(--acc) 55%, transparent),
+      0 0 18px color-mix(in srgb, var(--acc) 22%, transparent),
+      0 8px 22px rgba(0, 0, 0, .14);
+    transform: translateY(-2px);
+  }
+}
+
+/* Hareket azaltma tercihi açık olan kullanıcılar için yalnızca parlamayı koru. */
+@media (prefers-reduced-motion: reduce) {
+  .card {
+    transition: none !important;
+  }
+
+  .card:hover {
+    transform: none !important;
+  }
+}

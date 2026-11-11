@@ -1,0 +1,100 @@
+/* ==========================================================
+   GÜNLÜĞÜM — ARŞİVİM TASARIM KATMANI (en son yüklenen stil dosyası)
+   Mantığa/HTML yapısına dokunmaz; sadece görünümü ortak bir tasarım diline çeker.
+   Renk, yarıçap, font değiştirmek için sadece aşağıdaki :root bloklarını düzenle.
+   Önceki katmanlar (atelier, matte, gamecapsule...) !important kullandığı için
+   buradaki kurallar da !important içerir ve en son yüklenmelidir.
+   ========================================================== */
+/* Renk paleti. Eski katmanlar bu değişkenleri body düzeyinde yeniden tanımladığı için !important gerekir. */
+:root,html body,html body[class]{
+  color-scheme:dark;
+  --bg:#0c0c11 !important;--card:#14141b !important;--surface-2:#1a1a23 !important;--ink:#e8e8ee !important;--mute:#8b8b9c !important;
+  --line:rgba(255,255,255,.08) !important;--acc:#8b5cf6 !important;--accink:#fff !important;--r:16px !important;
+  --yes:#4ade80 !important;--no:#f87171 !important;--shadow:0 10px 30px rgba(0,0,0,.35) !important;--sh2:0 10px 30px rgba(0,0,0,.35) !important;
+  --gc-bg:#0c0c11 !important;--gc-bg-2:#14141b !important;--gc-panel:#14141b !important;--gc-panel-2:#1a1a23 !important;--gc-ink:#e8e8ee !important;
+  --gc-muted:#8b8b9c !important;--gc-line:rgba(255,255,255,.08) !important;--gc-line-strong:rgba(139,92,246,.45) !important;
+  --gc-purple:#8b5cf6 !important;--gc-purple-light:#c4b5fd !important;--gc-radius:16px !important;--gc-font:'Inter',system-ui,sans-serif !important;
+  --pill:rgba(255,255,255,.05) !important;--tile-accent:#8b5cf6 !important;
+}
+html[data-theme=light],html[data-theme=light] body,html[data-theme=light] body[class]{
+  color-scheme:light;
+  --bg:#f5f5f9 !important;--card:#fff !important;--surface-2:#f0f0f6 !important;--ink:#1b1b24 !important;--mute:#6b6b7c !important;
+  --line:rgba(20,20,40,.1) !important;--acc:#7c4ddb !important;--accink:#fff !important;--shadow:0 10px 30px rgba(30,30,60,.1) !important;--sh2:0 10px 30px rgba(30,30,60,.1) !important;
+  --gc-bg:#f5f5f9 !important;--gc-bg-2:#fff !important;--gc-panel:#fff !important;--gc-panel-2:#fff !important;--gc-ink:#1b1b24 !important;--gc-muted:#6b6b7c !important;
+  --gc-line:rgba(20,20,40,.1) !important;--pill:rgba(20,20,40,.05) !important;
+}
+
+/* Ortak site başlığı (gamecapsule-theme.js ekliyor) */
+.gc-header{background:color-mix(in srgb,var(--bg) 88%,transparent) !important;border-bottom:1px solid var(--line) !important;box-shadow:none !important;min-height:64px !important}
+.gc-header-inner{min-height:64px !important}
+.gc-header a,.gc-header-nav a,.gc-nav a{color:var(--mute) !important;font-weight:600 !important;transition:color .2s}
+.gc-header a:hover,.gc-header a[aria-current=page],.gc-header a.is-active{color:var(--ink) !important}
+.gc-menu-trigger,.gc-header-actions a,.gc-header-actions button{background:var(--card) !important;border:1px solid var(--line) !important;border-radius:12px !important;box-shadow:none !important;color:var(--mute) !important}
+.gc-menu-panel{background:var(--card) !important;border-left:1px solid var(--line) !important}
+.gc-menu-panel a{color:var(--ink) !important}
+
+/* Zemin + tipografi */
+html body{background:var(--bg) !important;background-image:none !important;color:var(--ink) !important;font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif !important}
+body::before,body::after{display:none !important}
+h1,h2,h3,h4,.cx-heading,.tbody h3{font-family:'Inter',system-ui,sans-serif !important;letter-spacing:-.02em !important}
+.wrap{max-width:1120px !important}
+
+/* Üst başlık + sabit gezinme çubuğu */
+header.top,.tech-page-top,.gw-topbar{background:transparent !important;border:0 !important;box-shadow:none !important;min-height:0 !important;padding:22px 0 10px !important}
+header.top h1{font-size:1.15rem !important;font-weight:800 !important}
+.folio-nav{position:sticky !important;top:0 !important;z-index:60 !important;display:flex !important;gap:4px !important;overflow-x:auto !important;scrollbar-width:none;
+  margin:0 -20px 8px !important;padding:10px 20px !important;border:0 !important;border-bottom:1px solid var(--line) !important;border-radius:0 !important;
+  background:color-mix(in srgb,var(--bg) 86%,transparent) !important;backdrop-filter:blur(14px);box-shadow:none !important}
+.folio-nav a{flex:none;padding:8px 13px !important;border-radius:10px !important;border:0 !important;background:transparent !important;color:var(--mute) !important;font-weight:600 !important;font-size:.88rem !important;transition:.2s}
+.folio-nav a:hover{color:var(--ink) !important;background:var(--pill) !important}
+.folio-nav a[aria-current=page]{color:var(--ink) !important;background:var(--pill) !important;box-shadow:inset 0 -2px 0 var(--acc) !important}
+
+/* Ana sayfa hero */
+body.home .hero{background:transparent !important;border:0 !important;box-shadow:none !important;padding:64px 0 36px !important}
+body.home .hero::before,body.home .hero::after{display:none !important}
+body.home .hero h2#tagline{font-size:clamp(2.2rem,5vw,3.6rem) !important;line-height:1.08 !important;font-weight:800 !important;letter-spacing:-.035em !important;max-width:14em;color:var(--ink) !important}
+.home-intro-copy{color:var(--mute) !important;max-width:34em;font-size:1.05rem !important}
+.home-eyebrow,.home-section-kicker,.tech-eyebrow{color:var(--acc) !important;font-weight:700 !important;letter-spacing:.08em !important;font-size:.72rem !important;background:none !important;border:0 !important;padding:0 !important}
+.home-section-head h2,.tech-hub-head h2{font-size:1.3rem !important;font-weight:700 !important}
+.home-section-count{color:var(--mute) !important;background:none !important;border:0 !important;font-size:.78rem !important}
+
+/* Kartlar / paneller: tek tip yüzey */
+.card,.card.cx,.panel,.tile,.home-tool-card,.tech-hub-card,.detail-score-card,.stat-card,.people-card{
+  background:var(--card) !important;border:1px solid var(--line) !important;border-radius:var(--r) !important;box-shadow:none !important;color:var(--ink) !important;transition:transform .25s,border-color .25s !important}
+.card:hover,.card.cx:hover,.tile:hover,.home-tool-card:hover,.tech-hub-card:hover{transform:translateY(-3px) !important;border-color:color-mix(in srgb,var(--acc) 55%,transparent) !important;box-shadow:none !important}
+.tile{min-height:190px !important;background:radial-gradient(120% 90% at 100% 0,color-mix(in srgb,var(--acc) 20%,transparent),transparent 60%),var(--card) !important}
+.tile.has-cover{background-color:var(--card) !important}
+.tile .tbody h3{color:var(--ink) !important;font-size:1.25rem !important;font-weight:800 !important}
+.tile .tbody p,.tile .tile-latest-title{color:var(--mute) !important}
+.tile .ticon,.home-tool-icon,.tech-hub-icon{background:color-mix(in srgb,var(--acc) 14%,transparent) !important;border:0 !important;color:var(--acc) !important;border-radius:12px !important}
+.cx-heading{font-size:.98rem !important;font-weight:700 !important}
+.cx-meta,.meta,.note,.cx-facts,.cx-body small{color:var(--mute) !important}
+.cx-chips span,.chip{background:color-mix(in srgb,var(--acc) 15%,transparent) !important;color:color-mix(in srgb,var(--acc) 70%,var(--ink)) !important;border:0 !important;border-radius:99px !important;font-weight:600 !important}
+.cx-media .score,.cover .score,.cx-score{background:rgba(8,8,12,.85) !important;color:#fff !important;border:1px solid var(--line) !important;border-radius:10px !important;font-weight:800 !important;backdrop-filter:blur(6px)}
+.card .cover img,.cx-media img{transition:transform .5s !important}
+.card:hover .cover img,.card.cx:hover .cx-media img{transform:scale(1.04) !important}
+
+/* Butonlar + form alanları */
+.btn{background:var(--card) !important;border:1px solid var(--line) !important;border-radius:12px !important;color:var(--ink) !important;font-weight:600 !important;box-shadow:none !important}
+.btn:hover{border-color:color-mix(in srgb,var(--acc) 55%,transparent) !important}
+.btn.pri,.btn.primary{background:var(--acc) !important;border-color:var(--acc) !important;color:var(--accink) !important;font-weight:700 !important}
+input,select,textarea{background:var(--card) !important;border:1px solid var(--line) !important;border-radius:12px !important;color:var(--ink) !important;box-shadow:none !important}
+input:focus,select:focus,textarea:focus{border-color:var(--acc) !important;outline:0 !important}
+.pills button,.seg button{border-radius:99px !important;border:1px solid var(--line) !important;background:var(--card) !important;color:var(--mute) !important}
+.pills button.on,.pills button[aria-pressed=true],.seg button.on{background:var(--acc) !important;border-color:var(--acc) !important;color:var(--accink) !important}
+.tbl{border-collapse:separate !important;border-spacing:0 !important}.tbl th{color:var(--mute) !important;font-weight:600 !important}.tbl td,.tbl th{border-color:var(--line) !important}
+a{text-decoration-color:color-mix(in srgb,var(--acc) 50%,transparent)}
+.foot,footer{border-top:1px solid var(--line) !important;color:var(--mute) !important;background:transparent !important}
+@media(max-width:640px){.folio-nav{margin:0 -16px 8px !important;padding:8px 16px !important}body.home .hero{padding:40px 0 24px !important}}
+
+/* ÜST BÖLÜM KALDIRILDI: başlık+butonlar ve menü satırı gizli (admin paneli hariç).
+   Geri getirmek için bu bloğu silmen yeterli. JS'in beklediği öğeler DOM'da kaldığı için hiçbir şey bozulmaz. */
+body:not(.admin-page) header.top,
+body:not(.admin-page) .tech-page-top,
+body:not(.admin-page) .gw-topbar,
+body:not(.admin-page) .folio-nav{display:none !important}
+body:not(.admin-page) .wrap{padding-top:24px !important}
+.gc-header .gc-brand,.gc-header [class*=brand],.gc-header [class*=brand] *{color:var(--ink) !important}
+.gc-header [class*=brand] small,.gc-header [class*=brand] span:last-child{color:var(--mute) !important}
+body .tile .tbody h3,body.home .tile h3,body .home-tool-card strong,body .tech-hub-card strong{font-family:'Inter',system-ui,sans-serif !important;font-style:normal !important;letter-spacing:-.02em !important}
+.gc-header .gc-brand-copy strong,.gc-header .gc-brand strong,.gc-header strong{color:var(--ink) !important}
