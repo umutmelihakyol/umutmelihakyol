@@ -1,0 +1,642 @@
+/* ================================================================
+   GÜNLÜĞÜM — GAMECAPSULE CONSISTENCY LAYER
+   One palette and one component language across every route.
+   Loaded last so legacy matte/atelier/editorial rules cannot leak
+   into cards, admin forms, archive detail windows or tool pages.
+   ================================================================ */
+
+:root {
+  color-scheme: dark;
+  --bg: #08090f;
+  --card: #151722;
+  --ink: #f4f5ff;
+  --mute: #a0a7bd;
+  --line: #2a2e43;
+  --acc: #9272ff;
+  --accink: #ffffff;
+  --acc2: #5a91d5;
+  --yes: #55d6a2;
+  --no: #f08b98;
+  --surface-2: #1b1f2d;
+  --surface-3: #22273a;
+  --glass: rgba(9, 10, 17, .90);
+  --bd: var(--line);
+  --fg: var(--ink);
+  --pri: var(--acc);
+  --matte-accent: var(--acc);
+  --brand-accent: var(--acc);
+  --shadow: 0 18px 48px rgba(0, 0, 0, .30);
+  --sh1: 0 2px 5px rgba(0,0,0,.24), 0 10px 28px rgba(0,0,0,.16);
+  --sh2: 0 22px 52px rgba(0,0,0,.38);
+  --r: 16px;
+  --font-body: var(--gc-font, 'Rubik', 'DM Sans', system-ui, sans-serif);
+  --font-display: var(--gc-font, 'Rubik', 'DM Sans', system-ui, sans-serif);
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #08090f;
+  --card: #151722;
+  --ink: #f4f5ff;
+  --mute: #a0a7bd;
+  --line: #2a2e43;
+  --acc: #9272ff;
+  --accink: #ffffff;
+  --acc2: #5a91d5;
+  --yes: #55d6a2;
+  --no: #f08b98;
+  --surface-2: #1b1f2d;
+  --surface-3: #22273a;
+  --glass: rgba(9, 10, 17, .90);
+  --bd: var(--line);
+  --fg: var(--ink);
+  --pri: var(--acc);
+  --matte-accent: var(--acc);
+  --brand-accent: var(--acc);
+  --shadow: 0 18px 48px rgba(0, 0, 0, .30);
+  --sh1: 0 2px 5px rgba(0,0,0,.24), 0 10px 28px rgba(0,0,0,.16);
+  --sh2: 0 22px 52px rgba(0,0,0,.38);
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+  --bg: #f3f4fa;
+  --card: #ffffff;
+  --ink: #20233b;
+  --mute: #626983;
+  --line: #dfe2ef;
+  --acc: #7250d6;
+  --accink: #ffffff;
+  --acc2: #477bb8;
+  --yes: #23845f;
+  --no: #c65365;
+  --surface-2: #eceefa;
+  --surface-3: #e3e6f5;
+  --glass: rgba(250, 250, 255, .92);
+  --bd: var(--line);
+  --fg: var(--ink);
+  --pri: var(--acc);
+  --matte-accent: var(--acc);
+  --brand-accent: var(--acc);
+  --shadow: 0 16px 42px rgba(42, 43, 83, .08);
+  --sh1: 0 2px 5px rgba(42,43,83,.04), 0 10px 28px rgba(42,43,83,.06);
+  --sh2: 0 20px 48px rgba(42,43,83,.12);
+}
+
+html,
+html body {
+  min-height: 100%;
+  background: var(--bg) !important;
+}
+
+html { scroll-behavior: smooth; }
+
+body,
+body.cat-oyun,
+body.cat-film,
+body.cat-dizi,
+body.cat-anime {
+  color: var(--ink) !important;
+  background:
+    radial-gradient(ellipse 780px 420px at 50% -190px, rgba(112, 83, 228, .18), transparent 72%),
+    radial-gradient(ellipse 520px 360px at 96% 8%, rgba(57, 118, 190, .07), transparent 70%),
+    var(--bg) !important;
+  background-attachment: fixed !important;
+  font-family: var(--font-body) !important;
+  letter-spacing: 0 !important;
+}
+
+:root[data-theme="light"] body {
+  background:
+    radial-gradient(ellipse 780px 420px at 50% -190px, rgba(112, 83, 228, .10), transparent 72%),
+    radial-gradient(ellipse 520px 360px at 96% 8%, rgba(57, 118, 190, .045), transparent 70%),
+    var(--bg) !important;
+}
+
+body::before {
+  opacity: .10 !important;
+  background-image: radial-gradient(rgba(173, 163, 255, .42) .65px, transparent .65px) !important;
+  background-size: 28px 28px !important;
+}
+
+body::after {
+  background: linear-gradient(120deg, transparent 0 48%, rgba(94,116,255,.018) 70%, transparent) !important;
+}
+
+body :is(h1,h2,h3,h4,h5,h6),
+.gc-shell-mounted :is(h1,h2,h3,h4,h5,h6),
+.admin-page :is(h1,h2,h3,h4,h5,h6),
+.admin-page .panel :is(h1,h2,h3,h4,h5,h6) {
+  color: var(--ink) !important;
+  font-family: var(--font-display) !important;
+  font-weight: 750 !important;
+  letter-spacing: -.035em !important;
+  line-height: 1.18 !important;
+}
+
+body :is(p,small,label,.meta,.note,.muted,.subtle),
+.gc-shell-mounted :is(.meta,.note,.muted,.subtle) {
+  color: var(--mute) !important;
+}
+
+body a,
+body a:visited { color: color-mix(in srgb, var(--acc) 78%, #c7c0ff) !important; }
+body a:hover { color: var(--ink) !important; }
+
+/* Core surfaces: eliminate leftover forest/olive/teal backgrounds. */
+.gc-shell-mounted :is(
+  .card, .card.cx, .cx-body, .tile, .panel, .analytics-box,
+  .metric-card, .metric-line, .stats-panel, .comparison-section,
+  .subscore-section, .status-panel, .top-rated-section,
+  .annual-chart-panel, .annual-best-panel, .annual-section,
+  .search-panel, .people-search-panel, .profile-result,
+  .tech-tools, .tech-article, .tech-article-card, .tech-hub-card,
+  .gw-wheel-panel, .gw-countdown-card, .gw-participants-card,
+  .gw-history-card, .gw-history-card, .cost-intro, .cost-kpi,
+  .cost-card, .cost-tools, .home-tool-card, .recent-card,
+  .person-card, .entity-card, .media-card, .detail-section,
+  .rating-breakdown, .purchase-detail, .rating-breakdown-public
+) {
+  color: var(--ink) !important;
+  background-color: var(--card) !important;
+  border-color: var(--line) !important;
+}
+
+.gc-shell-mounted :is(
+  .card.cx, .panel, .analytics-box, .metric-card, .stats-panel,
+  .comparison-section, .subscore-section, .status-panel,
+  .top-rated-section, .annual-chart-panel, .annual-best-panel,
+  .annual-section, .search-panel, .people-search-panel,
+  .profile-result, .tech-tools, .tech-article, .tech-article-card,
+  .tech-hub-card, .gw-wheel-panel, .gw-countdown-card,
+  .gw-participants-card, .gw-history-card, .cost-intro,
+  .cost-kpi, .cost-card, .cost-tools, .home-tool-card,
+  .detail-section, .rating-breakdown, .purchase-detail
+) {
+  background: linear-gradient(145deg, color-mix(in srgb, var(--card) 96%, #262b43), var(--card)) !important;
+  border: 1px solid var(--line) !important;
+  box-shadow: var(--sh1) !important;
+  border-radius: 17px !important;
+}
+
+.gc-shell-mounted .cx-body,
+.gc-shell-mounted .card.cx .cx-body { background: var(--card) !important; }
+.gc-shell-mounted .cx-title,
+.gc-shell-mounted .cx-title a,
+.gc-shell-mounted .cx-heading,
+.gc-shell-mounted .tbody h3,
+.gc-shell-mounted .tile .tbody h3 { color: var(--ink) !important; }
+.gc-shell-mounted .cx-meta,
+.gc-shell-mounted .cx-facts,
+.gc-shell-mounted .cx-body p { color: var(--mute) !important; }
+.gc-shell-mounted .cx-chips span,
+.gc-shell-mounted .detail-genre-row span,
+.gc-shell-mounted .detail-tags-section .tags span {
+  color: color-mix(in srgb, var(--acc) 80%, var(--ink)) !important;
+  background: color-mix(in srgb, var(--acc) 10%, var(--card)) !important;
+  border: 1px solid color-mix(in srgb, var(--acc) 24%, var(--line)) !important;
+}
+
+/* Category cards and archive controls. */
+.gc-shell-mounted .tile:not(.has-cover) {
+  color: var(--ink) !important;
+  background: linear-gradient(145deg, #171a2a, #10131e) !important;
+  border: 1px solid var(--line) !important;
+}
+.gc-shell-mounted .tile.has-cover { border: 1px solid var(--line) !important; }
+.gc-shell-mounted .tile .ticon {
+  color: #d0c5ff !important;
+  background: rgba(137, 107, 255, .16) !important;
+  border: 1px solid rgba(172, 151, 255, .28) !important;
+}
+.gc-shell-mounted .tile .tbody p { color: #aeb5cb !important; }
+.gc-shell-mounted .tile .tile-latest-title { color: #c9bbff !important; }
+.gc-shell-mounted .stats,
+.gc-shell-mounted .stats > * {
+  color: var(--mute) !important;
+  border-color: var(--line) !important;
+}
+.gc-shell-mounted .stats :is(b,strong) { color: var(--ink) !important; }
+
+.gc-shell-mounted :is(.pills,.tools,.cost-tools,.stats-filters,.tech-nav,.admin-nav,.search-toolbar) {
+  color: var(--ink) !important;
+  background: color-mix(in srgb, var(--card) 82%, var(--bg)) !important;
+  border: 1px solid var(--line) !important;
+  border-radius: 16px !important;
+}
+
+.gc-shell-mounted :is(.pill,.filter-chip,.search-chip,.tech-nav a,.tech-filter,.tech-clear-btn,.tab-btn,.admin-nav button) {
+  color: var(--mute) !important;
+  background: rgba(255,255,255,.035) !important;
+  border: 1px solid var(--line) !important;
+  border-radius: 999px !important;
+  box-shadow: none !important;
+}
+
+.gc-shell-mounted :is(.pill[aria-pressed="true"],.filter-chip[aria-pressed="true"],.search-chip[aria-pressed="true"],.tech-nav a[aria-current="page"],.tech-filter[aria-pressed="true"],.tab-btn[aria-selected="true"],.admin-nav button[aria-selected="true"]) {
+  color: #fff !important;
+  background: linear-gradient(120deg, #7956df, #4c78c0) !important;
+  border-color: rgba(185, 168, 255, .55) !important;
+  box-shadow: 0 7px 20px rgba(104, 78, 204, .22) !important;
+}
+
+/* Buttons share one purple-to-blue action hierarchy. */
+.gc-shell-mounted :is(.btn,button.btn,a.btn,.cx-share-btn,.more,.detail-actions button,.library-action__link) {
+  color: #d8d4f5 !important;
+  background: linear-gradient(145deg, #202238, #171b29) !important;
+  border: 1px solid rgba(149, 139, 202, .30) !important;
+  border-radius: 12px !important;
+  box-shadow: 0 5px 16px rgba(0,0,0,.16) !important;
+  text-decoration: none !important;
+  transition: transform .18s ease, background .18s ease, border-color .18s ease, box-shadow .18s ease !important;
+}
+.gc-shell-mounted :is(.btn:hover,button.btn:hover,a.btn:hover,.cx-share-btn:hover,.more:hover,.detail-actions button:hover,.library-action__link:hover) {
+  color: #fff !important;
+  background: linear-gradient(145deg, #30284e, #1d2a40) !important;
+  border-color: rgba(177, 157, 255, .62) !important;
+  transform: translateY(-1px);
+}
+.gc-shell-mounted :is(.btn.pri,.btn.primary,button.pri,button.primary,.card-gen-btn,.stats-filters button[aria-pressed="true"]) {
+  color: #fff !important;
+  background: linear-gradient(120deg, #8059e4, #4c7fca) !important;
+  border-color: rgba(190, 172, 255, .62) !important;
+  box-shadow: 0 8px 22px rgba(104, 78, 204, .25) !important;
+}
+.gc-shell-mounted :is(.btn.pri:hover,.btn.primary:hover,button.pri:hover,button.primary:hover,.card-gen-btn:hover) {
+  background: linear-gradient(120deg, #906cf0, #568cda) !important;
+}
+
+/* Inputs, selects and editors: same contrast and focus treatment everywhere. */
+.gc-shell-mounted input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
+.gc-shell-mounted select,
+.gc-shell-mounted textarea,
+.gc-shell-mounted .f input,
+.gc-shell-mounted .f select,
+.gc-shell-mounted .f textarea,
+.gc-shell-mounted .tools input,
+.gc-shell-mounted .tools select,
+.gc-shell-mounted .search-wrap input,
+.gc-shell-mounted .cost-tools input,
+.gc-shell-mounted .cost-tools select,
+.gc-shell-mounted .admin-page .toolbar input,
+.gc-shell-mounted .admin-page .toolbar select,
+.gc-shell-mounted .admin-page .code-editor {
+  color: var(--ink) !important;
+  background: color-mix(in srgb, var(--bg) 72%, var(--card)) !important;
+  border: 1px solid var(--line) !important;
+  border-radius: 11px !important;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.12) !important;
+}
+.gc-shell-mounted input::placeholder,
+.gc-shell-mounted textarea::placeholder { color: var(--gc-dim, #78819b) !important; opacity: 1; }
+.gc-shell-mounted select option { color: var(--ink); background: var(--card); }
+.gc-shell-mounted :is(input,select,textarea):focus {
+  border-color: color-mix(in srgb, var(--acc) 68%, var(--line)) !important;
+  outline: 2px solid color-mix(in srgb, var(--acc) 24%, transparent) !important;
+  outline-offset: 1px !important;
+}
+.gc-shell-mounted fieldset,
+.gc-shell-mounted .rating-breakdown,
+.gc-shell-mounted .img-preview-wrap,
+.gc-shell-mounted .imp-box,
+.gc-shell-mounted .imp-log,
+.gc-shell-mounted .backup-file,
+.gc-shell-mounted .backup-state,
+.gc-shell-mounted .backup-note,
+.gc-shell-mounted .health-results,
+.gc-shell-mounted .health-summary {
+  color: var(--ink) !important;
+  background: color-mix(in srgb, var(--card) 88%, var(--bg)) !important;
+  border-color: var(--line) !important;
+  border-radius: 14px !important;
+}
+.gc-shell-mounted legend { color: var(--ink) !important; }
+
+/* Admin: remove old orange/green/serif styling from every tab. */
+body.admin-page { --admin-gap: 16px; }
+.admin-page .wrap {
+  width: min(1540px, calc(100% - 52px)) !important;
+  max-width: 1540px !important;
+  margin-inline: auto !important;
+}
+.admin-page .top {
+  position: relative !important;
+  top: auto !important;
+  margin: 0 0 18px !important;
+  padding: 22px 0 16px !important;
+  background: transparent !important;
+  border-bottom: 1px solid var(--line) !important;
+  backdrop-filter: none !important;
+}
+.admin-page .top h1 { font-size: clamp(1.8rem, 3vw, 2.5rem) !important; }
+.admin-page .top > span { display: flex; flex-wrap: wrap; gap: 8px; }
+.admin-page .panel,
+.admin-page .analytics-box,
+.admin-page .gwa-admin-form-panel,
+.admin-page .gwa-admin-list-panel,
+.admin-page .game-cost-panel,
+.admin-page .trash-panel,
+.admin-page .backup-panel,
+.admin-page .media-editor-panel,
+.admin-page .tech-admin-panel {
+  margin: 0 0 16px !important;
+  padding: clamp(16px, 2vw, 24px) !important;
+  color: var(--ink) !important;
+  background: linear-gradient(145deg, #171a28, #11141f) !important;
+  border: 1px solid var(--line) !important;
+  border-radius: 18px !important;
+  box-shadow: var(--sh1) !important;
+}
+.admin-page .panel :is(h2,h3,h4),
+.admin-page .analytics-box :is(h2,h3,h4),
+.admin-page .gwa-admin-form-panel :is(h2,h3,h4),
+.admin-page .gwa-admin-list-panel :is(h2,h3,h4) {
+  color: var(--ink) !important;
+  font-family: var(--gc-font) !important;
+  font-weight: 750 !important;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--line);
+}
+.admin-page .panel :is(p,small,label,.meta),
+.admin-page .analytics-box :is(p,small,label),
+.admin-page .gwa-admin-form-panel :is(p,small,label),
+.admin-page .gwa-admin-list-panel :is(p,small,label) { color: var(--mute) !important; }
+.admin-page .admin-nav {
+  position: sticky !important;
+  top: 82px !important;
+  z-index: 30 !important;
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 8px !important;
+  margin: 0 0 16px !important;
+  padding: 10px !important;
+  background: rgba(17,20,31,.94) !important;
+  border: 1px solid var(--line) !important;
+  border-radius: 16px !important;
+  backdrop-filter: blur(16px);
+}
+.admin-page .admin-nav .tab-btn,
+.admin-page .admin-nav button {
+  min-height: 39px !important;
+  padding: 8px 12px !important;
+  color: var(--mute) !important;
+  background: rgba(255,255,255,.035) !important;
+  border: 1px solid var(--line) !important;
+  border-radius: 10px !important;
+  font: 650 12px/1.2 var(--gc-font) !important;
+}
+.admin-page .admin-nav .tab-btn[aria-selected="true"],
+.admin-page .admin-nav button[aria-selected="true"] {
+  color: #fff !important;
+  background: linear-gradient(120deg, #8059e4, #4c7fca) !important;
+  border-color: rgba(190,172,255,.58) !important;
+}
+.admin-page .stats-grid { grid-template-columns: repeat(auto-fit, minmax(145px, 1fr)) !important; }
+.admin-page .stat-card {
+  color: var(--ink) !important;
+  background: #1b1f2e !important;
+  border: 1px solid var(--line) !important;
+  border-radius: 14px !important;
+}
+.admin-page .stat-card b { color: var(--ink) !important; }
+.admin-page .toolbar,
+.admin-page .bulk-toolbar,
+.admin-page .gwa-toolbar {
+  background: rgba(8,10,17,.46) !important;
+  border: 1px solid var(--line) !important;
+  border-radius: 14px !important;
+}
+.admin-page table { color: var(--ink) !important; border-color: var(--line) !important; }
+.admin-page th { color: #d5ccff !important; background: rgba(129,95,237,.13) !important; }
+.admin-page :is(th,td) { border-color: var(--line) !important; }
+.admin-page .rating-breakdown-grid { gap: 10px !important; }
+.admin-page .rating-breakdown-grid label { color: var(--mute) !important; }
+.admin-page .admin-theme-toggle { white-space: nowrap; }
+
+/* Detail modal: dark capsule frame, consistent content and fixed action bar. */
+.gc-shell-mounted dialog,
+.gc-shell-mounted #dlg,
+.gc-shell-mounted dialog.detail-redesign,
+.gc-shell-mounted .detail-redesign {
+  color: var(--ink) !important;
+  background: #111522 !important;
+  border: 1px solid rgba(153, 139, 255, .32) !important;
+  border-radius: 22px !important;
+  box-shadow: 0 28px 90px rgba(0,0,0,.72) !important;
+}
+.gc-shell-mounted dialog::backdrop,
+.gc-shell-mounted #dlg::backdrop,
+.gc-shell-mounted .detail-redesign::backdrop {
+  background: rgba(2,3,9,.80) !important;
+  backdrop-filter: blur(10px) saturate(90%);
+}
+.gc-shell-mounted dialog .inner,
+.gc-shell-mounted dialog .detail-content,
+.gc-shell-mounted .detail-redesign .inner {
+  color: var(--ink) !important;
+  background: #111522 !important;
+}
+.gc-shell-mounted dialog .detail-intro,
+.gc-shell-mounted dialog .detail-section,
+.gc-shell-mounted dialog .detail-info-grid > *,
+.gc-shell-mounted dialog .detail-score-card,
+.gc-shell-mounted dialog .detail-history-section,
+.gc-shell-mounted dialog .rating-breakdown-public,
+.gc-shell-mounted dialog .purchase-detail {
+  color: var(--ink) !important;
+  background: #191d2b !important;
+  border-color: #30364c !important;
+  border-radius: 15px !important;
+}
+.gc-shell-mounted dialog :is(h1,h2,h3,h4,strong,.detail-title),
+.gc-shell-mounted .detail-redesign :is(h1,h2,h3,h4,strong,.detail-title) { color: #f4f3ff !important; }
+.gc-shell-mounted dialog :is(p,small,dt,.detail-eyebrow,.detail-cover-subtitle),
+.gc-shell-mounted .detail-redesign :is(p,small,dt,.detail-eyebrow,.detail-cover-subtitle) { color: #aab2ca !important; }
+.gc-shell-mounted dialog .detail-section-heading { border-color: #30364c !important; }
+.gc-shell-mounted dialog .detail-section-icon {
+  color: #c7b9ff !important;
+  background: rgba(133, 102, 242, .13) !important;
+  border-color: rgba(165, 144, 255, .28) !important;
+}
+.gc-shell-mounted dialog .detail-actions {
+  background: rgba(14,17,27,.96) !important;
+  border-top: 1px solid #30364c !important;
+  backdrop-filter: blur(16px);
+}
+.gc-shell-mounted dialog .detail-actions .card-gen-btn {
+  flex: 1 1 235px;
+  color: #fff !important;
+  background: linear-gradient(120deg, #8059e4, #4c7fca) !important;
+  border-color: rgba(190,172,255,.58) !important;
+}
+.gc-shell-mounted dialog .detail-actions :is(.copy,.detail-close) {
+  color: #d8d4f5 !important;
+  background: #202438 !important;
+  border-color: #414764 !important;
+}
+.gc-shell-mounted dialog .detail-genre-row span,
+.gc-shell-mounted dialog .tags.wrapt span,
+.gc-shell-mounted dialog .detail-badge {
+  color: #d0c5ff !important;
+  background: rgba(129,95,237,.12) !important;
+  border-color: rgba(165,144,255,.27) !important;
+}
+.gc-shell-mounted dialog .detail-score-card {
+  color: #f7f5ff !important;
+  border-color: rgba(165,144,255,.3) !important;
+}
+
+/* Media hubs, Technopat, people, search, stats, cost and giveaway details. */
+.gc-shell-mounted :is(.tech-article-band,.home-tool-card,.tech-hub-card,.gw-time-unit,.gw-person-chip,.gw-participant-search,.cost-intro,.cost-tools,.cost-kpi,.cost-card,.metric-card,.metric-line,.profile-result,.entity-directory-grid > *, .annual-chart-panel,.annual-best-panel,.stats-panel) {
+  background-color: var(--card) !important;
+  border-color: var(--line) !important;
+}
+.gc-shell-mounted .tech-article :is(h2,h3,p,.tech-article-category) { color: var(--ink) !important; }
+.gc-shell-mounted .tech-article p { color: var(--mute) !important; }
+.gc-shell-mounted .tech-badge,
+.gc-shell-mounted .tech-read-link { color: #c9bbff !important; }
+.gc-shell-mounted .gw-time-unit b,
+.gc-shell-mounted .gw-fact-row b,
+.gc-shell-mounted .gw-panel-head h2,
+.gc-shell-mounted .gw-panel-head h3,
+.gc-shell-mounted .gw-history-top h3 { color: var(--ink) !important; }
+.gc-shell-mounted .gw-time-unit small,
+.gc-shell-mounted .gw-muted,
+.gc-shell-mounted .gw-fact-row span,
+.gc-shell-mounted .gw-schedule-line { color: var(--mute) !important; }
+.gc-shell-mounted .gw-phase,
+.gc-shell-mounted .gw-count-pill { color: #d0c5ff !important; background: rgba(129,95,237,.13) !important; border-color: rgba(165,144,255,.25) !important; }
+
+/* Footer, overlays and responsive alignment. */
+.gc-shell-mounted :is(.foot,.site-footer,.tech-page-footer,.gw-footer,.stats-footer,.people-footer) {
+  color: var(--mute) !important;
+  border-color: var(--line) !important;
+  background: transparent !important;
+}
+.gc-shell-mounted :is(.foot,.site-footer,.tech-page-footer,.gw-footer,.stats-footer,.people-footer) a { color: #c7b9ff !important; }
+.gc-shell-mounted .gc-mobile-nav { background: rgba(12,14,24,.94) !important; border-color: rgba(153,139,255,.28) !important; }
+.gc-shell-mounted .gc-mobile-link { color: #9ba3bc !important; }
+.gc-shell-mounted .gc-mobile-link[aria-current="page"] { color: #c8baff !important; }
+.gc-shell-mounted .gc-menu-panel { color: #f4f5ff !important; }
+.gc-shell-mounted .gc-menu-link { color: #aeb4ca !important; }
+
+:root[data-theme="light"] .gc-shell-mounted :is(.card,.card.cx,.cx-body,.panel,.analytics-box,.metric-card,.stats-panel,.comparison-section,.subscore-section,.status-panel,.top-rated-section,.annual-chart-panel,.annual-best-panel,.annual-section,.search-panel,.people-search-panel,.profile-result,.tech-tools,.tech-article,.tech-article-card,.tech-hub-card,.gw-wheel-panel,.gw-countdown-card,.gw-participants-card,.gw-history-card,.cost-intro,.cost-kpi,.cost-card,.cost-tools,.detail-section,.rating-breakdown,.purchase-detail) {
+  color: var(--ink) !important;
+  background: linear-gradient(145deg, #ffffff, #f5f6fc) !important;
+  border-color: var(--line) !important;
+  box-shadow: var(--sh1) !important;
+}
+:root[data-theme="light"] .gc-shell-mounted :is(.cx-body,.card.cx .cx-body) { background: transparent !important; }
+:root[data-theme="light"] .gc-shell-mounted .tile:not(.has-cover) { color: var(--ink) !important; background: linear-gradient(145deg,#fff,#eef0fa) !important; }
+:root[data-theme="light"] .gc-shell-mounted :is(.cx-title,.cx-title a,.tbody h3,.tile .tbody h3) { color: var(--ink) !important; }
+:root[data-theme="light"] .gc-shell-mounted :is(.tools,.pills,.admin-nav,.tech-nav,.stats-filters,.cost-tools) { background: rgba(255,255,255,.82) !important; border-color: var(--line) !important; }
+:root[data-theme="light"] .gc-shell-mounted :is(.pill,.filter-chip,.search-chip,.tech-nav a,.tech-filter,.tech-clear-btn,.tab-btn,.admin-nav button) { color: var(--mute) !important; background: #f8f8fd !important; border-color: var(--line) !important; }
+:root[data-theme="light"] .gc-shell-mounted input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
+:root[data-theme="light"] .gc-shell-mounted select,
+:root[data-theme="light"] .gc-shell-mounted textarea { color: var(--ink) !important; background: #fff !important; border-color: var(--line) !important; }
+:root[data-theme="light"] .admin-page .panel,
+:root[data-theme="light"] .admin-page .analytics-box,
+:root[data-theme="light"] .admin-page .gwa-admin-form-panel,
+:root[data-theme="light"] .admin-page .gwa-admin-list-panel { background: linear-gradient(145deg,#fff,#f5f6fc) !important; }
+:root[data-theme="light"] .admin-page .admin-nav { background: rgba(255,255,255,.9) !important; }
+:root[data-theme="light"] .admin-page .stat-card { background: #f5f6fc !important; }
+:root[data-theme="light"] .gc-shell-mounted dialog,
+:root[data-theme="light"] .gc-shell-mounted #dlg,
+:root[data-theme="light"] .gc-shell-mounted .detail-redesign,
+:root[data-theme="light"] .gc-shell-mounted dialog .inner,
+:root[data-theme="light"] .gc-shell-mounted dialog .detail-content { color: var(--ink) !important; background: #fff !important; }
+:root[data-theme="light"] .gc-shell-mounted dialog .detail-section,
+:root[data-theme="light"] .gc-shell-mounted dialog .detail-info-grid > *,
+:root[data-theme="light"] .gc-shell-mounted dialog .detail-score-card { color: var(--ink) !important; background: #f5f6fc !important; border-color: var(--line) !important; }
+:root[data-theme="light"] .gc-shell-mounted dialog :is(h1,h2,h3,h4,strong,.detail-title) { color: #20233b !important; }
+:root[data-theme="light"] .gc-shell-mounted dialog :is(p,small,dt,.detail-eyebrow,.detail-cover-subtitle) { color: #626983 !important; }
+:root[data-theme="light"] .admin-page .panel :is(p,small,label,.meta) { color: var(--mute) !important; }
+:root[data-theme="light"] .gc-shell-mounted :is(.foot,.site-footer,.tech-page-footer,.gw-footer,.stats-footer,.people-footer) { color: var(--mute) !important; }
+
+@media (max-width: 900px) {
+  .admin-page .wrap { width: calc(100% - 30px) !important; }
+  .admin-page .admin-nav { position: relative !important; top: auto !important; }
+}
+@media (max-width: 700px) {
+  .gc-shell-mounted .wrap,
+  .gc-shell-mounted .people-wrap,
+  .gc-shell-mounted .gw-wrap,
+  .gc-shell-mounted .tech-page,
+  .admin-page .wrap { width: calc(100% - 28px) !important; }
+  .admin-page .top { align-items: flex-start !important; flex-direction: column !important; }
+  .admin-page .top > span { width: 100%; }
+  .admin-page .top > span > * { flex: 1 1 auto; }
+  .admin-page .admin-nav { align-items: stretch; }
+  .admin-page .admin-nav button { flex: 1 1 145px; }
+  .admin-page .stats-grid { grid-template-columns: repeat(2,minmax(0,1fr)) !important; }
+  .admin-page .panel { padding: 15px !important; }
+  .gc-shell-mounted dialog.detail-redesign,
+  .gc-shell-mounted dialog#dlg { width: calc(100vw - 18px) !important; max-width: none !important; max-height: calc(100dvh - 20px) !important; border-radius: 16px !important; }
+  .gc-shell-mounted dialog .inner { padding: 16px !important; }
+  .gc-shell-mounted dialog .detail-actions { gap: 8px; flex-wrap: wrap; }
+  .gc-shell-mounted dialog .detail-actions > * { flex: 1 1 100%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gc-shell-mounted *, .gc-shell-mounted *::before, .gc-shell-mounted *::after {
+    scroll-behavior: auto !important;
+    transition-duration: .01ms !important;
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+
+/* Archive category rules from older stylesheets used to pin an orange accent.
+   Rebind those page-level variables too, not just :root. */
+body.gc-shell-mounted.cat-oyun,
+body.gc-shell-mounted.cat-film,
+body.gc-shell-mounted.cat-dizi,
+body.gc-shell-mounted.cat-anime {
+  --acc: #9272ff !important;
+  --brand-accent: #9272ff !important;
+  --matte-accent: #9272ff !important;
+}
+:root[data-theme="light"] body.gc-shell-mounted.cat-oyun,
+:root[data-theme="light"] body.gc-shell-mounted.cat-film,
+:root[data-theme="light"] body.gc-shell-mounted.cat-dizi,
+:root[data-theme="light"] body.gc-shell-mounted.cat-anime {
+  --acc: #7250d6 !important;
+  --brand-accent: #7250d6 !important;
+  --matte-accent: #7250d6 !important;
+}
+
+
+/* Library CTA: the wrapper is layout-only; only the anchor is a button.
+   This prevents a second, full-width border from surrounding the CTA. */
+.gc-shell-mounted .library-action {
+  display: flex !important;
+  width: 100%;
+  min-height: 0 !important;
+  height: auto !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  gap: 0 !important;
+  margin: 4px 0 12px !important;
+  padding: 0 !important;
+  color: inherit !important;
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+.gc-shell-mounted .library-action:hover {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+.gc-shell-mounted .library-action__link {
+  display: inline-flex !important;
+  width: max-content;
+  max-width: 100%;
+  min-height: 40px;
+  box-sizing: border-box;
+  align-items: center;
+  justify-content: center;
+}

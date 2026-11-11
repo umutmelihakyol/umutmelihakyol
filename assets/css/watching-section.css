@@ -1,0 +1,121 @@
+/* Günlüğüm — Aktif takip / Şu an izlediklerim bölümü */
+.soonwrap[hidden] { display: none !important; }
+.soonwrap {
+  --watch-accent: var(--acc, #8b5cf6);
+  position: relative; display: block !important; width: 100% !important; max-width: 100%; min-width: 0;
+  box-sizing: border-box; margin: 22px 0 22px !important; padding: clamp(18px, 2.3vw, 26px) !important;
+  overflow: hidden; border: 1px solid color-mix(in srgb, var(--watch-accent) 20%, var(--line)) !important;
+  border-radius: 20px !important;
+  background: radial-gradient(ellipse at 100% 0%, color-mix(in srgb, var(--watch-accent) 10%, transparent), transparent 42%),
+    linear-gradient(145deg, color-mix(in srgb, var(--card) 96%, var(--watch-accent) 4%), var(--card)) !important;
+  box-shadow: 0 14px 40px rgba(0,0,0,.12) !important; transition: border-color .22s ease, box-shadow .22s ease;
+}
+.soonwrap::before { content: ""; position: absolute; inset: 0 auto 0 0; width: 3px; border-radius: 20px 0 0 20px;
+  background: linear-gradient(180deg, var(--watch-accent), color-mix(in srgb, var(--watch-accent) 10%, transparent)); opacity: .8; }
+.soon-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 18px; margin: 0 0 18px; }
+.soon-heading-copy { min-width: 0; }
+.soon-eyebrow { display: inline-flex; align-items: center; gap: 7px; margin: 0 0 7px; color: var(--watch-accent);
+  font-size: 10px; font-weight: 800; letter-spacing: .13em; line-height: 1.2; }
+.soon-eyebrow::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor;
+  box-shadow: 0 0 0 4px color-mix(in srgb, currentColor 13%, transparent); }
+.soonwrap h2 { margin: 0 !important; color: var(--ink) !important; font-size: clamp(19px, 2vw, 23px) !important;
+  font-weight: 800 !important; letter-spacing: -.045em !important; line-height: 1.18 !important; }
+.soon-description { margin: 7px 0 0 !important; color: var(--mute) !important; font-size: 12px !important; line-height: 1.45 !important; }
+.soon-count { flex: 0 0 auto; display: inline-flex; align-items: center; gap: 7px; margin-top: 18px; padding: 7px 11px;
+  border: 1px solid color-mix(in srgb, var(--watch-accent) 23%, var(--line)); border-radius: 999px;
+  background: color-mix(in srgb, var(--watch-accent) 10%, var(--card)); color: var(--ink); font-size: 11px; font-weight: 700; white-space: nowrap; }
+.soon-count::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--watch-accent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--watch-accent) 15%, transparent); }
+.soon { display: grid !important; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); align-items: stretch;
+  gap: 11px !important; width: 100% !important; max-width: 100%; min-width: 0; padding: 0 !important; overflow: visible !important; cursor: default; }
+.soon a.soonc, .soon a.soonc:visited { position: relative; display: flex !important; align-items: center; gap: 13px; flex: initial !important;
+  width: auto !important; min-width: 0; min-height: 112px; max-width: none !important; box-sizing: border-box;
+  padding: 10px 36px 10px 10px !important; overflow: hidden; border: 1px solid var(--line) !important; border-radius: 14px !important;
+  background: linear-gradient(135deg, color-mix(in srgb, var(--surface-2, var(--card)) 82%, transparent), var(--card)) !important;
+  color: var(--ink) !important; text-decoration: none !important; box-shadow: 0 2px 8px rgba(0,0,0,.07) !important;
+  transition: transform .2s ease, border-color .2s ease, background .2s ease, box-shadow .2s ease !important; }
+.soon a.soonc::before { content: ""; position: absolute; inset: auto 14px 0 14px; height: 1px;
+  background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--watch-accent) 38%, transparent), transparent); opacity: 0; transition: opacity .2s ease; }
+.soon-media { position: relative; flex: 0 0 78px; width: 78px; height: 100px; overflow: hidden; border-radius: 10px;
+  background: color-mix(in srgb, var(--watch-accent) 12%, var(--surface-2, var(--card))); box-shadow: 0 4px 12px rgba(0,0,0,.19); }
+.soon a.soonc .sth { display: block; width: 100% !important; height: 100% !important; min-height: 0 !important; border-radius: 0 !important;
+  object-fit: cover; object-position: center; background: transparent; transition: transform .38s ease, filter .38s ease; }
+.soon a.soonc .sth.ph { width: 100% !important; height: 100% !important;
+  background: linear-gradient(145deg, color-mix(in srgb, var(--watch-accent) 24%, var(--card)), var(--surface-2, var(--card))); }
+.soon-media-mark { position: absolute; right: 6px; bottom: 6px; display: grid; width: 23px; height: 23px; place-items: center;
+  border: 1px solid rgba(255,255,255,.18); border-radius: 7px; background: rgba(10,10,16,.72); color: #fff; font-size: 13px; font-weight: 800; opacity: .9; backdrop-filter: blur(8px); }
+.soon-copy { display: flex !important; flex: 1 1 auto; flex-direction: column; align-items: flex-start; justify-content: center;
+  gap: 7px; min-width: 0; overflow: hidden; }
+.soon-card-kicker { display: inline-flex; align-items: center; gap: 6px; max-width: 100%; color: var(--watch-accent);
+  font-size: 9px; font-weight: 800; letter-spacing: .095em; line-height: 1.2; }
+.soon-card-kicker i { display: block; width: 5px; height: 5px; flex: 0 0 5px; border-radius: 50%; background: currentColor;
+  box-shadow: 0 0 0 3px color-mix(in srgb, currentColor 13%, transparent); }
+.soon a.soonc b { display: -webkit-box; width: 100%; max-width: 100%; overflow: hidden; color: var(--ink) !important;
+  font-size: 14px !important; font-weight: 750 !important; letter-spacing: -.025em; line-height: 1.35 !important; text-overflow: ellipsis;
+  white-space: normal; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+.soon a.soonc small { display: block; max-width: 100%; margin: 0 !important; overflow: hidden; color: var(--mute) !important;
+  font-size: 11px !important; font-weight: 500; line-height: 1.35 !important; text-overflow: ellipsis; white-space: nowrap; }
+.soon a.soonc:hover, .soon a.soonc:focus-visible { z-index: 1; transform: translateY(-3px);
+  border-color: color-mix(in srgb, var(--watch-accent) 48%, var(--line)) !important;
+  background: linear-gradient(135deg, color-mix(in srgb, var(--watch-accent) 9%, var(--card)), var(--card)) !important;
+  box-shadow: 0 12px 24px rgba(0,0,0,.14), 0 0 0 1px color-mix(in srgb, var(--watch-accent) 10%, transparent) !important; outline: none; }
+.soon a.soonc:hover::before, .soon a.soonc:focus-visible::before { opacity: 1; }
+.soon a.soonc:hover .sth, .soon a.soonc:focus-visible .sth { transform: scale(1.055); filter: saturate(1.08); }
+.soon a.soonc:hover .soon-media-mark, .soon a.soonc:focus-visible .soon-media-mark { background: var(--watch-accent); border-color: transparent; }
+.soonwrap:has(a.soonc:hover) { border-color: color-mix(in srgb, var(--watch-accent) 32%, var(--line)) !important; }
+.soon.is-mouse-dragging { cursor: grabbing !important; }
+html[data-theme="light"] .soonwrap, html[data-theme="light"] body .soonwrap { background:
+  radial-gradient(ellipse at 100% 0%, color-mix(in srgb, var(--watch-accent) 7%, transparent), transparent 42%),
+  linear-gradient(145deg, #fff, #faf9fd) !important; box-shadow: 0 12px 32px rgba(30,25,50,.055) !important; }
+html[data-theme="light"] .soon a.soonc, html[data-theme="light"] .soon a.soonc:visited { background: linear-gradient(135deg, #fff, #faf9fc) !important; box-shadow: 0 3px 10px rgba(30,25,50,.045) !important; }
+@media (max-width: 700px) { .soonwrap { padding: 17px !important; border-radius: 16px !important; } .soon-head { margin-bottom: 14px; }
+  .soon { grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr)); gap: 9px !important; }
+  .soon a.soonc, .soon a.soonc:visited { min-height: 104px; } .soon-media { flex-basis: 70px; width: 70px; height: 88px; } }
+@media (max-width: 430px) { .soon-head { gap: 10px; } .soon-count { margin-top: 15px; padding: 6px 9px; font-size: 10px; }
+  .soon-description { max-width: 24em; font-size: 11px !important; } .soon { grid-template-columns: minmax(0,1fr); }
+  .soon a.soonc, .soon a.soonc:visited { min-height: 98px; } .soon-media { flex-basis: 66px; width: 66px; height: 82px; } }
+@media (prefers-reduced-motion: reduce) { .soonwrap, .soon a.soonc, .soon a.soonc::before, .soon a.soonc .sth, .soon-media-mark { transition: none !important; }
+  .soon a.soonc:hover, .soon a.soonc:focus-visible { transform: none; } }
+
+/* Mobilde aktif takip kartları parmak hareketiyle yatay kaydırılır. */
+@media (max-width: 700px) {
+  .soon {
+    display: flex !important;
+    flex-flow: row nowrap !important;
+    justify-content: flex-start;
+    align-items: stretch;
+    gap: 10px !important;
+    width: 100% !important;
+    max-width: 100%;
+    min-width: 0;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    padding: 2px 2px 9px !important;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: 2px;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+    touch-action: auto;
+    cursor: grab;
+  }
+
+  .soon a.soonc,
+  .soon a.soonc:visited {
+    flex: 0 0 min(78vw, 300px) !important;
+    width: min(78vw, 300px) !important;
+    min-width: min(78vw, 300px) !important;
+    max-width: min(78vw, 300px) !important;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+
+  .soon.is-mouse-dragging { cursor: grabbing !important; }
+}
+
+@media (max-width: 430px) {
+  .soon { grid-template-columns: none !important; }
+  .soon a.soonc,
+  .soon a.soonc:visited {
+    min-height: 98px;
+  }
+}
