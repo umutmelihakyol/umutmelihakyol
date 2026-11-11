@@ -16,7 +16,7 @@
     anime: '/anime/',
     technopat: '/technopat/incelemeler/',
     guides: '/technopat/rehberler/',
-    techRecommendations: '/technopat/dizi-film-onerileri/',
+    techMediaReviews: '/technopat/dizi-film-incelemeleri/',
     stats: '/istatistik/',
     people: '/kisiler/',
     giveaway: '/cekilis/',
@@ -36,7 +36,7 @@
   else if (path.startsWith('/film')) current = 'movies';
   else if (path.startsWith('/dizi')) current = 'series';
   else if (path.startsWith('/anime')) current = 'anime';
-  else if (path.startsWith('/technopat/dizi-film-onerileri')) current = 'techRecommendations';
+  else if (path.startsWith('/technopat/dizi-film-incelemeleri')) current = 'techMediaReviews';
   else if (path.startsWith('/technopat/rehberler')) current = 'guides';
   else if (path.startsWith('/technopat')) current = 'technopat';
   else if (path.startsWith('/istatistik')) current = 'stats';
@@ -78,7 +78,7 @@
       items: [
         makeLink('technopat', 'Technopat incelemeleri', 'Yayımladığım incelemeler', '✎'),
         makeLink('guides', 'Technopat rehberleri', 'Hazırladığım rehberler', '▤'),
-        makeLink('techRecommendations', 'Technopat dizi ve film önerileri', 'Technopat Sosyal üzerinde paylaştığım öneriler', '✦'),
+        makeLink('techMediaReviews', 'Dizi ve film incelemelerim', 'Technopat Sosyal üzerinde yayımladığım dizi ve film incelemeleri', '🎬'),
         makeLink('stats', 'İstatistikler', 'Arşiv ve puan analizleri', '▥'),
         makeLink('people', 'Kişiler ve stüdyolar', 'Yapımların arkasındaki isimler', '♙'),
         makeLink('search', 'Gelişmiş arama', 'Tüm arşivde filtreli arama', '⌕')

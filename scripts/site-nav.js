@@ -10,7 +10,7 @@
     ['/dizi/', 'Diziler', 'dizi'],
     ['/anime/', 'Anime', 'anime'],
     ['/technopat/incelemeler/', 'Yazılarım', 'technopat'],
-    ['/technopat/dizi-film-onerileri/', 'Technopat önerilerim', 'tech-recommendations'],
+    ['/technopat/dizi-film-incelemeleri/', 'Dizi/Film incelemelerim', 'tech-media-reviews'],
     ['/istatistik/', 'İstatistik', 'stats'],
     ['/kisiler/', 'Kişiler', 'people'],
     ['/oneriler/', 'Önerilerim', 'recommendations'],
@@ -22,8 +22,8 @@
   nav.setAttribute('aria-label', 'Ana gezinme');
   nav.innerHTML = links.map(([href, label, id]) => {
     const isActive = id === 'home' ? path === '/' :
-      id === 'technopat' ? (path.startsWith('/technopat/') && !path.startsWith('/technopat/dizi-film-onerileri')) :
-      id === 'tech-recommendations' ? path.startsWith('/technopat/dizi-film-onerileri') :
+      id === 'technopat' ? (path.startsWith('/technopat/') && !path.startsWith('/technopat/dizi-film-incelemeleri')) :
+      id === 'tech-media-reviews' ? path.startsWith('/technopat/dizi-film-incelemeleri') :
       id === 'oyun' ? path === '/oyun' || path.startsWith('/oyun/') :
       path === href.replace(/\/$/, '');
     const searchAttrs = id === 'search' ? ' class="top-search-link" aria-label="Arama penceresini aç" title="Ara" aria-haspopup="dialog" aria-expanded="false"' : '';

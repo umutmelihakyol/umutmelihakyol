@@ -279,7 +279,7 @@
       <button class="btn tab-btn" role="tab" data-tab="stats" aria-selected="false">📊 Genel Bakış & Yedek</button>
       <button class="btn tab-btn" role="tab" data-tab="health" aria-selected="false">🩺 Arşiv Kontrol Merkezi</button>
       <button class="btn tab-btn" role="tab" data-tab="technopat" aria-selected="false">📝 Technopat İçerikleri</button>
-      <button class="btn tab-btn" role="tab" data-tab="tech-recommendations" aria-selected="false">🎬 Technopat Dizi/Film Önerileri</button>
+      <button class="btn tab-btn" role="tab" data-tab="tech-media-reviews" aria-selected="false">🎬 Dizi/Film İncelemeleri</button>
       <button class="btn tab-btn" role="tab" data-tab="yearly-favorites" aria-selected="false">★ Yıllık Favoriler</button>
       <button class="btn tab-btn" role="tab" data-tab="recommendations" aria-selected="false">✦ Önerilerim</button>
       <button class="btn tab-btn" role="tab" data-tab="giveaways" aria-selected="false">🎡 Çekiliş Yönetimi</button>
@@ -843,12 +843,12 @@
     </div>
 
 
-    <!-- SEKME: TECHNOPAT DİZİ VE FİLM ÖNERİLERİ -->
-    <div id="tab-tech-recommendations" class="tab-pane" hidden>
+    <!-- SEKME: TECHNOPAT DİZİ VE FİLM İNCELEMELERİ -->
+    <div id="tab-tech-media-reviews" class="tab-pane" hidden>
       <section class="panel">
-        <h2>Technopat Dizi ve Film Önerileri</h2>
-        <p class="meta">Technopat Sosyal üzerinde paylaştığın dizi ve film önerilerini buradan yönetebilirsin. Her kayıt, ilgili Technopat konusuna yönlendirilir. Değişiklikler önce taslakta tutulur; yayına almak için GitHub'a kaydetmelisin.</p>
-        <div class="tech-admin-status" id="tprAdminStatus" data-state="info" role="status" aria-live="polite">Önerileri yönetmek için GitHub'dan Getir düğmesine bas.</div>
+        <h2>Technopat Dizi ve Film İncelemeleri</h2>
+        <p class="meta">Technopat Sosyal üzerinde paylaştığın dizi ve film incelemelerini buradan yönetebilirsin. Her kayıt, ilgili Technopat konusuna yönlendirilir. Değişiklikler önce taslakta tutulur; yayına almak için GitHub'a kaydetmelisin.</p>
+        <div class="tech-admin-status" id="tprAdminStatus" data-state="info" role="status" aria-live="polite">İncelemeleri yönetmek için GitHub'dan Getir düğmesine bas.</div>
         <div class="toolbar">
           <button class="btn" id="tprLoadBtn" type="button">GitHub'dan Getir / Yenile</button>
           <button class="btn pri" id="tprSaveBtn" type="button">Değişiklikleri GitHub'a Kaydet</button>
@@ -859,27 +859,27 @@
         <div class="stats-grid" id="tprSummary"></div>
       </section>
       <section class="panel">
-        <div class="rec-admin-list-head"><h2>Mevcut öneriler</h2><span class="meta" id="tprListCount">0 öneri</span></div>
-        <div id="tprAdminList" class="tech-admin-list"><p class="meta">Öneriler henüz yüklenmedi.</p></div>
+        <div class="rec-admin-list-head"><h2>Mevcut incelemeler</h2><span class="meta" id="tprListCount">0 inceleme</span></div>
+        <div id="tprAdminList" class="tech-admin-list"><p class="meta">İncelemeler henüz yüklenmedi.</p></div>
       </section>
       <section class="panel" id="tprEditorPanel">
-        <h2 id="tprFormHeading">Yeni dizi veya film önerisi</h2>
+        <h2 id="tprFormHeading">Yeni dizi veya film incelemesi</h2>
         <p class="meta">Technopat konu bağlantısı zorunludur. Kapak görseli isteğe bağlıdır; görsel eklemezsen kartta kategoriye uygun bir tasarım gösterilir.</p>
         <div class="tech-admin-form-grid">
           <label>İçerik türü
             <select id="tprFormType"><option value="films">Film</option><option value="series">Dizi</option></select>
           </label>
           <label class="wide">Başlık<input id="tprFormTitle" maxlength="180" placeholder="Örn. The Rookie" autocomplete="off"></label>
-          <label class="wide">Kısa açıklama<textarea id="tprFormDescription" rows="3" maxlength="700" placeholder="Öneri konusunu veya yazında öne çıkardığın noktayı kısaca anlat."></textarea></label>
+          <label class="wide">İnceleme özeti<textarea id="tprFormDescription" rows="3" maxlength="700" placeholder="İncelemenin kısa özetini veya değerlendirmende öne çıkardığın noktayı yaz."></textarea></label>
           <label class="wide">Technopat konu bağlantısı<input id="tprFormUrl" type="url" inputmode="url" placeholder="https://www.technopat.net/sosyal/konu/..."></label>
           <label class="wide">Kapak görseli (isteğe bağlı)<input id="tprFormImage" type="url" inputmode="url" placeholder="https://... (görsel adresi)"></label>
         </div>
         <p style="display:flex;gap:8px;flex-wrap:wrap">
-          <button class="btn pri" id="tprApplyBtn" type="button">Öneriyi ekle</button>
+          <button class="btn pri" id="tprApplyBtn" type="button">İncelemeyi ekle</button>
           <button class="btn" id="tprCancelEditBtn" type="button" hidden>Düzenlemeyi iptal et</button>
           <button class="btn" id="tprClearBtn" type="button">Formu temizle</button>
         </p>
-        <p class="backup-note">“Öneriyi ekle” yalnızca taslağı günceller. Ziyaretçilerin görmesi için üstteki “Değişiklikleri GitHub'a Kaydet” düğmesini kullan.</p>
+        <p class="backup-note">“İncelemeyi ekle” yalnızca taslağı günceller. Ziyaretçilerin görmesi için üstteki “Değişiklikleri GitHub'a Kaydet” düğmesini kullan.</p>
       </section>
     </div>
 
@@ -939,7 +939,7 @@ Mehmet
             <option value="data/series.json">data/series.json (Dizi Kayıtları)</option>
             <option value="data/anime.json">data/anime.json (Anime Kayıtları)</option>
             <option value="data/technopat.json">data/technopat.json (Technopat İnceleme ve Rehber Kartları)</option>
-            <option value="data/technopat-recommendations.json">data/technopat-recommendations.json (Technopat Dizi ve Film Önerileri)</option>
+            <option value="data/technopat-media-reviews.json">data/technopat-media-reviews.json (Technopat Dizi ve Film İncelemeleri)</option>
             <option value="data/yearly-favorites.json">data/yearly-favorites.json (Yıllık Favori Vitrini)</option>
             <option value="README.md">README.md</option>
           </select>
@@ -1046,7 +1046,7 @@ $$('.tab-btn').forEach(btn=>{
     $$('.tab-pane').forEach(p=>p.hidden=(p.id!=='tab-'+target));
     if(target==='stats')renderStats(true);
     if(target==='technopat')loadTechnopatAdmin(false);
-    if(target==='tech-recommendations'&&window.loadTechnopatRecommendationsAdmin)window.loadTechnopatRecommendationsAdmin(false);
+    if(target==='tech-media-reviews'&&window.loadTechnopatMediaReviewsAdmin)window.loadTechnopatMediaReviewsAdmin(false);
   };
 });
 
@@ -2735,7 +2735,7 @@ $('#saveRawFileBtn').onclick=async()=>{
 
 <script src="../scripts/yearly-favorites-admin.js?v=1"></script>
 <script src="../scripts/recommendations-admin.js?v=3"></script>
-<script src="../scripts/technopat-recommendations-admin.js?v=1"></script>
+<script src="../scripts/technopat-media-reviews-admin.js?v=2"></script>
 <script src="../scripts/search-overlay.js?v=2" defer></script>
 <script src="../scripts/giveaway-core.js?v=2"></script>
 <script src="../scripts/giveaway-admin.js?v=3"></script>
