@@ -178,6 +178,15 @@
       "builtin": true
     }
   ],
-  "customCategories": [],
+  "customCategories": [
+    {
+      "slug": "deneme",
+      "title": "Deneme",
+      "description": "",
+      "showInHome": true,
+      "showInNav": true,
+      "items": []
+    }
+  ],
   "customTextOverrides": []
 }
