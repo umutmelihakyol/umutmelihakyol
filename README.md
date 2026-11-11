@@ -450,3 +450,10 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
+
+
+## Technopat dizi ve film önerilerim
+
+Technopat Sosyal üzerinde paylaştığım dizi ve film önerilerini ayrı bir sayfada topluyorum. Sayfa adresi `technopat/dizi-film-onerileri/` şeklindedir. Film ve dizi listeleri birbirinden ayrıdır; ziyaretçiler kategori filtrelerini ve arama alanını kullanabilir. Her kart ilgili Technopat konusuna yönlendirir.
+
+Önerileri yönetim panelindeki **Technopat Dizi/Film Önerileri** sekmesinden ekleyebilir, düzenleyebilir veya kaldırabilirsin. Her kayıt için başlık ve Technopat konu bağlantısı zorunludur. Kısa açıklama ve kapak görseli isteğe bağlıdır. Değişiklikler önce taslakta tutulur; ziyaretçilere yansıtmak için **Değişiklikleri GitHub'a Kaydet** düğmesine basılmalıdır. Kayıtlar `data/technopat-recommendations.json` dosyasında tutulur; böylece mevcut `data/technopat.json` inceleme ve rehber kayıtları etkilenmez.
