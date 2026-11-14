@@ -52,7 +52,11 @@
 .franchise-order-head p { margin:5px 0 0; color:var(--mute); font-size:10px; line-height:1.6; }
 .franchise-order-head small { color:var(--mute); font-size:10px; font-weight:800; white-space:nowrap; }
 .franchise-timeline { display:grid; gap:0; padding:0 25px 25px; }
-.franchise-step { position:relative; display:grid; grid-template-columns:45px 86px minmax(0,1fr) auto; align-items:center; gap:14px; min-width:0; padding:15px 0; border-top:1px solid var(--line); }
+.franchise-step { position:relative; display:grid; grid-template-columns:45px 86px minmax(0,1fr) auto; align-items:center; gap:14px; min-width:0; margin:0 -10px; padding:15px 10px; border-top:1px solid var(--line); border-radius:13px; transition:transform .2s ease,background .2s ease,border-color .2s ease,box-shadow .2s ease; }
+.franchise-step:hover { z-index:1; transform:translateY(-2px); border-top-color:color-mix(in srgb,#8b78ef 42%,var(--line)); background:color-mix(in srgb,#8b78ef 5%,var(--card)); box-shadow:0 8px 20px rgba(0,0,0,.06); }
+.franchise-step-poster img { transition:transform .28s ease; }
+.franchise-step:hover .franchise-step-poster img { transform:scale(1.055); }
+.franchise-step-actions { display:flex; flex-wrap:wrap; align-items:center; justify-content:flex-end; gap:7px; }
 .franchise-step-number { display:grid; width:34px; height:34px; place-items:center; border:1px solid color-mix(in srgb,#8a79e8 30%,var(--line)); border-radius:11px; color:var(--acc); background:color-mix(in srgb,#8a79e8 9%,var(--card)); font-size:12px; font-weight:900; }
 .franchise-step-poster { width:86px; aspect-ratio:1.55; overflow:hidden; border-radius:10px; background:var(--surface-2,var(--card)); }
 .franchise-step-poster img { width:100%; height:100%; object-fit:cover; }
@@ -63,9 +67,13 @@
 .franchise-step-copy h4 { margin:0; color:var(--ink); font-size:14px; font-weight:850; letter-spacing:-.025em; }
 .franchise-step-copy p { margin:5px 0 0; color:var(--mute); font-size:10px; line-height:1.65; }
 .franchise-step-link { display:inline-flex; align-items:center; justify-content:center; min-height:34px; padding:0 11px; border:1px solid var(--line); border-radius:9px; color:var(--ink) !important; background:var(--surface-2,var(--card)); font-size:9px; font-weight:850; text-decoration:none; white-space:nowrap; }
-.franchise-step-link:hover { border-color:var(--acc); }
+.franchise-step-link:hover { transform:translateY(-1px); border-color:var(--acc); }
+.franchise-step-link { transition:transform .18s ease,border-color .18s ease,background .18s ease; }
 .franchise-detail-actions { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:15px 25px; border-top:1px solid var(--line); background:color-mix(in srgb,var(--surface-2,var(--card)) 55%,transparent); }
-.franchise-back,.franchise-share { display:inline-flex; align-items:center; justify-content:center; gap:7px; min-height:37px; padding:0 12px; border:1px solid var(--line); border-radius:10px; color:var(--ink) !important; background:var(--card); font:inherit; font-size:10px; font-weight:850; text-decoration:none; cursor:pointer; }
+.franchise-detail-action-group { display:flex; align-items:center; justify-content:flex-end; flex-wrap:wrap; gap:8px; }
+.franchise-back,.franchise-share,.franchise-copy-order { display:inline-flex; align-items:center; justify-content:center; gap:7px; min-height:37px; padding:0 12px; border:1px solid var(--line); border-radius:10px; color:var(--ink) !important; background:var(--card); font:inherit; font-size:10px; font-weight:850; text-decoration:none; cursor:pointer; transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease; }
+.franchise-back:hover,.franchise-share:hover,.franchise-copy-order:hover { transform:translateY(-1px); border-color:var(--acc); box-shadow:0 5px 14px rgba(0,0,0,.08); }
+.franchise-copy-order { color:var(--acc) !important; }
 .franchise-share { color:#fff !important; border-color:transparent; background:linear-gradient(135deg,#8c75e8,#6658c7); }
 .franchise-empty { padding:55px 20px; border:1px dashed var(--line); border-radius:18px; text-align:center; background:color-mix(in srgb,var(--card) 70%,transparent); }
 .franchise-empty>span { display:grid; width:51px; height:51px; margin:0 auto 13px; place-items:center; border:1px solid color-mix(in srgb,#8b78ea 32%,var(--line)); border-radius:16px; color:var(--acc); background:color-mix(in srgb,#8b78ea 9%,var(--card)); font-size:24px; }
@@ -104,16 +112,20 @@
   .franchise-order-head { align-items:flex-start; flex-direction:column; gap:5px; padding:17px 18px 10px; }
   .franchise-order-head h3 { font-size:17px; }
   .franchise-timeline { padding:0 18px 18px; }
-  .franchise-step { grid-template-columns:28px 62px minmax(0,1fr); gap:9px; padding:12px 0; }
+  .franchise-step { grid-template-columns:28px 62px minmax(0,1fr); gap:9px; margin:0 -7px; padding:12px 7px; }
   .franchise-step-number { width:27px; height:27px; border-radius:9px; font-size:10px; }
   .franchise-step-poster { width:62px; border-radius:8px; }
   .franchise-step-copy h4 { font-size:12px; }
   .franchise-step-copy p { font-size:9px; }
   .franchise-step-meta { font-size:8px; }
-  .franchise-step-link { grid-column:3; justify-self:start; min-height:29px; margin-top:3px; font-size:8px; }
-  .franchise-detail-actions { padding:12px 18px; }
-  .franchise-back,.franchise-share { min-height:35px; padding:0 9px; font-size:9px; }
+  .franchise-step-actions { grid-column:3; justify-content:flex-start; margin-top:3px; }
+  .franchise-step-link { min-height:29px; font-size:8px; }
+  .franchise-detail-actions { align-items:stretch; flex-direction:column; padding:12px 18px; }
+  .franchise-detail-action-group { justify-content:stretch; }
+  .franchise-back,.franchise-share,.franchise-copy-order { min-height:35px; padding:0 9px; font-size:9px; }
+  .franchise-detail-action-group > * { flex:1 1 auto; }
   .franchise-footer { align-items:flex-start; flex-direction:column; gap:8px; }
 }
 @media(max-width:390px) { .franchise-guide-card { grid-template-columns:94px minmax(0,1fr); } .franchise-guide-copy h2 { font-size:13px; } }
-@media(prefers-reduced-motion:reduce) { .franchise-guide-card,.franchise-guide-media img,.franchise-guide-open span { transition:none!important; } .franchise-guide-card:hover { transform:none; } }
+@media(hover:none) { .franchise-step:hover { transform:none; box-shadow:none; } .franchise-step:hover .franchise-step-poster img { transform:none; } }
+@media(prefers-reduced-motion:reduce) { .franchise-guide-card,.franchise-guide-media img,.franchise-guide-open span,.franchise-step,.franchise-step-poster img,.franchise-step-link,.franchise-back,.franchise-share,.franchise-copy-order { transition:none!important; } .franchise-guide-card:hover,.franchise-step:hover { transform:none; } }

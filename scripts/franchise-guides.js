@@ -70,15 +70,20 @@
         const title = entry.title || 'Başlıksız yapım';
         const poster = safeUrl(entry.image);
         const linked = entry.gameId ? `${root}oyun/#${encodeURIComponent(entry.gameId)}` : '';
+        const external = safeUrl(entry.externalUrl || entry.url);
         const meta = [entry.year || '', entry.type || ''].filter(Boolean).map(esc).join(' · ');
+        const actions = [
+          linked ? `<a class="franchise-step-link" href="${esc(linked)}">Arşivimde aç ↗</a>` : '',
+          external ? `<a class="franchise-step-link franchise-step-external" href="${external}" target="_blank" rel="noopener noreferrer">Oyun sayfasını aç ↗</a>` : ''
+        ].filter(Boolean).join('');
         return `<article class="franchise-step">
           <span class="franchise-step-number">${String(index + 1).padStart(2, '0')}</span>
           <span class="franchise-step-poster">${poster ? `<img src="${poster}" alt="${esc(title)} kapak görseli" loading="lazy" decoding="async" referrerpolicy="no-referrer">` : '<span class="franchise-step-placeholder" aria-hidden="true">▧</span>'}</span>
           <div class="franchise-step-copy"><p class="franchise-step-meta">${meta ? `<span>${meta}</span>` : ''}</p><h4>${esc(title)}</h4>${entry.description ? `<p>${esc(entry.description)}</p>` : ''}</div>
-          ${linked ? `<a class="franchise-step-link" href="${esc(linked)}">Arşivimde aç ↗</a>` : ''}
+          ${actions ? `<div class="franchise-step-actions">${actions}</div>` : ''}
         </article>`;
       }).join('')}</div>
-      <div class="franchise-detail-actions"><a class="franchise-back" href="./">← Tüm rehberler</a><button class="franchise-share" type="button" id="franchiseShare">Bu rehberi paylaş ↗</button></div>`;
+      <div class="franchise-detail-actions"><a class="franchise-back" href="./">← Tüm rehberler</a><div class="franchise-detail-action-group"><button class="franchise-copy-order" type="button" id="franchiseCopyOrder">Sıralamayı kopyala</button><button class="franchise-share" type="button" id="franchiseShare">Bu rehberi paylaş ↗</button></div></div>`;
     guideGrid.hidden = true;
     detail.hidden = false;
     empty.hidden = true;
@@ -88,6 +93,30 @@
     $('#franchiseCount').textContent = `${entries.length} yapım`;
     document.title = `${guide.title} | Seri ve Evren Rehberi | Günlüğüm`;
     status('Seri rehberi açıldı.');
+    $('#franchiseCopyOrder')?.addEventListener('click', async event => {
+      const button = event.currentTarget;
+      const orderedTitles = entries.map((entry, index) => `${index + 1}. ${entry.title}`).join('\n');
+      try {
+        if (navigator.clipboard?.writeText) {
+          await navigator.clipboard.writeText(orderedTitles);
+        } else {
+          const field = document.createElement('textarea');
+          field.value = orderedTitles;
+          field.setAttribute('readonly', '');
+          field.style.position = 'fixed'; field.style.opacity = '0'; field.style.pointerEvents = 'none';
+          document.body.appendChild(field); field.select();
+          const copied = document.execCommand('copy'); field.remove();
+          if (!copied) throw new Error('Tarayıcı panoya kopyalamaya izin vermedi.');
+        }
+        button.textContent = 'Sıralama kopyalandı ✓';
+        status('Oyun sıralaması 1., 2., 3. biçiminde panoya kopyalandı.', 'success');
+        window.setTimeout(() => { if (button.isConnected) button.textContent = 'Sıralamayı kopyala'; }, 2200);
+      } catch (error) {
+        status(`Sıralama kopyalanamadı: ${error.message || 'Panoya erişilemiyor.'}`, 'error');
+        window.prompt('Oyun sıralamasını kopyalayabilirsin:', orderedTitles);
+      }
+    });
+
     $('#franchiseShare')?.addEventListener('click', async event => {
       const url = location.href;
       const button = event.currentTarget;

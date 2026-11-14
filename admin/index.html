@@ -1088,6 +1088,7 @@ Mehmet
             <label>Çıkış yılı<input id="fgEntryYear" type="number" min="1950" max="2100" step="1" placeholder="2002"></label>
             <label>Serideki rolü<select id="fgEntryType"><option>Ana oyun</option><option>Yan oyun</option><option>Yeniden yapım</option><option>Ek paket / DLC</option><option>Ön bölüm</option><option>Devam oyunu</option><option>Diğer</option></select></label>
             <label class="span2">Kapak görseli (isteğe bağlı)<input id="fgEntryImage" type="url" inputmode="url" placeholder="https://…"></label>
+            <label class="wide">Steam / dış sayfa bağlantısı (isteğe bağlı)<input id="fgEntryUrl" type="url" inputmode="url" placeholder="https://store.steampowered.com/app/…"><small>Steam, GOG veya oyunun resmî sayfası gibi HTTPS bağlantıları ekleyebilirsin.</small></label>
             <label class="wide">Bu oyuna özel not (isteğe bağlı)<textarea id="fgEntryDescription" rows="2" maxlength="500" placeholder="Hikâye bağlantısı, neden bu sırada olduğu veya önemli notlar…"></textarea></label>
           </div>
           <div class="franchise-entry-actions"><button class="btn" id="fgEntryAdd" type="button">+ Oyunu sıraya ekle</button></div>
@@ -2923,7 +2924,7 @@ $('#saveRawFileBtn').onclick=async()=>{
 
 <script src="../scripts/site-editor-admin.js?v=3"></script>
 <script src="../scripts/yearly-favorites-admin.js?v=1"></script>
-<script src="../scripts/franchise-admin.js?v=1"></script>
+<script src="../scripts/franchise-admin.js?v=2"></script>
 <script src="../scripts/recommendations-admin.js?v=3"></script>
 <script src="../scripts/technopat-media-reviews-admin.js?v=2"></script>
 <script src="../scripts/search-overlay.js?v=2" defer></script>

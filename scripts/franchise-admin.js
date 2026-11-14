@@ -5,7 +5,7 @@
   const esc = value => String(value ?? '').replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
   const PATH = 'data/franchise-guides.json';
   const CATS = window.CATS || {};
-  let guides = [], games = [], sha = null, loaded = false, dirty = false, editingId = null, entries = [];
+  let guides = [], games = [], sha = null, loaded = false, dirty = false, editingId = null, editingEntryId = null, entries = [];
   const id = () => window.crypto?.randomUUID ? crypto.randomUUID() : `fg-${Date.now().toString(36)}-${Math.random().toString(36).slice(2,8)}`;
   const el = name => document.getElementById(name);
   const value = name => (el(name)?.value || '').trim();
@@ -41,7 +41,7 @@
           id: String(entry.id || id()), gameId: String(entry.gameId || ''),
           title: String(entry.title || '').trim(), year: String(entry.year || '').trim(),
           image: safeHttps(entry.image), type: String(entry.type || 'Ana oyun').trim(),
-          description: String(entry.description || '').trim(), order: Number(entry.order || entryIndex + 1)
+          description: String(entry.description || '').trim(), externalUrl: safeHttps(entry.externalUrl || entry.url), order: Number(entry.order || entryIndex + 1)
         })).filter(entry => entry.title).sort((a,b) => a.order-b.order)
       };
     });
@@ -53,8 +53,8 @@
     if (!entries.length) { host.innerHTML = '<div class="franchise-admin-empty">Bu rehbere henüz oyun eklenmedi.</div>'; return; }
     host.innerHTML = entries.map((entry, index) => `<article class="franchise-admin-entry" data-entry-index="${index}">
       <span class="franchise-admin-entry-num">${index + 1}</span>
-      <div class="franchise-admin-entry-copy"><strong>${esc(entry.title)}</strong><small>${esc([entry.year,entry.type,entry.gameId ? 'Arşivle bağlantılı' : 'Manuel kayıt'].filter(Boolean).join(' · '))}</small>${entry.description ? `<small>${esc(entry.description)}</small>` : ''}</div>
-      <div class="franchise-admin-entry-controls"><button class="btn" type="button" data-entry-up="${index}" ${index===0?'disabled':''} aria-label="Yukarı taşı">↑</button><button class="btn" type="button" data-entry-down="${index}" ${index===entries.length-1?'disabled':''} aria-label="Aşağı taşı">↓</button><button class="btn del" type="button" data-entry-remove="${index}">Çıkar</button></div>
+      <div class="franchise-admin-entry-copy"><strong>${esc(entry.title)}</strong><small>${esc([entry.year,entry.type,entry.gameId ? 'Arşivle bağlantılı' : 'Manuel kayıt'].filter(Boolean).join(' · '))}</small>${entry.description ? `<small>${esc(entry.description)}</small>` : ''}${entry.externalUrl ? '<small>↗ Dış sayfa bağlantısı eklendi</small>' : ''}</div>
+      <div class="franchise-admin-entry-controls"><button class="btn" type="button" data-entry-up="${index}" ${index===0?'disabled':''} aria-label="Yukarı taşı">↑</button><button class="btn" type="button" data-entry-down="${index}" ${index===entries.length-1?'disabled':''} aria-label="Aşağı taşı">↓</button><button class="btn" type="button" data-entry-edit="${esc(entry.id)}">Düzenle</button><button class="btn del" type="button" data-entry-remove="${index}">Çıkar</button></div>
     </article>`).join('');
   }
 
@@ -77,12 +77,15 @@
   }
 
   function resetEntryForm() {
+    editingEntryId = null;
+    el('fgEntryAdd').textContent = '+ Oyunu sıraya ekle';
     el('fgEntryGame').value = '';
     el('fgEntryTitle').value = '';
     el('fgEntryYear').value = '';
     el('fgEntryImage').value = '';
     el('fgEntryType').value = 'Ana oyun';
     el('fgEntryDescription').value = '';
+    el('fgEntryUrl').value = '';
   }
 
   function resetGuideForm() {
@@ -130,21 +133,52 @@
     const game = games.find(item => String(item.id) === String(gameId));
     const title = value('fgEntryTitle') || game?.title || '';
     if (!title) { status('Arşivden bir oyun seç veya yapım adını elle yaz.', 'error'); el('fgEntryTitle').focus(); return; }
-    if (gameId && entries.some(entry => String(entry.gameId) === String(gameId))) { status('Bu oyun rehbere zaten eklenmiş.', 'error'); return; }
+    if (gameId && entries.some(entry => String(entry.gameId) === String(gameId) && String(entry.id) !== String(editingEntryId))) { status('Bu oyun rehbere zaten eklenmiş.', 'error'); return; }
     const year = value('fgEntryYear');
     if (year && (!/^\d{4}$/.test(year) || Number(year) < 1950 || Number(year) > 2100)) { status('Yıl alanına 1950–2100 arasında dört haneli bir yıl gir.', 'error'); el('fgEntryYear').focus(); return; }
     const rawImage = value('fgEntryImage'), image = safeHttps(rawImage);
     if (rawImage && !image) { status('Görsel bağlantısı HTTPS ile başlamalı.', 'error'); el('fgEntryImage').focus(); return; }
-    entries.push({ id:id(), gameId:gameId ? String(gameId) : '', title, year, image, type:value('fgEntryType') || 'Ana oyun', description:value('fgEntryDescription'), order:entries.length+1 });
+    const rawExternalUrl = value('fgEntryUrl'), externalUrl = safeHttps(rawExternalUrl);
+    if (rawExternalUrl && !externalUrl) { status('Dış bağlantı HTTPS ile başlamalı.', 'error'); el('fgEntryUrl').focus(); return; }
+    const wasEditing = Boolean(editingEntryId);
+    const nextEntry = { id:editingEntryId || id(), gameId:gameId ? String(gameId) : '', title, year, image, externalUrl, type:value('fgEntryType') || 'Ana oyun', description:value('fgEntryDescription'), order:entries.length+1 };
+    if (editingEntryId) {
+      const index = entries.findIndex(entry => String(entry.id) === String(editingEntryId));
+      if (index < 0) { status('Düzenlenecek oyun bulunamadı. Listeyi yenile.', 'error'); resetEntryForm(); return; }
+      nextEntry.order = entries[index].order || index + 1;
+      entries[index] = nextEntry;
+    } else {
+      entries.push(nextEntry);
+    }
     entries.forEach((entry,index)=>entry.order=index+1);
-    resetEntryForm(); renderEntries(); markDirty('Yapım eklendi. Sırasını düzenleyebilir ve rehberi kaydedebilirsin.');
+    resetEntryForm(); renderEntries(); markDirty(wasEditing ? 'Rehberdeki yapım bilgileri güncellendi.' : 'Yapım eklendi. Sırasını düzenleyebilir ve rehberi kaydedebilirsin.');
   });
 
   el('franchiseAdminEntries')?.addEventListener('click', event => {
+    const edit = event.target.closest('[data-entry-edit]');
     const remove = event.target.closest('[data-entry-remove]');
     const up = event.target.closest('[data-entry-up]');
     const down = event.target.closest('[data-entry-down]');
-    if (remove) entries.splice(Number(remove.dataset.entryRemove),1);
+    if (edit) {
+      const entry = entries.find(item => String(item.id) === String(edit.dataset.entryEdit));
+      if (!entry) return;
+      editingEntryId = String(entry.id);
+      populateGameSelect(entry.gameId);
+      el('fgEntryTitle').value = entry.title || '';
+      el('fgEntryYear').value = entry.year || '';
+      el('fgEntryImage').value = entry.image || '';
+      el('fgEntryType').value = entry.type || 'Ana oyun';
+      el('fgEntryDescription').value = entry.description || '';
+      el('fgEntryUrl').value = entry.externalUrl || '';
+      el('fgEntryAdd').textContent = 'Değişiklikleri uygula';
+      el('fgEntryAdd').scrollIntoView({behavior:'smooth',block:'center'});
+      return;
+    }
+    if (remove) {
+      const removed = entries[Number(remove.dataset.entryRemove)];
+      if (removed && String(removed.id) === String(editingEntryId)) resetEntryForm();
+      entries.splice(Number(remove.dataset.entryRemove),1);
+    }
     if (up) { const index=Number(up.dataset.entryUp); if(index>0)[entries[index-1],entries[index]]=[entries[index],entries[index-1]]; }
     if (down) { const index=Number(down.dataset.entryDown); if(index<entries.length-1)[entries[index+1],entries[index]]=[entries[index],entries[index+1]]; }
     if (remove || up || down) { entries.forEach((entry,index)=>entry.order=index+1); renderEntries(); markDirty('Oynama sırası güncellendi. Rehberi kaydetmeyi unutma.'); }
