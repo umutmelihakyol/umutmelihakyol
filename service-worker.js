@@ -1,8 +1,8 @@
-/* Günlüğüm Service Worker — cache v64: Seri rehberi bağlantı ve kopyalama özellikleri eklendi. */
+/* Günlüğüm Service Worker — cache v65: Steam oyun bilgisi tamamlama eklendi. */
 'use strict';
 
 const CACHE_PREFIX = 'gunlugum-pwa-';
-const CACHE_VERSION = 'v64';
+const CACHE_VERSION = 'v65';
 const APP_CACHE = `${CACHE_PREFIX}app-${CACHE_VERSION}`;
 const IMAGE_CACHE = `${CACHE_PREFIX}images-${CACHE_VERSION}`;
 const APP_ROOT = new URL('./', self.registration.scope);

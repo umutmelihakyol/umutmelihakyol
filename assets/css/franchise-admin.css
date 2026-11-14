@@ -1,4 +1,22 @@
 /* Admin — seri ve evren rehberi düzenleyicisi */
+
+.franchise-game-search-field { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:7px; align-items:stretch; }
+.franchise-game-search-field .btn { min-height:40px; padding:0 12px; white-space:nowrap; font-size:11px; }
+.franchise-entry-form label>small { color:var(--mute); font-size:10px; font-weight:500; line-height:1.5; }
+.franchise-steam-results { display:grid; gap:7px; }
+.franchise-steam-results[hidden],.franchise-steam-selected[hidden] { display:none; }
+.franchise-steam-results-head { color:var(--mute); font-size:11px; }
+.franchise-steam-result { display:grid; grid-template-columns:74px minmax(0,1fr) auto; align-items:center; gap:10px; width:100%; padding:8px; border:1px solid var(--line); border-radius:10px; color:var(--ink); background:var(--card); text-align:left; cursor:pointer; transition:border-color .18s ease,transform .18s ease,background .18s ease; }
+.franchise-steam-result:hover { transform:translateY(-1px); border-color:var(--acc); background:color-mix(in srgb,var(--acc) 5%,var(--card)); }
+.franchise-steam-result img { display:block; width:74px; aspect-ratio:1.55; object-fit:cover; border-radius:6px; background:var(--surface-2,var(--card)); }
+.franchise-steam-result strong { display:block; color:var(--ink); font-size:12px; line-height:1.4; }
+.franchise-steam-result small { display:block; margin-top:3px; color:var(--mute); font-size:10px; }
+.franchise-steam-result-action { color:var(--acc); font-size:10px; font-weight:800; white-space:nowrap; }
+.franchise-steam-selected { display:flex; align-items:center; gap:11px; padding:10px; border:1px solid color-mix(in srgb,#299d68 32%,var(--line)); border-radius:11px; background:color-mix(in srgb,#299d68 6%,var(--card)); }
+.franchise-steam-selected img { width:88px; aspect-ratio:1.55; object-fit:cover; border-radius:7px; background:var(--surface-2,var(--card)); }
+.franchise-steam-selected strong { display:block; color:var(--ink); font-size:11px; }
+.franchise-steam-selected small { display:block; margin-top:3px; color:var(--mute); font-size:10px; line-height:1.5; }
+
 .franchise-admin-toolbar { display:flex; align-items:center; flex-wrap:wrap; gap:10px; margin-top:13px; }
 .franchise-admin-status { margin:10px 0 0; padding:10px 12px; border:1px solid var(--line); border-radius:10px; color:var(--mute); background:var(--surface-2,var(--card)); font-size:12px; }
 .franchise-admin-status[data-state="success"] { color:#299d68; border-color:color-mix(in srgb,#299d68 35%,var(--line)); }

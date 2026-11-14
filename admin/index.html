@@ -23,7 +23,7 @@
 <link rel="stylesheet" href="../assets/css/style.css">
 <link rel="stylesheet" href="../assets/css/yearly-favorites-admin.css?v=1">
 <link rel="stylesheet" href="../assets/css/recommendations-admin.css?v=3">
-<link rel="stylesheet" href="../assets/css/franchise-admin.css?v=1">
+<link rel="stylesheet" href="../assets/css/franchise-admin.css?v=2">
 <style>
   /* Gelişmiş Admin Paneli Ek Stilleri */
   .admin-nav { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; border-bottom: 1px solid var(--bd, rgba(128,128,128,0.2)); padding-bottom: 12px; }
@@ -1084,7 +1084,12 @@ Mehmet
             <label class="wide">Arşivden oyun seç (isteğe bağlı)
               <select id="fgEntryGame"><option value="">Arşivde olmayan / elle eklenen yapım</option></select>
             </label>
-            <label class="span2">Oyun adı<input id="fgEntryTitle" maxlength="160" placeholder="Oyun adı"></label>
+            <label class="span2">Oyun adı
+              <div class="franchise-game-search-field"><input id="fgEntryTitle" maxlength="160" placeholder="Oyun adını yaz…" autocomplete="off"><button class="btn" id="fgSteamSearch" type="button">Steam'de ara</button></div>
+              <small>Oyun adını yazıp Steam'de ara. Eşleşen sonucu seçtiğinde kapak, çıkış yılı, geliştirici ve mağaza bağlantısı otomatik doldurulur.</small>
+            </label>
+            <div id="fgSteamResults" class="franchise-steam-results wide" hidden aria-live="polite"></div>
+            <div id="fgSteamSelected" class="franchise-steam-selected wide" hidden aria-live="polite"></div>
             <label>Çıkış yılı<input id="fgEntryYear" type="number" min="1950" max="2100" step="1" placeholder="2002"></label>
             <label>Serideki rolü<select id="fgEntryType"><option>Ana oyun</option><option>Yan oyun</option><option>Yeniden yapım</option><option>Ek paket / DLC</option><option>Ön bölüm</option><option>Devam oyunu</option><option>Diğer</option></select></label>
             <label class="span2">Kapak görseli (isteğe bağlı)<input id="fgEntryImage" type="url" inputmode="url" placeholder="https://…"></label>
@@ -2924,7 +2929,7 @@ $('#saveRawFileBtn').onclick=async()=>{
 
 <script src="../scripts/site-editor-admin.js?v=3"></script>
 <script src="../scripts/yearly-favorites-admin.js?v=1"></script>
-<script src="../scripts/franchise-admin.js?v=2"></script>
+<script src="../scripts/franchise-admin.js?v=3"></script>
 <script src="../scripts/recommendations-admin.js?v=3"></script>
 <script src="../scripts/technopat-media-reviews-admin.js?v=2"></script>
 <script src="../scripts/search-overlay.js?v=2" defer></script>

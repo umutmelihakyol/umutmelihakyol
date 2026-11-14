@@ -66,6 +66,11 @@
 .franchise-step-type { padding:3px 7px; border-radius:6px; color:var(--acc); background:color-mix(in srgb,#8a79e8 10%,var(--card)); }
 .franchise-step-copy h4 { margin:0; color:var(--ink); font-size:14px; font-weight:850; letter-spacing:-.025em; }
 .franchise-step-copy p { margin:5px 0 0; color:var(--mute); font-size:10px; line-height:1.65; }
+
+.franchise-step-api-meta { margin-top:5px!important; color:var(--acc)!important; font-size:9px!important; font-weight:750; line-height:1.55!important; }
+.franchise-step-store-description { display:-webkit-box; margin-top:5px!important; overflow:hidden; color:var(--mute); font-size:9px!important; line-height:1.55!important; -webkit-box-orient:vertical; -webkit-line-clamp:2; }
+.franchise-step-personal-note { margin-top:6px!important; }
+
 .franchise-step-link { display:inline-flex; align-items:center; justify-content:center; min-height:34px; padding:0 11px; border:1px solid var(--line); border-radius:9px; color:var(--ink) !important; background:var(--surface-2,var(--card)); font-size:9px; font-weight:850; text-decoration:none; white-space:nowrap; }
 .franchise-step-link:hover { transform:translateY(-1px); border-color:var(--acc); }
 .franchise-step-link { transition:transform .18s ease,border-color .18s ease,background .18s ease; }

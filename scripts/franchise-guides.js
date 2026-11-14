@@ -71,15 +71,22 @@
         const poster = safeUrl(entry.image);
         const linked = entry.gameId ? `${root}oyun/#${encodeURIComponent(entry.gameId)}` : '';
         const external = safeUrl(entry.externalUrl || entry.url);
+        const steam = entry.steam && typeof entry.steam === 'object' ? entry.steam : null;
         const meta = [entry.year || '', entry.type || ''].filter(Boolean).map(esc).join(' · ');
+        const steamMeta = steam ? [
+          steam.developers?.length ? `Geliştirici: ${steam.developers.join(', ')}` : '',
+          steam.publishers?.length ? `Yayıncı: ${steam.publishers.join(', ')}` : '',
+          steam.genres?.length ? `Tür: ${steam.genres.slice(0, 3).join(', ')}` : ''
+        ].filter(Boolean).join(' · ') : '';
+        const externalLabel = steam?.appId ? 'Steam’de görüntüle ↗' : 'Oyun sayfasını aç ↗';
         const actions = [
           linked ? `<a class="franchise-step-link" href="${esc(linked)}">Arşivimde aç ↗</a>` : '',
-          external ? `<a class="franchise-step-link franchise-step-external" href="${external}" target="_blank" rel="noopener noreferrer">Oyun sayfasını aç ↗</a>` : ''
+          external ? `<a class="franchise-step-link franchise-step-external" href="${external}" target="_blank" rel="noopener noreferrer">${externalLabel}</a>` : ''
         ].filter(Boolean).join('');
         return `<article class="franchise-step">
           <span class="franchise-step-number">${String(index + 1).padStart(2, '0')}</span>
           <span class="franchise-step-poster">${poster ? `<img src="${poster}" alt="${esc(title)} kapak görseli" loading="lazy" decoding="async" referrerpolicy="no-referrer">` : '<span class="franchise-step-placeholder" aria-hidden="true">▧</span>'}</span>
-          <div class="franchise-step-copy"><p class="franchise-step-meta">${meta ? `<span>${meta}</span>` : ''}</p><h4>${esc(title)}</h4>${entry.description ? `<p>${esc(entry.description)}</p>` : ''}</div>
+          <div class="franchise-step-copy"><p class="franchise-step-meta">${meta ? `<span>${meta}</span>` : ''}</p><h4>${esc(title)}</h4>${steamMeta ? `<p class="franchise-step-api-meta">${esc(steamMeta)}</p>` : ''}${steam?.description ? `<p class="franchise-step-store-description">${esc(steam.description)}</p>` : ''}${entry.description ? `<p class="franchise-step-personal-note">${esc(entry.description)}</p>` : ''}</div>
           ${actions ? `<div class="franchise-step-actions">${actions}</div>` : ''}
         </article>`;
       }).join('')}</div>

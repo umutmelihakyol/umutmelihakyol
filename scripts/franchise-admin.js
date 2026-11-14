@@ -5,7 +5,8 @@
   const esc = value => String(value ?? '').replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
   const PATH = 'data/franchise-guides.json';
   const CATS = window.CATS || {};
-  let guides = [], games = [], sha = null, loaded = false, dirty = false, editingId = null, editingEntryId = null, entries = [];
+  let guides = [], games = [], sha = null, loaded = false, dirty = false, editingId = null, editingEntryId = null, entries = [], selectedSteamData = null;
+  const steamResponseCache = new Map();
   const id = () => window.crypto?.randomUUID ? crypto.randomUUID() : `fg-${Date.now().toString(36)}-${Math.random().toString(36).slice(2,8)}`;
   const el = name => document.getElementById(name);
   const value = name => (el(name)?.value || '').trim();
@@ -15,6 +16,126 @@
   const safeHttps = input => { if (!input) return ''; try { const url = new URL(input); return url.protocol === 'https:' ? url.href : ''; } catch (_) { return ''; } };
   const decode = file => JSON.parse(b64ToStr(file.content));
   const markDirty = message => { dirty = true; summary(); status(message || 'Değişiklikler taslakta. Ziyaretçilere yansıtmak için GitHub’a kaydet.', 'dirty'); };
+
+  // Steam Store uç noktaları tarayıcı CORS başlığı sunmadığından, yalnızca herkese açık oyun adı sorguları CORS köprüsü üzerinden yapılır.
+  function steamProxyUrls(target) {
+    return [
+      `https://proxy.cors.dev/${target}`,
+      `https://api.allorigins.win/raw?url=${encodeURIComponent(target)}`
+    ];
+  }
+  async function fetchSteamJson(target) {
+    const parsed = new URL(target);
+    if (parsed.protocol !== 'https:' || parsed.hostname !== 'store.steampowered.com') throw new Error('Geçersiz Steam API adresi.');
+    if (steamResponseCache.has(target)) return steamResponseCache.get(target);
+    let lastError = null;
+    for (const proxyUrl of steamProxyUrls(target)) {
+      const controller = new AbortController();
+      const timeout = window.setTimeout(() => controller.abort(), 16000);
+      try {
+        const response = await fetch(proxyUrl, { method: 'GET', mode: 'cors', credentials: 'omit', cache: 'no-store', signal: controller.signal });
+        if (!response.ok) throw new Error(`API yanıtı ${response.status}`);
+        const data = await response.json();
+        steamResponseCache.set(target, data);
+        return data;
+      } catch (error) {
+        lastError = error;
+      } finally { window.clearTimeout(timeout); }
+    }
+    throw new Error(lastError?.name === 'AbortError' ? 'Steam araması zaman aşımına uğradı.' : `Steam verisine şu anda erişilemiyor. ${lastError?.message || ''}`.trim());
+  }
+  function stripSteamHtml(value) {
+    if (!value) return '';
+    const parsed = new DOMParser().parseFromString(String(value), 'text/html');
+    parsed.querySelectorAll('script,style').forEach(node => node.remove());
+    return (parsed.body.textContent || '').replace(/\s+/g, ' ').trim();
+  }
+  function steamYear(value) {
+    const match = String(value || '').match(/\b(?:19|20)\d{2}\b/);
+    return match ? match[0] : '';
+  }
+  function showSteamResults(message, items = [], state = 'info') {
+    const host = el('fgSteamResults');
+    if (!host) return;
+    host.hidden = false;
+    if (!items.length) {
+      host.innerHTML = `<div class="franchise-steam-results-head" data-state="${esc(state)}">${esc(message)}</div>`;
+      return;
+    }
+    host.innerHTML = `<div class="franchise-steam-results-head">${esc(message)}</div>${items.map(item => {
+      const image = safeHttps(item.tiny_image || '');
+      return `<button class="franchise-steam-result" type="button" data-steam-id="${Number(item.id)}" data-steam-name="${esc(item.name)}" data-steam-image="${esc(image)}">
+        ${image ? `<img src="${image}" alt="" loading="lazy" referrerpolicy="no-referrer">` : '<span></span>'}
+        <span><strong>${esc(item.name)}</strong><small>Steam App ID: ${Number(item.id)}${item.price?.final_formatted ? ` · ${esc(item.price.final_formatted)}` : ''}</small></span>
+        <span class="franchise-steam-result-action">Bu oyunu seç →</span>
+      </button>`;
+    }).join('')}`;
+  }
+  function showSelectedSteam(data) {
+    const host = el('fgSteamSelected');
+    if (!host || !data) return;
+    host.hidden = false;
+    const details = [
+      data.releaseDate ? `Çıkış: ${data.releaseDate}` : '',
+      data.developers?.length ? `Geliştirici: ${data.developers.join(', ')}` : '',
+      data.publishers?.length ? `Yayıncı: ${data.publishers.join(', ')}` : '',
+      data.genres?.length ? `Tür: ${data.genres.join(', ')}` : ''
+    ].filter(Boolean).join(' · ');
+    host.innerHTML = `${data.image ? `<img src="${esc(data.image)}" alt="" loading="lazy" referrerpolicy="no-referrer">` : ''}<span><strong>✓ Steam bilgileri forma aktarıldı</strong><small>${esc(details || 'Steam mağaza bağlantısı eklendi. Bulunamayan alanları elle tamamlayabilirsin.')}</small></span>`;
+  }
+  async function searchSteamGames() {
+    const term = value('fgEntryTitle');
+    if (term.length < 2) { status('Steam’de aramak için en az iki karakterlik oyun adı gir.', 'error'); el('fgEntryTitle').focus(); return; }
+    const button = el('fgSteamSearch'); button.disabled = true; button.textContent = 'Aranıyor…';
+    showSteamResults('Steam mağazasında oyun aranıyor…');
+    try {
+      const url = `https://store.steampowered.com/api/storesearch/?term=${encodeURIComponent(term)}&l=turkish&cc=tr`;
+      const data = await fetchSteamJson(url);
+      const items = Array.isArray(data.items) ? data.items.filter(item => item && Number.isFinite(Number(item.id)) && item.name).slice(0, 7) : [];
+      if (!items.length) showSteamResults('Steam’de eşleşen oyun bulunamadı. Bu oyunu bilgileri elle girerek ekleyebilirsin.');
+      else showSteamResults(`${items.length} eşleşme bulundu. Doğru oyunu seç:`, items);
+      status(items.length ? 'Steam araması tamamlandı. Listeden doğru oyunu seç.' : 'Steam’de eşleşme bulunamadı.', items.length ? 'success' : 'info');
+    } catch (error) {
+      showSteamResults(`${error.message} Manuel ekleme alanları kullanılabilir.`, [], 'error');
+      status(`${error.message} İstersen oyunu bilgileri elle girerek ekleyebilirsin.`, 'error');
+    } finally { button.disabled = false; button.textContent = 'Steam’de ara'; }
+  }
+  async function selectSteamGame(item) {
+    const appId = String(item.id || '');
+    if (!/^\d+$/.test(appId)) return;
+    const host = el('fgSteamResults');
+    host.querySelectorAll('button').forEach(button => { button.disabled = true; });
+    status(`“${item.name}” için Steam mağaza bilgileri getiriliyor…`);
+    const fallbackUrl = `https://store.steampowered.com/app/${appId}/?l=turkish`;
+    let data = null;
+    try {
+      const response = await fetchSteamJson(`https://store.steampowered.com/api/appdetails?appids=${appId}&l=turkish&cc=tr`);
+      const result = response?.[appId];
+      if (result?.success && result.data) data = result.data;
+    } catch (error) {
+      // Arama eşleşmesi yine de yeterli: en azından isim, küçük görsel ve mağaza adresi aktarılır.
+      console.warn('Steam ayrıntıları alınamadı; arama sonucu kullanılacak:', error);
+    }
+    const steamInfo = {
+      appId,
+      description: stripSteamHtml(data?.short_description || ''),
+      developers: Array.isArray(data?.developers) ? data.developers.map(String).filter(Boolean) : [],
+      publishers: Array.isArray(data?.publishers) ? data.publishers.map(String).filter(Boolean) : [],
+      genres: Array.isArray(data?.genres) ? data.genres.map(item => String(item?.description || '')).filter(Boolean) : [],
+      releaseDate: String(data?.release_date?.date || ''),
+      type: String(data?.type || 'game')
+    };
+    const image = safeHttps(data?.header_image || data?.capsule_image || item.tiny_image || '');
+    const title = String(data?.name || item.name || '').trim();
+    el('fgEntryTitle').value = title;
+    if (steamYear(steamInfo.releaseDate)) el('fgEntryYear').value = steamYear(steamInfo.releaseDate);
+    if (image) el('fgEntryImage').value = image;
+    el('fgEntryUrl').value = fallbackUrl;
+    selectedSteamData = steamInfo;
+    showSelectedSteam({ ...steamInfo, image });
+    host.hidden = true;
+    status(data ? 'Steam bilgileri tamamlandı: oyun adı, kapak, çıkış yılı ve mağaza bağlantısı forma aktarıldı.' : 'Steam arama eşleşmesi seçildi. Mağaza bağlantısı ve bulunan görsel aktarıldı; ayrıntı API’si yanıt vermediği için eksik alanları kontrol et.', data ? 'success' : 'dirty');
+  }
 
   function normalize(raw) {
     if (!raw || typeof raw !== 'object' || !Array.isArray(raw.guides)) throw new Error('Seri rehberi dosyasının guides alanı bir liste olmalı.');
@@ -41,7 +162,15 @@
           id: String(entry.id || id()), gameId: String(entry.gameId || ''),
           title: String(entry.title || '').trim(), year: String(entry.year || '').trim(),
           image: safeHttps(entry.image), type: String(entry.type || 'Ana oyun').trim(),
-          description: String(entry.description || '').trim(), externalUrl: safeHttps(entry.externalUrl || entry.url), order: Number(entry.order || entryIndex + 1)
+          description: String(entry.description || '').trim(), externalUrl: safeHttps(entry.externalUrl || entry.url),
+          steam: entry.steam && typeof entry.steam === 'object' ? {
+            appId: String(entry.steam.appId || ''), description: String(entry.steam.description || ''),
+            developers: Array.isArray(entry.steam.developers) ? entry.steam.developers.map(String).filter(Boolean) : [],
+            publishers: Array.isArray(entry.steam.publishers) ? entry.steam.publishers.map(String).filter(Boolean) : [],
+            genres: Array.isArray(entry.steam.genres) ? entry.steam.genres.map(String).filter(Boolean) : [],
+            releaseDate: String(entry.steam.releaseDate || ''), type: String(entry.steam.type || 'game')
+          } : null,
+          order: Number(entry.order || entryIndex + 1)
         })).filter(entry => entry.title).sort((a,b) => a.order-b.order)
       };
     });
@@ -53,7 +182,7 @@
     if (!entries.length) { host.innerHTML = '<div class="franchise-admin-empty">Bu rehbere henüz oyun eklenmedi.</div>'; return; }
     host.innerHTML = entries.map((entry, index) => `<article class="franchise-admin-entry" data-entry-index="${index}">
       <span class="franchise-admin-entry-num">${index + 1}</span>
-      <div class="franchise-admin-entry-copy"><strong>${esc(entry.title)}</strong><small>${esc([entry.year,entry.type,entry.gameId ? 'Arşivle bağlantılı' : 'Manuel kayıt'].filter(Boolean).join(' · '))}</small>${entry.description ? `<small>${esc(entry.description)}</small>` : ''}${entry.externalUrl ? '<small>↗ Dış sayfa bağlantısı eklendi</small>' : ''}</div>
+      <div class="franchise-admin-entry-copy"><strong>${esc(entry.title)}</strong><small>${esc([entry.year,entry.type,entry.gameId ? 'Arşivle bağlantılı' : 'Manuel kayıt'].filter(Boolean).join(' · '))}</small>${entry.description ? `<small>${esc(entry.description)}</small>` : ''}${entry.externalUrl ? '<small>↗ Dış sayfa bağlantısı eklendi</small>' : ''}${entry.steam?.appId ? '<small>✓ Steam API bilgileri kayıtlı</small>' : ''}</div>
       <div class="franchise-admin-entry-controls"><button class="btn" type="button" data-entry-up="${index}" ${index===0?'disabled':''} aria-label="Yukarı taşı">↑</button><button class="btn" type="button" data-entry-down="${index}" ${index===entries.length-1?'disabled':''} aria-label="Aşağı taşı">↓</button><button class="btn" type="button" data-entry-edit="${esc(entry.id)}">Düzenle</button><button class="btn del" type="button" data-entry-remove="${index}">Çıkar</button></div>
     </article>`).join('');
   }
@@ -86,6 +215,9 @@
     el('fgEntryType').value = 'Ana oyun';
     el('fgEntryDescription').value = '';
     el('fgEntryUrl').value = '';
+    selectedSteamData = null;
+    if (el('fgSteamResults')) { el('fgSteamResults').hidden = true; el('fgSteamResults').innerHTML = ''; }
+    if (el('fgSteamSelected')) { el('fgSteamSelected').hidden = true; el('fgSteamSelected').innerHTML = ''; }
   }
 
   function resetGuideForm() {
@@ -119,8 +251,14 @@
   }
 
   el('franchiseAdminLoad')?.addEventListener('click', () => load(true));
+  el('fgSteamSearch')?.addEventListener('click', searchSteamGames);
+  el('fgEntryTitle')?.addEventListener('keydown', event => { if (event.key === 'Enter') { event.preventDefault(); searchSteamGames(); } });
+  el('fgSteamResults')?.addEventListener('click', event => { const button = event.target.closest('[data-steam-id]'); if (!button) return; selectSteamGame({ id: button.dataset.steamId, name: button.dataset.steamName, tiny_image: button.dataset.steamImage }); });
   el('fgTitle')?.addEventListener('input', () => { if (!editingId && !value('fgSlug')) el('fgSlug').value = slugify(value('fgTitle')); });
   el('fgEntryGame')?.addEventListener('change', event => {
+    selectedSteamData = false;
+    if (/store\.steampowered\.com\/app\//i.test(el('fgEntryUrl').value)) el('fgEntryUrl').value = '';
+    if (el('fgSteamSelected')) el('fgSteamSelected').hidden = true;
     const game = games.find(item => String(item.id) === String(event.target.value));
     if (!game) return;
     el('fgEntryTitle').value = game.title || '';
@@ -141,7 +279,8 @@
     const rawExternalUrl = value('fgEntryUrl'), externalUrl = safeHttps(rawExternalUrl);
     if (rawExternalUrl && !externalUrl) { status('Dış bağlantı HTTPS ile başlamalı.', 'error'); el('fgEntryUrl').focus(); return; }
     const wasEditing = Boolean(editingEntryId);
-    const nextEntry = { id:editingEntryId || id(), gameId:gameId ? String(gameId) : '', title, year, image, externalUrl, type:value('fgEntryType') || 'Ana oyun', description:value('fgEntryDescription'), order:entries.length+1 };
+    const existingEntry = editingEntryId ? entries.find(entry => String(entry.id) === String(editingEntryId)) : null;
+    const nextEntry = { id:editingEntryId || id(), gameId:gameId ? String(gameId) : '', title, year, image, externalUrl, type:value('fgEntryType') || 'Ana oyun', description:value('fgEntryDescription'), steam:selectedSteamData === false ? null : (selectedSteamData || existingEntry?.steam || null), order:entries.length+1 };
     if (editingEntryId) {
       const index = entries.findIndex(entry => String(entry.id) === String(editingEntryId));
       if (index < 0) { status('Düzenlenecek oyun bulunamadı. Listeyi yenile.', 'error'); resetEntryForm(); return; }
@@ -170,6 +309,9 @@
       el('fgEntryType').value = entry.type || 'Ana oyun';
       el('fgEntryDescription').value = entry.description || '';
       el('fgEntryUrl').value = entry.externalUrl || '';
+      selectedSteamData = entry.steam ? { ...entry.steam } : null;
+      if (selectedSteamData) showSelectedSteam({ ...selectedSteamData, image: entry.image });
+      else if (el('fgSteamSelected')) el('fgSteamSelected').hidden = true;
       el('fgEntryAdd').textContent = 'Değişiklikleri uygula';
       el('fgEntryAdd').scrollIntoView({behavior:'smooth',block:'center'});
       return;
