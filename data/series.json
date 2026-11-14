@@ -1,5 +1,48 @@
 [
   {
+    "id": "mwgq3b6g",
+    "status": "bitirdim",
+    "title": "S.W.A.T.",
+    "image": "https://image.tmdb.org/t/p/w780/7j4ug9B6JXVeh5HhQjjPScrdj4Z.jpg",
+    "platform": "",
+    "genres": [
+      "Suç",
+      "Aksiyon & Macera",
+      "Dram"
+    ],
+    "score": 8.5,
+    "finished": "2026-08-01",
+    "recommended": true,
+    "review": "",
+    "note": "",
+    "year": 2017,
+    "favorite": true,
+    "pros": [],
+    "cons": [],
+    "ratings": {
+      "story": 7,
+      "visuals": 8,
+      "audio": 7,
+      "characters": 9,
+      "originality": 6,
+      "pacing": 8
+    },
+    "links": [],
+    "repeatHistory": [],
+    "scoreHistory": [
+      {
+        "date": "2026-11-14",
+        "previousScore": null,
+        "score": 8.5,
+        "reason": "İlk değerlendirme"
+      }
+    ],
+    "updatedAt": "2026-11-14T18:12:08.152Z",
+    "seasons": 8,
+    "episodes": 163,
+    "creator": "Aaron Rahsaan Thomas, Shawn Ryan"
+  },
+  {
     "id": "mviljqp4",
     "status": "bitirdim",
     "title": "The Rookie",
