@@ -1,8 +1,8 @@
-/* Günlüğüm Service Worker — cache v61: tüm sayfalara üst/alt hızlı gezinme düğmeleri eklendi. */
+/* Günlüğüm Service Worker — cache v62: mobilde iki yönlü hızlı gezinme ve dokunmatik kullanım iyileştirildi. */
 'use strict';
 
 const CACHE_PREFIX = 'gunlugum-pwa-';
-const CACHE_VERSION = 'v61';
+const CACHE_VERSION = 'v62';
 const APP_CACHE = `${CACHE_PREFIX}app-${CACHE_VERSION}`;
 const IMAGE_CACHE = `${CACHE_PREFIX}images-${CACHE_VERSION}`;
 const APP_ROOT = new URL('./', self.registration.scope);
