@@ -10,46 +10,113 @@
       "cover": "https://cdn2.unrealengine.com/resident-evil-requiem-producer-masato-kumazawa-discusses-how-the-game-pays-homage-to-both-the-horror-and-the-action-of-the-series-past-3840x2160-e318ecda46e0.png?resize=1&w=1920&h=1080&quality=medium",
       "orderTitle": "Kronolojik Hikaye Sırası",
       "orderNote": "Resident Evil serisini oynamak için 2ana yol izleyebilirsiniz: Hikaye Sırası (Kronolojik) veya Çıkış Sırası. Günümüzde modern grafiklerle oynamak isteyenler için Remake (Yeniden Yapım) sürümleriyle takip edilen sıra en çok tavsiye edilendir.",
-      "updatedAt": "2026-11-14T19:56:49.172Z",
+      "updatedAt": "2026-11-14T20:16:47.609Z",
       "entries": [
         {
           "id": "9d44111a-74b6-48ec-a169-69b07d119d88",
           "gameId": "",
           "title": "Resident Evil 0",
-          "year": "2002",
-          "image": "",
+          "year": "2016",
+          "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/339340/header.jpg?t=1768953920",
+          "externalUrl": "https://store.steampowered.com/app/339340/?l=turkish",
           "type": "Ana oyun",
           "description": "",
+          "steam": {
+            "appId": "339340",
+            "description": "Resident Evil 0’ın yenilenmiş versiyonunda göz alıcı HD grafikler, seçeneğe bağlı modern kontroller ve daha fazlası var.",
+            "developers": [
+              "CAPCOM Co., Ltd."
+            ],
+            "publishers": [
+              "CAPCOM Co., Ltd."
+            ],
+            "genres": [
+              "Aksiyon",
+              "Macera"
+            ],
+            "releaseDate": "19 Oca 2016",
+            "type": "game"
+          },
           "order": 1
         },
         {
           "id": "65043e0e-7ee3-4d5d-a7d1-fc2d2d1c1dee",
           "gameId": "",
-          "title": "Resident Evil (Remake)",
-          "year": "2002",
-          "image": "",
+          "title": "Resident Evil (1996)",
+          "year": "2026",
+          "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/4249100/370da9c8c5e4573ea3c9d6ff22c88e89728fa0ed/header.jpg?t=1783037618",
+          "externalUrl": "https://store.steampowered.com/app/4249100/?l=turkish",
           "type": "Yeniden yapım",
           "description": "",
+          "steam": {
+            "appId": "4249100",
+            "description": "Your squad has been choppered to a remote mansion to investigate a bio-experiment gone wrong. You’re plunged straight into a deathtrap. Arm yourself, solve puzzles, and unearth mysteries. But beware: every move you make draws you deeper into the deadly embrace of Resident Evil.",
+            "developers": [
+              "CAPCOM Co., Ltd.",
+              "GOG.com"
+            ],
+            "publishers": [
+              "CAPCOM Co., Ltd."
+            ],
+            "genres": [
+              "Aksiyon",
+              "Macera"
+            ],
+            "releaseDate": "1 Nis 2026",
+            "type": "game"
+          },
           "order": 2
         },
         {
           "id": "1a2ca773-30db-4c5b-9180-ff31842866d1",
           "gameId": "",
-          "title": "Resident Evil 2 (Remake)",
+          "title": "Resident Evil 2",
           "year": "2019",
-          "image": "",
+          "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/883710/header.jpg?t=1779433152",
+          "externalUrl": "https://store.steampowered.com/app/883710/?l=turkish",
           "type": "Yeniden yapım",
           "description": "",
+          "steam": {
+            "appId": "883710",
+            "description": "İlk olarak 1998'de yayınlanan ve serinin en unutulmaz oyunlarından biri olan Resident Evil 2, yeni nesil konsollar için tamamen yeniden tasarlanmış olarak geri dönüyor.",
+            "developers": [
+              "CAPCOM Co., Ltd."
+            ],
+            "publishers": [
+              "CAPCOM Co., Ltd."
+            ],
+            "genres": [
+              "Aksiyon"
+            ],
+            "releaseDate": "24 Oca 2019",
+            "type": "game"
+          },
           "order": 3
         },
         {
           "id": "75aa8e16-b15e-4e4c-bb93-56a4c0a995c8",
           "gameId": "",
-          "title": "Resident Evil 3 (Remake)",
+          "title": "Resident Evil 3",
           "year": "2020",
-          "image": "",
+          "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/952060/header.jpg?t=1790215956",
+          "externalUrl": "https://store.steampowered.com/app/952060/?l=turkish",
           "type": "Yeniden yapım",
           "description": "",
+          "steam": {
+            "appId": "952060",
+            "description": "Jill Valentine, Umbrella'nın uyguladığı vahşete tanıklık eden Raccoon City'de kalan son insanlardan biridir. Umbrella onu durdurmak için büyük gizli silahı Nemesis'i kullanıyor! Ayrıca yeni bir 1'e karşı 4 çevrimiçi çok oyunculu oyun olan Resident Evil Resistance'ı içerir.",
+            "developers": [
+              "CAPCOM Co., Ltd."
+            ],
+            "publishers": [
+              "CAPCOM Co., Ltd."
+            ],
+            "genres": [
+              "Aksiyon"
+            ],
+            "releaseDate": "2 Nis 2020",
+            "type": "game"
+          },
           "order": 4
         },
         {
@@ -60,26 +127,62 @@
           "image": "",
           "type": "Ana oyun",
           "description": "",
+          "externalUrl": "",
+          "steam": null,
           "order": 5
         },
         {
           "id": "8c482845-9916-4b60-bc0e-206d39cc2b1c",
           "gameId": "",
-          "title": "Resident Evil 4 (Remake)",
+          "title": "Resident Evil 4",
           "year": "2023",
-          "image": "",
+          "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2050650/header.jpg?t=1772502922",
+          "externalUrl": "https://store.steampowered.com/app/2050650/?l=turkish",
           "type": "Yeniden yapım",
           "description": "",
+          "steam": {
+            "appId": "2050650",
+            "description": "Hayatta kalmak sadece başlangıç. Modernleştirilmiş oynanış, yeniden yapılandırılmış bir hikaye ve son derece detaylı grafikleri ile Resident Evil 4, endüstrinin mihenk taşlarından birinin yeniden doğmasını sağlıyor.",
+            "developers": [
+              "CAPCOM Co., Ltd."
+            ],
+            "publishers": [
+              "CAPCOM Co., Ltd."
+            ],
+            "genres": [
+              "Aksiyon",
+              "Macera"
+            ],
+            "releaseDate": "23 Mar 2023",
+            "type": "game"
+          },
           "order": 6
         },
         {
           "id": "8f866e8b-d385-4d30-bf16-c7ce74a32053",
           "gameId": "",
           "title": "Resident Evil Revelations",
-          "year": "2012",
-          "image": "",
+          "year": "2013",
+          "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/222480/header.jpg?t=1769125357",
+          "externalUrl": "https://store.steampowered.com/app/222480/?l=turkish",
           "type": "Ana oyun",
           "description": "",
+          "steam": {
+            "appId": "222480",
+            "description": "Resident Evil® Revelations returns redefined for PC complete with high quality HD visuals, enhanced lighting effects and an immersive sound experience.",
+            "developers": [
+              "Capcom"
+            ],
+            "publishers": [
+              "Capcom"
+            ],
+            "genres": [
+              "Aksiyon",
+              "Macera"
+            ],
+            "releaseDate": "23 May 2013",
+            "type": "game"
+          },
           "order": 7
         },
         {
@@ -87,9 +190,26 @@
           "gameId": "",
           "title": "Resident Evil 5",
           "year": "2009",
-          "image": "",
+          "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/21690/header.jpg?t=1768960574",
+          "externalUrl": "https://store.steampowered.com/app/21690/?l=turkish",
           "type": "Ana oyun",
           "description": "",
+          "steam": {
+            "appId": "21690",
+            "description": "This game is a port of the Games for Windows - Live version that was released in 2009. If you buy the Untold Stories Bundle here on Steam, it will be the same as upgrading to Resident Evil 5 Gold Edition.",
+            "developers": [
+              "Capcom"
+            ],
+            "publishers": [
+              "Capcom"
+            ],
+            "genres": [
+              "Aksiyon",
+              "Macera"
+            ],
+            "releaseDate": "15 Eyl 2009",
+            "type": "game"
+          },
           "order": 8
         },
         {
@@ -97,29 +217,80 @@
           "gameId": "",
           "title": "Resident Evil Revelations 2",
           "year": "2015",
-          "image": "",
+          "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/287290/header.jpg?t=1769125412",
+          "externalUrl": "https://store.steampowered.com/app/287290/?l=turkish",
           "type": "Ana oyun",
           "description": "",
+          "steam": {
+            "appId": "287290",
+            "description": "RE Revelations 2 continues the series acclaimed essential survival horror experience, while uncovering startling truths.",
+            "developers": [
+              "CAPCOM Co., Ltd."
+            ],
+            "publishers": [
+              "CAPCOM Co., Ltd."
+            ],
+            "genres": [
+              "Aksiyon",
+              "Macera"
+            ],
+            "releaseDate": "24 Şub 2015",
+            "type": "game"
+          },
           "order": 9
         },
         {
           "id": "f20f5322-6240-4f39-920d-bcfbca8ff590",
           "gameId": "",
           "title": "Resident Evil 6",
-          "year": "2012",
-          "image": "",
+          "year": "2013",
+          "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/221040/header.jpg?t=1768960676",
+          "externalUrl": "https://store.steampowered.com/app/221040/?l=turkish",
           "type": "Ana oyun",
           "description": "",
+          "steam": {
+            "appId": "221040",
+            "description": "Blending action and survival horror, Resident Evil 6 promises to be the dramatic horror experience of 2013.",
+            "developers": [
+              "Capcom"
+            ],
+            "publishers": [
+              "Capcom"
+            ],
+            "genres": [
+              "Aksiyon",
+              "Macera"
+            ],
+            "releaseDate": "21 Mar 2013",
+            "type": "game"
+          },
           "order": 10
         },
         {
           "id": "78d2652f-43b4-4569-819a-9f83c4f68544",
           "gameId": "",
-          "title": "Resident Evil 7: Biohazard",
+          "title": "Resident Evil 7 Biohazard",
           "year": "2017",
-          "image": "",
+          "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/418370/header.jpg?t=1778464947",
+          "externalUrl": "https://store.steampowered.com/app/418370/?l=turkish",
           "type": "Ana oyun",
           "description": "",
+          "steam": {
+            "appId": "418370",
+            "description": "Güney Amerika'da terk edilmiş bir çiftlik evinin çürüyen duvarlarından tehlike ve tecrit akıyor. \"7\", hayatta kalma ve korku türüne yeni bir soluk getiriyor ve \"İzole Görünümle\" oyuncu perspektifinden görüntü sunuyor. Teknoloji harikası RE Motoruyla korku, yeni bir gerçekçilik boyutunu taşınıyor.",
+            "developers": [
+              "CAPCOM Co., Ltd."
+            ],
+            "publishers": [
+              "CAPCOM Co., Ltd."
+            ],
+            "genres": [
+              "Aksiyon",
+              "Macera"
+            ],
+            "releaseDate": "23 Oca 2017",
+            "type": "game"
+          },
           "order": 11
         },
         {
@@ -127,9 +298,25 @@
           "gameId": "",
           "title": "Resident Evil Village",
           "year": "2021",
-          "image": "",
+          "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1196590/header.jpg?t=1776927117",
+          "externalUrl": "https://store.steampowered.com/app/1196590/?l=turkish",
           "type": "Ana oyun",
           "description": "",
+          "steam": {
+            "appId": "1196590",
+            "description": "Resident Evil serisinin sekizinci devam oyunu olan Resident Evil Village'da eşsiz bir korku deneyimi yaşa. Detaylı grafikler, heyecan verici birinci şahıs aksiyonu ve ustaca bir hikaye anlatımıyla korkmak hiç bu kadar gerçekçi ve kaçınılmaz olmadı.",
+            "developers": [
+              "CAPCOM Co., Ltd."
+            ],
+            "publishers": [
+              "CAPCOM Co., Ltd."
+            ],
+            "genres": [
+              "Aksiyon"
+            ],
+            "releaseDate": "6 May 2021",
+            "type": "game"
+          },
           "order": 12
         },
         {
@@ -137,9 +324,26 @@
           "gameId": "",
           "title": "Resident Evil Requiem",
           "year": "2026",
-          "image": "",
+          "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3764200/ce5437442768e38eb575f205ab9397d0264017b0/header.jpg?t=1779840172",
+          "externalUrl": "https://store.steampowered.com/app/3764200/?l=turkish",
           "type": "Ana oyun",
           "description": "",
+          "steam": {
+            "appId": "3764200",
+            "description": "Ölüler için ağıt, yaşayanlar için kâbus. Tüylerini diken diken edecek, yürekleri hoplatan bir deneyimde ölümden kaçmaya hazırlan.",
+            "developers": [
+              "CAPCOM Co., Ltd."
+            ],
+            "publishers": [
+              "CAPCOM Co., Ltd."
+            ],
+            "genres": [
+              "Aksiyon",
+              "Macera"
+            ],
+            "releaseDate": "26 Şub 2026",
+            "type": "game"
+          },
           "order": 13
         }
       ]
