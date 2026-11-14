@@ -1,0 +1,48 @@
+/* Admin — seri ve evren rehberi düzenleyicisi */
+.franchise-admin-toolbar { display:flex; align-items:center; flex-wrap:wrap; gap:10px; margin-top:13px; }
+.franchise-admin-status { margin:10px 0 0; padding:10px 12px; border:1px solid var(--line); border-radius:10px; color:var(--mute); background:var(--surface-2,var(--card)); font-size:12px; }
+.franchise-admin-status[data-state="success"] { color:#299d68; border-color:color-mix(in srgb,#299d68 35%,var(--line)); }
+.franchise-admin-status[data-state="error"] { color:#dc5c68; border-color:color-mix(in srgb,#dc5c68 35%,var(--line)); }
+.franchise-admin-status[data-state="dirty"] { color:var(--acc); border-color:color-mix(in srgb,var(--acc) 40%,var(--line)); }
+.franchise-admin-summary { margin-left:auto; color:var(--mute); font-size:11px; }
+.franchise-admin-form { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; }
+.franchise-admin-form label,.franchise-entry-form label { display:flex; min-width:0; flex-direction:column; gap:6px; color:var(--ink); font-size:12px; font-weight:750; }
+.franchise-admin-form input,.franchise-admin-form textarea,.franchise-entry-form input,.franchise-entry-form textarea,.franchise-entry-form select { width:100%; min-width:0; padding:10px 11px; border:1px solid var(--line); border-radius:9px; color:var(--ink); background:var(--surface-2,var(--card)); font:inherit; font-size:12px; }
+.franchise-admin-form textarea,.franchise-entry-form textarea { resize:vertical; line-height:1.6; }
+.franchise-admin-form .wide { grid-column:1/-1; }
+.franchise-entry-editor { margin-top:19px; padding:16px; border:1px solid var(--line); border-radius:13px; background:color-mix(in srgb,var(--surface-2,var(--card)) 60%,transparent); }
+.franchise-entry-editor h3 { margin:0 0 6px; color:var(--ink); font-size:15px; }
+.franchise-entry-editor>p { margin:0 0 13px; color:var(--mute); font-size:11px; line-height:1.6; }
+.franchise-entry-form { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px; align-items:end; }
+.franchise-entry-form .wide { grid-column:1/-1; }
+.franchise-entry-form .span2 { grid-column:span 2; }
+.franchise-entry-actions { display:flex; justify-content:flex-end; margin-top:12px; }
+.franchise-admin-entry-list { display:grid; gap:8px; margin-top:14px; }
+.franchise-admin-entry { display:grid; grid-template-columns:34px minmax(0,1fr) auto; align-items:center; gap:10px; padding:10px; border:1px solid var(--line); border-radius:10px; background:var(--card); }
+.franchise-admin-entry-num { display:grid; width:30px; height:30px; place-items:center; border-radius:9px; color:var(--acc); background:color-mix(in srgb,var(--acc) 10%,var(--card)); font-size:11px; font-weight:900; }
+.franchise-admin-entry-copy { min-width:0; }
+.franchise-admin-entry-copy strong { display:block; overflow-wrap:anywhere; color:var(--ink); font-size:12px; }
+.franchise-admin-entry-copy small { display:block; margin-top:3px; color:var(--mute); font-size:10px; }
+.franchise-admin-entry-controls { display:flex; flex-wrap:wrap; gap:5px; }
+.franchise-admin-entry-controls .btn { min-height:30px; padding:5px 8px; font-size:10px; }
+.franchise-admin-form-actions { display:flex; flex-wrap:wrap; gap:8px; margin-top:15px; }
+.franchise-admin-guide-list { display:grid; gap:10px; }
+.franchise-admin-guide { display:grid; grid-template-columns:76px minmax(0,1fr) auto; align-items:center; gap:13px; padding:12px; border:1px solid var(--line); border-radius:13px; background:var(--card); }
+.franchise-admin-guide-cover { width:76px; aspect-ratio:1.3; overflow:hidden; border-radius:9px; background:var(--surface-2,var(--card)); }
+.franchise-admin-guide-cover img { width:100%; height:100%; object-fit:cover; }
+.franchise-admin-guide-copy { min-width:0; }
+.franchise-admin-guide-copy strong { color:var(--ink); font-size:13px; }
+.franchise-admin-guide-copy p { margin:4px 0 0; color:var(--mute); font-size:10px; line-height:1.5; }
+.franchise-admin-guide-actions { display:flex; flex-wrap:wrap; justify-content:flex-end; gap:6px; }
+.franchise-admin-guide-actions .btn { min-height:32px; padding:6px 9px; font-size:10px; }
+.franchise-admin-empty { padding:18px; border:1px dashed var(--line); border-radius:10px; color:var(--mute); font-size:11px; text-align:center; }
+@media(max-width:760px) {
+  .franchise-admin-form { grid-template-columns:1fr; }
+  .franchise-admin-form .wide { grid-column:auto; }
+  .franchise-entry-form { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .franchise-entry-form .span2,.franchise-entry-form .wide { grid-column:1/-1; }
+  .franchise-admin-summary { width:100%; margin-left:0; }
+  .franchise-admin-guide { grid-template-columns:58px minmax(0,1fr); gap:9px; }
+  .franchise-admin-guide-cover { width:58px; }
+  .franchise-admin-guide-actions { grid-column:1/-1; justify-content:flex-start; }
+}

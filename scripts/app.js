@@ -11,6 +11,13 @@ const CAT=document.body.dataset.cat,cfg=CATS[CAT],ST=cfg.st,CF=window.CONFIG||{}
 const stOf=g=>g.status||'bitirdim';
 const plats=g=>String(g.platform||'').split(',').map(x=>x.trim()).filter(Boolean);
 let games=[],st='all',favOnly=false,vis=[],randomMode=false,view='card',lastId='';
+let franchiseGuides = [];
+const franchiseGuidesReady = CAT === 'oyun'
+  ? fetch(new URL('data/franchise-guides.json', SITE_ROOT).href, { cache: 'no-cache' })
+      .then(response => response.ok ? response.json() : { guides: [] })
+      .then(payload => Array.isArray(payload.guides) ? payload.guides : [])
+      .catch(() => [])
+  : Promise.resolve([]);
 try{view=localStorage.getItem('view')||'card'}catch{}
 
 /* başlık, gezinme, sabit metinler */
@@ -206,6 +213,7 @@ function openGame(id){
   const favorite=g.favorite===true?`<span class="detail-badge detail-favorite">${HEART} Favorim</span>`:'';
   const score=has(g.score)&&Number.isFinite(Number(g.score))?`<div class="detail-score-card"><span class="detail-score-number">${num(g.score)}</span><span class="detail-score-denom">/ 10</span><span class="detail-score-caption">Kişisel puanım</span></div>`:`<div class="detail-score-card is-empty"><span class="detail-score-number">—</span><span class="detail-score-caption">Henüz puanlamadım</span></div>`;
   d.classList.add('detail-redesign');
+  d.dataset.gameId = String(g.id);
   d.setAttribute('aria-labelledby','detail-title');
   d.innerHTML=`${cover(g)}<div class="inner detail-content">
     <header class="detail-intro">
@@ -225,6 +233,15 @@ function openGame(id){
   </div>`;
   if(!d.open)d.showModal();
   if(lastId!==id){lastId=id;try{window.goatcounter&&goatcounter.count&&goatcounter.count({path:CAT+'/'+id,title:g.title,event:true})}catch{}}
+  if(CAT==='oyun') franchiseGuidesReady.then(list => {
+    if(!d.open || d.dataset.gameId!==String(g.id)) return;
+    const linked = list.filter(guide => Array.isArray(guide.entries) && guide.entries.some(entry => String(entry.gameId || '')===String(g.id)));
+    if(!linked.length) return;
+    const host = d.querySelector('.detail-main-column');
+    if(!host || host.querySelector('#franchiseGuideReference')) return;
+    const cards = linked.map(guide => `<a class="franchise-detail-reference-link" href="${SITE_ROOT}seriler/?seri=${encodeURIComponent(guide.slug)}"><span><b>${esc(guide.title)}</b><small>${(guide.entries||[]).length} yapım · Seri ve evren rehberi</small></span><i aria-hidden="true">↗</i></a>`).join('');
+    host.insertAdjacentHTML('beforeend', `<section class="detail-section franchise-reference-section" id="franchiseGuideReference"><div class="detail-section-heading"><span class="detail-section-icon" aria-hidden="true">⌘</span><div><p class="detail-eyebrow">SERİ &amp; EVREN</p><h3>Bu oyunun ait olduğu rehberler</h3></div></div><div class="franchise-detail-reference-list">${cards}</div></section>`);
+  });
 }$('#dlg').addEventListener('close',()=>{lastId='';randomMode=false;history.replaceState(null,'',location.pathname+location.search)});
 $('#dlg').addEventListener('click',e=>{
   if(e.target===e.currentTarget)return e.currentTarget.close();

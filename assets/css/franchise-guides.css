@@ -1,0 +1,119 @@
+/* Günlüğüm — Seri ve Evren Rehberleri */
+.franchise-page { min-height:100vh; }
+.franchise-wrap { width:min(100% - 44px,1240px); }
+.franchise-top { display:flex; align-items:center; justify-content:space-between; gap:18px; padding:21px 0 16px; }
+.franchise-brand { color:var(--ink); font-size:19px; font-weight:900; letter-spacing:-.06em; text-decoration:none; }
+.franchise-main { padding:18px 0 56px; }
+.franchise-hero { position:relative; display:flex; align-items:center; justify-content:space-between; gap:24px; min-height:218px; overflow:hidden; padding:34px 40px; border:1px solid color-mix(in srgb,#8c7cf0 30%,var(--line)); border-radius:25px; background:radial-gradient(ellipse at 88% 12%,rgba(132,109,236,.24),transparent 42%),linear-gradient(120deg,color-mix(in srgb,#7566d8 12%,var(--card)),var(--card) 68%); box-shadow:0 16px 42px rgba(0,0,0,.08); }
+.franchise-hero::after { position:absolute; right:19%; bottom:-125px; width:340px; height:220px; border:1px solid rgba(151,133,246,.17); border-radius:50%; content:""; transform:rotate(-24deg); }
+.franchise-hero-copy { position:relative; z-index:1; max-width:740px; }
+.franchise-eyebrow,.franchise-kicker { display:flex; align-items:center; gap:9px; margin:0 0 13px; color:var(--acc); font-size:9px; font-weight:900; letter-spacing:.16em; }
+.franchise-eyebrow span { width:20px; height:2px; border-radius:2px; background:currentColor; }
+.franchise-hero h1 { margin:0; color:var(--ink); font-size:clamp(31px,4.5vw,49px); font-weight:900; letter-spacing:-.065em; line-height:1.05; }
+.franchise-hero-copy>p:last-child { max-width:640px; margin:13px 0 0; color:var(--mute); font-size:13px; line-height:1.8; }
+.franchise-hero-mark { position:relative; z-index:1; display:flex; flex:0 0 116px; flex-direction:column; align-items:center; justify-content:center; width:116px; height:116px; border:1px solid rgba(155,139,250,.28); border-radius:31px; color:#c5baff; background:linear-gradient(145deg,rgba(123,103,225,.23),rgba(91,77,170,.08)); box-shadow:inset 0 1px 0 rgba(255,255,255,.12),0 15px 32px rgba(37,25,95,.12); }
+.franchise-hero-mark span { font-size:46px; font-weight:700; line-height:1; }
+.franchise-hero-mark small { margin-top:8px; font-size:7px; font-weight:900; letter-spacing:.16em; line-height:1.35; text-align:center; }
+.franchise-tools { display:flex; align-items:center; justify-content:space-between; gap:18px; margin:25px 0 16px; padding:13px 15px; border:1px solid var(--line); border-radius:15px; background:color-mix(in srgb,var(--card) 92%,transparent); }
+.franchise-tools-copy { display:flex; min-width:140px; flex-direction:column; gap:4px; }
+.franchise-tools-copy .franchise-kicker { margin:0; font-size:8px; }
+.franchise-tools-copy strong { color:var(--ink); font-size:13px; font-weight:850; }
+.franchise-search { display:flex; align-items:center; gap:9px; width:min(360px,100%); min-height:42px; padding:0 12px; border:1px solid var(--line); border-radius:11px; color:var(--mute); background:var(--surface-2,var(--card)); }
+.franchise-search svg { flex:0 0 auto; }
+.franchise-search input { width:100%; min-width:0; border:0; outline:0; color:var(--ink); background:transparent; font:inherit; font-size:12px; }
+.franchise-search input::placeholder { color:var(--mute); }
+.franchise-status { min-height:18px; margin:0 0 13px; color:var(--mute); font-size:11px; }
+.franchise-status[data-state="error"] { color:#d65c68; }
+.franchise-guide-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:17px; }
+.franchise-guide-card { min-width:0; overflow:hidden; border:1px solid var(--line); border-radius:18px; background:var(--card); box-shadow:0 8px 22px rgba(0,0,0,.055); transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease; }
+.franchise-guide-card:hover { transform:translateY(-4px); border-color:color-mix(in srgb,#8b78ef 45%,var(--line)); box-shadow:0 16px 32px rgba(0,0,0,.12); }
+.franchise-guide-media { position:relative; display:block; width:100%; aspect-ratio:1.78; overflow:hidden; background:linear-gradient(140deg,rgba(127,108,224,.2),var(--surface-2,var(--card))); }
+.franchise-guide-media img { width:100%; height:100%; object-fit:cover; transition:transform .45s ease; }
+.franchise-guide-card:hover .franchise-guide-media img { transform:scale(1.04); }
+.franchise-guide-placeholder { display:grid; width:100%; height:100%; place-items:center; color:color-mix(in srgb,#8978e6 72%,var(--mute)); font-size:46px; }
+.franchise-guide-media::after { position:absolute; inset:45% 0 0; background:linear-gradient(transparent,rgba(5,6,12,.42)); content:""; pointer-events:none; }
+.franchise-guide-count { position:absolute; z-index:1; right:12px; bottom:11px; display:inline-flex; align-items:center; gap:6px; padding:6px 10px; border:1px solid rgba(255,255,255,.2); border-radius:999px; color:#fff; background:rgba(8,9,16,.74); font-size:9px; font-weight:850; backdrop-filter:blur(10px); }
+.franchise-guide-copy { display:flex; min-height:176px; flex-direction:column; padding:16px 17px 17px; }
+.franchise-guide-copy h2 { margin:0 0 8px; color:var(--ink); font-size:17px; font-weight:900; letter-spacing:-.045em; line-height:1.3; }
+.franchise-guide-copy p { display:-webkit-box; margin:0; overflow:hidden; color:var(--mute); font-size:11px; line-height:1.7; -webkit-box-orient:vertical; -webkit-line-clamp:3; }
+.franchise-guide-open { display:inline-flex; align-items:center; gap:7px; align-self:flex-start; margin-top:auto; padding-top:16px; color:var(--acc) !important; font-size:11px; font-weight:850; text-decoration:none; }
+.franchise-guide-open span { transition:transform .18s ease; }
+.franchise-guide-open:hover span { transform:translateX(3px); }
+.franchise-detail { overflow:hidden; border:1px solid var(--line); border-radius:21px; background:var(--card); box-shadow:0 12px 36px rgba(0,0,0,.07); }
+.franchise-detail-head { display:grid; grid-template-columns:minmax(0,1.2fr) minmax(210px,.8fr); gap:22px; padding:25px; background:linear-gradient(120deg,color-mix(in srgb,#7867df 10%,var(--card)),var(--card) 68%); }
+.franchise-detail-eyebrow { margin:0 0 9px; color:var(--acc); font-size:9px; font-weight:900; letter-spacing:.16em; }
+.franchise-detail-head h2 { margin:0; color:var(--ink); font-size:clamp(26px,4vw,39px); font-weight:900; letter-spacing:-.06em; line-height:1.08; }
+.franchise-detail-description { margin:11px 0 0; color:var(--mute); font-size:12px; line-height:1.75; }
+.franchise-detail-cover { width:100%; max-height:205px; min-height:150px; overflow:hidden; border:1px solid var(--line); border-radius:14px; background:var(--surface-2,var(--card)); }
+.franchise-detail-cover img { display:block; width:100%; height:100%; max-height:205px; object-fit:cover; }
+.franchise-detail-intro { padding:18px 25px; border-top:1px solid var(--line); color:var(--mute); font-size:12px; line-height:1.8; white-space:pre-line; }
+.franchise-order-head { display:flex; align-items:end; justify-content:space-between; gap:16px; padding:21px 25px 13px; }
+.franchise-order-head h3 { margin:0; color:var(--ink); font-size:19px; font-weight:900; letter-spacing:-.045em; }
+.franchise-order-head p { margin:5px 0 0; color:var(--mute); font-size:10px; line-height:1.6; }
+.franchise-order-head small { color:var(--mute); font-size:10px; font-weight:800; white-space:nowrap; }
+.franchise-timeline { display:grid; gap:0; padding:0 25px 25px; }
+.franchise-step { position:relative; display:grid; grid-template-columns:45px 86px minmax(0,1fr) auto; align-items:center; gap:14px; min-width:0; padding:15px 0; border-top:1px solid var(--line); }
+.franchise-step-number { display:grid; width:34px; height:34px; place-items:center; border:1px solid color-mix(in srgb,#8a79e8 30%,var(--line)); border-radius:11px; color:var(--acc); background:color-mix(in srgb,#8a79e8 9%,var(--card)); font-size:12px; font-weight:900; }
+.franchise-step-poster { width:86px; aspect-ratio:1.55; overflow:hidden; border-radius:10px; background:var(--surface-2,var(--card)); }
+.franchise-step-poster img { width:100%; height:100%; object-fit:cover; }
+.franchise-step-placeholder { display:grid; width:100%; height:100%; place-items:center; color:var(--mute); font-size:24px; }
+.franchise-step-copy { min-width:0; }
+.franchise-step-meta { display:flex; flex-wrap:wrap; align-items:center; gap:6px; margin:0 0 5px; color:var(--mute); font-size:9px; font-weight:800; letter-spacing:.05em; }
+.franchise-step-type { padding:3px 7px; border-radius:6px; color:var(--acc); background:color-mix(in srgb,#8a79e8 10%,var(--card)); }
+.franchise-step-copy h4 { margin:0; color:var(--ink); font-size:14px; font-weight:850; letter-spacing:-.025em; }
+.franchise-step-copy p { margin:5px 0 0; color:var(--mute); font-size:10px; line-height:1.65; }
+.franchise-step-link { display:inline-flex; align-items:center; justify-content:center; min-height:34px; padding:0 11px; border:1px solid var(--line); border-radius:9px; color:var(--ink) !important; background:var(--surface-2,var(--card)); font-size:9px; font-weight:850; text-decoration:none; white-space:nowrap; }
+.franchise-step-link:hover { border-color:var(--acc); }
+.franchise-detail-actions { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:15px 25px; border-top:1px solid var(--line); background:color-mix(in srgb,var(--surface-2,var(--card)) 55%,transparent); }
+.franchise-back,.franchise-share { display:inline-flex; align-items:center; justify-content:center; gap:7px; min-height:37px; padding:0 12px; border:1px solid var(--line); border-radius:10px; color:var(--ink) !important; background:var(--card); font:inherit; font-size:10px; font-weight:850; text-decoration:none; cursor:pointer; }
+.franchise-share { color:#fff !important; border-color:transparent; background:linear-gradient(135deg,#8c75e8,#6658c7); }
+.franchise-empty { padding:55px 20px; border:1px dashed var(--line); border-radius:18px; text-align:center; background:color-mix(in srgb,var(--card) 70%,transparent); }
+.franchise-empty>span { display:grid; width:51px; height:51px; margin:0 auto 13px; place-items:center; border:1px solid color-mix(in srgb,#8b78ea 32%,var(--line)); border-radius:16px; color:var(--acc); background:color-mix(in srgb,#8b78ea 9%,var(--card)); font-size:24px; }
+.franchise-empty h2 { margin:0 0 7px; color:var(--ink); font-size:19px; letter-spacing:-.04em; }
+.franchise-empty p { margin:0; color:var(--mute); font-size:11px; line-height:1.7; }
+.franchise-footer { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-top:27px; padding-top:17px; border-top:1px solid var(--line); }
+.franchise-footer a { color:var(--acc) !important; font-size:10px; font-weight:850; text-decoration:none; }
+.franchise-not-found { padding:44px 22px; color:var(--mute); text-align:center; }
+.franchise-not-found h2 { margin:0 0 8px; color:var(--ink); font-size:20px; }
+@media(max-width:980px) { .franchise-guide-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+@media(max-width:640px) {
+  .franchise-wrap { width:min(100% - 28px,1240px); }
+  .franchise-top { padding:15px 0 12px; }
+  .franchise-main { padding:13px 0 40px; }
+  .franchise-hero { min-height:0; padding:23px 19px; border-radius:18px; }
+  .franchise-hero h1 { font-size:32px; }
+  .franchise-hero-copy>p:last-child { font-size:11px; line-height:1.7; }
+  .franchise-hero-mark { flex-basis:65px; width:65px; height:65px; border-radius:18px; }
+  .franchise-hero-mark span { font-size:28px; }
+  .franchise-hero-mark small { font-size:5px; }
+  .franchise-tools { align-items:stretch; flex-direction:column; gap:10px; margin:17px 0 12px; padding:12px; }
+  .franchise-search { width:100%; }
+  .franchise-guide-grid { grid-template-columns:1fr; gap:11px; }
+  .franchise-guide-card { display:grid; grid-template-columns:112px minmax(0,1fr); border-radius:14px; }
+  .franchise-guide-media { height:100%; min-height:160px; aspect-ratio:auto; }
+  .franchise-guide-copy { min-height:160px; padding:12px; }
+  .franchise-guide-copy h2 { margin-bottom:7px; font-size:14px; }
+  .franchise-guide-copy p { font-size:10px; line-height:1.55; -webkit-line-clamp:4; }
+  .franchise-guide-open { padding-top:9px; font-size:9px; }
+  .franchise-guide-count { right:6px; bottom:6px; padding:4px 6px; font-size:7px; }
+  .franchise-detail-head { grid-template-columns:1fr; gap:13px; padding:18px; }
+  .franchise-detail-head h2 { font-size:29px; }
+  .franchise-detail-cover { min-height:120px; max-height:155px; }
+  .franchise-detail-cover img { max-height:155px; }
+  .franchise-detail-intro { padding:14px 18px; font-size:11px; }
+  .franchise-order-head { align-items:flex-start; flex-direction:column; gap:5px; padding:17px 18px 10px; }
+  .franchise-order-head h3 { font-size:17px; }
+  .franchise-timeline { padding:0 18px 18px; }
+  .franchise-step { grid-template-columns:28px 62px minmax(0,1fr); gap:9px; padding:12px 0; }
+  .franchise-step-number { width:27px; height:27px; border-radius:9px; font-size:10px; }
+  .franchise-step-poster { width:62px; border-radius:8px; }
+  .franchise-step-copy h4 { font-size:12px; }
+  .franchise-step-copy p { font-size:9px; }
+  .franchise-step-meta { font-size:8px; }
+  .franchise-step-link { grid-column:3; justify-self:start; min-height:29px; margin-top:3px; font-size:8px; }
+  .franchise-detail-actions { padding:12px 18px; }
+  .franchise-back,.franchise-share { min-height:35px; padding:0 9px; font-size:9px; }
+  .franchise-footer { align-items:flex-start; flex-direction:column; gap:8px; }
+}
+@media(max-width:390px) { .franchise-guide-card { grid-template-columns:94px minmax(0,1fr); } .franchise-guide-copy h2 { font-size:13px; } }
+@media(prefers-reduced-motion:reduce) { .franchise-guide-card,.franchise-guide-media img,.franchise-guide-open span { transition:none!important; } .franchise-guide-card:hover { transform:none; } }

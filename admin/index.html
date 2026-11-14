@@ -23,6 +23,7 @@
 <link rel="stylesheet" href="../assets/css/style.css">
 <link rel="stylesheet" href="../assets/css/yearly-favorites-admin.css?v=1">
 <link rel="stylesheet" href="../assets/css/recommendations-admin.css?v=3">
+<link rel="stylesheet" href="../assets/css/franchise-admin.css?v=1">
 <style>
   /* Gelişmiş Admin Paneli Ek Stilleri */
   .admin-nav { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; border-bottom: 1px solid var(--bd, rgba(128,128,128,0.2)); padding-bottom: 12px; }
@@ -284,6 +285,7 @@
       <button class="btn tab-btn" role="tab" data-tab="technopat" aria-selected="false">📝 Technopat İçerikleri</button>
       <button class="btn tab-btn" role="tab" data-tab="tech-media-reviews" aria-selected="false">🎬 Dizi/Film İncelemeleri</button>
       <button class="btn tab-btn" role="tab" data-tab="yearly-favorites" aria-selected="false">★ Yıllık Favoriler</button>
+      <button class="btn tab-btn" role="tab" data-tab="franchise-guides" aria-selected="false">⌘ Seri &amp; Evren Rehberleri</button>
       <button class="btn tab-btn" role="tab" data-tab="recommendations" aria-selected="false">✦ Önerilerim</button>
       <button class="btn tab-btn" role="tab" data-tab="giveaways" aria-selected="false">🎡 Çekiliş Yönetimi</button>
       <button class="btn tab-btn" role="tab" data-tab="settings" aria-selected="false">⚙️ Site & API Ayarları</button>
@@ -1050,6 +1052,56 @@ Mehmet
       </div>
     </div>
 
+    <!-- SEKME: SERİ VE EVREN REHBERLERİ -->
+    <div id="tab-franchise-guides" class="tab-pane" hidden>
+      <section class="panel">
+        <h2>Seri ve Evren Rehberleri</h2>
+        <p class="meta">Oyun serileri için ayrı rehberler oluştur. Rehbere oyun arşivindeki kayıtları bağlayabilir veya arşivinde bulunmayan oyunları elle ekleyebilirsin. Sıralamayı yukarı/aşağı düğmeleriyle belirle. Bağladığın oyunların ayrıntı penceresinde ilgili rehberin bağlantısı otomatik görünür.</p>
+        <div class="franchise-admin-status" id="franchiseAdminStatus" data-state="info" role="status" aria-live="polite">Seri rehberlerini yönetmek için GitHub'dan getir.</div>
+        <div class="franchise-admin-toolbar">
+          <button class="btn" id="franchiseAdminLoad" type="button">GitHub'dan Getir / Yenile</button>
+          <button class="btn pri" id="franchiseAdminSave" type="button">Değişiklikleri GitHub'a Kaydet</button>
+          <span class="franchise-admin-summary" id="franchiseAdminSummary">Henüz yüklenmedi.</span>
+        </div>
+      </section>
+
+      <section class="panel" id="franchiseAdminForm">
+        <h2 id="franchiseAdminFormTitle">Yeni seri / evren rehberi</h2>
+        <div class="franchise-admin-form">
+          <label>Seri veya evren adı<input id="fgTitle" maxlength="120" placeholder="Örn. Resident Evil" autocomplete="off"></label>
+          <label>Sayfa adresi (slug)<input id="fgSlug" maxlength="70" placeholder="resident-evil" autocomplete="off"></label>
+          <label class="wide">Kısa açıklama<textarea id="fgDescription" rows="2" maxlength="320" placeholder="Bu seriyi ve rehberin kapsamını kısaca tanıt…"></textarea></label>
+          <label class="wide">Rehber girişi / kişisel notun<textarea id="fgIntro" rows="4" maxlength="2400" placeholder="Serinin genel hikâyesi, oyunların bağlantısı veya sıralamayı neden böyle hazırladığın…"></textarea></label>
+          <label>Kapak görseli (isteğe bağlı)<input id="fgCover" type="url" inputmode="url" placeholder="https://…"></label>
+          <label>Sıralama başlığı<input id="fgOrderTitle" maxlength="100" value="Önerdiğim oynama sırası" placeholder="Örn. Hikâyeye göre oynama sırası"></label>
+          <label class="wide">Sıralama hakkında not<textarea id="fgOrderNote" rows="2" maxlength="500" placeholder="Bu sıranın nasıl takip edilmesi gerektiğini açıkla…"></textarea></label>
+        </div>
+
+        <div class="franchise-entry-editor">
+          <h3>Rehbere oyun ekle</h3>
+          <p>Arşivinden bir oyun seçersen ayrıntı penceresiyle otomatik bağlantı kurulur. Arşivde olmayan oyunları da elle ekleyebilirsin.</p>
+          <div class="franchise-entry-form">
+            <label class="wide">Arşivden oyun seç (isteğe bağlı)
+              <select id="fgEntryGame"><option value="">Arşivde olmayan / elle eklenen yapım</option></select>
+            </label>
+            <label class="span2">Oyun adı<input id="fgEntryTitle" maxlength="160" placeholder="Oyun adı"></label>
+            <label>Çıkış yılı<input id="fgEntryYear" type="number" min="1950" max="2100" step="1" placeholder="2002"></label>
+            <label>Serideki rolü<select id="fgEntryType"><option>Ana oyun</option><option>Yan oyun</option><option>Yeniden yapım</option><option>Ek paket / DLC</option><option>Ön bölüm</option><option>Devam oyunu</option><option>Diğer</option></select></label>
+            <label class="span2">Kapak görseli (isteğe bağlı)<input id="fgEntryImage" type="url" inputmode="url" placeholder="https://…"></label>
+            <label class="wide">Bu oyuna özel not (isteğe bağlı)<textarea id="fgEntryDescription" rows="2" maxlength="500" placeholder="Hikâye bağlantısı, neden bu sırada olduğu veya önemli notlar…"></textarea></label>
+          </div>
+          <div class="franchise-entry-actions"><button class="btn" id="fgEntryAdd" type="button">+ Oyunu sıraya ekle</button></div>
+          <div id="franchiseAdminEntries" class="franchise-admin-entry-list"><div class="franchise-admin-empty">Bu rehbere henüz oyun eklenmedi.</div></div>
+        </div>
+        <div class="franchise-admin-form-actions"><button class="btn pri" id="franchiseAdminSaveGuide" type="button">Rehberi listeye ekle</button><button class="btn" id="franchiseAdminCancel" type="button" hidden>Düzenlemeyi iptal et</button></div>
+      </section>
+
+      <section class="panel">
+        <h2>Hazırladığım rehberler</h2>
+        <div id="franchiseAdminList" class="franchise-admin-guide-list"><div class="franchise-admin-empty">Önce GitHub'dan getir.</div></div>
+      </section>
+    </div>
+
     <!-- SEKME: HAM DOSYA & KOD EDİTÖRÜ -->
     <div id="tab-files" class="tab-pane" hidden>
       <section class="panel">
@@ -1075,6 +1127,7 @@ Mehmet
             <option value="data/technopat.json">data/technopat.json (Technopat İnceleme ve Rehber Kartları)</option>
             <option value="data/technopat-media-reviews.json">data/technopat-media-reviews.json (Technopat Dizi ve Film İncelemeleri)</option>
             <option value="data/yearly-favorites.json">data/yearly-favorites.json (Yıllık Favori Vitrini)</option>
+            <option value="data/franchise-guides.json">data/franchise-guides.json (Seri ve Evren Rehberleri)</option>
             <option value="data/site-settings.json">data/site-settings.json (Merkezi Site Ayarları)</option>
             <option value="README.md">README.md</option>
           </select>
@@ -2870,6 +2923,7 @@ $('#saveRawFileBtn').onclick=async()=>{
 
 <script src="../scripts/site-editor-admin.js?v=3"></script>
 <script src="../scripts/yearly-favorites-admin.js?v=1"></script>
+<script src="../scripts/franchise-admin.js?v=1"></script>
 <script src="../scripts/recommendations-admin.js?v=3"></script>
 <script src="../scripts/technopat-media-reviews-admin.js?v=2"></script>
 <script src="../scripts/search-overlay.js?v=2" defer></script>

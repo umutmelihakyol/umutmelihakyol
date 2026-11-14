@@ -1,0 +1,11 @@
+/* Oyun ayrıntı kartındaki seri / evren rehberi bağlantıları */
+.franchise-reference-section { margin-top:18px; }
+.franchise-detail-reference-list { display:grid; gap:8px; margin-top:12px; }
+.franchise-detail-reference-link { display:flex; align-items:center; justify-content:space-between; gap:14px; min-width:0; padding:13px 14px; border:1px solid var(--line); border-radius:12px; color:var(--ink)!important; background:color-mix(in srgb,var(--card) 86%,var(--acc) 4%); text-decoration:none; transition:border-color .18s ease,transform .18s ease,background .18s ease; }
+.franchise-detail-reference-link:hover { transform:translateY(-2px); border-color:color-mix(in srgb,var(--acc) 50%,var(--line)); background:color-mix(in srgb,var(--card) 78%,var(--acc) 8%); }
+.franchise-detail-reference-link span { display:flex; min-width:0; flex-direction:column; gap:4px; }
+.franchise-detail-reference-link b { overflow-wrap:anywhere; font-size:13px; font-weight:850; }
+.franchise-detail-reference-link small { color:var(--mute); font-size:10px; }
+.franchise-detail-reference-link i { display:grid; width:30px; height:30px; flex:0 0 30px; place-items:center; border-radius:9px; color:var(--acc); background:color-mix(in srgb,var(--acc) 10%,var(--card)); font-size:15px; font-style:normal; }
+@media(max-width:600px) { .franchise-detail-reference-link { padding:11px 12px; } .franchise-detail-reference-link b { font-size:12px; } }
+@media(prefers-reduced-motion:reduce) { .franchise-detail-reference-link { transition:none; } .franchise-detail-reference-link:hover { transform:none; } }
