@@ -14,6 +14,7 @@
     movies: '/film/',
     series: '/dizi/',
     anime: '/anime/',
+    franchises: '/seriler/',
     technopat: '/technopat/incelemeler/',
     guides: '/technopat/rehberler/',
     techMediaReviews: '/technopat/dizi-film-incelemeleri/',
@@ -36,6 +37,7 @@
   else if (path.startsWith('/film')) current = 'movies';
   else if (path.startsWith('/dizi')) current = 'series';
   else if (path.startsWith('/anime')) current = 'anime';
+  else if (path.startsWith('/seriler')) current = 'franchises';
   else if (path.startsWith('/technopat/dizi-film-incelemeleri')) current = 'techMediaReviews';
   else if (path.startsWith('/technopat/rehberler')) current = 'guides';
   else if (path.startsWith('/technopat')) current = 'technopat';
@@ -52,6 +54,7 @@
     movies: '<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 4v16M17 4v16M3 9h4m-4 6h4m10-6h4m-4 6h4"/>',
     series: '<rect x="4" y="3" width="16" height="18" rx="2"/><path d="M9 3v18m6-18v18M4 8h5m-5 8h5m6-8h5m-5 8h5"/>',
     anime: '<path d="m12 3 2.2 5.7L20 11l-5.8 2.2L12 19l-2.2-5.8L4 11l5.8-2.3L12 3z"/><path d="m19 16 .8 2.2L22 19l-2.2.8L19 22l-.8-2.2L16 19l2.2-.8L19 16z"/>',
+    franchises: '<path d="M4 5h16v14H4z"/><path d="M8 9h8M8 12h5M8 15h8"/><path d="M7 3v2m10-2v2"/>',
     technopat: '<path d="M4 5h16v11H8l-4 4z"/><path d="M8 9h8M8 12h5"/>',
     stats: '<path d="M4 19V5m0 14h17"/><rect x="7" y="11" width="3" height="5" rx=".5"/><rect x="13" y="7" width="3" height="9" rx=".5"/><rect x="19" y="3" width="2" height="13" rx=".5"/>',
     people: '<circle cx="9" cy="8" r="3"/><path d="M3 20a6 6 0 0 1 12 0m2-9a3 3 0 1 0 0-6m1 9a5 5 0 0 1 3 5"/>',
@@ -70,7 +73,8 @@
         makeLink('games', 'Oyunlar', 'Oynadığım ve arşivlediğim oyunlar', '🎮'),
         makeLink('movies', 'Filmler', 'Film koleksiyonum', '🎬'),
         makeLink('series', 'Diziler', 'Dizi koleksiyonum', '📺'),
-        makeLink('anime', 'Animeler', 'Anime koleksiyonum', '✦')
+        makeLink('anime', 'Animeler', 'Anime koleksiyonum', '✦'),
+        makeLink('franchises', 'Seri & Evren Rehberi', 'Oyun serilerinin oynama sırası ve evren bağlantıları', '▤')
       ]
     },
     {
@@ -95,8 +99,8 @@
   ];
 
   const brand = '<a class="gc-brand" href="/" aria-label="Günlüğüm ana sayfa"><span class="gc-brand-mark" aria-hidden="true">G</span><span class="gc-brand-copy">Günlüğüm<small>UMUT MELİH AKYOL</small></span></a>';
-  const navKeys = ['home', 'games', 'movies', 'series', 'anime', 'technopat', 'stats'];
-  const navLabels = { home: 'Ana Sayfa', games: 'Oyunlar', movies: 'Filmler', series: 'Diziler', anime: 'Anime', technopat: 'Technopat', stats: 'İstatistik' };
+  const navKeys = ['home', 'games', 'movies', 'series', 'anime', 'franchises', 'technopat', 'stats'];
+  const navLabels = { home: 'Ana Sayfa', games: 'Oyunlar', movies: 'Filmler', series: 'Diziler', anime: 'Anime', franchises: 'Seri & Evren', technopat: 'Technopat', stats: 'İstatistik' };
   const topNav = navKeys.map(key => `<a href="${paths[key]}"${current === key ? ' aria-current="page"' : ''}>${navLabels[key]}</a>`).join('');
 
   const header = document.createElement('header');

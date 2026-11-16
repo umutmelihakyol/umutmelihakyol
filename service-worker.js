@@ -1,8 +1,8 @@
-/* Günlüğüm Service Worker — cache v65: Steam oyun bilgisi tamamlama eklendi. */
+/* Günlüğüm Service Worker — cache v66: Seri & Evren bağlantısı üst gezinme menüsüne eklendi. */
 'use strict';
 
 const CACHE_PREFIX = 'gunlugum-pwa-';
-const CACHE_VERSION = 'v65';
+const CACHE_VERSION = 'v66';
 const APP_CACHE = `${CACHE_PREFIX}app-${CACHE_VERSION}`;
 const IMAGE_CACHE = `${CACHE_PREFIX}images-${CACHE_VERSION}`;
 const APP_ROOT = new URL('./', self.registration.scope);
