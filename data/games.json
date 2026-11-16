@@ -1,5 +1,46 @@
 [
   {
+    "id": "mwjnrx02",
+    "status": "bitirdim",
+    "title": "Resident Evil 9: Requiem",
+    "image": "https://media.rawg.io/media/games/ed6/ed613937e113a4d43fa0db771e527a2f.jpg",
+    "platform": "PC",
+    "genres": [
+      "Aksiyon"
+    ],
+    "score": 8,
+    "finished": "2026-07-01",
+    "recommended": true,
+    "review": "",
+    "note": "",
+    "year": 2026,
+    "favorite": false,
+    "pros": [],
+    "cons": [],
+    "links": [],
+    "repeatHistory": [],
+    "scoreHistory": [
+      {
+        "date": "2026-11-16",
+        "previousScore": null,
+        "score": 8,
+        "reason": "İlk değerlendirme"
+      }
+    ],
+    "updatedAt": "2026-11-16T19:30:35.858Z",
+    "installProfiles": [],
+    "hours": 25,
+    "developer": "Capcom",
+    "acquisitionType": null,
+    "purchasePrice": null,
+    "purchaseCurrency": "TRY",
+    "purchaseStore": "",
+    "purchaseDate": null,
+    "listPrice": null,
+    "ownershipStatus": null,
+    "purchaseNote": ""
+  },
+  {
     "id": "mwgm0lkn",
     "status": "bitirdim",
     "title": "Counter-Strike",
