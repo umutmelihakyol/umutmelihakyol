@@ -126,6 +126,29 @@
     }).join('')}</div>`);
   }
 
+  function renderViewingProgress(item) {
+    if (!['dizi', 'anime'].includes(type)) return '';
+    const tracking = item.tracking && typeof item.tracking === 'object' ? item.tracking : {};
+    const total = Number(item.episodes) > 0 ? Number(item.episodes) : null;
+    const completed = String(item.status || '') === 'bitirdim';
+    let watched = has(tracking.watchedEpisodes) ? Number(tracking.watchedEpisodes) : null;
+    if (watched === null && type === 'anime' && has(tracking.currentEpisode)) watched = Number(tracking.currentEpisode);
+    if (watched === null && completed && total !== null) watched = total;
+    if (watched !== null && (!Number.isFinite(watched) || watched < 0)) watched = null;
+    const season = has(tracking.currentSeason) ? Number(tracking.currentSeason) : null;
+    const episode = has(tracking.currentEpisode) ? Number(tracking.currentEpisode) : null;
+    const hasProgress = watched !== null || season !== null || episode !== null || completed;
+    if (!hasProgress) return '';
+    const percent = total && watched !== null ? Math.max(0, Math.min(100, watched / total * 100)) : (completed ? 100 : null);
+    const position = type === 'dizi'
+      ? (season !== null || episode !== null ? `Şu an ${season !== null ? `${fmt(season)}. sezon` : 'sezon belirtilmedi'}${episode !== null ? ` · ${fmt(episode)}. bölüm` : ''}` : '')
+      : (episode !== null ? `Son izlediğim bölüm: ${fmt(episode)}` : '');
+    const count = watched !== null ? `${fmt(watched)}${total !== null ? ` / ${fmt(total)}` : ''} bölüm izlendi` : (completed ? 'Tamamlandı' : 'İlerleme kaydı');
+    const progress = percent !== null ? `<div class="content-detail-progress-track" role="progressbar" aria-label="İzleme ilerlemesi" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${Math.round(percent)}"><i style="width:${percent.toFixed(1)}%"></i></div><div class="content-detail-progress-meta"><strong>${Math.round(percent)}%</strong><span>${esc(count)}</span></div>` : `<p class="content-detail-empty-note">${esc(count)}</p>`;
+    const body = `${position ? `<p class="content-detail-progress-position">${esc(position)}</p>` : ''}${progress}${tracking.updatedAt ? `<p class="content-detail-progress-updated">Son güncelleme: ${esc(new Date(tracking.updatedAt).toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' }))}</p>` : ''}`;
+    return panel('▶', 'İZLEME TAKİBİ', 'İzleme ilerlemem', body, 'content-detail-progress-panel');
+  }
+
   function renderPurchase(item) {
     if (type !== 'oyun') return '';
     const rows = [];
@@ -208,7 +231,7 @@
           <div class="content-detail-poster${img ? '' : ' is-missing'}">${img ? `<img src="${esc(img)}" alt="${esc(title)} kapak görseli" fetchpriority="high" decoding="async" referrerpolicy="no-referrer" onerror="this.remove();this.parentElement.classList.add('is-missing');this.parentElement.textContent='▧'">` : esc(String(title).trim().slice(0, 1).toLocaleUpperCase('tr-TR'))}</div>
           <div class="content-detail-copy"><p class="content-detail-kicker"><span class="content-detail-kind">${categories[type].label}</span><span>GÜNLÜĞÜM ARŞİVİ</span></p><h1 class="content-detail-title">${esc(title)}</h1>${subtitle ? `<p class="content-detail-subtitle">${esc(subtitle)}</p>` : ''}<div class="content-detail-badges">${badges}</div>${score}${genres.length ? `<div class="content-detail-genres" aria-label="Türler">${genres.map(genre => `<span>${esc(genre)}</span>`).join('')}</div>` : ''}</div>
         </header>
-        <div class="content-detail-body"><div class="content-detail-primary">${notePanel}${factsPanel}${prosConsPanel}${renderHistory(item)}${renderScoreHistory(item)}</div><aside class="content-detail-aside">${renderRatings(item)}${renderPurchase(item)}${renderLinks(item)}${related}</aside></div>
+        <div class="content-detail-body"><div class="content-detail-primary">${notePanel}${renderViewingProgress(item)}${factsPanel}${prosConsPanel}${renderHistory(item)}${renderScoreHistory(item)}</div><aside class="content-detail-aside">${renderRatings(item)}${renderPurchase(item)}${renderLinks(item)}${related}</aside></div>
         <div class="content-detail-actions"><a class="btn" href="${esc(rootUrl(categories[type].back))}#${encodeURIComponent(item.id)}">Arşiv kaydını aç ↗</a><button class="btn content-detail-share" id="contentDetailShare" type="button">Paylaş ↗</button><button class="btn content-detail-copy" id="contentDetailCopy" type="button">Bağlantıyı kopyala</button></div>
       </article>`;
 

@@ -337,6 +337,15 @@
           </fieldset>
           <label><span id="l-dur">Süre</span><input id="dur" type="number" min="0" step="1"></label>
           <label id="dur2wrap" hidden><span id="l-dur2">Bölüm sayısı</span><input id="dur2" type="number" min="0" step="1"></label>
+          <fieldset id="watchProgressPanel" class="media-feature-panel wide" hidden>
+            <legend>▶ İzleme ilerlemem</legend>
+            <p class="meta">Dizi ve anime kayıtlarında nerede kaldığını takip et. Dizi için toplam izlediğin bölüm sayısı ile mevcut sezon/bölüm bilgilerini ayrı ayrı girebilirsin.</p>
+            <div class="media-form-grid">
+              <label id="trackingSeasonWrap">Şu an bulunduğum sezon<input id="trackingSeason" type="number" min="1" step="1" placeholder="Örn. 2"></label>
+              <label id="trackingEpisodeWrap"><span id="trackingEpisodeLabel">Şu an bulunduğum bölüm</span><input id="trackingEpisode" type="number" min="0" step="1" placeholder="Örn. 5"></label>
+              <label id="trackingWatchedWrap">Toplam izlediğim bölüm<input id="trackingWatched" type="number" min="0" step="1" placeholder="Örn. 28"></label>
+            </div>
+          </fieldset>
           <label><span id="l-date">Tarih</span><input id="finished" type="date"></label>
           <label>Öneriyor muyum?<select id="rec"><option value="1">Evet</option><option value="0">Hayır</option><option value="">Belirtme</option></select></label>
           <label class="wide">İnceleme bağlantısı (yoksa boş bırak)<input id="review" type="url" placeholder="https://…"></label>
@@ -1164,7 +1173,7 @@ const formatCost=(value,currency='TRY')=>{const code=/^(TRY|USD|EUR|GBP|JPY|CAD|
 const gameCostBadge=g=>{if(g.purchasePrice!==null&&g.purchasePrice!==undefined&&g.purchasePrice!==''&&Number.isFinite(Number(g.purchasePrice)))return ` • <b>${esc(formatCost(g.purchasePrice,g.purchaseCurrency||'TRY'))}</b>`;if(g.acquisitionType)return ` • ${esc(acquisitionLabels[g.acquisitionType]||g.acquisitionType)}`;return ''};
 let cat='oyun';try{cat=localStorage.getItem('admin_cat')||'oyun'}catch{}if(!CATS[cat])cat='oyun';
 const D={},cfg=()=>CATS[cat],data=()=>D[cat]||(D[cat]={games:[],sha:null,loaded:false});
-const ids=['title','platform','score','finished','review','image','note','year','dur','dur2','person','acquisitionType','purchasePrice','purchaseCurrency','purchaseStore','purchaseDate','listPrice','ownershipStatus','purchaseNote','availabilityJson','installProfilesJson','repeatHistoryJson'];
+const ids=['title','platform','score','finished','review','image','note','year','dur','dur2','person','trackingSeason','trackingEpisode','trackingWatched','acquisitionType','purchasePrice','purchaseCurrency','purchaseStore','purchaseDate','listPrice','ownershipStatus','purchaseNote','availabilityJson','installProfilesJson','repeatHistoryJson'];
 let editId=null;
 let T='';try{T=sessionStorage.getItem('gh_t')||''}catch{}const tok=()=>T;
 const apiPath=path=>`https://api.github.com/repos/${C.owner}/${C.repo}/contents/${path}`;
@@ -1459,6 +1468,10 @@ function applyCat(){
   const gameplayWrap=$('#ratingGameplayWrap');if(gameplayWrap)gameplayWrap.hidden=cat!=='oyun';
   const costPanel=$('#gameCostPanel');if(costPanel)costPanel.hidden=cat!=='oyun';
   const profilePanel=$('#installProfilesPanel');if(profilePanel)profilePanel.hidden=cat!=='oyun';
+  const trackingPanel=$('#watchProgressPanel');if(trackingPanel)trackingPanel.hidden=!['dizi','anime'].includes(cat);
+  const trackingSeasonWrap=$('#trackingSeasonWrap');if(trackingSeasonWrap)trackingSeasonWrap.hidden=cat!=='dizi';
+  const trackingWatchedWrap=$('#trackingWatchedWrap');if(trackingWatchedWrap)trackingWatchedWrap.hidden=cat!=='dizi';
+  const trackingEpisodeLabel=$('#trackingEpisodeLabel');if(trackingEpisodeLabel)trackingEpisodeLabel.textContent=cat==='anime'?'İzlediğim son bölüm':'Şu an bulunduğum bölüm';
   $('#catpills').innerHTML=Object.entries(CATS).map(([k,v])=>`<button class="pill" data-k="${k}" aria-pressed="${k===cat}">${typeof ICON==='function'?ICON(k):''} ${v.plural}</button>`).join('');
   $('#hs').textContent=c.name+' ara (görsel ve bilgiler otomatik gelir)';
   $('#s').placeholder=c.searchPh;$('#s').previousSibling.textContent=c.name+' adı';
@@ -1723,7 +1736,8 @@ $('#list').onclick=async e=>{
   }
   if(ed){
     const g=D0.games.find(x=>x.id===ed),c=cfg();editId=ed;
-    const m={...g,dur:g[c.dur.key],dur2:c.dur2?g[c.dur2.key]:'',person:g[c.person.key]};
+    const tracking=g.tracking&&typeof g.tracking==='object'?g.tracking:{};
+    const m={...g,dur:g[c.dur.key],dur2:c.dur2?g[c.dur2.key]:'',person:g[c.person.key],trackingSeason:tracking.currentSeason??'',trackingEpisode:tracking.currentEpisode??tracking.watchedEpisodes??'',trackingWatched:tracking.watchedEpisodes??''};
     ids.forEach(i=>$('#'+i).value=m[i]??'');
     $('#imgPrev').src=g.image||defaultSvg;
     $('#availabilityJson').value=JSON.stringify(Array.isArray(g.links)?g.links:[],null,2);
@@ -1830,6 +1844,14 @@ $('#add').onclick=async()=>{
       if(val(id)!==''&&(!Number.isFinite(Number(val(id)))||Number(val(id))<0))return say('Fiyat alanları sıfır veya daha büyük bir sayı olmalı.',1);
     }
   }
+  if(['dizi','anime'].includes(cat)){
+    for(const id of ['trackingSeason','trackingEpisode','trackingWatched']){
+      if(val(id)!==''&&(!Number.isInteger(Number(val(id)))||Number(val(id))<0||(id==='trackingSeason'&&Number(val(id))<1)))return say('İzleme ilerlemesi alanlarına geçerli tam sayılar gir. Sezon numarası en az 1 olmalı.',1);
+    }
+    if(cat==='dizi'&&val('trackingSeason')!==''&&n('dur')!==null&&Number(val('trackingSeason'))>n('dur'))return say('Bulunduğun sezon, toplam sezon sayısından büyük olamaz.',1);
+    if(cat==='dizi'&&val('trackingWatched')!==''&&n('dur2')!==null&&Number(val('trackingWatched'))>n('dur2'))return say('İzlediğin bölüm sayısı toplam bölüm sayısından büyük olamaz.',1);
+    if(cat==='anime'&&val('trackingEpisode')!==''&&n('dur')!==null&&Number(val('trackingEpisode'))>n('dur'))return say('İzlediğin bölüm sayısı toplam bölüm sayısından büyük olamaz.',1);
+  }
   const existing=editId?d.games.find(x=>String(x.id)===String(editId)):null;
   const currentScore=n('score');
   const scoreHistory=Array.isArray(existing?.scoreHistory)?existing.scoreHistory.slice():[];
@@ -1852,6 +1874,20 @@ $('#add').onclick=async()=>{
   };
   if(cat==='oyun')g.installProfiles=installProfiles;
   g[c.dur.key]=n('dur');if(c.dur2)g[c.dur2.key]=n('dur2');g[c.person.key]=val('person');
+  if(['dizi','anime'].includes(cat)){
+    const tracking={...(existing?.tracking&&typeof existing.tracking==='object'?existing.tracking:{})};
+    if(cat==='dizi'){
+      tracking.currentSeason=n('trackingSeason');
+      tracking.currentEpisode=n('trackingEpisode');
+      tracking.watchedEpisodes=n('trackingWatched');
+    }else{
+      tracking.currentEpisode=n('trackingEpisode');
+      tracking.watchedEpisodes=n('trackingEpisode');
+      delete tracking.currentSeason;
+    }
+    Object.keys(tracking).forEach(key=>{if(tracking[key]===null||tracking[key]==='')delete tracking[key]});
+    if(Object.keys(tracking).some(key=>key!=='updatedAt')){tracking.updatedAt=new Date().toISOString();g.tracking=tracking}else delete g.tracking;
+  }
   if(cat==='oyun'){
     g.acquisitionType=val('acquisitionType')||null;
     g.purchasePrice=n('purchasePrice');

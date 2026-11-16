@@ -106,6 +106,7 @@
   <link rel="stylesheet" href="assets/css/white-theme-fixes.css?v=1">
 <link rel="stylesheet" href="assets/css/recent-showcase.css?v=1">
 <link rel="stylesheet" href="assets/css/yearly-favorites.css?v=2">
+<link rel="stylesheet" href="assets/css/daily-picks.css?v=1">
 <link rel="stylesheet" href="assets/css/recommendations-home.css?v=1">
 <link rel="stylesheet" href="/assets/css/page-jump.css?v=20261114-1">
 </head>
@@ -144,6 +145,17 @@
     <span class="home-eyebrow"><span aria-hidden="true"></span>KİŞİSEL MEDYA ARŞİVİ</span>
     <h2 id="tagline" data-site-text="site.tagline"></h2>
     <p class="home-intro-copy" data-site-text="site.introText">Oyunlarımı ve izlediğim yapımları tek yerde topluyor, kendi arşivimi keşfediyorum.</p>
+  </section>
+  <section class="daily-picks" id="dailyPicks" aria-labelledby="dailyPicksTitle" hidden>
+    <div class="daily-picks-head">
+      <div>
+        <span class="daily-picks-kicker">GÜNLÜĞÜMDEN GÜNLÜK SEÇKİ</span>
+        <h2 id="dailyPicksTitle">Bugünün seçkisi</h2>
+        <p>Arşivimden bugün için seçtiğim dört yapım.</p>
+      </div>
+      <time id="dailyPicksDate"></time>
+    </div>
+    <div class="daily-picks-grid" id="dailyPicksGrid" aria-live="polite"></div>
   </section>
   <section class="home-collections" aria-labelledby="homeCollectionsTitle">
     <div class="home-section-head">
@@ -497,6 +509,7 @@ Promise.all([Promise.all(Object.entries(CATS).map(async([k,c])=>{
 </script>
 
 <script src="scripts/yearly-favorites.js?v=1"></script>
+<script src="scripts/daily-picks.js?v=1" defer></script>
 <script src="scripts/search-overlay.js?v=2" defer></script>
 <script src="scripts/gamecapsule-theme.js?v=2" defer></script>
 <script src="/scripts/page-jump.js?v=20261114-1" defer></script>

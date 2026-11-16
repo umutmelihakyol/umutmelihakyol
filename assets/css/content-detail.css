@@ -126,3 +126,13 @@
   .content-detail-link,.content-detail-related-card { transition:none; }
   .content-detail-link:hover,.content-detail-related-card:hover { transform:none; }
 }
+
+/* Dizi ve anime izleme ilerlemesi */
+.content-detail-progress-panel { overflow:hidden; }
+.content-detail-progress-position { margin:0 0 12px; color:var(--ink); font-size:12px; font-weight:850; }
+.content-detail-progress-track { width:100%; height:10px; overflow:hidden; border:1px solid var(--line); border-radius:99px; background:var(--line); }
+.content-detail-progress-track i { display:block; height:100%; border-radius:inherit; background:linear-gradient(90deg,var(--acc),#58c2a0); transition:width .35s ease; }
+.content-detail-progress-meta { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-top:9px; }
+.content-detail-progress-meta strong { color:var(--acc); font:900 20px/1 'Plus Jakarta Sans',sans-serif; }
+.content-detail-progress-meta span,.content-detail-progress-updated { color:var(--mute); font-size:10px; font-weight:750; }
+.content-detail-progress-updated { margin:10px 0 0; font-weight:600; }

@@ -69,7 +69,20 @@ function render(){
 const recChip=g=>g.recommended===true?'<span class="recb yes">Öneriyorum</span>':g.recommended===false?'<span class="recb no">Önermiyorum</span>':'';
 const revHtml=g=>{const r=safeUrl(g.review);return r?`<a href="${r}" target="_blank" rel="noopener">İncelemeyi oku</a>`:stOf(g)==='istek'?'':'<span class="none">İnceleme yok</span>'};
 const durText=g=>[cfg.dur,cfg.dur2].filter(Boolean).filter(d=>has(g[d.key])).map(d=>`${esc(g[d.key])} ${d.unit}`).join(', ');
-const facts=g=>{const p=[],dt=durText(g);if(dt)p.push(`<span>${cfg.dur.label?`<i>${cfg.dur.label}</i>`:''}${dt}</span>`);if(g.finished)p.push(`<span><i>${cfg.dateLabel}</i>${fmtDate(g.finished)}</span>`);return `<p class="facts">${p.join('')||`<span>${cfg.nof[stOf(g)]}</span>`}</p>`};
+const viewingProgressText=g=>{
+  if(!['dizi','anime'].includes(CAT))return '';
+  const t=g.tracking&&typeof g.tracking==='object'?g.tracking:{};
+  if(CAT==='dizi'){
+    const parts=[];
+    if(has(t.currentSeason))parts.push(`${num(t.currentSeason)}. sezon`);
+    if(has(t.currentEpisode))parts.push(`${num(t.currentEpisode)}. bölüm`);
+    if(has(t.watchedEpisodes))parts.push(`${num(t.watchedEpisodes)} bölüm izlendi`);
+    return parts.join(' · ');
+  }
+  const watched=has(t.watchedEpisodes)?t.watchedEpisodes:t.currentEpisode;
+  return has(watched)?`${num(watched)}${has(g.episodes)?` / ${num(g.episodes)}`:''} bölüm izlendi`:'';
+};
+const facts=g=>{const p=[],dt=durText(g),progress=viewingProgressText(g);if(dt)p.push(`<span>${cfg.dur.label?`<i>${cfg.dur.label}</i>`:''}${dt}</span>`);if(progress)p.push(`<span><i>İlerleme</i>${esc(progress)}</span>`);if(g.finished)p.push(`<span><i>${cfg.dateLabel}</i>${fmtDate(g.finished)}</span>`);return `<p class="facts">${p.join('')||`<span>${cfg.nof[stOf(g)]}</span>`}</p>`};
 const HEART='<svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor" aria-hidden="true"><path d="M12 21s-7.5-4.6-9.6-9.3C.9 8.3 2.7 4.5 6.3 4.5c2.1 0 3.6 1.1 4.5 2.6l1.2 1.8 1.2-1.8c.9-1.5 2.4-2.6 4.5-2.6 3.6 0 5.4 3.8 3.9 7.2C19.500 16.400 12 21 12 21z"/></svg>';
 const profileUrl=(type,source,name)=>{const params=new URLSearchParams({tip:type,kaynak:source,ad:String(name||'').trim(),kategori:CAT});return `${SITE_ROOT}kisiler/?${params.toString()}`};
 const entityLinks=(raw,type,source)=>{
@@ -152,6 +165,7 @@ function cardFacts(g){
   // yönetmen/geliştirici ve uzun notlar Ayrıntılar penceresinde kalır.
   const p=[],dt=durText(g);
   if(dt)p.push(`<span title="${esc(dt)}">${dt}</span>`);
+  const progress=viewingProgressText(g);if(progress)p.push(`<span title="${esc(progress)}">${esc(progress)}</span>`);
   if(g.finished){const date=fmtDate(g.finished);p.push(`<span title="${esc(cfg.dateLabel+': '+date)}">${esc(cfg.dateLabel)}: ${date}</span>`);}
   return p.length?`<p class="cx-facts">${p.slice(0,2).join('')}</p>`:'';
 }
@@ -183,7 +197,8 @@ function soon(){
   const count=$('#soonCount');
   if(count) count.textContent=`${l.length} içerik`;
   $('#soonList').innerHTML=l.map(g=>{
-    const meta=[has(g.year)?g.year:null,g.platform||cfg.name].filter(Boolean).map(esc).join(' · ');
+    const progress=viewingProgressText(g);
+    const meta=[progress,has(g.year)?g.year:null,g.platform||cfg.name].filter(Boolean).map(esc).join(' · ');
     return `<a class="soonc" href="#${esc(g.id)}" aria-label="${esc(g.title)} ayrıntılarını aç">
       <span class="soon-media">${thumb(g,'sth')}<span class="soon-media-mark" aria-hidden="true">↗</span></span>
       <span class="soon-copy">
