@@ -552,9 +552,14 @@
     "cons": [],
     "links": [],
     "repeatHistory": [],
-    "updatedAt": "2026-11-14T09:13:48.314Z",
+    "updatedAt": "2026-11-16T21:53:21.203Z",
     "episodes": 24,
-    "studio": "8-bit"
+    "studio": "8-bit",
+    "tracking": {
+      "currentEpisode": 16,
+      "watchedEpisodes": 16,
+      "updatedAt": "2026-11-16T21:53:21.203Z"
+    }
   },
   {
     "id": "mvj3sfoi",
