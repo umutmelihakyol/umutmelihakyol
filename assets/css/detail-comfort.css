@@ -354,6 +354,7 @@ dialog.detail-redesign .detail-actions .btn { display: inline-flex; align-items:
 dialog.detail-redesign .detail-actions .card-gen-btn { flex: 1 1 240px; }
 dialog.detail-redesign .detail-actions .copy { flex: 0 1 auto; }
 dialog.detail-redesign .detail-actions .detail-close { flex: 0 0 auto; }
+dialog.detail-redesign .detail-actions .detail-page-link { flex: 0 1 auto; text-align: center; text-decoration: none; }
 dialog.detail-redesign .detail-actions .btn:focus-visible { outline: 3px solid var(--acc); outline-offset: 2px; }
 
 /* Anime afişleri: yatay görseli kapakta kırp, portre afişi bulanık zeminde tam göster. */
@@ -403,6 +404,7 @@ body.cat-anime dialog#dlg.detail-redesign.anime-detail > .inner.detail-content {
   dialog.detail-redesign .detail-actions { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 7px; padding: 11px var(--detail-pad) max(12px, env(safe-area-inset-bottom)); }
   dialog.detail-redesign .detail-actions .card-gen-btn { grid-column: 1 / -1; }
   dialog.detail-redesign .detail-actions .copy,
+  dialog.detail-redesign .detail-actions .detail-page-link,
   dialog.detail-redesign .detail-actions .detail-close,
   dialog.detail-redesign .detail-actions .again { width: 100%; min-width: 0; min-height: 42px; padding: 9px 8px; font-size: .77rem; }
   body.cat-anime dialog#dlg.detail-redesign.anime-detail > .cover { height: 142px; min-height: 142px; max-height: 142px; }

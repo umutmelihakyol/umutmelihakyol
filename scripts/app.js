@@ -9,6 +9,7 @@ const num=v=>(+v).toLocaleString('tr',{maximumFractionDigits:1});
 const has=v=>v!==null&&v!==undefined&&v!=='';
 const CAT=document.body.dataset.cat,cfg=CATS[CAT],ST=cfg.st,CF=window.CONFIG||{};
 const stOf=g=>g.status||'bitirdim';
+const contentDetailUrl=g=>`${SITE_ROOT}icerik/?tip=${encodeURIComponent(CAT)}&id=${encodeURIComponent(g.id)}`;
 const plats=g=>String(g.platform||'').split(',').map(x=>x.trim()).filter(Boolean);
 let games=[],st='all',favOnly=false,vis=[],randomMode=false,view='card',lastId='';
 let franchiseGuides = [];
@@ -165,7 +166,7 @@ function card(g){
   return `<article class="card cx${poster?' poster':''}" data-id="${id}">${cardMedia(g)}
   <div class="cx-body"><div class="cx-heading">${title}</div>
   ${meta?`<p class="cx-meta">${meta}</p>`:''}${chips?`<div class="cx-chips">${chips}</div>`:''}${cardFacts(g)}
-  <div class="cx-foot"><a class="more" href="#${id}">Ayrıntılar</a><button class="cx-share-btn" type="button" data-id="${id}" aria-label="${esc(g.title)} için paylaşılabilir inceleme kartı oluştur" title="İnceleme kartı oluştur">${shareIcon}<span>Paylaş</span></button></div></div></article>`;
+  <div class="cx-foot"><a class="more cx-detail-page-link" href="${esc(contentDetailUrl(g))}">Tam sayfa</a><button class="cx-share-btn" type="button" data-id="${id}" aria-label="${esc(g.title)} için paylaşılabilir inceleme kartı oluştur" title="İnceleme kartı oluştur">${shareIcon}<span>Paylaş</span></button></div></div></article>`;
 }
 const thumb=(g,c)=>{const isSoon=c==='sth';const width=isSoon?78:56,height=isSoon?100:36;return imageSrc(g.image,185)?`<img class="${c}" src="${imageSrc(g.image,185)}" alt="" loading="lazy" decoding="async" fetchpriority="low" width="${width}" height="${height}" referrerpolicy="no-referrer" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'${c} ph','aria-hidden':'true'}))">`:`<span class="${c} ph" aria-hidden="true"></span>`};
 function table(l){
@@ -214,6 +215,7 @@ function openGame(id){
   const score=has(g.score)&&Number.isFinite(Number(g.score))?`<div class="detail-score-card"><span class="detail-score-number">${num(g.score)}</span><span class="detail-score-denom">/ 10</span><span class="detail-score-caption">Kişisel puanım</span></div>`:`<div class="detail-score-card is-empty"><span class="detail-score-number">—</span><span class="detail-score-caption">Henüz puanlamadım</span></div>`;
   d.classList.add('detail-redesign');
   d.dataset.gameId = String(g.id);
+  d.dataset.detailUrl = contentDetailUrl(g);
   d.setAttribute('aria-labelledby','detail-title');
   d.innerHTML=`${cover(g)}<div class="inner detail-content">
     <header class="detail-intro">
@@ -229,7 +231,7 @@ function openGame(id){
       </div>
       ${sideContent?`<aside class="detail-side-column">${sideContent}</aside>`:''}
     </div>
-    <div class="detail-actions">${randomMode?'<button class="btn again" type="button">Başka birini seç</button> ':''}<button class="btn pri card-gen-btn" type="button" data-id="${esc(g.id)}">▧ İnceleme kartı oluştur</button><button class="btn copy" type="button">Bağlantıyı kopyala</button><button class="btn detail-close" type="button">Kapat</button></div>
+    <div class="detail-actions">${randomMode?'<button class="btn again" type="button">Başka birini seç</button> ':''}<button class="btn pri card-gen-btn" type="button" data-id="${esc(g.id)}">▧ İnceleme kartı oluştur</button><a class="btn detail-page-link" href="${esc(contentDetailUrl(g))}">Tam sayfa ayrıntı ↗</a><button class="btn copy" type="button">Bağlantıyı kopyala</button><button class="btn detail-close" type="button">Kapat</button></div>
   </div>`;
   if(!d.open)d.showModal();
   if(lastId!==id){lastId=id;try{window.goatcounter&&goatcounter.count&&goatcounter.count({path:CAT+'/'+id,title:g.title,event:true})}catch{}}
@@ -249,7 +251,7 @@ $('#dlg').addEventListener('click',e=>{
   if(e.target.closest('.again'))return pickRandom();
   const cardBtn=e.target.closest('.card-gen-btn');
   if(cardBtn)return generateReviewCard(cardBtn.dataset.id,cardBtn);
-  const b=e.target.closest('.copy');if(b){const url=location.href;if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(url).then(()=>b.textContent='Bağlantı kopyalandı').catch(()=>prompt('Bağlantıyı kopyala:',url));}else{prompt('Bağlantıyı kopyala:',url);}}
+  const b=e.target.closest('.copy');if(b){const url=e.currentTarget.dataset.detailUrl||location.href;if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(url).then(()=>b.textContent='Bağlantı kopyalandı').catch(()=>prompt('Bağlantıyı kopyala:',url));}else{prompt('Bağlantıyı kopyala:',url);}}
 });
 
 function generateReviewCard(id,btnEl){
@@ -268,7 +270,7 @@ $('#grid').addEventListener('click',e=>{
     generateReviewCard(id,shareBtn);
     return;
   }
-  const c=e.target.closest('.card,tr[data-id]');if(!c||e.target.closest('a[target]')||e.target.closest('button'))return;
+  const c=e.target.closest('.card,tr[data-id]');if(!c||e.target.closest('a[target],a.cx-detail-page-link')||e.target.closest('button'))return;
   e.preventDefault();location.hash=c.dataset.id;openGame(c.dataset.id);
 });
 addEventListener('hashchange',()=>openGame(location.hash.slice(1)));
