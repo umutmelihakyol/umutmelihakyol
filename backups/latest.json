@@ -1,8 +1,8 @@
 {
   "format": "gunlugum-backup",
   "version": 1,
-  "createdAt": "2026-11-17T22:05:29.788Z",
-  "reason": "Oyun kaydı öncesi otomatik yedek",
+  "createdAt": "2026-11-17T22:07:36.912Z",
+  "reason": "Film kaydı öncesi otomatik yedek",
   "repository": "umutmelihakyol/umutmelihakyol",
   "branch": "main",
   "data": {
@@ -185,7 +185,7 @@
       },
       {
         "id": "mwgm0nfl",
-        "status": "bitirdim",
+        "status": "oynuyorum",
         "title": "Counter-Strike 2",
         "image": "https://media.rawg.io/media/games/ec4/ec4b02bdb3eb5c6212992c19bc05697e.jpg",
         "platform": "PC (Steam)",
@@ -201,13 +201,20 @@
         "favorite": false,
         "pros": [],
         "cons": [],
-        "updatedAt": "2026-11-17T21:17:01.107Z",
+        "links": [],
+        "repeatHistory": [],
+        "updatedAt": "2026-11-17T22:05:27.487Z",
+        "installProfiles": [],
         "hours": 100.6,
         "developer": "",
-        "steamAppId": 730,
-        "steamPlaytimeMinutes": 6033,
-        "steamUrl": "https://store.steampowered.com/app/730/",
-        "steamLastSyncAt": "2026-11-17T21:17:01.107Z"
+        "acquisitionType": null,
+        "purchasePrice": null,
+        "purchaseCurrency": "TRY",
+        "purchaseStore": "",
+        "purchaseDate": null,
+        "listPrice": null,
+        "ownershipStatus": null,
+        "purchaseNote": ""
       },
       {
         "id": "mwgm0npr",
