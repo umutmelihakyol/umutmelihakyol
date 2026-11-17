@@ -4523,5 +4523,31 @@
     "updatedAt": "2026-11-17T21:17:48.806Z",
     "year": 2026,
     "id": "uma-mwl727z6-y4clqn"
+  },
+  {
+    "cons": [],
+    "developer": "",
+    "favorite": false,
+    "finished": null,
+    "genres": [],
+    "hours": 4.3,
+    "image": "https://cdn.akamai.steamstatic.com/steam/apps/4162040/header.jpg",
+    "note": "",
+    "platform": "PC (Steam)",
+    "pros": [],
+    "publisher": "",
+    "recommended": null,
+    "review": "",
+    "score": null,
+    "sourceDescription": "",
+    "status": "oynuyorum",
+    "steamAppId": 4162040,
+    "steamLastSyncAt": "2026-11-17T21:17:06.293Z",
+    "steamPlaytimeMinutes": 258,
+    "steamUrl": "https://store.steampowered.com/app/4162040/",
+    "title": "Zenless Zone Zero",
+    "updatedAt": "2026-11-17T21:17:06.293Z",
+    "year": null,
+    "id": "uma-mwl729lw-hp2e5d"
   }
 ]
