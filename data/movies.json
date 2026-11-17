@@ -3472,5 +3472,40 @@
     "updatedAt": "2026-11-17T21:59:40.177Z",
     "year": 2013,
     "id": "uma-mwl8k2sh-1x2ouf"
+  },
+  {
+    "cons": [],
+    "director": "",
+    "favorite": false,
+    "finished": "2025-03-20",
+    "genres": [],
+    "image": "https://a.ltrbxd.com/resized/film-poster/3/2/0/0/0/0/320000-f9-0-600-0-900-crop.jpg?v=437fefa45f",
+    "letterboxdDiaryUrl": "https://letterboxd.com/umutmelihakyol/film/f9/",
+    "letterboxdLastSyncAt": "2026-11-17T21:59:40.178Z",
+    "letterboxdRating": 5,
+    "letterboxdRecentDiaryCount": 1,
+    "letterboxdRewatch": true,
+    "letterboxdSourceReview": "Watched on Thursday March 20, 2025.",
+    "letterboxdWatchedDate": "2025-03-20",
+    "links": [
+      {
+        "name": "Letterboxd günlüğü",
+        "url": "https://letterboxd.com/umutmelihakyol/film/f9/"
+      }
+    ],
+    "minutes": null,
+    "note": "",
+    "platform": "Letterboxd",
+    "pros": [],
+    "recommended": null,
+    "review": "",
+    "score": null,
+    "sourceDescription": "",
+    "status": "bitirdim",
+    "title": "F9",
+    "tmdbId": 385128,
+    "updatedAt": "2026-11-17T21:59:40.178Z",
+    "year": 2021,
+    "id": "uma-mwl8k7vf-1n3fsx"
   }
 ]
