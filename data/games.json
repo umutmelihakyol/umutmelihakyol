@@ -4457,5 +4457,38 @@
     "updatedAt": "2026-11-17T21:17:06.292Z",
     "year": 1999,
     "id": "uma-mwl719i8-2obvpc"
+  },
+  {
+    "cons": [],
+    "developer": " Endix",
+    "favorite": false,
+    "finished": null,
+    "genres": [
+      "Macera",
+      "Basit Eğlence",
+      "Bağımsız Yapımcı",
+      "Devasa Çok Oyunculu",
+      "Simülasyon",
+      "Oynaması Ücretsiz"
+    ],
+    "hours": 5,
+    "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/4356840/bd5749a25a866efe2652aac705f3fd8d057a4a0a/header.jpg?t=1794487826",
+    "note": "",
+    "platform": "PC (Steam)",
+    "pros": [],
+    "publisher": "Endix",
+    "recommended": null,
+    "review": "",
+    "score": null,
+    "sourceDescription": "Explore unique &amp; immersive booths from your favorite games. Watch exclusive trailers, compete in mini-games, and connect with players, creators &amp; developers from around the world. All inside a living, free multiplayer experience.",
+    "status": "oynuyorum",
+    "steamAppId": 4356840,
+    "steamLastSyncAt": "2026-11-17T21:17:48.806Z",
+    "steamPlaytimeMinutes": 301,
+    "steamUrl": "https://store.steampowered.com/app/4356840/",
+    "title": "Endix",
+    "updatedAt": "2026-11-17T21:17:48.806Z",
+    "year": 2026,
+    "id": "uma-mwl726aj-4geeo3"
   }
 ]
