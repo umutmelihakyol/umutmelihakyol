@@ -20,9 +20,23 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-10-23T09:59:25.421Z",
+    "updatedAt": "2026-11-17T21:17:10.161Z",
     "episodes": 11,
-    "studio": "A-1 Pictures"
+    "studio": "A-1 Pictures",
+    "tracking": {
+      "currentEpisode": 0,
+      "watchedEpisodes": 0,
+      "source": "anilist",
+      "updatedAt": "2026-11-17T21:17:10.161Z"
+    },
+    "anilistId": 116589,
+    "malId": 41457,
+    "links": [
+      {
+        "name": "AniList sayfası",
+        "url": "https://anilist.co/anime/116589"
+      }
+    ]
   },
   {
     "id": "mvkjq8kz",
@@ -45,9 +59,23 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-10-23T10:00:26.939Z",
+    "updatedAt": "2026-11-17T21:17:10.161Z",
     "episodes": 12,
-    "studio": "A-1 Pictures"
+    "studio": "A-1 Pictures",
+    "tracking": {
+      "currentEpisode": 0,
+      "watchedEpisodes": 0,
+      "source": "anilist",
+      "updatedAt": "2026-11-17T21:17:10.161Z"
+    },
+    "anilistId": 131586,
+    "malId": 48569,
+    "links": [
+      {
+        "name": "AniList sayfası",
+        "url": "https://anilist.co/anime/131586"
+      }
+    ]
   },
   {
     "id": "mvkjq927",
@@ -73,9 +101,23 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-10-23T10:00:46.287Z",
+    "updatedAt": "2026-11-17T21:17:10.161Z",
     "episodes": 24,
-    "studio": "WHITE FOX"
+    "studio": "WHITE FOX",
+    "tracking": {
+      "currentEpisode": 0,
+      "watchedEpisodes": 0,
+      "source": "anilist",
+      "updatedAt": "2026-11-17T21:17:10.161Z"
+    },
+    "anilistId": 20613,
+    "malId": 22199,
+    "links": [
+      {
+        "name": "AniList sayfası",
+        "url": "https://anilist.co/anime/20613"
+      }
+    ]
   },
   {
     "id": "mvkjq9jd",
@@ -97,9 +139,23 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-10-23T10:01:08.527Z",
+    "updatedAt": "2026-11-17T21:17:10.161Z",
     "episodes": 12,
-    "studio": "MADHOUSE"
+    "studio": "MADHOUSE",
+    "tracking": {
+      "currentEpisode": 0,
+      "watchedEpisodes": 0,
+      "source": "anilist",
+      "updatedAt": "2026-11-17T21:17:10.161Z"
+    },
+    "anilistId": 14345,
+    "malId": 14345,
+    "links": [
+      {
+        "name": "AniList sayfası",
+        "url": "https://anilist.co/anime/14345"
+      }
+    ]
   },
   {
     "id": "mvkjqa7l",
@@ -174,9 +230,23 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-10-23T10:02:10.446Z",
+    "updatedAt": "2026-11-17T21:17:10.161Z",
     "episodes": 64,
-    "studio": "bones"
+    "studio": "bones",
+    "tracking": {
+      "currentEpisode": 0,
+      "watchedEpisodes": 0,
+      "source": "anilist",
+      "updatedAt": "2026-11-17T21:17:10.161Z"
+    },
+    "anilistId": 5114,
+    "malId": 5114,
+    "links": [
+      {
+        "name": "AniList sayfası",
+        "url": "https://anilist.co/anime/5114"
+      }
+    ]
   },
   {
     "id": "mvkjqbod",
@@ -197,9 +267,23 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-10-23T10:02:23.909Z",
+    "updatedAt": "2026-11-17T21:17:10.161Z",
     "episodes": 12,
-    "studio": "Manglobe"
+    "studio": "Manglobe",
+    "tracking": {
+      "currentEpisode": 0,
+      "watchedEpisodes": 0,
+      "source": "anilist",
+      "updatedAt": "2026-11-17T21:17:10.161Z"
+    },
+    "anilistId": 20773,
+    "malId": 25183,
+    "links": [
+      {
+        "name": "AniList sayfası",
+        "url": "https://anilist.co/anime/20773"
+      }
+    ]
   },
   {
     "id": "mvkjqc69",
@@ -221,9 +305,23 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-10-23T10:02:47.160Z",
+    "updatedAt": "2026-11-17T21:17:10.161Z",
     "episodes": 13,
-    "studio": "GONZO"
+    "studio": "GONZO",
+    "tracking": {
+      "currentEpisode": 0,
+      "watchedEpisodes": 0,
+      "source": "anilist",
+      "updatedAt": "2026-11-17T21:17:10.161Z"
+    },
+    "anilistId": 270,
+    "malId": 270,
+    "links": [
+      {
+        "name": "AniList sayfası",
+        "url": "https://anilist.co/anime/270"
+      }
+    ]
   },
   {
     "id": "mvkjqcn7",
@@ -275,7 +373,7 @@
   },
   {
     "id": "mvkjqdso",
-    "status": "istek",
+    "status": "oynuyorum",
     "title": "JUJUTSU KAISEN",
     "image": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx113415-LHBAeoZDIsnF.jpg",
     "platform": "Anime",
@@ -293,9 +391,23 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T08:48:51.071Z",
+    "updatedAt": "2026-11-17T21:17:10.161Z",
     "episodes": 24,
-    "studio": "MAPPA"
+    "studio": "MAPPA",
+    "tracking": {
+      "currentEpisode": 5,
+      "watchedEpisodes": 5,
+      "source": "anilist",
+      "updatedAt": "2026-11-17T21:17:10.161Z"
+    },
+    "anilistId": 113415,
+    "malId": 40748,
+    "links": [
+      {
+        "name": "AniList sayfası",
+        "url": "https://anilist.co/anime/113415"
+      }
+    ]
   },
   {
     "id": "mvkjqe8c",
@@ -319,9 +431,23 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-10-23T05:45:30.239Z",
+    "updatedAt": "2026-11-17T21:17:10.161Z",
     "episodes": 26,
-    "studio": "ufotable"
+    "studio": "ufotable",
+    "tracking": {
+      "currentEpisode": 1,
+      "watchedEpisodes": 1,
+      "source": "anilist",
+      "updatedAt": "2026-11-17T21:17:10.161Z"
+    },
+    "anilistId": 101922,
+    "malId": 38000,
+    "links": [
+      {
+        "name": "AniList sayfası",
+        "url": "https://anilist.co/anime/101922"
+      }
+    ]
   },
   {
     "id": "mvkjqepl",
@@ -345,9 +471,23 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-10-23T10:23:37.467Z",
+    "updatedAt": "2026-11-17T21:17:10.161Z",
     "episodes": 24,
-    "studio": "MADHOUSE"
+    "studio": "MADHOUSE",
+    "tracking": {
+      "currentEpisode": 0,
+      "watchedEpisodes": 0,
+      "source": "anilist",
+      "updatedAt": "2026-11-17T21:17:10.161Z"
+    },
+    "anilistId": 20623,
+    "malId": 22535,
+    "links": [
+      {
+        "name": "AniList sayfası",
+        "url": "https://anilist.co/anime/20623"
+      }
+    ]
   },
   {
     "id": "mvkjqf4r",
@@ -378,7 +518,7 @@
   },
   {
     "id": "mvkjqfjw",
-    "status": "istek",
+    "status": "oynuyorum",
     "title": "ONE PIECE",
     "image": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx21-ELSYx3yMPcKM.jpg",
     "platform": "Anime",
@@ -398,13 +538,27 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T08:48:51.071Z",
+    "updatedAt": "2026-11-17T21:17:10.161Z",
     "episodes": 12,
-    "studio": "Toei Animation"
+    "studio": "Toei Animation",
+    "tracking": {
+      "currentEpisode": 45,
+      "watchedEpisodes": 45,
+      "source": "anilist",
+      "updatedAt": "2026-11-17T21:17:10.161Z"
+    },
+    "anilistId": 21,
+    "malId": 21,
+    "links": [
+      {
+        "name": "AniList sayfası",
+        "url": "https://anilist.co/anime/21"
+      }
+    ]
   },
   {
     "id": "mvkjqg14",
-    "status": "istek",
+    "status": "oynuyorum",
     "title": "Solo Leveling",
     "image": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx151807-it355ZgzquUd.png",
     "platform": "Anime",
@@ -422,13 +576,27 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T08:48:51.071Z",
+    "updatedAt": "2026-11-17T21:17:10.161Z",
     "episodes": 12,
-    "studio": "A-1 Pictures"
+    "studio": "A-1 Pictures",
+    "tracking": {
+      "currentEpisode": 8,
+      "watchedEpisodes": 8,
+      "source": "anilist",
+      "updatedAt": "2026-11-17T21:17:10.161Z"
+    },
+    "anilistId": 151807,
+    "malId": 52299,
+    "links": [
+      {
+        "name": "AniList sayfası",
+        "url": "https://anilist.co/anime/151807"
+      }
+    ]
   },
   {
     "id": "mvkjqgi5",
-    "status": "istek",
+    "status": "oynuyorum",
     "title": "Re:ZERO -Starting Life in Another World-",
     "image": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx21355-wRVUrGxpvIQQ.jpg",
     "platform": "Anime",
@@ -450,9 +618,23 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T08:48:51.071Z",
+    "updatedAt": "2026-11-17T21:17:10.161Z",
     "episodes": 25,
-    "studio": "WHITE FOX"
+    "studio": "WHITE FOX",
+    "tracking": {
+      "currentEpisode": 1,
+      "watchedEpisodes": 1,
+      "source": "anilist",
+      "updatedAt": "2026-11-17T21:17:10.161Z"
+    },
+    "anilistId": 21355,
+    "malId": 31240,
+    "links": [
+      {
+        "name": "AniList sayfası",
+        "url": "https://anilist.co/anime/21355"
+      }
+    ]
   },
   {
     "id": "mvkjqgzj",
@@ -582,8 +764,22 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-10-22T05:31:25.410Z",
+    "updatedAt": "2026-11-17T21:17:10.161Z",
     "episodes": 37,
-    "studio": "MADHOUSE"
+    "studio": "MADHOUSE",
+    "tracking": {
+      "currentEpisode": 37,
+      "watchedEpisodes": 37,
+      "source": "anilist",
+      "updatedAt": "2026-11-17T21:17:10.161Z"
+    },
+    "anilistId": 1535,
+    "malId": 1535,
+    "links": [
+      {
+        "name": "AniList sayfası",
+        "url": "https://anilist.co/anime/1535"
+      }
+    ]
   }
 ]
