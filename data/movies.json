@@ -3623,8 +3623,14 @@
         "reason": "İlk değerlendirme"
       }
     ],
-    "updatedAt": "2026-11-17T22:07:34.870Z",
+    "updatedAt": "2026-11-17T22:08:06.124Z",
     "minutes": null,
-    "director": ""
+    "director": "",
+    "tmdbId": 1891,
+    "letterboxdDiaryUrl": "https://letterboxd.com/umutmelihakyol/film/the-empire-strikes-back/",
+    "letterboxdRating": 4.5,
+    "letterboxdWatchedDate": "2025-07-12",
+    "letterboxdRecentDiaryCount": 1,
+    "letterboxdLastSyncAt": "2026-11-17T22:08:06.124Z"
   }
 ]
