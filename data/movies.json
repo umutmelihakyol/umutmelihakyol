@@ -3437,5 +3437,40 @@
     "updatedAt": "2026-10-21T21:56:29.395Z",
     "minutes": 144,
     "director": "Joss Whedon"
+  },
+  {
+    "cons": [],
+    "director": "",
+    "favorite": false,
+    "finished": "2025-03-21",
+    "genres": [],
+    "image": "https://a.ltrbxd.com/resized/film-poster/1/1/7/2/6/7/117267-death-race-inferno-0-600-0-900-crop.jpg?v=b9959398e1",
+    "letterboxdDiaryUrl": "https://letterboxd.com/umutmelihakyol/film/death-race-inferno/",
+    "letterboxdLastSyncAt": "2026-11-17T21:59:40.177Z",
+    "letterboxdRating": 3,
+    "letterboxdRecentDiaryCount": 1,
+    "letterboxdRewatch": true,
+    "letterboxdSourceReview": "Watched on Friday March 21, 2025.",
+    "letterboxdWatchedDate": "2025-03-21",
+    "links": [
+      {
+        "name": "Letterboxd günlüğü",
+        "url": "https://letterboxd.com/umutmelihakyol/film/death-race-inferno/"
+      }
+    ],
+    "minutes": null,
+    "note": "",
+    "platform": "Letterboxd",
+    "pros": [],
+    "recommended": null,
+    "review": "",
+    "score": null,
+    "sourceDescription": "",
+    "status": "bitirdim",
+    "title": "Death Race: Inferno",
+    "tmdbId": 156717,
+    "updatedAt": "2026-11-17T21:59:40.177Z",
+    "year": 2013,
+    "id": "uma-mwl8k2sh-1x2ouf"
   }
 ]
