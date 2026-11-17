@@ -3577,5 +3577,40 @@
     "updatedAt": "2026-11-17T21:59:40.175Z",
     "year": 1977,
     "id": "uma-mwl8kbmx-a3dc05"
+  },
+  {
+    "cons": [],
+    "director": "",
+    "favorite": false,
+    "finished": "2025-07-12",
+    "genres": [],
+    "image": "https://a.ltrbxd.com/resized/sm/upload/mp/pz/lf/2i/7BuH8itoSrLExs2YZSsM01Qk2no-0-600-0-900-crop.jpg?v=27c6c6fba7",
+    "letterboxdDiaryUrl": "https://letterboxd.com/umutmelihakyol/film/the-empire-strikes-back/",
+    "letterboxdLastSyncAt": "2026-11-17T21:59:40.174Z",
+    "letterboxdRating": 4.5,
+    "letterboxdRecentDiaryCount": 1,
+    "letterboxdRewatch": false,
+    "letterboxdSourceReview": "Watched on Saturday July 12, 2025.",
+    "letterboxdWatchedDate": "2025-07-12",
+    "links": [
+      {
+        "name": "Letterboxd günlüğü",
+        "url": "https://letterboxd.com/umutmelihakyol/film/the-empire-strikes-back/"
+      }
+    ],
+    "minutes": null,
+    "note": "",
+    "platform": "Letterboxd",
+    "pros": [],
+    "recommended": null,
+    "review": "",
+    "score": null,
+    "sourceDescription": "",
+    "status": "bitirdim",
+    "title": "The Empire Strikes Back",
+    "tmdbId": 1891,
+    "updatedAt": "2026-11-17T21:59:40.174Z",
+    "year": 1980,
+    "id": "uma-mwl8kdn4-1wsnl1"
   }
 ]
