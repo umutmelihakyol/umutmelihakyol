@@ -3542,5 +3542,40 @@
     "updatedAt": "2026-11-17T21:59:40.176Z",
     "year": 2018,
     "id": "uma-mwl8k9gn-1iz1r8"
+  },
+  {
+    "cons": [],
+    "director": "",
+    "favorite": false,
+    "finished": "2025-07-12",
+    "genres": [],
+    "image": "https://a.ltrbxd.com/resized/film-poster/2/7/0/6/2706-star-wars-0-600-0-900-crop.jpg?v=f1f1271bf5",
+    "letterboxdDiaryUrl": "https://letterboxd.com/umutmelihakyol/film/star-wars/",
+    "letterboxdLastSyncAt": "2026-11-17T21:59:40.175Z",
+    "letterboxdRating": 4,
+    "letterboxdRecentDiaryCount": 1,
+    "letterboxdRewatch": false,
+    "letterboxdSourceReview": "Watched on Saturday July 12, 2025.",
+    "letterboxdWatchedDate": "2025-07-12",
+    "links": [
+      {
+        "name": "Letterboxd günlüğü",
+        "url": "https://letterboxd.com/umutmelihakyol/film/star-wars/"
+      }
+    ],
+    "minutes": null,
+    "note": "",
+    "platform": "Letterboxd",
+    "pros": [],
+    "recommended": null,
+    "review": "",
+    "score": null,
+    "sourceDescription": "",
+    "status": "bitirdim",
+    "title": "Star Wars",
+    "tmdbId": 11,
+    "updatedAt": "2026-11-17T21:59:40.175Z",
+    "year": 1977,
+    "id": "uma-mwl8kbmx-a3dc05"
   }
 ]
