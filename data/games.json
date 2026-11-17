@@ -59,9 +59,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.376Z",
-    "hours": 205,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.107Z",
+    "hours": 204.8,
+    "developer": "",
+    "steamAppId": 10,
+    "steamPlaytimeMinutes": 12285,
+    "steamUrl": "https://store.steampowered.com/app/10/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.107Z"
   },
   {
     "id": "mwgm0luq",
@@ -82,9 +86,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.376Z",
-    "hours": 6,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.107Z",
+    "hours": 6.2,
+    "developer": "",
+    "steamAppId": 70,
+    "steamPlaytimeMinutes": 370,
+    "steamUrl": "https://store.steampowered.com/app/70/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.107Z"
   },
   {
     "id": "mwgm0mat",
@@ -105,9 +113,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.376Z",
+    "updatedAt": "2026-11-17T21:17:01.107Z",
     "hours": 8,
-    "developer": ""
+    "developer": "",
+    "steamAppId": 500,
+    "steamPlaytimeMinutes": 477,
+    "steamUrl": "https://store.steampowered.com/app/500/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.107Z"
   },
   {
     "id": "mwgm0mqt",
@@ -128,9 +140,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.376Z",
-    "hours": 75,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.107Z",
+    "hours": 74.8,
+    "developer": "",
+    "steamAppId": 550,
+    "steamPlaytimeMinutes": 4487,
+    "steamUrl": "https://store.steampowered.com/app/550/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.107Z"
   },
   {
     "id": "mwgm0n4r",
@@ -151,9 +167,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.376Z",
-    "hours": 10,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.107Z",
+    "hours": 10.5,
+    "developer": "",
+    "steamAppId": 620,
+    "steamPlaytimeMinutes": 628,
+    "steamUrl": "https://store.steampowered.com/app/620/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.107Z"
   },
   {
     "id": "mwgm0nfl",
@@ -173,9 +193,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.376Z",
-    "hours": 101,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.107Z",
+    "hours": 100.6,
+    "developer": "",
+    "steamAppId": 730,
+    "steamPlaytimeMinutes": 6033,
+    "steamUrl": "https://store.steampowered.com/app/730/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.107Z"
   },
   {
     "id": "mwgm0npr",
@@ -196,9 +220,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.376Z",
-    "hours": 15,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.107Z",
+    "hours": 14.7,
+    "developer": "",
+    "steamAppId": 34870,
+    "steamPlaytimeMinutes": 879,
+    "steamUrl": "https://store.steampowered.com/app/34870/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.107Z"
   },
   {
     "id": "mwgm0nzw",
@@ -219,9 +247,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.376Z",
+    "updatedAt": "2026-11-17T21:17:01.107Z",
     "hours": 13,
-    "developer": ""
+    "developer": "",
+    "steamAppId": 47870,
+    "steamPlaytimeMinutes": 777,
+    "steamUrl": "https://store.steampowered.com/app/47870/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.107Z"
   },
   {
     "id": "mwgm0ocf",
@@ -243,9 +275,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.376Z",
-    "hours": 6,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.107Z",
+    "hours": 6.3,
+    "developer": "",
+    "steamAppId": 49520,
+    "steamPlaytimeMinutes": 380,
+    "steamUrl": "https://store.steampowered.com/app/49520/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.107Z"
   },
   {
     "id": "mwgm0pc8",
@@ -268,9 +304,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.376Z",
-    "hours": 5902,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.107Z",
+    "hours": 5902.4,
+    "developer": "",
+    "steamAppId": 107410,
+    "steamPlaytimeMinutes": 354145,
+    "steamUrl": "https://store.steampowered.com/app/107410/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.107Z"
   },
   {
     "id": "mwgm0qs8",
@@ -291,9 +331,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.376Z",
-    "hours": 5,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.107Z",
+    "hours": 5.3,
+    "developer": "",
+    "steamAppId": 200260,
+    "steamPlaytimeMinutes": 316,
+    "steamUrl": "https://store.steampowered.com/app/200260/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.107Z"
   },
   {
     "id": "mwgm0ri9",
@@ -313,9 +357,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.376Z",
-    "hours": 23,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.107Z",
+    "hours": 22.7,
+    "developer": "",
+    "steamAppId": 201870,
+    "steamPlaytimeMinutes": 1360,
+    "steamUrl": "https://store.steampowered.com/app/201870/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.107Z"
   },
   {
     "id": "mwgm0rzz",
@@ -336,9 +384,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.376Z",
-    "hours": 12,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.107Z",
+    "hours": 11.7,
+    "developer": "",
+    "steamAppId": 203140,
+    "steamPlaytimeMinutes": 702,
+    "steamUrl": "https://store.steampowered.com/app/203140/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.107Z"
   },
   {
     "id": "mwgm0s9y",
@@ -359,9 +411,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.376Z",
-    "hours": 17,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.107Z",
+    "hours": 16.5,
+    "developer": "",
+    "steamAppId": 206420,
+    "steamPlaytimeMinutes": 992,
+    "steamUrl": "https://store.steampowered.com/app/206420/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.107Z"
   },
   {
     "id": "mwgm0smw",
@@ -385,9 +441,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.376Z",
+    "updatedAt": "2026-11-17T21:17:01.107Z",
     "hours": 141,
-    "developer": ""
+    "developer": "",
+    "steamAppId": 207140,
+    "steamPlaytimeMinutes": 8459,
+    "steamUrl": "https://store.steampowered.com/app/207140/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.107Z"
   },
   {
     "id": "mwgm0sy4",
@@ -407,9 +467,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.376Z",
-    "hours": 6,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.107Z",
+    "hours": 5.8,
+    "developer": "",
+    "steamAppId": 209000,
+    "steamPlaytimeMinutes": 347,
+    "steamUrl": "https://store.steampowered.com/app/209000/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.107Z"
   },
   {
     "id": "mwgm0te7",
@@ -430,9 +494,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.376Z",
-    "hours": 15,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.107Z",
+    "hours": 14.7,
+    "developer": "",
+    "steamAppId": 212630,
+    "steamPlaytimeMinutes": 879,
+    "steamUrl": "https://store.steampowered.com/app/212630/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.107Z"
   },
   {
     "id": "mwgm0tqp",
@@ -453,9 +521,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.376Z",
-    "hours": 93,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.107Z",
+    "hours": 93.4,
+    "developer": "",
+    "steamAppId": 218620,
+    "steamPlaytimeMinutes": 5603,
+    "steamUrl": "https://store.steampowered.com/app/218620/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.107Z"
   },
   {
     "id": "mwgm0u21",
@@ -477,9 +549,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.376Z",
-    "hours": 22,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.107Z",
+    "hours": 22.3,
+    "developer": "",
+    "steamAppId": 222880,
+    "steamPlaytimeMinutes": 1336,
+    "steamUrl": "https://store.steampowered.com/app/222880/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.107Z"
   },
   {
     "id": "mwgm0uba",
@@ -500,9 +576,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.376Z",
-    "hours": 6,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.107Z",
+    "hours": 6.3,
+    "developer": "",
+    "steamAppId": 225260,
+    "steamPlaytimeMinutes": 380,
+    "steamUrl": "https://store.steampowered.com/app/225260/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.107Z"
   },
   {
     "id": "mwgm0ukn",
@@ -523,9 +603,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.376Z",
-    "hours": 10,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.107Z",
+    "hours": 10.4,
+    "developer": "",
+    "steamAppId": 225540,
+    "steamPlaytimeMinutes": 623,
+    "steamUrl": "https://store.steampowered.com/app/225540/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.107Z"
   },
   {
     "id": "mwgm0uv0",
@@ -546,9 +630,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.376Z",
-    "hours": 616,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.107Z",
+    "hours": 616.3,
+    "developer": "",
+    "steamAppId": 227300,
+    "steamPlaytimeMinutes": 36976,
+    "steamUrl": "https://store.steampowered.com/app/227300/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.107Z"
   },
   {
     "id": "mwgm0va3",
@@ -571,9 +659,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.376Z",
-    "hours": 887,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.107Z",
+    "hours": 886.8,
+    "developer": "",
+    "steamAppId": 230410,
+    "steamPlaytimeMinutes": 53205,
+    "steamUrl": "https://store.steampowered.com/app/230410/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.107Z"
   },
   {
     "id": "mwgm0vma",
@@ -593,9 +685,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.376Z",
-    "hours": 5,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.107Z",
+    "hours": 5.1,
+    "developer": "",
+    "steamAppId": 231430,
+    "steamPlaytimeMinutes": 303,
+    "steamUrl": "https://store.steampowered.com/app/231430/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.107Z"
   },
   {
     "id": "mwgm0vxt",
@@ -616,9 +712,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.376Z",
+    "updatedAt": "2026-11-17T21:17:01.108Z",
     "hours": 9,
-    "developer": ""
+    "developer": "",
+    "steamAppId": 234140,
+    "steamPlaytimeMinutes": 538,
+    "steamUrl": "https://store.steampowered.com/app/234140/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.108Z"
   },
   {
     "id": "mwgm0wds",
@@ -640,9 +740,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.376Z",
-    "hours": 30,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.108Z",
+    "hours": 29.8,
+    "developer": "",
+    "steamAppId": 236390,
+    "steamPlaytimeMinutes": 1788,
+    "steamUrl": "https://store.steampowered.com/app/236390/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.108Z"
   },
   {
     "id": "mwgm0wvf",
@@ -665,9 +769,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.376Z",
-    "hours": 7,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.108Z",
+    "hours": 6.6,
+    "developer": "",
+    "steamAppId": 239030,
+    "steamPlaytimeMinutes": 397,
+    "steamUrl": "https://store.steampowered.com/app/239030/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.108Z"
   },
   {
     "id": "mwgm0x8y",
@@ -688,9 +796,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.376Z",
-    "hours": 56,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.108Z",
+    "hours": 55.9,
+    "developer": "",
+    "steamAppId": 239140,
+    "steamPlaytimeMinutes": 3351,
+    "steamUrl": "https://store.steampowered.com/app/239140/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.108Z"
   },
   {
     "id": "mwgm0xk8",
@@ -712,9 +824,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.376Z",
-    "hours": 13,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.108Z",
+    "hours": 12.8,
+    "developer": "",
+    "steamAppId": 251570,
+    "steamPlaytimeMinutes": 766,
+    "steamUrl": "https://store.steampowered.com/app/251570/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.108Z"
   },
   {
     "id": "mwgm0xu3",
@@ -738,9 +854,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.376Z",
-    "hours": 83,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.108Z",
+    "hours": 82.6,
+    "developer": "",
+    "steamAppId": 252490,
+    "steamPlaytimeMinutes": 4954,
+    "steamUrl": "https://store.steampowered.com/app/252490/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.108Z"
   },
   {
     "id": "mwgm0y8j",
@@ -762,9 +882,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.376Z",
-    "hours": 74,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.108Z",
+    "hours": 73.9,
+    "developer": "",
+    "steamAppId": 252950,
+    "steamPlaytimeMinutes": 4435,
+    "steamUrl": "https://store.steampowered.com/app/252950/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.108Z"
   },
   {
     "id": "mwgm0yiw",
@@ -785,9 +909,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.376Z",
-    "hours": 29,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.108Z",
+    "hours": 29.2,
+    "developer": "",
+    "steamAppId": 255710,
+    "steamPlaytimeMinutes": 1753,
+    "steamUrl": "https://store.steampowered.com/app/255710/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.108Z"
   },
   {
     "id": "mwgm0ytb",
@@ -808,9 +936,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.376Z",
-    "hours": 5,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.108Z",
+    "hours": 5.1,
+    "developer": "",
+    "steamAppId": 264710,
+    "steamPlaytimeMinutes": 304,
+    "steamUrl": "https://store.steampowered.com/app/264710/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.108Z"
   },
   {
     "id": "mwgm0z8z",
@@ -833,9 +965,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.376Z",
-    "hours": 9,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.108Z",
+    "hours": 9.3,
+    "developer": "",
+    "steamAppId": 270550,
+    "steamPlaytimeMinutes": 558,
+    "steamUrl": "https://store.steampowered.com/app/270550/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.108Z"
   },
   {
     "id": "mwgm0zl8",
@@ -855,9 +991,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.376Z",
-    "hours": 959,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.108Z",
+    "hours": 958.9,
+    "developer": "",
+    "steamAppId": 271590,
+    "steamPlaytimeMinutes": 57536,
+    "steamUrl": "https://store.steampowered.com/app/271590/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.108Z"
   },
   {
     "id": "mwgm0zw0",
@@ -879,9 +1019,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.376Z",
-    "hours": 7,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.108Z",
+    "hours": 7.5,
+    "developer": "",
+    "steamAppId": 280160,
+    "steamPlaytimeMinutes": 449,
+    "steamUrl": "https://store.steampowered.com/app/280160/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.108Z"
   },
   {
     "id": "mwgm106b",
@@ -904,9 +1048,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.376Z",
-    "hours": 10,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.108Z",
+    "hours": 10.2,
+    "developer": "",
+    "steamAppId": 285900,
+    "steamPlaytimeMinutes": 614,
+    "steamUrl": "https://store.steampowered.com/app/285900/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.108Z"
   },
   {
     "id": "mwgm10ff",
@@ -927,9 +1075,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.376Z",
-    "hours": 7,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.108Z",
+    "hours": 6.6,
+    "developer": "",
+    "steamAppId": 286570,
+    "steamPlaytimeMinutes": 395,
+    "steamUrl": "https://store.steampowered.com/app/286570/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.108Z"
   },
   {
     "id": "mwgm10ok",
@@ -950,9 +1102,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.376Z",
-    "hours": 54,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.108Z",
+    "hours": 53.6,
+    "developer": "",
+    "steamAppId": 291480,
+    "steamPlaytimeMinutes": 3215,
+    "steamUrl": "https://store.steampowered.com/app/291480/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.108Z"
   },
   {
     "id": "mwgm10zd",
@@ -975,9 +1131,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.376Z",
-    "hours": 69,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.108Z",
+    "hours": 69.3,
+    "developer": "",
+    "steamAppId": 291550,
+    "steamPlaytimeMinutes": 4160,
+    "steamUrl": "https://store.steampowered.com/app/291550/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.108Z"
   },
   {
     "id": "mwgm11e4",
@@ -995,9 +1155,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.376Z",
-    "hours": 11,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.108Z",
+    "hours": 10.8,
+    "developer": "",
+    "steamAppId": 292030,
+    "steamPlaytimeMinutes": 648,
+    "steamUrl": "https://store.steampowered.com/app/292030/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.108Z"
   },
   {
     "id": "mwgm11pa",
@@ -1020,9 +1184,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.376Z",
-    "hours": 14,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.108Z",
+    "hours": 13.6,
+    "developer": "",
+    "steamAppId": 302590,
+    "steamPlaytimeMinutes": 817,
+    "steamUrl": "https://store.steampowered.com/app/302590/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.108Z"
   },
   {
     "id": "mwgm11zr",
@@ -1043,9 +1211,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.376Z",
-    "hours": 6,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.108Z",
+    "hours": 6.4,
+    "developer": "",
+    "steamAppId": 304930,
+    "steamPlaytimeMinutes": 385,
+    "steamUrl": "https://store.steampowered.com/app/304930/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.108Z"
   },
   {
     "id": "mwgm129t",
@@ -1066,9 +1238,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.376Z",
-    "hours": 13,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.108Z",
+    "hours": 12.6,
+    "developer": "",
+    "steamAppId": 313160,
+    "steamPlaytimeMinutes": 754,
+    "steamUrl": "https://store.steampowered.com/app/313160/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.108Z"
   },
   {
     "id": "mwgm12mv",
@@ -1089,9 +1265,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.376Z",
-    "hours": 26,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.108Z",
+    "hours": 25.8,
+    "developer": "",
+    "steamAppId": 335240,
+    "steamPlaytimeMinutes": 1548,
+    "steamUrl": "https://store.steampowered.com/app/335240/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.108Z"
   },
   {
     "id": "mwgm130r",
@@ -1112,9 +1292,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.376Z",
-    "hours": 2163,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.108Z",
+    "hours": 2162.9,
+    "developer": "",
+    "steamAppId": 359550,
+    "steamPlaytimeMinutes": 129774,
+    "steamUrl": "https://store.steampowered.com/app/359550/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.108Z"
   },
   {
     "id": "mwgm13f3",
@@ -1138,9 +1322,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.376Z",
-    "hours": 7,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.108Z",
+    "hours": 6.6,
+    "developer": "",
+    "steamAppId": 361280,
+    "steamPlaytimeMinutes": 395,
+    "steamUrl": "https://store.steampowered.com/app/361280/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.108Z"
   },
   {
     "id": "mwgm13r6",
@@ -1162,9 +1350,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.376Z",
-    "hours": 9,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.108Z",
+    "hours": 9.1,
+    "developer": "",
+    "steamAppId": 365590,
+    "steamPlaytimeMinutes": 547,
+    "steamUrl": "https://store.steampowered.com/app/365590/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.108Z"
   },
   {
     "id": "mwgm143q",
@@ -1184,9 +1376,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.376Z",
-    "hours": 9,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.108Z",
+    "hours": 9.3,
+    "developer": "",
+    "steamAppId": 381210,
+    "steamPlaytimeMinutes": 556,
+    "steamUrl": "https://store.steampowered.com/app/381210/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.108Z"
   },
   {
     "id": "mwgm14e3",
@@ -1206,9 +1402,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.376Z",
-    "hours": 10,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.108Z",
+    "hours": 9.8,
+    "developer": "",
+    "steamAppId": 386360,
+    "steamPlaytimeMinutes": 587,
+    "steamUrl": "https://store.steampowered.com/app/386360/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.108Z"
   },
   {
     "id": "mwgm14pd",
@@ -1231,9 +1431,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.376Z",
+    "updatedAt": "2026-11-17T21:17:01.108Z",
     "hours": 6,
-    "developer": ""
+    "developer": "",
+    "steamAppId": 387990,
+    "steamPlaytimeMinutes": 357,
+    "steamUrl": "https://store.steampowered.com/app/387990/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.108Z"
   },
   {
     "id": "mwgm1508",
@@ -1254,9 +1458,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.376Z",
-    "hours": 28,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.108Z",
+    "hours": 27.5,
+    "developer": "",
+    "steamAppId": 393380,
+    "steamPlaytimeMinutes": 1652,
+    "steamUrl": "https://store.steampowered.com/app/393380/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.108Z"
   },
   {
     "id": "mwgm159c",
@@ -1280,9 +1488,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.376Z",
-    "hours": 78,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.108Z",
+    "hours": 78.4,
+    "developer": "",
+    "steamAppId": 394690,
+    "steamPlaytimeMinutes": 4706,
+    "steamUrl": "https://store.steampowered.com/app/394690/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.108Z"
   },
   {
     "id": "mwgm15me",
@@ -1304,9 +1516,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.376Z",
-    "hours": 41,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.108Z",
+    "hours": 40.6,
+    "developer": "",
+    "steamAppId": 397900,
+    "steamPlaytimeMinutes": 2437,
+    "steamUrl": "https://store.steampowered.com/app/397900/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.108Z"
   },
   {
     "id": "mwgm162f",
@@ -1327,9 +1543,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.377Z",
-    "hours": 26,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.108Z",
+    "hours": 26.5,
+    "developer": "",
+    "steamAppId": 410900,
+    "steamPlaytimeMinutes": 1587,
+    "steamUrl": "https://store.steampowered.com/app/410900/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.108Z"
   },
   {
     "id": "mwgm16cv",
@@ -1351,9 +1571,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.377Z",
-    "hours": 9,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.108Z",
+    "hours": 9.2,
+    "developer": "",
+    "steamAppId": 413150,
+    "steamPlaytimeMinutes": 552,
+    "steamUrl": "https://store.steampowered.com/app/413150/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.108Z"
   },
   {
     "id": "mwgm16np",
@@ -1373,9 +1597,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.377Z",
-    "hours": 19,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.108Z",
+    "hours": 19.2,
+    "developer": "",
+    "steamAppId": 431960,
+    "steamPlaytimeMinutes": 1149,
+    "steamUrl": "https://store.steampowered.com/app/431960/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.108Z"
   },
   {
     "id": "mwgm16x7",
@@ -1395,9 +1623,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.377Z",
+    "updatedAt": "2026-11-17T21:17:01.108Z",
     "hours": 8,
-    "developer": ""
+    "developer": "",
+    "steamAppId": 433850,
+    "steamPlaytimeMinutes": 480,
+    "steamUrl": "https://store.steampowered.com/app/433850/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.108Z"
   },
   {
     "id": "mwgm178j",
@@ -1418,9 +1650,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.377Z",
+    "updatedAt": "2026-11-17T21:17:01.108Z",
     "hours": 21,
-    "developer": ""
+    "developer": "",
+    "steamAppId": 438740,
+    "steamPlaytimeMinutes": 1258,
+    "steamUrl": "https://store.steampowered.com/app/438740/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.108Z"
   },
   {
     "id": "mwgm17md",
@@ -1441,9 +1677,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.377Z",
-    "hours": 111,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.108Z",
+    "hours": 111.3,
+    "developer": "",
+    "steamAppId": 444090,
+    "steamPlaytimeMinutes": 6679,
+    "steamUrl": "https://store.steampowered.com/app/444090/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.108Z"
   },
   {
     "id": "mwgm17wr",
@@ -1465,9 +1705,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.377Z",
-    "hours": 11,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.108Z",
+    "hours": 10.6,
+    "developer": "",
+    "steamAppId": 456780,
+    "steamPlaytimeMinutes": 635,
+    "steamUrl": "https://store.steampowered.com/app/456780/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.108Z"
   },
   {
     "id": "mwgm18dr",
@@ -1489,9 +1733,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.377Z",
-    "hours": 6,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.108Z",
+    "hours": 6.1,
+    "developer": "",
+    "steamAppId": 460920,
+    "steamPlaytimeMinutes": 366,
+    "steamUrl": "https://store.steampowered.com/app/460920/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.108Z"
   },
   {
     "id": "mwgm18s0",
@@ -1513,9 +1761,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.377Z",
+    "updatedAt": "2026-11-17T21:17:01.108Z",
     "hours": 16,
-    "developer": ""
+    "developer": "",
+    "steamAppId": 460930,
+    "steamPlaytimeMinutes": 962,
+    "steamUrl": "https://store.steampowered.com/app/460930/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.108Z"
   },
   {
     "id": "mwgm196c",
@@ -1535,9 +1787,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.377Z",
-    "hours": 11,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.108Z",
+    "hours": 11.3,
+    "developer": "",
+    "steamAppId": 466240,
+    "steamPlaytimeMinutes": 675,
+    "steamUrl": "https://store.steampowered.com/app/466240/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.108Z"
   },
   {
     "id": "mwgm19hx",
@@ -1560,9 +1816,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.377Z",
-    "hours": 5,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.108Z",
+    "hours": 5.4,
+    "developer": "",
+    "steamAppId": 475550,
+    "steamPlaytimeMinutes": 326,
+    "steamUrl": "https://store.steampowered.com/app/475550/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.108Z"
   },
   {
     "id": "mwgm19ra",
@@ -1584,9 +1844,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.377Z",
-    "hours": 12,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.108Z",
+    "hours": 11.5,
+    "developer": "",
+    "steamAppId": 477160,
+    "steamPlaytimeMinutes": 690,
+    "steamUrl": "https://store.steampowered.com/app/477160/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.108Z"
   },
   {
     "id": "mwgm1a1p",
@@ -1606,9 +1870,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.377Z",
-    "hours": 14,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.109Z",
+    "hours": 13.9,
+    "developer": "",
+    "steamAppId": 515180,
+    "steamPlaytimeMinutes": 833,
+    "steamUrl": "https://store.steampowered.com/app/515180/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.109Z"
   },
   {
     "id": "mwgm1acl",
@@ -1631,9 +1899,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.377Z",
-    "hours": 229,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.109Z",
+    "hours": 229.5,
+    "developer": "",
+    "steamAppId": 526870,
+    "steamPlaytimeMinutes": 13769,
+    "steamUrl": "https://store.steampowered.com/app/526870/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.109Z"
   },
   {
     "id": "mwgm1aok",
@@ -1656,9 +1928,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.377Z",
-    "hours": 29,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.109Z",
+    "hours": 28.8,
+    "developer": "",
+    "steamAppId": 527230,
+    "steamPlaytimeMinutes": 1727,
+    "steamUrl": "https://store.steampowered.com/app/527230/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.109Z"
   },
   {
     "id": "mwgm1b1o",
@@ -1680,9 +1956,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.377Z",
-    "hours": 8,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.109Z",
+    "hours": 7.6,
+    "developer": "",
+    "steamAppId": 534380,
+    "steamPlaytimeMinutes": 457,
+    "steamUrl": "https://store.steampowered.com/app/534380/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.109Z"
   },
   {
     "id": "mwgm1bcg",
@@ -1703,9 +1983,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.377Z",
-    "hours": 66,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.109Z",
+    "hours": 65.9,
+    "developer": "",
+    "steamAppId": 548430,
+    "steamPlaytimeMinutes": 3955,
+    "steamUrl": "https://store.steampowered.com/app/548430/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.109Z"
   },
   {
     "id": "mwgm1bmh",
@@ -1726,9 +2010,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.377Z",
-    "hours": 8,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.109Z",
+    "hours": 7.6,
+    "developer": "",
+    "steamAppId": 552500,
+    "steamPlaytimeMinutes": 457,
+    "steamUrl": "https://store.steampowered.com/app/552500/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.109Z"
   },
   {
     "id": "mwgm1fdy",
@@ -1748,9 +2036,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.377Z",
+    "updatedAt": "2026-11-17T21:17:01.109Z",
     "hours": 10,
-    "developer": ""
+    "developer": "",
+    "steamAppId": 563560,
+    "steamPlaytimeMinutes": 600,
+    "steamUrl": "https://store.steampowered.com/app/563560/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.109Z"
   },
   {
     "id": "mwgm1ftm",
@@ -1772,9 +2064,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.377Z",
-    "hours": 75,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.109Z",
+    "hours": 74.6,
+    "developer": "",
+    "steamAppId": 578080,
+    "steamPlaytimeMinutes": 4473,
+    "steamUrl": "https://store.steampowered.com/app/578080/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.109Z"
   },
   {
     "id": "mwgm1gjf",
@@ -1795,9 +2091,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.377Z",
-    "hours": 102,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.109Z",
+    "hours": 101.9,
+    "developer": "",
+    "steamAppId": 585030,
+    "steamPlaytimeMinutes": 6114,
+    "steamUrl": "https://store.steampowered.com/app/585030/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.109Z"
   },
   {
     "id": "mwgm1hew",
@@ -1818,9 +2118,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.377Z",
-    "hours": 15,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.109Z",
+    "hours": 14.8,
+    "developer": "",
+    "steamAppId": 594650,
+    "steamPlaytimeMinutes": 888,
+    "steamUrl": "https://store.steampowered.com/app/594650/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.109Z"
   },
   {
     "id": "mwgm1i1q",
@@ -1838,9 +2142,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.377Z",
-    "hours": 14,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.109Z",
+    "hours": 13.6,
+    "developer": "",
+    "steamAppId": 629520,
+    "steamPlaytimeMinutes": 816,
+    "steamUrl": "https://store.steampowered.com/app/629520/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.109Z"
   },
   {
     "id": "mwgm1ibu",
@@ -1861,9 +2169,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.377Z",
-    "hours": 5,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.109Z",
+    "hours": 5.5,
+    "developer": "",
+    "steamAppId": 636480,
+    "steamPlaytimeMinutes": 327,
+    "steamUrl": "https://store.steampowered.com/app/636480/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.109Z"
   },
   {
     "id": "mwgm1ilf",
@@ -1887,9 +2199,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.377Z",
+    "updatedAt": "2026-11-17T21:17:01.109Z",
     "hours": 5,
-    "developer": ""
+    "developer": "",
+    "steamAppId": 638070,
+    "steamPlaytimeMinutes": 301,
+    "steamUrl": "https://store.steampowered.com/app/638070/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.109Z"
   },
   {
     "id": "mwgm1jof",
@@ -1909,9 +2225,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.377Z",
-    "hours": 127,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.109Z",
+    "hours": 126.8,
+    "developer": "",
+    "steamAppId": 648800,
+    "steamPlaytimeMinutes": 7606,
+    "steamUrl": "https://store.steampowered.com/app/648800/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.109Z"
   },
   {
     "id": "mwgm1m45",
@@ -1932,9 +2252,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.377Z",
-    "hours": 8,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.109Z",
+    "hours": 8.2,
+    "developer": "",
+    "steamAppId": 657200,
+    "steamPlaytimeMinutes": 491,
+    "steamUrl": "https://store.steampowered.com/app/657200/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.109Z"
   },
   {
     "id": "mwgm1njj",
@@ -1954,9 +2278,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.377Z",
-    "hours": 9,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.109Z",
+    "hours": 8.9,
+    "developer": "",
+    "steamAppId": 671860,
+    "steamPlaytimeMinutes": 535,
+    "steamUrl": "https://store.steampowered.com/app/671860/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.109Z"
   },
   {
     "id": "mwgm1obe",
@@ -1978,9 +2306,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.377Z",
-    "hours": 29,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.109Z",
+    "hours": 28.8,
+    "developer": "",
+    "steamAppId": 673950,
+    "steamPlaytimeMinutes": 1730,
+    "steamUrl": "https://store.steampowered.com/app/673950/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.109Z"
   },
   {
     "id": "mwgm1p30",
@@ -2003,9 +2335,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.377Z",
-    "hours": 7,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.109Z",
+    "hours": 6.9,
+    "developer": "",
+    "steamAppId": 674750,
+    "steamPlaytimeMinutes": 415,
+    "steamUrl": "https://store.steampowered.com/app/674750/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.109Z"
   },
   {
     "id": "mwgm1pur",
@@ -2027,9 +2363,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.377Z",
-    "hours": 37,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.109Z",
+    "hours": 37.5,
+    "developer": "",
+    "steamAppId": 674940,
+    "steamPlaytimeMinutes": 2247,
+    "steamUrl": "https://store.steampowered.com/app/674940/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.109Z"
   },
   {
     "id": "mwgm1qmw",
@@ -2050,9 +2390,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.377Z",
-    "hours": 30,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.109Z",
+    "hours": 29.6,
+    "developer": "",
+    "steamAppId": 699130,
+    "steamPlaytimeMinutes": 1775,
+    "steamUrl": "https://store.steampowered.com/app/699130/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.109Z"
   },
   {
     "id": "mwgm1reg",
@@ -2073,9 +2417,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.377Z",
-    "hours": 16,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.109Z",
+    "hours": 15.8,
+    "developer": "",
+    "steamAppId": 714210,
+    "steamPlaytimeMinutes": 947,
+    "steamUrl": "https://store.steampowered.com/app/714210/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.109Z"
   },
   {
     "id": "mwgm1s6g",
@@ -2096,9 +2444,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.377Z",
-    "hours": 28,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.109Z",
+    "hours": 28.5,
+    "developer": "",
+    "steamAppId": 739630,
+    "steamPlaytimeMinutes": 1707,
+    "steamUrl": "https://store.steampowered.com/app/739630/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.109Z"
   },
   {
     "id": "mwgm1sy0",
@@ -2121,9 +2473,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.377Z",
-    "hours": 6,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.109Z",
+    "hours": 6.3,
+    "developer": "",
+    "steamAppId": 815370,
+    "steamPlaytimeMinutes": 378,
+    "steamUrl": "https://store.steampowered.com/app/815370/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.109Z"
   },
   {
     "id": "mwgm1tpq",
@@ -2144,9 +2500,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.377Z",
-    "hours": 8,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.109Z",
+    "hours": 7.9,
+    "developer": "",
+    "steamAppId": 863550,
+    "steamPlaytimeMinutes": 471,
+    "steamUrl": "https://store.steampowered.com/app/863550/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.109Z"
   },
   {
     "id": "mwgm1uhs",
@@ -2168,9 +2528,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.377Z",
-    "hours": 43,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.109Z",
+    "hours": 43.2,
+    "developer": "",
+    "steamAppId": 880940,
+    "steamPlaytimeMinutes": 2591,
+    "steamUrl": "https://store.steampowered.com/app/880940/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.109Z"
   },
   {
     "id": "mwgm1v9p",
@@ -2192,9 +2556,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.377Z",
-    "hours": 7,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.109Z",
+    "hours": 6.8,
+    "developer": "",
+    "steamAppId": 884260,
+    "steamPlaytimeMinutes": 410,
+    "steamUrl": "https://store.steampowered.com/app/884260/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.109Z"
   },
   {
     "id": "mwgm1w1e",
@@ -2215,9 +2583,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.377Z",
-    "hours": 19,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.109Z",
+    "hours": 18.8,
+    "developer": "",
+    "steamAppId": 924970,
+    "steamPlaytimeMinutes": 1128,
+    "steamUrl": "https://store.steampowered.com/app/924970/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.109Z"
   },
   {
     "id": "mwgm1wt6",
@@ -2239,9 +2611,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.377Z",
-    "hours": 65,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.109Z",
+    "hours": 65.3,
+    "developer": "",
+    "steamAppId": 945360,
+    "steamPlaytimeMinutes": 3919,
+    "steamUrl": "https://store.steampowered.com/app/945360/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.109Z"
   },
   {
     "id": "mwgm1xkt",
@@ -2262,9 +2638,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.377Z",
-    "hours": 15,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.109Z",
+    "hours": 14.9,
+    "developer": "",
+    "steamAppId": 960090,
+    "steamPlaytimeMinutes": 896,
+    "steamUrl": "https://store.steampowered.com/app/960090/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.109Z"
   },
   {
     "id": "mwgm1ycu",
@@ -2284,9 +2664,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.377Z",
-    "hours": 29,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.109Z",
+    "hours": 28.6,
+    "developer": "",
+    "steamAppId": 996470,
+    "steamPlaytimeMinutes": 1713,
+    "steamUrl": "https://store.steampowered.com/app/996470/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.109Z"
   },
   {
     "id": "mwgm1z4l",
@@ -2306,9 +2690,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.377Z",
-    "hours": 8,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.109Z",
+    "hours": 7.7,
+    "developer": "",
+    "steamAppId": 997010,
+    "steamPlaytimeMinutes": 463,
+    "steamUrl": "https://store.steampowered.com/app/997010/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.109Z"
   },
   {
     "id": "mwgm1zwd",
@@ -2329,9 +2717,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.377Z",
-    "hours": 392,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.109Z",
+    "hours": 391.6,
+    "developer": "",
+    "steamAppId": 1063730,
+    "steamPlaytimeMinutes": 23497,
+    "steamUrl": "https://store.steampowered.com/app/1063730/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.109Z"
   },
   {
     "id": "mwgm20o4",
@@ -2355,9 +2747,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.377Z",
-    "hours": 33,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.109Z",
+    "hours": 33.1,
+    "developer": "",
+    "steamAppId": 1097150,
+    "steamPlaytimeMinutes": 1984,
+    "steamUrl": "https://store.steampowered.com/app/1097150/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.109Z"
   },
   {
     "id": "mwgm21g0",
@@ -2378,9 +2774,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.377Z",
-    "hours": 5,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.109Z",
+    "hours": 5.2,
+    "developer": "",
+    "steamAppId": 1097840,
+    "steamPlaytimeMinutes": 309,
+    "steamUrl": "https://store.steampowered.com/app/1097840/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.109Z"
   },
   {
     "id": "mwgm227s",
@@ -2400,9 +2800,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.377Z",
-    "hours": 10,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.109Z",
+    "hours": 9.7,
+    "developer": "",
+    "steamAppId": 1119730,
+    "steamPlaytimeMinutes": 584,
+    "steamUrl": "https://store.steampowered.com/app/1119730/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.109Z"
   },
   {
     "id": "mwgm22zi",
@@ -2424,9 +2828,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.377Z",
-    "hours": 6,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.109Z",
+    "hours": 5.6,
+    "developer": "",
+    "steamAppId": 1128810,
+    "steamPlaytimeMinutes": 338,
+    "steamUrl": "https://store.steampowered.com/app/1128810/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.109Z"
   },
   {
     "id": "mwgm23rl",
@@ -2449,9 +2857,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.377Z",
-    "hours": 64,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.109Z",
+    "hours": 64.3,
+    "developer": "",
+    "steamAppId": 1144200,
+    "steamPlaytimeMinutes": 3856,
+    "steamUrl": "https://store.steampowered.com/app/1144200/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.109Z"
   },
   {
     "id": "mwgm27mj",
@@ -2472,9 +2884,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.377Z",
-    "hours": 6,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.109Z",
+    "hours": 5.8,
+    "developer": "",
+    "steamAppId": 1172470,
+    "steamPlaytimeMinutes": 345,
+    "steamUrl": "https://store.steampowered.com/app/1172470/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.109Z"
   },
   {
     "id": "mwgm28ea",
@@ -2496,9 +2912,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.377Z",
-    "hours": 1423,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.109Z",
+    "hours": 1423.1,
+    "developer": "",
+    "steamAppId": 1172620,
+    "steamPlaytimeMinutes": 85387,
+    "steamUrl": "https://store.steampowered.com/app/1172620/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.109Z"
   },
   {
     "id": "mwgm2960",
@@ -2521,9 +2941,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.377Z",
-    "hours": 9,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.109Z",
+    "hours": 9.2,
+    "developer": "",
+    "steamAppId": 1203220,
+    "steamPlaytimeMinutes": 549,
+    "steamUrl": "https://store.steampowered.com/app/1203220/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.109Z"
   },
   {
     "id": "mwgm29xq",
@@ -2544,9 +2968,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.377Z",
-    "hours": 20,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.109Z",
+    "hours": 20.3,
+    "developer": "",
+    "steamAppId": 1222140,
+    "steamPlaytimeMinutes": 1217,
+    "steamUrl": "https://store.steampowered.com/app/1222140/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.109Z"
   },
   {
     "id": "mwgm2e0q",
@@ -2567,9 +2995,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.377Z",
-    "hours": 5,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.109Z",
+    "hours": 5.4,
+    "developer": "",
+    "steamAppId": 1222680,
+    "steamPlaytimeMinutes": 325,
+    "steamUrl": "https://store.steampowered.com/app/1222680/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.109Z"
   },
   {
     "id": "mwgm2ean",
@@ -2591,9 +3023,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.377Z",
-    "hours": 61,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.109Z",
+    "hours": 60.9,
+    "developer": "",
+    "steamAppId": 1237950,
+    "steamPlaytimeMinutes": 3654,
+    "steamUrl": "https://store.steampowered.com/app/1237950/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.109Z"
   },
   {
     "id": "mwgm2er3",
@@ -2613,9 +3049,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.377Z",
-    "hours": 30,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.109Z",
+    "hours": 29.8,
+    "developer": "",
+    "steamAppId": 1238840,
+    "steamPlaytimeMinutes": 1786,
+    "steamUrl": "https://store.steampowered.com/app/1238840/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.109Z"
   },
   {
     "id": "mwgm2f10",
@@ -2635,9 +3075,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.377Z",
-    "hours": 64,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.109Z",
+    "hours": 64.2,
+    "developer": "",
+    "steamAppId": 1238860,
+    "steamPlaytimeMinutes": 3849,
+    "steamUrl": "https://store.steampowered.com/app/1238860/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.109Z"
   },
   {
     "id": "mwgm2g3z",
@@ -2657,9 +3101,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.377Z",
-    "hours": 25,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.109Z",
+    "hours": 24.6,
+    "developer": "",
+    "steamAppId": 1259420,
+    "steamPlaytimeMinutes": 1476,
+    "steamUrl": "https://store.steampowered.com/app/1259420/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.109Z"
   },
   {
     "id": "mwgm2gvo",
@@ -2682,9 +3130,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.377Z",
-    "hours": 78,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.109Z",
+    "hours": 78.2,
+    "developer": "",
+    "steamAppId": 1267910,
+    "steamPlaytimeMinutes": 4694,
+    "steamUrl": "https://store.steampowered.com/app/1267910/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.109Z"
   },
   {
     "id": "mwgm2hnk",
@@ -2705,9 +3157,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.377Z",
-    "hours": 14,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.109Z",
+    "hours": 14.2,
+    "developer": "",
+    "steamAppId": 1274570,
+    "steamPlaytimeMinutes": 850,
+    "steamUrl": "https://store.steampowered.com/app/1274570/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.109Z"
   },
   {
     "id": "mwgm2ifl",
@@ -2728,9 +3184,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.377Z",
-    "hours": 13,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.109Z",
+    "hours": 12.5,
+    "developer": "",
+    "steamAppId": 1286830,
+    "steamPlaytimeMinutes": 750,
+    "steamUrl": "https://store.steampowered.com/app/1286830/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.109Z"
   },
   {
     "id": "mwgm2j7h",
@@ -2751,9 +3211,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.377Z",
-    "hours": 49,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.109Z",
+    "hours": 48.6,
+    "developer": "",
+    "steamAppId": 1293830,
+    "steamPlaytimeMinutes": 2915,
+    "steamUrl": "https://store.steampowered.com/app/1293830/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.109Z"
   },
   {
     "id": "mwgm2jz7",
@@ -2775,9 +3239,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.377Z",
-    "hours": 10,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.109Z",
+    "hours": 10.4,
+    "developer": "",
+    "steamAppId": 1305420,
+    "steamPlaytimeMinutes": 622,
+    "steamUrl": "https://store.steampowered.com/app/1305420/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.109Z"
   },
   {
     "id": "mwgm2kqw",
@@ -2797,9 +3265,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.377Z",
-    "hours": 6,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.110Z",
+    "hours": 5.5,
+    "developer": "",
+    "steamAppId": 1377150,
+    "steamPlaytimeMinutes": 332,
+    "steamUrl": "https://store.steampowered.com/app/1377150/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.110Z"
   },
   {
     "id": "mwgm2lil",
@@ -2820,9 +3292,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.377Z",
-    "hours": 77,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.110Z",
+    "hours": 77.1,
+    "developer": "",
+    "steamAppId": 1404210,
+    "steamPlaytimeMinutes": 4627,
+    "steamUrl": "https://store.steampowered.com/app/1404210/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.110Z"
   },
   {
     "id": "mwgm2mad",
@@ -2844,9 +3320,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.377Z",
-    "hours": 23,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.110Z",
+    "hours": 22.6,
+    "developer": "",
+    "steamAppId": 1436990,
+    "steamPlaytimeMinutes": 1355,
+    "steamUrl": "https://store.steampowered.com/app/1436990/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.110Z"
   },
   {
     "id": "mwgm2n23",
@@ -2868,9 +3348,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.377Z",
-    "hours": 8,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.110Z",
+    "hours": 8.4,
+    "developer": "",
+    "steamAppId": 1504980,
+    "steamPlaytimeMinutes": 504,
+    "steamUrl": "https://store.steampowered.com/app/1504980/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.110Z"
   },
   {
     "id": "mwgm2nty",
@@ -2892,9 +3376,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.377Z",
-    "hours": 16,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.110Z",
+    "hours": 15.8,
+    "developer": "",
+    "steamAppId": 1509960,
+    "steamPlaytimeMinutes": 949,
+    "steamUrl": "https://store.steampowered.com/app/1509960/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.110Z"
   },
   {
     "id": "mwgm2oly",
@@ -2917,9 +3405,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.377Z",
-    "hours": 39,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.110Z",
+    "hours": 38.6,
+    "developer": "",
+    "steamAppId": 1517290,
+    "steamPlaytimeMinutes": 2316,
+    "steamUrl": "https://store.steampowered.com/app/1517290/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.110Z"
   },
   {
     "id": "mwgm2pdv",
@@ -2940,9 +3432,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.377Z",
-    "hours": 11,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.110Z",
+    "hours": 11.3,
+    "developer": "",
+    "steamAppId": 1525700,
+    "steamPlaytimeMinutes": 680,
+    "steamUrl": "https://store.steampowered.com/app/1525700/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.110Z"
   },
   {
     "id": "mwgm2q5k",
@@ -2964,9 +3460,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.377Z",
-    "hours": 8,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.110Z",
+    "hours": 8.1,
+    "developer": "",
+    "steamAppId": 1562420,
+    "steamPlaytimeMinutes": 488,
+    "steamUrl": "https://store.steampowered.com/app/1562420/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.110Z"
   },
   {
     "id": "mwgm2qxc",
@@ -2986,9 +3486,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.377Z",
-    "hours": 14,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.110Z",
+    "hours": 14.1,
+    "developer": "",
+    "steamAppId": 1593500,
+    "steamPlaytimeMinutes": 843,
+    "steamUrl": "https://store.steampowered.com/app/1593500/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.110Z"
   },
   {
     "id": "mwgm2rp8",
@@ -3009,9 +3513,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.377Z",
-    "hours": 9,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.110Z",
+    "hours": 8.7,
+    "developer": "",
+    "steamAppId": 1599340,
+    "steamPlaytimeMinutes": 523,
+    "steamUrl": "https://store.steampowered.com/app/1599340/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.110Z"
   },
   {
     "id": "mwgm2sgt",
@@ -3034,9 +3542,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.377Z",
-    "hours": 19,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.110Z",
+    "hours": 18.8,
+    "developer": "",
+    "steamAppId": 1599600,
+    "steamPlaytimeMinutes": 1129,
+    "steamUrl": "https://store.steampowered.com/app/1599600/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.110Z"
   },
   {
     "id": "mwgm2t8y",
@@ -3058,9 +3570,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.377Z",
+    "updatedAt": "2026-11-17T21:17:01.110Z",
     "hours": 30,
-    "developer": ""
+    "developer": "",
+    "steamAppId": 1604030,
+    "steamPlaytimeMinutes": 1802,
+    "steamUrl": "https://store.steampowered.com/app/1604030/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.110Z"
   },
   {
     "id": "mwgm2u0n",
@@ -3083,9 +3599,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.377Z",
-    "hours": 15,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.110Z",
+    "hours": 15.4,
+    "developer": "",
+    "steamAppId": 1623730,
+    "steamPlaytimeMinutes": 926,
+    "steamUrl": "https://store.steampowered.com/app/1623730/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.110Z"
   },
   {
     "id": "mwgm2usg",
@@ -3108,9 +3628,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.377Z",
-    "hours": 11,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.110Z",
+    "hours": 10.5,
+    "developer": "",
+    "steamAppId": 1782210,
+    "steamPlaytimeMinutes": 631,
+    "steamUrl": "https://store.steampowered.com/app/1782210/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.110Z"
   },
   {
     "id": "mwgm2vk6",
@@ -3130,9 +3654,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.377Z",
-    "hours": 25,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.110Z",
+    "hours": 25.2,
+    "developer": "",
+    "steamAppId": 1808500,
+    "steamPlaytimeMinutes": 1513,
+    "steamUrl": "https://store.steampowered.com/app/1808500/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.110Z"
   },
   {
     "id": "mwgm2wbx",
@@ -3153,9 +3681,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.377Z",
-    "hours": 8,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.110Z",
+    "hours": 7.6,
+    "developer": "",
+    "steamAppId": 1824220,
+    "steamPlaytimeMinutes": 457,
+    "steamUrl": "https://store.steampowered.com/app/1824220/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.110Z"
   },
   {
     "id": "mwgm2x3n",
@@ -3178,9 +3710,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.377Z",
-    "hours": 6,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.110Z",
+    "hours": 6.3,
+    "developer": "",
+    "steamAppId": 1942280,
+    "steamPlaytimeMinutes": 378,
+    "steamUrl": "https://store.steampowered.com/app/1942280/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.110Z"
   },
   {
     "id": "mwgm2xvp",
@@ -3202,9 +3738,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.377Z",
+    "updatedAt": "2026-11-17T21:17:01.110Z",
     "hours": 19,
-    "developer": ""
+    "developer": "",
+    "steamAppId": 1966720,
+    "steamPlaytimeMinutes": 1139,
+    "steamUrl": "https://store.steampowered.com/app/1966720/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.110Z"
   },
   {
     "id": "mwgm2zfc",
@@ -3225,9 +3765,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.377Z",
-    "hours": 17,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.110Z",
+    "hours": 17.2,
+    "developer": "",
+    "steamAppId": 1985810,
+    "steamPlaytimeMinutes": 1034,
+    "steamUrl": "https://store.steampowered.com/app/1985810/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.110Z"
   },
   {
     "id": "mwgm30yr",
@@ -3247,9 +3791,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.377Z",
+    "updatedAt": "2026-11-17T21:17:01.110Z",
     "hours": 23,
-    "developer": ""
+    "developer": "",
+    "steamAppId": 2000950,
+    "steamPlaytimeMinutes": 1378,
+    "steamUrl": "https://store.steampowered.com/app/2000950/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.110Z"
   },
   {
     "id": "mwgm31qh",
@@ -3272,9 +3820,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.377Z",
+    "updatedAt": "2026-11-17T21:17:01.110Z",
     "hours": 28,
-    "developer": ""
+    "developer": "",
+    "steamAppId": 2221490,
+    "steamPlaytimeMinutes": 1681,
+    "steamUrl": "https://store.steampowered.com/app/2221490/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.110Z"
   },
   {
     "id": "mwgm32i5",
@@ -3296,9 +3848,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.377Z",
-    "hours": 15,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.110Z",
+    "hours": 14.5,
+    "developer": "",
+    "steamAppId": 2231380,
+    "steamPlaytimeMinutes": 870,
+    "steamUrl": "https://store.steampowered.com/app/2231380/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.110Z"
   },
   {
     "id": "mwgm33a6",
@@ -3319,9 +3875,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.377Z",
-    "hours": 7,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.110Z",
+    "hours": 7.1,
+    "developer": "",
+    "steamAppId": 2328760,
+    "steamPlaytimeMinutes": 423,
+    "steamUrl": "https://store.steampowered.com/app/2328760/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.110Z"
   },
   {
     "id": "mwgm341t",
@@ -3342,9 +3902,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.377Z",
-    "hours": 54,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.110Z",
+    "hours": 53.9,
+    "developer": "",
+    "steamAppId": 2344520,
+    "steamPlaytimeMinutes": 3234,
+    "steamUrl": "https://store.steampowered.com/app/2344520/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.110Z"
   },
   {
     "id": "mwgm34tv",
@@ -3366,9 +3930,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.377Z",
-    "hours": 14,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.110Z",
+    "hours": 14.3,
+    "developer": "",
+    "steamAppId": 2418520,
+    "steamPlaytimeMinutes": 857,
+    "steamUrl": "https://store.steampowered.com/app/2418520/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.110Z"
   },
   {
     "id": "mwgm35lg",
@@ -3389,9 +3957,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.377Z",
-    "hours": 9,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.110Z",
+    "hours": 9.1,
+    "developer": "",
+    "steamAppId": 2444750,
+    "steamPlaytimeMinutes": 543,
+    "steamUrl": "https://store.steampowered.com/app/2444750/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.110Z"
   },
   {
     "id": "mwgm36db",
@@ -3413,9 +3985,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.377Z",
-    "hours": 42,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.110Z",
+    "hours": 42.1,
+    "developer": "",
+    "steamAppId": 2698780,
+    "steamPlaytimeMinutes": 2527,
+    "steamUrl": "https://store.steampowered.com/app/2698780/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.110Z"
   },
   {
     "id": "mwgm38ox",
@@ -3435,9 +4011,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.377Z",
-    "hours": 9,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.110Z",
+    "hours": 9.2,
+    "developer": "",
+    "steamAppId": 2767030,
+    "steamPlaytimeMinutes": 552,
+    "steamUrl": "https://store.steampowered.com/app/2767030/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.110Z"
   },
   {
     "id": "mwgm39gq",
@@ -3461,9 +4041,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.377Z",
-    "hours": 16,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.110Z",
+    "hours": 15.8,
+    "developer": "",
+    "steamAppId": 2780980,
+    "steamPlaytimeMinutes": 945,
+    "steamUrl": "https://store.steampowered.com/app/2780980/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.110Z"
   },
   {
     "id": "mwgm3a8f",
@@ -3486,9 +4070,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.377Z",
-    "hours": 9,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.110Z",
+    "hours": 8.7,
+    "developer": "",
+    "steamAppId": 2835570,
+    "steamPlaytimeMinutes": 522,
+    "steamUrl": "https://store.steampowered.com/app/2835570/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.110Z"
   },
   {
     "id": "mwgm3b08",
@@ -3508,9 +4096,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.377Z",
-    "hours": 12,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.110Z",
+    "hours": 12.1,
+    "developer": "",
+    "steamAppId": 3081410,
+    "steamPlaytimeMinutes": 726,
+    "steamUrl": "https://store.steampowered.com/app/3081410/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.110Z"
   },
   {
     "id": "mwgm3brx",
@@ -3533,9 +4125,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.377Z",
-    "hours": 13,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.110Z",
+    "hours": 12.6,
+    "developer": "",
+    "steamAppId": 3097560,
+    "steamPlaytimeMinutes": 757,
+    "steamUrl": "https://store.steampowered.com/app/3097560/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.110Z"
   },
   {
     "id": "mwgm3cjp",
@@ -3555,9 +4151,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.377Z",
-    "hours": 25,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.110Z",
+    "hours": 25.3,
+    "developer": "",
+    "steamAppId": 3241660,
+    "steamPlaytimeMinutes": 1520,
+    "steamUrl": "https://store.steampowered.com/app/3241660/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.110Z"
   },
   {
     "id": "mwgm3dbs",
@@ -3575,9 +4175,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.377Z",
-    "hours": 13,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.110Z",
+    "hours": 13.5,
+    "developer": "",
+    "steamAppId": 3678970,
+    "steamPlaytimeMinutes": 809,
+    "steamUrl": "https://store.steampowered.com/app/3678970/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.110Z"
   },
   {
     "id": "mwgm3e3e",
@@ -3601,9 +4205,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.377Z",
-    "hours": 20,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.110Z",
+    "hours": 20.1,
+    "developer": "",
+    "steamAppId": 3932890,
+    "steamPlaytimeMinutes": 1203,
+    "steamUrl": "https://store.steampowered.com/app/3932890/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.110Z"
   },
   {
     "id": "mwgm3evf",
@@ -3623,9 +4231,13 @@
     "favorite": false,
     "pros": [],
     "cons": [],
-    "updatedAt": "2026-11-14T16:34:50.377Z",
-    "hours": 7,
-    "developer": ""
+    "updatedAt": "2026-11-17T21:17:01.110Z",
+    "hours": 7.4,
+    "developer": "",
+    "steamAppId": 4783780,
+    "steamPlaytimeMinutes": 441,
+    "steamUrl": "https://store.steampowered.com/app/4783780/",
+    "steamLastSyncAt": "2026-11-17T21:17:01.110Z"
   },
   {
     "id": "mvrntkju",
