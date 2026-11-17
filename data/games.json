@@ -4627,5 +4627,31 @@
     "updatedAt": "2026-11-17T21:17:06.293Z",
     "year": null,
     "id": "uma-mwl74qpg-6gb1yw"
+  },
+  {
+    "cons": [],
+    "developer": "",
+    "favorite": false,
+    "finished": null,
+    "genres": [],
+    "hours": 0.9,
+    "image": "https://cdn.akamai.steamstatic.com/steam/apps/3419430/header.jpg",
+    "note": "",
+    "platform": "PC (Steam)",
+    "pros": [],
+    "publisher": "",
+    "recommended": null,
+    "review": "",
+    "score": null,
+    "sourceDescription": "",
+    "status": "oynuyorum",
+    "steamAppId": 3419430,
+    "steamLastSyncAt": "2026-11-17T21:17:06.293Z",
+    "steamPlaytimeMinutes": 56,
+    "steamUrl": "https://store.steampowered.com/app/3419430/",
+    "title": "Bongo Cat",
+    "updatedAt": "2026-11-17T21:17:06.293Z",
+    "year": null,
+    "id": "uma-mwl74ulw-1v9iui"
   }
 ]
