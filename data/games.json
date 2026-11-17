@@ -4601,5 +4601,31 @@
     "updatedAt": "2026-11-17T21:17:06.293Z",
     "year": null,
     "id": "uma-mwl72tox-1pgi7w"
+  },
+  {
+    "cons": [],
+    "developer": "",
+    "favorite": false,
+    "finished": null,
+    "genres": [],
+    "hours": 4.1,
+    "image": "https://cdn.akamai.steamstatic.com/steam/apps/3949040/header.jpg",
+    "note": "",
+    "platform": "PC (Steam)",
+    "pros": [],
+    "publisher": "",
+    "recommended": null,
+    "review": "",
+    "score": null,
+    "sourceDescription": "",
+    "status": "oynuyorum",
+    "steamAppId": 3949040,
+    "steamLastSyncAt": "2026-11-17T21:17:06.293Z",
+    "steamPlaytimeMinutes": 248,
+    "steamUrl": "https://store.steampowered.com/app/3949040/",
+    "title": "RV There Yet?",
+    "updatedAt": "2026-11-17T21:17:06.293Z",
+    "year": null,
+    "id": "uma-mwl74qpg-6gb1yw"
   }
 ]
