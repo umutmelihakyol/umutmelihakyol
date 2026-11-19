@@ -22,6 +22,7 @@
     people: '/kisiler/',
     giveaway: '/cekilis/',
     search: '/ara/',
+    recommendations: '/oneriler/',
     costs: '/oyun/maliyet/',
     admin: '/admin/'
   };
@@ -85,6 +86,7 @@
         makeLink('techMediaReviews', 'Dizi ve film incelemelerim', 'Technopat Sosyal üzerinde yayımladığım dizi ve film incelemeleri', '🎬'),
         makeLink('stats', 'İstatistikler', 'Arşiv ve puan analizleri', '▥'),
         makeLink('people', 'Kişiler ve stüdyolar', 'Yapımların arkasındaki isimler', '♙'),
+        makeLink('recommendations', 'Önerilerim', 'Oyun, film, dizi ve anime önerilerim', '♡'),
         makeLink('search', 'Gelişmiş arama', 'Tüm arşivde filtreli arama', '⌕')
       ]
     },
@@ -115,9 +117,8 @@
   const drawer = document.createElement('aside');
   drawer.className = 'gc-menu-panel';
   drawer.id = 'gcMenuPanel';
-  drawer.setAttribute('role', 'dialog');
-  drawer.setAttribute('aria-modal', 'true');
-  drawer.setAttribute('aria-label', 'Site menüsü');
+  drawer.setAttribute('role', 'navigation');
+  drawer.setAttribute('aria-label', 'Ana site menüsü');
   drawer.setAttribute('aria-hidden', 'true');
   drawer.tabIndex = -1;
   drawer.innerHTML = `<div class="gc-menu-head">${brand}<button class="gc-menu-close" id="gcMenuClose" type="button" aria-label="Menüyü kapat">${icon('<path d="m6 6 12 12M18 6 6 18"/>')}</button></div><div class="gc-menu-scroll">${groups.map(group => `<section class="gc-menu-group"><p class="gc-menu-label">${group.label}</p>${group.items.map(item => `<a class="gc-menu-link${current === item.key ? ' is-active' : ''}" href="${item.href}"${current === item.key ? ' aria-current="page"' : ''}><span class="gc-menu-icon">${item.emoji}</span><span class="gc-menu-copy"><strong>${item.label}</strong><small>${item.desc}</small></span><span class="gc-menu-arrow" aria-hidden="true">›</span></a>`).join('')}</section>`).join('')}</div>`;
@@ -143,9 +144,33 @@
 
   const openBtn = header.querySelector('#gcMenuOpen');
   const closeBtn = drawer.querySelector('#gcMenuClose');
+  const desktopSidebarQuery = window.matchMedia('(min-width: 1101px)');
   let lastFocus = null;
 
+  // Geniş ekranlarda menü kalıcı sol kenar çubuğudur; dar ekranlarda açılır çekmece olur.
+  const syncNavigationMode = () => {
+    const isDesktop = desktopSidebarQuery.matches;
+    if (isDesktop) {
+      drawer.classList.add('is-open');
+      drawer.setAttribute('aria-hidden', 'false');
+      overlay.classList.remove('is-open');
+      overlay.setAttribute('aria-hidden', 'true');
+      openBtn.setAttribute('aria-expanded', 'false');
+      closeBtn.setAttribute('tabindex', '-1');
+      body.classList.remove('gc-menu-open');
+    } else {
+      drawer.classList.remove('is-open');
+      drawer.setAttribute('aria-hidden', 'true');
+      overlay.classList.remove('is-open');
+      overlay.setAttribute('aria-hidden', 'true');
+      openBtn.setAttribute('aria-expanded', 'false');
+      closeBtn.removeAttribute('tabindex');
+      body.classList.remove('gc-menu-open');
+    }
+  };
+
   const openMenu = () => {
+    if (desktopSidebarQuery.matches) return;
     lastFocus = document.activeElement;
     drawer.classList.add('is-open');
     overlay.classList.add('is-open');
@@ -157,7 +182,7 @@
   };
 
   const closeMenu = () => {
-    if (!drawer.classList.contains('is-open')) return;
+    if (desktopSidebarQuery.matches || !drawer.classList.contains('is-open')) return;
     drawer.classList.remove('is-open');
     overlay.classList.remove('is-open');
     drawer.setAttribute('aria-hidden', 'true');
@@ -171,10 +196,10 @@
   closeBtn.addEventListener('click', closeMenu);
   overlay.addEventListener('click', closeMenu);
   drawer.addEventListener('click', event => {
-    if (event.target.closest('a')) closeMenu();
+    if (!desktopSidebarQuery.matches && event.target.closest('a')) closeMenu();
   });
   document.addEventListener('keydown', event => {
-    if (!drawer.classList.contains('is-open')) return;
+    if (desktopSidebarQuery.matches || !drawer.classList.contains('is-open')) return;
     if (event.key === 'Escape') {
       event.preventDefault();
       closeMenu();
@@ -194,6 +219,12 @@
       }
     }
   });
+  syncNavigationMode();
+  if (typeof desktopSidebarQuery.addEventListener === 'function') {
+    desktopSidebarQuery.addEventListener('change', syncNavigationMode);
+  } else if (typeof desktopSidebarQuery.addListener === 'function') {
+    desktopSidebarQuery.addListener(syncNavigationMode);
+  }
 
   // Eski sayfalardaki tema düğmelerinin ve yönetim panelinin de aynı tercihi
   // kullanmasını sağlar. Önceki sürümün "theme" anahtarı da geriye dönük okunur.
