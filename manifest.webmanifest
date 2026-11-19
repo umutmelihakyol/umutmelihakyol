@@ -110,18 +110,6 @@
           "type": "image/png"
         }
       ]
-    },
-    {
-      "name": "Günlüğüm Arcade",
-      "short_name": "Arcade",
-      "url": "./arcade/",
-      "icons": [
-        {
-          "src": "./assets/icons/gunlugum-192.png",
-          "sizes": "192x192",
-          "type": "image/png"
-        }
-      ]
     }
   ]
 }
