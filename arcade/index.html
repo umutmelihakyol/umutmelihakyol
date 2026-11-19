@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#08090f">
+  <title>Günlüğüm Arcade | Mini Oyunlar</title>
+  <meta name="description" content="Günlüğüm arşivindeki oyunlar, filmler, diziler ve animelerle mini oyunlar oyna. Yapımı tahmin et, puanları karşılaştır, bilgi yarışmasına katıl ve hafızanı dene.">
+  <link rel="canonical" href="https://umutmelihakyol.com/arcade/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Günlüğüm">
+  <meta property="og:title" content="Günlüğüm Arcade | Mini Oyunlar">
+  <meta property="og:description" content="Kendi medya arşivinden beslenen mini oyunlar.">
+  <meta property="og:url" content="https://umutmelihakyol.com/arcade/">
+  <meta name="twitter:card" content="summary">
+  <link rel="icon" href="../assets/icons/gunlugum-192.png" type="image/png">
+  <link rel="manifest" href="../manifest.webmanifest">
+  <link rel="apple-touch-icon" href="../assets/icons/gunlugum-180.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css?v=17">
+  <script src="../scripts/theme.js?v=2"></script>
+  <script src="../scripts/config.js"></script>
+  <script src="../scripts/categories.js?v=4"></script>
+  <script src="../scripts/pwa.js?v=4" defer></script>
+  <link rel="stylesheet" href="../assets/css/gamecapsule-theme.css?v=4">
+  <link rel="stylesheet" href="../assets/css/gamecapsule-consistency.css?v=20261107-1">
+  <link rel="stylesheet" href="../assets/css/search-overlay.css?v=2">
+  <link rel="stylesheet" href="../assets/css/arcade.css?v=1">
+  <script src="../scripts/site-nav.js?v=20261111-3" defer></script>
+  <script src="../scripts/search-overlay.js?v=3" defer></script>
+</head>
+<body class="arcade-page">
+  <main class="arcade-main">
+    <section class="arcade-hero">
+      <div class="arcade-hero-copy">
+        <span class="arcade-eyebrow"><i></i> GÜNLÜĞÜM'ÜN OYUN ALANI</span>
+        <h1>Günlüğüm <em>Arcade</em></h1>
+        <p>Arşivimdeki oyunlar, filmler, diziler ve animelerle küçük bir mola ver. Tahmin et, karşılaştır, yarış ve rekorunu geliştir.</p>
+        <div class="arcade-hero-actions">
+          <button class="arcade-btn arcade-btn-primary" type="button" data-launch="guess">Oyuna başla <span aria-hidden="true">↗</span></button>
+          <span class="arcade-hero-note"><span class="arcade-live-dot"></span> Arşivinden beslenir · Her gün yeni mücadele</span>
+        </div>
+      </div>
+      <div class="arcade-hero-art" aria-hidden="true">
+        <div class="arcade-orbit arcade-orbit-one"></div><div class="arcade-orbit arcade-orbit-two"></div>
+        <div class="arcade-hero-symbol">✦</div>
+        <span class="arcade-float arcade-float-a">🎮</span><span class="arcade-float arcade-float-b">🎬</span><span class="arcade-float arcade-float-c">✦</span>
+      </div>
+      <div class="arcade-hero-index">01 <span>/ 04</span></div>
+    </section>
+
+    <section class="arcade-stats" aria-label="Arcade istatistiklerim">
+      <article class="arcade-stat"><span class="arcade-stat-icon">✦</span><div><strong id="arcadeXp">0</strong><small>Toplam XP</small></div></article>
+      <article class="arcade-stat"><span class="arcade-stat-icon">♟</span><div><strong id="arcadePlayed">0</strong><small>Oynanan tur</small></div></article>
+      <article class="arcade-stat"><span class="arcade-stat-icon">⌁</span><div><strong id="arcadeBest">—</strong><small>En iyi seri</small></div></article>
+      <article class="arcade-stat"><span class="arcade-stat-icon">♜</span><div><strong id="arcadeStreak">0 gün</strong><small>Günlük seri</small></div></article>
+    </section>
+
+    <section class="arcade-daily" aria-labelledby="arcadeDailyTitle">
+      <div class="arcade-daily-copy">
+        <span class="arcade-section-kicker">BUGÜNÜN MÜCADELESİ</span>
+        <h2 id="arcadeDailyTitle">Günün yapımını tahmin edebilir misin?</h2>
+        <p>Her gün arşivinden yeni bir oyun, film, dizi veya anime seçilir. İpuçlarını kullan, doğru cevabı bul ve günlük serini koru.</p>
+        <div class="arcade-daily-meta"><span id="arcadeDailyDate"></span><span id="arcadeDailyStatus">Bugünkü mücadele hazır</span></div>
+        <button class="arcade-btn arcade-btn-light" id="arcadeDailyStart" type="button">Günlük mücadeleyi başlat <span>→</span></button>
+      </div>
+      <div class="arcade-daily-art" id="arcadeDailyArt" aria-hidden="true"><div class="arcade-daily-art-glow"></div><span>?</span></div>
+    </section>
+
+    <section class="arcade-library-section" aria-labelledby="arcadeGamesTitle">
+      <div class="arcade-section-head">
+        <div><span class="arcade-section-kicker">OYUN MODLARI</span><h2 id="arcadeGamesTitle">Bugün ne oynayalım?</h2><p>Her oyun kendi arşivinden farklı bir şekilde yararlanır.</p></div>
+        <div class="arcade-archive-count"><strong id="arcadeArchiveCount">—</strong><span>arşiv kaydı</span></div>
+      </div>
+      <div class="arcade-filter-row" role="group" aria-label="Oyunlarda kullanılacak arşiv kategorisi">
+        <button type="button" class="is-active" data-category="all" aria-pressed="true">Tümü</button>
+        <button type="button" data-category="oyun" aria-pressed="false">🎮 Oyun</button>
+        <button type="button" data-category="film" aria-pressed="false">🎬 Film</button>
+        <button type="button" data-category="dizi" aria-pressed="false">📺 Dizi</button>
+        <button type="button" data-category="anime" aria-pressed="false">✦ Anime</button>
+      </div>
+      <div class="arcade-game-grid">
+        <article class="arcade-game-card arcade-card-guess"><div class="arcade-card-visual"><div class="arcade-card-number">01</div><div class="arcade-card-art art-guess"><span>?</span><i>◈</i></div><span class="arcade-card-tag">TAHMİN</span></div><div class="arcade-card-body"><h3>Yapımı Tahmin Et</h3><p>Kapak görselinden hangi oyun, film, dizi veya anime olduğunu bul.</p><div class="arcade-card-foot"><span>5 tahmin hakkı</span><button type="button" data-launch="guess">Oyna <b>↗</b></button></div></div></article>
+        <article class="arcade-game-card arcade-card-rating"><div class="arcade-card-visual"><div class="arcade-card-number">02</div><div class="arcade-card-art art-rating"><span>★</span><i>VS</i></div><span class="arcade-card-tag">KARŞILAŞTIR</span></div><div class="arcade-card-body"><h3>Puan Düellosu</h3><p>İki yapımdan hangisine daha yüksek puan verdiğini tahmin et.</p><div class="arcade-card-foot"><span>Arşiv puanlarınla</span><button type="button" data-launch="rating">Oyna <b>↗</b></button></div></div></article>
+        <article class="arcade-game-card arcade-card-quiz"><div class="arcade-card-visual"><div class="arcade-card-number">03</div><div class="arcade-card-art art-quiz"><span>?</span><i>✦</i></div><span class="arcade-card-tag">BİLGİ</span></div><div class="arcade-card-body"><h3>Arşiv Bilgi Yarışması</h3><p>Arşivindeki yayın yılları ve kişisel puanlarla hazırlanan soruları cevapla.</p><div class="arcade-card-foot"><span>10 soruluk tur</span><button type="button" data-launch="quiz">Oyna <b>↗</b></button></div></div></article>
+        <article class="arcade-game-card arcade-card-memory"><div class="arcade-card-visual"><div class="arcade-card-number">04</div><div class="arcade-card-art art-memory"><span>▦</span><i>✦</i></div><span class="arcade-card-tag">HAFIZA</span></div><div class="arcade-card-body"><h3>Kapak Hafızası</h3><p>Aynı yapımın kapaklarını eşleştir. Daha az hamlede tamamlayarak rekor kır.</p><div class="arcade-card-foot"><span>8 çift kart</span><button type="button" data-launch="memory">Oyna <b>↗</b></button></div></div></article>
+      </div>
+    </section>
+
+    <section class="arcade-missions" aria-labelledby="arcadeMissionsTitle"><div class="arcade-section-head arcade-section-head-compact"><div><span class="arcade-section-kicker">BUGÜNLÜK HEDEFLER</span><h2 id="arcadeMissionsTitle">Küçük görevler, güzel rekorlar</h2></div><span class="arcade-mission-date" id="arcadeMissionDate"></span></div><div class="arcade-mission-grid"><article class="arcade-mission"><span class="arcade-mission-icon">⌕</span><div><strong>Bir tur tamamla</strong><small>Bugün en az bir mini oyun oyna.</small><div class="arcade-progress"><i id="missionPlayProgress"></i></div></div><b id="missionPlayLabel">0/1</b></article><article class="arcade-mission"><span class="arcade-mission-icon">✦</span><div><strong>Üç doğru cevap</strong><small>Bugün üç soruyu doğru yanıtla.</small><div class="arcade-progress"><i id="missionCorrectProgress"></i></div></div><b id="missionCorrectLabel">0/3</b></article><article class="arcade-mission"><span class="arcade-mission-icon">♜</span><div><strong>Günlük mücadele</strong><small>Günün yapımını doğru tahmin et.</small><div class="arcade-progress"><i id="missionDailyProgress"></i></div></div><b id="missionDailyLabel">0/1</b></article></div></section>
+
+    <section class="arcade-achievements" aria-labelledby="arcadeAchievementsTitle"><div class="arcade-section-head arcade-section-head-compact"><div><span class="arcade-section-kicker">KAZANIMLAR</span><h2 id="arcadeAchievementsTitle">Arcade koleksiyonum</h2></div><span class="arcade-achievement-count" id="arcadeAchievementCount">0 / 5</span></div><div class="arcade-achievement-grid" id="arcadeAchievementGrid"></div></section>
+
+    <section class="arcade-play-area" id="arcadePlayArea" hidden aria-live="polite">
+      <div class="arcade-play-head"><button type="button" class="arcade-back-button" id="arcadeBack">← Oyunlara dön</button><span class="arcade-playing-label" id="arcadePlayingLabel">OYUN</span></div>
+      <section class="arcade-game-panel" id="guessPanel" hidden><div class="arcade-game-panel-head"><div><span class="arcade-section-kicker">TAHMİN OYUNU</span><h2>Bu yapımı tanıyor musun?</h2><p>Kapak görselinden doğru yapımı bul. Beş tahmin hakkın var.</p></div><span class="arcade-round-pill" id="guessAttempts">0 / 5</span></div><div class="arcade-guess-layout"><div class="arcade-guess-poster" id="guessPoster"><img id="guessImage" alt="Tahmin edilecek yapımın kapağı"><span class="arcade-guess-question">?</span></div><div class="arcade-guess-controls"><span class="arcade-category-label" id="guessCategory">GİZLİ YAPIM</span><label for="guessInput">Tahminin</label><div class="arcade-input-row"><input id="guessInput" type="text" placeholder="Yapımın adını yaz…" autocomplete="off"><button type="button" id="guessSubmit" class="arcade-btn arcade-btn-primary">Kontrol et</button></div><div class="arcade-guess-actions"><button type="button" class="arcade-btn arcade-btn-soft" id="guessHint">İpucu al</button><button type="button" class="arcade-text-btn" id="guessSkip">Cevabı göster</button></div><p class="arcade-hint" id="guessHintText">İlk ipucunu almak için butona bas.</p><p class="arcade-feedback" id="guessFeedback" role="status"></p><button type="button" id="guessNext" class="arcade-btn arcade-btn-primary" hidden>Yeni yapım <span>→</span></button></div></div></section>
+      <section class="arcade-game-panel" id="ratingPanel" hidden><div class="arcade-game-panel-head"><div><span class="arcade-section-kicker">PUAN DÜELLOSU</span><h2>Hangisine daha yüksek puan verdim?</h2><p>İki karttan birini seç. Kişisel puanını tahmin etmeye çalış.</p></div><span class="arcade-round-pill" id="ratingScore">0 doğru</span></div><div class="arcade-duel-grid" id="ratingDuelGrid"></div><p class="arcade-feedback" id="ratingFeedback" role="status"></p><button type="button" class="arcade-btn arcade-btn-primary" id="ratingNext">Sonraki düello <span>→</span></button></section>
+      <section class="arcade-game-panel" id="quizPanel" hidden><div class="arcade-game-panel-head"><div><span class="arcade-section-kicker">ARŞİV BİLGİ YARIŞMASI</span><h2 id="quizQuestionTitle">Hangisi daha önce yayımlandı?</h2><p id="quizQuestionSub">Arşivindeki kayıtları dikkatli incele.</p></div><span class="arcade-round-pill" id="quizProgress">1 / 10</span></div><div class="arcade-quiz-options" id="quizOptions"></div><p class="arcade-feedback" id="quizFeedback" role="status"></p><div class="arcade-quiz-foot"><strong id="quizScore">0 doğru cevap</strong><button type="button" class="arcade-btn arcade-btn-primary" id="quizNext" hidden>Sonraki soru →</button></div></section>
+      <section class="arcade-game-panel" id="memoryPanel" hidden><div class="arcade-game-panel-head"><div><span class="arcade-section-kicker">KAPAK HAFIZASI</span><h2>Aynı yapımları eşleştir</h2><p>Kapalı kartları çevir ve sekiz çifti bul. Hamle sayını düşük tut.</p></div><span class="arcade-round-pill" id="memoryMoves">0 hamle</span></div><div class="arcade-memory-board" id="memoryBoard"></div><div class="arcade-memory-foot"><span id="memoryMatched">0 / 8 çift</span><button type="button" class="arcade-btn arcade-btn-soft" id="memoryRestart">Yeniden karıştır</button></div><p class="arcade-feedback" id="memoryFeedback" role="status"></p></section>
+      <div class="arcade-result-banner" id="arcadeResultBanner" hidden></div>
+    </section>
+    <footer class="arcade-footer"><span>GÜNLÜĞÜM ARCADE</span><p>Bu mini oyunlar kişisel arşivindeki kayıtlarla çalışır. Rekorların bu tarayıcıda saklanır.</p><a href="../">Günlüğüm'e dön ↗</a></footer>
+  </main>
+  <script src="../scripts/arcade.js?v=1" defer></script>
+  <script src="../scripts/gamecapsule-theme.js?v=4" defer></script>
+  <script src="../scripts/page-jump.js?v=1" defer></script>
+</body>
+</html>

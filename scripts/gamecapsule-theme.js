@@ -10,6 +10,7 @@
 
   const paths = {
     home: '/',
+    arcade: '/arcade/',
     games: '/oyun/',
     movies: '/film/',
     series: '/dizi/',
@@ -33,6 +34,7 @@
 
   let current = null;
   if (path === '/') current = 'home';
+  else if (path.startsWith('/arcade')) current = 'arcade';
   else if (path.startsWith('/oyun/maliyet')) current = 'costs';
   else if (path.startsWith('/oyun')) current = 'games';
   else if (path.startsWith('/film')) current = 'movies';
@@ -79,6 +81,10 @@
       ]
     },
     {
+      label: 'Eğlence',
+      items: [makeLink('arcade', 'Günlüğüm Arcade', 'Arşivimden beslenen mini oyunlar ve günlük mücadeleler', '🕹️')]
+    },
+    {
       label: 'Keşfet ve analiz et',
       items: [
         makeLink('technopat', 'Technopat incelemeleri', 'Yayımladığım incelemeler', '✎'),
@@ -100,8 +106,8 @@
   ];
 
   const brand = '<a class="gc-brand" href="/" aria-label="Günlüğüm ana sayfa"><span class="gc-brand-mark" aria-hidden="true">G</span><span class="gc-brand-copy">Günlüğüm<small>UMUT MELİH AKYOL</small></span></a>';
-  const navKeys = ['home', 'games', 'movies', 'series', 'anime', 'franchises', 'technopat', 'stats'];
-  const navLabels = { home: 'Ana Sayfa', games: 'Oyunlar', movies: 'Filmler', series: 'Diziler', anime: 'Anime', franchises: 'Seri & Evren', technopat: 'Technopat', stats: 'İstatistik' };
+  const navKeys = ['home', 'games', 'movies', 'series', 'anime', 'arcade', 'franchises', 'technopat', 'stats'];
+  const navLabels = { home: 'Ana Sayfa', games: 'Oyunlar', movies: 'Filmler', series: 'Diziler', anime: 'Anime', arcade: 'Arcade', franchises: 'Seri & Evren', technopat: 'Technopat', stats: 'İstatistik' };
   const topNav = navKeys.map(key => `<a href="${paths[key]}"${current === key ? ' aria-current="page"' : ''}>${navLabels[key]}</a>`).join('');
 
   const header = document.createElement('header');
