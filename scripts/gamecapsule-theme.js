@@ -94,8 +94,7 @@
       label: 'Araçlar',
       items: [
         makeLink('costs', 'Oyun maliyeti', 'Mağaza ve kütüphane takibi', '₺'),
-        makeLink('giveaway', 'Çekiliş', 'Zaman ayarlı çekiliş alanı', '✧'),
-        makeLink('admin', 'Yönetim paneli', 'Arşiv ve site içeriklerini yönet', '⚙')
+        makeLink('giveaway', 'Çekiliş', 'Zaman ayarlı çekiliş alanı', '✧')
       ]
     }
   ];
@@ -142,7 +141,7 @@
   drawer.setAttribute('aria-label', 'Ana site menüsü');
   drawer.setAttribute('aria-hidden', 'true');
   drawer.tabIndex = -1;
-  drawer.innerHTML = `<div class="gc-menu-head">${brand}<button class="gc-menu-close" id="gcMenuClose" type="button" aria-label="Menüyü kapat">${icon('<path d="m6 6 12 12M18 6 6 18"/>')}</button></div><div class="gc-menu-scroll">${groups.map(group => `<section class="gc-menu-group"><p class="gc-menu-label">${group.label}</p>${group.items.map(item => `<a class="gc-menu-link${current === item.key ? ' is-active' : ''}" href="${item.href}"${current === item.key ? ' aria-current="page"' : ''}><span class="gc-menu-icon">${item.emoji}</span><span class="gc-menu-copy"><strong>${item.label}</strong><small>${item.desc}</small></span><span class="gc-menu-arrow" aria-hidden="true">›</span></a>`).join('')}</section>`).join('')}</div>`;
+  drawer.innerHTML = `<div class="gc-menu-head">${brand}<button class="gc-menu-close" id="gcMenuClose" type="button" aria-label="Menüyü kapat">${icon('<path d="m6 6 12 12M18 6 6 18"/>')}</button></div><div class="gc-menu-scroll">${groups.map(group => `<section class="gc-menu-group"><p class="gc-menu-label">${group.label}</p>${group.items.map(item => `<a class="gc-menu-link${current === item.key ? ' is-active' : ''}" href="${item.href}"${current === item.key ? ' aria-current="page"' : ''}><span class="gc-menu-icon">${item.emoji}</span><span class="gc-menu-copy"><strong>${item.label}</strong><small>${item.desc}</small></span><span class="gc-menu-arrow" aria-hidden="true">›</span></a>`).join('')}</section>`).join('')}</div><div class="gc-menu-footer"><a class="gc-menu-settings${current === 'admin' ? ' is-active' : ''}" href="${paths.admin}" aria-label="Yönetim panelini aç" title="Yönetim paneli"${current === 'admin' ? ' aria-current="page"' : ''}><span aria-hidden="true">⚙</span></a></div>`;
 
   const mobile = document.createElement('nav');
   mobile.className = 'gc-mobile-nav';

@@ -1183,3 +1183,46 @@ body:has(> .gc-header) > .container:has(.mark) .btn { display:inline-flex; width
 @media (prefers-reduced-motion: reduce) {
   .gc-top-search-suggestion,.gc-top-search-advanced { transition:none !important; }
 }
+
+
+/* Yönetim paneline erişim: sol menünün en altında sade ayar simgesi. */
+.gc-menu-footer {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 66px;
+  padding: 10px 16px calc(10px + env(safe-area-inset-bottom));
+  border-top: 1px solid rgba(151,130,255,.14);
+  background: linear-gradient(180deg, rgba(255,255,255,.012), rgba(0,0,0,.06));
+}
+.gc-menu-settings {
+  width: 42px;
+  height: 42px;
+  display: inline-grid;
+  place-items: center;
+  border: 1px solid rgba(159,151,211,.20);
+  border-radius: 13px;
+  color: #b8a7ff !important;
+  background: rgba(136,107,255,.12);
+  text-decoration: none !important;
+  font-size: 22px;
+  line-height: 1;
+  transition: transform .18s ease, color .18s ease, background .18s ease, border-color .18s ease, box-shadow .18s ease;
+}
+.gc-menu-settings:hover,
+.gc-menu-settings:focus-visible,
+.gc-menu-settings.is-active {
+  color: #fff !important;
+  background: linear-gradient(145deg, rgba(139,104,255,.28), rgba(73,127,190,.16));
+  border-color: rgba(174,152,255,.5);
+  box-shadow: 0 5px 18px rgba(80,57,170,.18);
+  transform: translateY(-2px);
+  outline: none;
+}
+:root[data-theme="light"] .gc-menu-footer { border-top-color: rgba(95,77,166,.14); background: linear-gradient(180deg, rgba(50,50,90,.015), rgba(50,50,90,.035)); }
+:root[data-theme="light"] .gc-menu-settings { color: #654bb8 !important; background: rgba(112,80,205,.09); border-color: rgba(95,77,166,.18); }
+:root[data-theme="light"] .gc-menu-settings:hover,
+:root[data-theme="light"] .gc-menu-settings:focus-visible,
+:root[data-theme="light"] .gc-menu-settings.is-active { color: #4c3893 !important; background: rgba(112,80,205,.16); border-color: rgba(95,77,166,.36); }
+@media (prefers-reduced-motion: reduce) { .gc-menu-settings { transition: none !important; } }
