@@ -159,7 +159,7 @@
     return initialization;
   }
 
-  async function openSearch(trigger) {
+  async function openSearch(trigger, initialQuery = '') {
     opener = trigger || null;
     savedScroll = { x: window.scrollX, y: window.scrollY };
     trigger?.setAttribute('aria-expanded', 'true');
@@ -168,7 +168,12 @@
       const panel = await ensureDialog();
       document.body.classList.add('search-overlay-open');
       if (!panel.open) panel.showModal();
-      requestAnimationFrame(() => document.getElementById('searchQuery')?.focus({ preventScroll: true }));
+      const queryInput = panel.querySelector('#searchQuery');
+      if (queryInput && initialQuery !== undefined) {
+        queryInput.value = String(initialQuery || '');
+        queryInput.dispatchEvent(new Event('input', { bubbles: true }));
+      }
+      requestAnimationFrame(() => queryInput?.focus({ preventScroll: true }));
     } catch (error) {
       document.body.classList.remove('search-overlay-open');
       trigger?.setAttribute('aria-expanded', 'false');
@@ -177,6 +182,9 @@
       showError('Arama şu anda yüklenemedi. Bağlantını kontrol edip yeniden deneyebilirsin.');
     }
   }
+
+  // Public bridge used by the fixed top-bar search field.
+  window.openArchiveSearch = (query = '') => openSearch(null, query);
 
   function isSearchLink(anchor) {
     if (!anchor?.href || anchor.hasAttribute('download') || (anchor.target && anchor.target !== '_self')) return false;
@@ -202,8 +210,7 @@
   document.addEventListener('keydown', (event) => {
     if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'k') {
       event.preventDefault();
-      const trigger = document.querySelector('a.top-search-link, a.home-tool-search');
-      openSearch(trigger);
+      openSearch(null);
     }
   });
 })();

@@ -1,8 +1,8 @@
-/* Günlüğüm Service Worker — cache v69: Masaüstü sol sabit gezinme menüsü eklendi. */
+/* Günlüğüm Service Worker — cache v70: Üst gezinme çubuğuna geniş arama alanı eklendi. */
 'use strict';
 
 const CACHE_PREFIX = 'gunlugum-pwa-';
-const CACHE_VERSION = 'v69';
+const CACHE_VERSION = 'v70';
 const APP_CACHE = `${CACHE_PREFIX}app-${CACHE_VERSION}`;
 const IMAGE_CACHE = `${CACHE_PREFIX}images-${CACHE_VERSION}`;
 const APP_ROOT = new URL('./', self.registration.scope);

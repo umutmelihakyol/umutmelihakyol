@@ -107,7 +107,24 @@
 
   const header = document.createElement('header');
   header.className = 'gc-header';
-  header.innerHTML = `<div class="gc-header-inner">${brand}<nav class="gc-nav-links" aria-label="Ana gezinme">${topNav}</nav><div class="gc-header-actions"><a class="gc-icon-button" href="${paths.search}" aria-label="Arşivde ara" title="Arşivde ara">${icon(icons.search)}</a><button class="gc-menu-trigger" id="gcMenuOpen" type="button" aria-label="Tüm menüyü aç" aria-controls="gcMenuPanel" aria-expanded="false">${icon('<path d="M4 6h16M4 12h16M4 18h16"/>')}</button></div></div>`;
+  header.setAttribute('role', 'banner');
+  header.innerHTML = `<div class="gc-header-inner">
+    <div class="gc-header-leading">
+      <a class="gc-topbar-brand" href="/" aria-label="Günlüğüm ana sayfa"><span class="gc-topbar-brand-mark">G</span><span class="gc-topbar-brand-copy">Günlüğüm<small>UMUT MELİH AKYOL</small></span></a>
+      <div class="gc-history-actions" aria-label="Sayfa geçmişi">
+        <button class="gc-history-button" id="gcHistoryBack" type="button" aria-label="Önceki sayfa" title="Geri">${icon('<path d="m15 18-6-6 6-6"/>')}</button>
+        <button class="gc-history-button" id="gcHistoryForward" type="button" aria-label="Sonraki sayfa" title="İleri">${icon('<path d="m9 18 6-6-6-6"/>')}</button>
+      </div>
+    </div>
+    <form class="gc-top-search" id="gcTopSearchForm" role="search" aria-label="Arşivde ara">
+      ${icon(icons.search)}<input id="gcTopSearchInput" type="search" autocomplete="off" placeholder="Anime, film, dizi, oyun, kitap, rehber ara..." aria-label="Arşivde ara"><kbd>Ctrl K</kbd>
+      <button class="gc-top-search-submit" type="submit" aria-label="Aramayı aç" title="Ara">${icon(icons.search)}</button>
+    </form>
+    <div class="gc-header-actions">
+      <button class="gc-theme-quick" id="gcThemeQuick" type="button" aria-label="Temayı değiştir" title="Açık/koyu tema">${icon('<circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"/>')}</button>
+      <button class="gc-menu-trigger" id="gcMenuOpen" type="button" aria-label="Tüm menüyü aç" aria-controls="gcMenuPanel" aria-expanded="false">${icon('<path d="M4 6h16M4 12h16M4 18h16"/>')}</button>
+    </div>
+  </div>`;
 
   const overlay = document.createElement('div');
   overlay.className = 'gc-menu-overlay';
@@ -146,6 +163,35 @@
   const closeBtn = drawer.querySelector('#gcMenuClose');
   const desktopSidebarQuery = window.matchMedia('(min-width: 1101px)');
   let lastFocus = null;
+
+  header.querySelector('#gcHistoryBack')?.addEventListener('click', () => {
+    if (history.length > 1) history.back();
+  });
+  header.querySelector('#gcHistoryForward')?.addEventListener('click', () => history.forward());
+  header.querySelector('#gcThemeQuick')?.addEventListener('click', () => window.toggleTheme?.());
+
+  // Üst arama alanı, mevcut sayfadan ayrılmadan arşiv arama penceresini açar.
+  const topSearch = header.querySelector('#gcTopSearchForm');
+  const topSearchInput = header.querySelector('#gcTopSearchInput');
+  topSearch?.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const query = String(topSearchInput?.value || '').trim();
+    const currentPath = location.pathname.replace(/index\.html$/i, '').replace(/\/+$/, '') || '/';
+    if (currentPath === '/ara') {
+      const pageSearch = document.getElementById('searchQuery');
+      if (pageSearch) {
+        pageSearch.value = query;
+        pageSearch.dispatchEvent(new Event('input', { bubbles: true }));
+        pageSearch.focus({ preventScroll: false });
+      }
+      return;
+    }
+    if (typeof window.openArchiveSearch === 'function') {
+      window.openArchiveSearch(query);
+    } else {
+      location.href = `${paths.search}?searchQuery=${encodeURIComponent(query)}`;
+    }
+  });
 
   // Geniş ekranlarda menü kalıcı sol kenar çubuğudur; dar ekranlarda açılır çekmece olur.
   const syncNavigationMode = () => {
