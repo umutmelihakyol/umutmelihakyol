@@ -110,16 +110,20 @@
   header.setAttribute('role', 'banner');
   header.innerHTML = `<div class="gc-header-inner">
     <div class="gc-header-leading">
-      <a class="gc-topbar-brand" href="/" aria-label="Günlüğüm ana sayfa"><span class="gc-topbar-brand-mark">G</span><span class="gc-topbar-brand-copy">Günlüğüm<small>UMUT MELİH AKYOL</small></span></a>
       <div class="gc-history-actions" aria-label="Sayfa geçmişi">
         <button class="gc-history-button" id="gcHistoryBack" type="button" aria-label="Önceki sayfa" title="Geri">${icon('<path d="m15 18-6-6 6-6"/>')}</button>
         <button class="gc-history-button" id="gcHistoryForward" type="button" aria-label="Sonraki sayfa" title="İleri">${icon('<path d="m9 18 6-6-6-6"/>')}</button>
       </div>
     </div>
-    <form class="gc-top-search" id="gcTopSearchForm" role="search" aria-label="Arşivde ara">
-      ${icon(icons.search)}<input id="gcTopSearchInput" type="search" autocomplete="off" placeholder="Anime, film, dizi, oyun, kitap, rehber ara..." aria-label="Arşivde ara"><kbd>Ctrl K</kbd>
-      <button class="gc-top-search-submit" type="submit" aria-label="Aramayı aç" title="Ara">${icon(icons.search)}</button>
-    </form>
+    <div class="gc-top-search-wrap">
+      <form class="gc-top-search" id="gcTopSearchForm" role="search" aria-label="Arşivde ara" autocomplete="off">
+        ${icon(icons.search)}
+        <input id="gcTopSearchInput" type="search" autocomplete="off" placeholder="Oyun, film, dizi veya anime ara..." aria-label="Arşivde ara" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="gcTopSearchSuggestions">
+        <kbd>Ctrl K</kbd>
+        <button class="gc-top-search-advanced" id="gcTopSearchAdvanced" type="button" aria-label="Detaylı aramayı aç" title="Tüm filtrelerle ara">Detaylı arama <span aria-hidden="true">↗</span></button>
+      </form>
+      <div class="gc-top-search-suggestions" id="gcTopSearchSuggestions" role="listbox" aria-label="Hızlı arama sonuçları" hidden></div>
+    </div>
     <div class="gc-header-actions">
       <button class="gc-theme-quick" id="gcThemeQuick" type="button" aria-label="Temayı değiştir" title="Açık/koyu tema">${icon('<circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"/>')}</button>
       <button class="gc-menu-trigger" id="gcMenuOpen" type="button" aria-label="Tüm menüyü aç" aria-controls="gcMenuPanel" aria-expanded="false">${icon('<path d="M4 6h16M4 12h16M4 18h16"/>')}</button>
@@ -170,12 +174,102 @@
   header.querySelector('#gcHistoryForward')?.addEventListener('click', () => history.forward());
   header.querySelector('#gcThemeQuick')?.addEventListener('click', () => window.toggleTheme?.());
 
-  // Üst arama alanı, mevcut sayfadan ayrılmadan arşiv arama penceresini açar.
+  // Üst arama alanı: yazarken hızlı sonuçlar gösterir; Detaylı arama tüm filtre panelini açar.
+  const topSearchWrap = header.querySelector('.gc-top-search-wrap');
   const topSearch = header.querySelector('#gcTopSearchForm');
   const topSearchInput = header.querySelector('#gcTopSearchInput');
-  topSearch?.addEventListener('submit', (event) => {
-    event.preventDefault();
+  const suggestions = header.querySelector('#gcTopSearchSuggestions');
+  const advancedSearchButton = header.querySelector('#gcTopSearchAdvanced');
+  const rootScript = [...document.scripts].find(node => /gamecapsule-theme\.js(?:\?|$)/.test(node.src));
+  const siteRootURL = rootScript?.src ? new URL('../', rootScript.src) : new URL('/', location.origin);
+  const quickCategories = [
+    { type: 'oyun', label: 'Oyun', icon: '🎮', file: 'data/games.json' },
+    { type: 'film', label: 'Film', icon: '🎬', file: 'data/movies.json' },
+    { type: 'dizi', label: 'Dizi', icon: '📺', file: 'data/series.json' },
+    { type: 'anime', label: 'Anime', icon: '✦', file: 'data/anime.json' }
+  ];
+  let quickRecords = null;
+  let quickLoadPromise = null;
+  let quickMatches = [];
+  let activeQuickIndex = -1;
+  let quickSearchSequence = 0;
+  const escapeHTML = value => String(value ?? '').replace(/[&<>"']/g, char => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[char]));
+  const normalizeSearchText = value => String(value ?? '').toLocaleLowerCase('tr-TR').normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/ı/g, 'i').trim();
+  const safeImage = value => {
+    try {
+      const url = new URL(String(value || ''), siteRootURL);
+      return ['http:', 'https:'].includes(url.protocol) ? url.href : '';
+    } catch (_) { return ''; }
+  };
+  const setSuggestionsOpen = open => {
+    if (!suggestions || !topSearchInput) return;
+    suggestions.hidden = !open;
+    topSearchInput.setAttribute('aria-expanded', String(open));
+    topSearchWrap?.classList.toggle('has-suggestions', open);
+  };
+  const loadQuickRecords = () => {
+    if (quickRecords) return Promise.resolve(quickRecords);
+    if (quickLoadPromise) return quickLoadPromise;
+    quickLoadPromise = Promise.all(quickCategories.map(async category => {
+      try {
+        const response = await fetch(new URL(category.file, siteRootURL).href, { cache: 'force-cache' });
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const data = await response.json();
+        if (!Array.isArray(data)) return [];
+        return data.filter(item => item && item.id != null && item.title).map(item => ({
+          ...item,
+          _quickType: category.type,
+          _quickLabel: category.label,
+          _quickIcon: category.icon,
+          _quickUrl: `${new URL('icerik/', siteRootURL).href}?tip=${encodeURIComponent(category.type)}&id=${encodeURIComponent(item.id)}`
+        }));
+      } catch (error) {
+        console.warn(`Hızlı arama verisi yüklenemedi (${category.label}):`, error);
+        return [];
+      }
+    })).then(groups => {
+      quickRecords = groups.flat();
+      return quickRecords;
+    }).catch(error => {
+      quickLoadPromise = null;
+      throw error;
+    });
+    return quickLoadPromise;
+  };
+  const quickRelevance = (item, query) => {
+    const title = normalizeSearchText(item.title);
+    const aliases = normalizeSearchText([item.originalTitle, item.alternativeTitle, ...(Array.isArray(item.alternativeTitles) ? item.alternativeTitles : [])].filter(Boolean).join(' '));
+    const extras = normalizeSearchText([item.platform, item.developer, item.director, item.creator, item.studio, ...(item.genres || [])].filter(Boolean).join(' '));
+    if (title === query) return 1000;
+    if (title.startsWith(query)) return 800;
+    if (title.includes(query)) return 650;
+    if (aliases.includes(query)) return 550;
+    if (extras.includes(query)) return 220;
+    const tokens = query.split(/\s+/).filter(Boolean);
+    if (tokens.length > 1 && tokens.every(token => title.includes(token))) return 450;
+    return 0;
+  };
+  const renderQuickSuggestions = (records, query) => {
+    if (!suggestions) return;
+    quickMatches = records;
+    activeQuickIndex = -1;
+    if (!records.length) {
+      suggestions.innerHTML = `<div class="gc-top-search-empty"><strong>Sonuç bulunamadı</strong><span>Başka bir ifade deneyebilir veya detaylı aramayı açabilirsin.</span></div>`;
+      setSuggestionsOpen(true);
+      return;
+    }
+    suggestions.innerHTML = `<div class="gc-top-search-suggestion-head"><span>Hızlı sonuçlar</span><span>${records.length} kayıt</span></div>` + records.map((item, index) => {
+      const image = safeImage(item.image);
+      const score = item.score !== null && item.score !== undefined && item.score !== '' && Number.isFinite(Number(item.score)) ? `★ ${Number(item.score).toLocaleString('tr-TR', { maximumFractionDigits: 1 })}` : '';
+      const meta = [item.year || '', ...(Array.isArray(item.genres) ? item.genres.slice(0, 2) : []), score].filter(Boolean).join(' · ');
+      return `<a class="gc-top-search-suggestion" role="option" aria-selected="false" data-quick-index="${index}" href="${escapeHTML(item._quickUrl)}">${image ? `<img src="${escapeHTML(image)}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer">` : `<span class="gc-top-search-suggestion-fallback">${escapeHTML(item._quickIcon)}</span>`}<span class="gc-top-search-suggestion-copy"><strong>${escapeHTML(item.title)}</strong><small>${escapeHTML(meta || item._quickLabel)}</small></span><span class="gc-top-search-suggestion-type">${escapeHTML(item._quickIcon)} ${escapeHTML(item._quickLabel)}</span><span class="gc-top-search-suggestion-arrow" aria-hidden="true">↗</span></a>`;
+    }).join('') + `<button class="gc-top-search-show-all" type="button" id="gcTopSearchShowAll">Tüm sonuçları gör <span aria-hidden="true">↗</span></button>`;
+    suggestions.querySelector('#gcTopSearchShowAll')?.addEventListener('click', openDetailedSearch);
+    setSuggestionsOpen(true);
+  };
+  const openDetailedSearch = () => {
     const query = String(topSearchInput?.value || '').trim();
+    setSuggestionsOpen(false);
     const currentPath = location.pathname.replace(/index\.html$/i, '').replace(/\/+$/, '') || '/';
     if (currentPath === '/ara') {
       const pageSearch = document.getElementById('searchQuery');
@@ -186,11 +280,66 @@
       }
       return;
     }
-    if (typeof window.openArchiveSearch === 'function') {
-      window.openArchiveSearch(query);
-    } else {
-      location.href = `${paths.search}?searchQuery=${encodeURIComponent(query)}`;
+    if (typeof window.openArchiveSearch === 'function') window.openArchiveSearch(query);
+    else location.href = `${paths.search}?searchQuery=${encodeURIComponent(query)}`;
+  };
+  let quickSearchTimer = 0;
+  const updateQuickSuggestions = async () => {
+    const sequence = ++quickSearchSequence;
+    const query = normalizeSearchText(topSearchInput?.value || '');
+    if (query.length < 2) { setSuggestionsOpen(false); quickMatches = []; return; }
+    suggestions.innerHTML = '<div class="gc-top-search-loading">Arşiv aranıyor…</div>';
+    setSuggestionsOpen(true);
+    try {
+      const records = await loadQuickRecords();
+      if (sequence !== quickSearchSequence) return;
+      const matches = records.map(item => ({ item, score: quickRelevance(item, query) }))
+        .filter(entry => entry.score > 0)
+        .sort((a, b) => b.score - a.score || String(a.item.title).localeCompare(String(b.item.title), 'tr-TR'))
+        .slice(0, 7).map(entry => entry.item);
+      renderQuickSuggestions(matches, query);
+    } catch (_) {
+      if (sequence !== quickSearchSequence) return;
+      suggestions.innerHTML = '<div class="gc-top-search-empty"><strong>Hızlı arama yüklenemedi</strong><span>Detaylı arama ile devam edebilirsin.</span></div>';
+      setSuggestionsOpen(true);
     }
+  };
+  topSearchInput?.addEventListener('input', () => {
+    window.clearTimeout(quickSearchTimer);
+    quickSearchTimer = window.setTimeout(updateQuickSuggestions, 120);
+  });
+  topSearchInput?.addEventListener('focus', () => {
+    if (normalizeSearchText(topSearchInput.value).length >= 2) updateQuickSuggestions();
+  });
+  topSearchInput?.addEventListener('keydown', event => {
+    if (event.key === 'Escape') { setSuggestionsOpen(false); return; }
+    if (event.key === 'ArrowDown' && !suggestions.hidden) {
+      event.preventDefault();
+      activeQuickIndex = Math.min(activeQuickIndex + 1, quickMatches.length - 1);
+    } else if (event.key === 'ArrowUp' && !suggestions.hidden) {
+      event.preventDefault();
+      activeQuickIndex = Math.max(activeQuickIndex - 1, 0);
+    } else if (event.key === 'Enter' && !suggestions.hidden && activeQuickIndex >= 0 && quickMatches[activeQuickIndex]) {
+      event.preventDefault();
+      location.href = quickMatches[activeQuickIndex]._quickUrl;
+      return;
+    }
+    if (!suggestions.hidden) {
+      suggestions.querySelectorAll('[data-quick-index]').forEach((node, index) => {
+        const active = index === activeQuickIndex;
+        node.classList.toggle('is-active', active);
+        node.setAttribute('aria-selected', String(active));
+      });
+    }
+  });
+  topSearch?.addEventListener('submit', event => { event.preventDefault(); openDetailedSearch(); });
+  advancedSearchButton?.addEventListener('click', openDetailedSearch);
+  suggestions?.addEventListener('click', event => {
+    const link = event.target.closest('a[data-quick-index]');
+    if (link) setSuggestionsOpen(false);
+  });
+  document.addEventListener('pointerdown', event => {
+    if (topSearchWrap && !topSearchWrap.contains(event.target)) setSuggestionsOpen(false);
   });
 
   // Geniş ekranlarda menü kalıcı sol kenar çubuğudur; dar ekranlarda açılır çekmece olur.
