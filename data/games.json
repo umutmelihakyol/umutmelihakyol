@@ -4660,5 +4660,33 @@
     "updatedAt": "2026-11-17T21:25:17.291Z",
     "year": null,
     "id": "uma-mwl74ulw-1v9iui"
+  },
+  {
+    "cons": [],
+    "developer": "Treyarch, Raven Software, Beenox, High Moon Studios, Sledgehammer Games, Infinity Ward, Activision Shanghai, Demonware",
+    "favorite": false,
+    "finished": null,
+    "genres": [
+      "Aksiyon"
+    ],
+    "hours": 2.1,
+    "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1938090/23af6cf41e2d09620caa07700a4cb3288dbcbaa8/header.jpg?t=1794591176",
+    "note": "",
+    "platform": "PC (Steam)",
+    "pros": [],
+    "publisher": "Activision",
+    "recommended": null,
+    "review": "",
+    "score": null,
+    "sourceDescription": "Call of Duty® Merkezi; Modern Warfare® 4, Black Ops 7 ve Call of Duty®: Warzone™ oyunlarını desteklemektedir.",
+    "status": "oynuyorum",
+    "steamAppId": 1938090,
+    "steamLastSyncAt": "2026-11-19T05:27:31.728Z",
+    "steamPlaytimeMinutes": 126,
+    "steamUrl": "https://store.steampowered.com/app/1938090/",
+    "title": "Call of Duty®",
+    "updatedAt": "2026-11-19T05:27:31.728Z",
+    "year": 2022,
+    "id": "uma-mwn3zned-vh4gmz"
   }
 ]
