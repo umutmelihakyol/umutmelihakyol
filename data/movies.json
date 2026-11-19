@@ -3632,5 +3632,41 @@
     "letterboxdWatchedDate": "2025-07-12",
     "letterboxdRecentDiaryCount": 1,
     "letterboxdLastSyncAt": "2026-11-17T22:08:06.124Z"
+  },
+  {
+    "alternativeTitles": [],
+    "cons": [],
+    "director": "",
+    "favorite": false,
+    "finished": "2026-03-16",
+    "genres": [],
+    "image": "https://a.ltrbxd.com/resized/film-poster/1/9/4/4/0/2/194402-captain-america-civil-war-0-600-0-900-crop.jpg?v=06d3eb3f8a",
+    "letterboxdDiaryUrl": "https://letterboxd.com/umutmelihakyol/film/captain-america-civil-war/1/",
+    "letterboxdLastSyncAt": "2026-11-19T05:27:33.061Z",
+    "letterboxdRating": 4.5,
+    "letterboxdRecentDiaryCount": 1,
+    "letterboxdRewatch": true,
+    "letterboxdSourceReview": "Watched on Monday March 16, 2026.",
+    "letterboxdWatchedDate": "2026-03-16",
+    "links": [
+      {
+        "name": "Letterboxd günlüğü",
+        "url": "https://letterboxd.com/umutmelihakyol/film/captain-america-civil-war/1/"
+      }
+    ],
+    "minutes": null,
+    "note": "",
+    "platform": "Letterboxd",
+    "pros": [],
+    "recommended": null,
+    "review": "",
+    "score": null,
+    "sourceDescription": "",
+    "status": "bitirdim",
+    "title": "Captain America: Civil War",
+    "tmdbId": 271110,
+    "updatedAt": "2026-11-19T05:27:33.061Z",
+    "year": 2016,
+    "id": "uma-mwn3zpn3-15n5rb"
   }
 ]
