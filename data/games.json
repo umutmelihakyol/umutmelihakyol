@@ -177,7 +177,7 @@
   },
   {
     "id": "mwgm0nfl",
-    "status": "oynuyorum",
+    "status": "bitirdim",
     "title": "Counter-Strike 2",
     "image": "https://media.rawg.io/media/games/ec4/ec4b02bdb3eb5c6212992c19bc05697e.jpg",
     "platform": "PC (Steam)",
@@ -195,7 +195,7 @@
     "cons": [],
     "links": [],
     "repeatHistory": [],
-    "updatedAt": "2026-11-17T22:05:27.487Z",
+    "updatedAt": "2026-11-19T05:31:10.788Z",
     "installProfiles": [],
     "hours": 100.6,
     "developer": "",
@@ -4679,13 +4679,13 @@
     "review": "",
     "score": null,
     "sourceDescription": "Call of Duty® Merkezi; Modern Warfare® 4, Black Ops 7 ve Call of Duty®: Warzone™ oyunlarını desteklemektedir.",
-    "status": "oynuyorum",
+    "status": "bitirdim",
     "steamAppId": 1938090,
     "steamLastSyncAt": "2026-11-19T05:27:31.728Z",
     "steamPlaytimeMinutes": 126,
     "steamUrl": "https://store.steampowered.com/app/1938090/",
     "title": "Call of Duty®",
-    "updatedAt": "2026-11-19T05:27:31.728Z",
+    "updatedAt": "2026-11-19T05:31:10.788Z",
     "year": 2022,
     "id": "uma-mwn3zned-vh4gmz"
   }
