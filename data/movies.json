@@ -3668,5 +3668,41 @@
     "updatedAt": "2026-11-19T05:27:33.061Z",
     "year": 2016,
     "id": "uma-mwn3zpn3-15n5rb"
+  },
+  {
+    "alternativeTitles": [],
+    "cons": [],
+    "director": "",
+    "favorite": false,
+    "finished": "2026-03-16",
+    "genres": [],
+    "image": "https://a.ltrbxd.com/resized/sm/upload/1g/4f/6e/5b/prvWMj8cBFgVn5MLlsjlvH2hiIh-0-600-0-900-crop.jpg?v=edbe39cfb9",
+    "letterboxdDiaryUrl": "https://letterboxd.com/umutmelihakyol/film/guardians-of-the-galaxy-vol-2/1/",
+    "letterboxdLastSyncAt": "2026-11-19T05:27:33.061Z",
+    "letterboxdRating": 4.5,
+    "letterboxdRecentDiaryCount": 1,
+    "letterboxdRewatch": true,
+    "letterboxdSourceReview": "Watched on Monday March 16, 2026.",
+    "letterboxdWatchedDate": "2026-03-16",
+    "links": [
+      {
+        "name": "Letterboxd günlüğü",
+        "url": "https://letterboxd.com/umutmelihakyol/film/guardians-of-the-galaxy-vol-2/1/"
+      }
+    ],
+    "minutes": null,
+    "note": "",
+    "platform": "Letterboxd",
+    "pros": [],
+    "recommended": null,
+    "review": "",
+    "score": null,
+    "sourceDescription": "",
+    "status": "bitirdim",
+    "title": "Guardians of the Galaxy Vol. 2",
+    "tmdbId": 283995,
+    "updatedAt": "2026-11-19T05:27:33.061Z",
+    "year": 2017,
+    "id": "uma-mwn4sac0-18vozn"
   }
 ]
