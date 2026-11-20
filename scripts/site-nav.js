@@ -61,6 +61,44 @@
     body.dataset.navBuilt = '1';
   }
 
+  // Mini oyunları sol menüde tek bir merkez altında toplar.
+  function mountMiniGamesMenuItem() {
+    const menu = document.querySelector('.gc-menu-scroll');
+    if (!menu) return false;
+
+    const toolsGroup = Array.from(menu.querySelectorAll('.gc-menu-group')).find(group =>
+      (group.querySelector('.gc-menu-label')?.textContent || '').trim().toLocaleLowerCase('tr-TR') === 'araçlar'
+    );
+    if (!toolsGroup) return false;
+
+    // Zar oyununa artık Mini Oyunlar sayfasından ulaşılır.
+    menu.querySelectorAll('.gc-menu-link[href="/zar/"]').forEach(link => link.remove());
+
+    let link = toolsGroup.querySelector('.gc-menu-link[href="/mini-oyunlar/"]');
+    if (!link) {
+      link = document.createElement('a');
+      link.className = 'gc-menu-link';
+      link.href = '/mini-oyunlar/';
+      link.innerHTML = '<span class="gc-menu-icon">🎮</span><span class="gc-menu-copy"><strong>Mini Oyunlar</strong><small>Tüm mini oyunlara tek yerden ulaş</small></span><span class="gc-menu-arrow" aria-hidden="true">›</span>';
+      const firstItem = toolsGroup.querySelector('.gc-menu-link');
+      if (firstItem) toolsGroup.insertBefore(link, firstItem);
+      else toolsGroup.append(link);
+    }
+
+    const currentPath = normalize(location.pathname);
+    const isMiniGamesArea = currentPath.startsWith('/mini-oyunlar') || currentPath.startsWith('/zar');
+    link.classList.toggle('is-active', isMiniGamesArea);
+    if (isMiniGamesArea) link.setAttribute('aria-current', 'page');
+    else link.removeAttribute('aria-current');
+    return true;
+  }
+
+  const miniGamesMenuObserver = new MutationObserver(() => {
+    if (mountMiniGamesMenuItem()) miniGamesMenuObserver.disconnect();
+  });
+  miniGamesMenuObserver.observe(document.documentElement, { childList: true, subtree: true });
+  mountMiniGamesMenuItem();
+
   // 2B asistanini tum sayfalara ortak noktadan yukle.
   (function load2BAssistant() {
     if (document.getElementById('g2b-style')) return;
