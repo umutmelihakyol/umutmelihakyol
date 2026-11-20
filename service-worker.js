@@ -1,8 +1,8 @@
-/* Günlüğüm Service Worker — cache v75: Zar sayfasının geniş yerleşimi ve yeni tasarımı. */
+/* Günlüğüm Service Worker — cache v76: Zar sayfasının geniş yerleşimi ve yeni tasarımı. */
 'use strict';
 
 const CACHE_PREFIX = 'gunlugum-pwa-';
-const CACHE_VERSION = 'v75';
+const CACHE_VERSION = 'v76';
 const APP_CACHE = `${CACHE_PREFIX}app-${CACHE_VERSION}`;
 const IMAGE_CACHE = `${CACHE_PREFIX}images-${CACHE_VERSION}`;
 const APP_ROOT = new URL('./', self.registration.scope);

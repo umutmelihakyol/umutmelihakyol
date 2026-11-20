@@ -432,3 +432,140 @@ html[data-theme="light"] body[class] {
   :root[data-theme="light"] body.admin-page .admin-nav .tab-btn { flex: 1 1 145px !important; }
   :root[data-theme="light"] .gc-shell-mounted :is(.panel,.card,.stats-panel,.search-panel,.people-search-panel,.cost-card) { box-shadow: 0 3px 12px rgba(34,40,68,.04) !important; }
 }
+
+/* ================================================================
+   ARŞİV KARTLARI — AÇIK TEMA KONTRAST DÜZELTMESİ
+   Puan halkası, durum rozeti ve kart eylemleri açık zeminde okunaklıdır.
+   ================================================================ */
+:root[data-theme="light"] .gc-shell-mounted .card.cx {
+  color: #24283a !important;
+  background: linear-gradient(155deg, #ffffff 0%, #fbfbfe 100%) !important;
+  border-color: #dfe3ed !important;
+  box-shadow: 0 5px 17px rgba(39, 45, 75, .075) !important;
+}
+:root[data-theme="light"] .gc-shell-mounted .card.cx:hover {
+  border-color: #c8bce9 !important;
+  box-shadow: 0 11px 25px rgba(61, 48, 111, .12) !important;
+}
+:root[data-theme="light"] .gc-shell-mounted .card.cx .cx-body {
+  color: #24283a !important;
+  background: transparent !important;
+}
+:root[data-theme="light"] .gc-shell-mounted .card.cx .cx-title,
+:root[data-theme="light"] .gc-shell-mounted .card.cx .cx-title a,
+:root[data-theme="light"] .gc-shell-mounted .card.cx .cx-title a:visited {
+  color: #252a3d !important;
+}
+:root[data-theme="light"] .gc-shell-mounted .card.cx .cx-title a:hover {
+  color: #533b91 !important;
+}
+:root[data-theme="light"] .gc-shell-mounted .card.cx .cx-meta,
+:root[data-theme="light"] .gc-shell-mounted .card.cx .cx-facts {
+  color: #697287 !important;
+}
+
+/* Puan halkası: koyu merkez yerine beyaz merkez ve koyu, okunaklı puan. */
+:root[data-theme="light"] .gc-shell-mounted .card.cx .cx-ring {
+  color: #292d42 !important;
+  background: conic-gradient(var(--c) calc(var(--p) * 1%), #e7e9f0 0) !important;
+  border: 1px solid rgba(76, 68, 112, .12) !important;
+  filter: drop-shadow(0 2px 5px rgba(35, 40, 65, .16)) !important;
+}
+:root[data-theme="light"] .gc-shell-mounted .card.cx .cx-ring::before {
+  background: #ffffff !important;
+  border: 1px solid rgba(43, 48, 72, .08) !important;
+  box-shadow: inset 0 1px 3px rgba(32, 38, 64, .10) !important;
+}
+:root[data-theme="light"] .gc-shell-mounted .card.cx .cx-ring b {
+  color: #292d42 !important;
+  text-shadow: none !important;
+}
+:root[data-theme="light"] .gc-shell-mounted .card.cx .cx-ring[data-t="hi"] { --c: #21845d !important; }
+:root[data-theme="light"] .gc-shell-mounted .card.cx .cx-ring[data-t="mid"] { --c: #674bb4 !important; }
+:root[data-theme="light"] .gc-shell-mounted .card.cx .cx-ring[data-t="lo"] { --c: #b64e5b !important; }
+
+/* Kapak üzerindeki durum rozetleri: açık, renk kodlu ve yüksek kontrastlı. */
+:root[data-theme="light"] .gc-shell-mounted .card.cx .cx-st {
+  color: #40506a !important;
+  background: rgba(255, 255, 255, .96) !important;
+  border: 1px solid rgba(221, 225, 237, .98) !important;
+  box-shadow: 0 2px 7px rgba(22, 27, 48, .14) !important;
+  backdrop-filter: blur(9px) saturate(1.1) !important;
+  -webkit-backdrop-filter: blur(9px) saturate(1.1) !important;
+}
+:root[data-theme="light"] .gc-shell-mounted .card.cx .cx-st[data-s="bitirdim"] {
+  color: #1d6547 !important;
+  background: rgba(235, 249, 241, .97) !important;
+  border-color: #bfe5ce !important;
+}
+:root[data-theme="light"] .gc-shell-mounted .card.cx .cx-st[data-s="oynuyorum"] {
+  color: #205b78 !important;
+  background: rgba(235, 247, 252, .97) !important;
+  border-color: #bfdfed !important;
+}
+:root[data-theme="light"] .gc-shell-mounted .card.cx .cx-st[data-s="biraktim"] {
+  color: #91463f !important;
+  background: rgba(255, 241, 237, .97) !important;
+  border-color: #f0cbc3 !important;
+}
+:root[data-theme="light"] .gc-shell-mounted .card.cx .cx-st[data-s="istek"] {
+  color: #765719 !important;
+  background: rgba(255, 248, 225, .98) !important;
+  border-color: #eadcae !important;
+}
+
+/* Favori ve öneri simgeleri. */
+:root[data-theme="light"] .gc-shell-mounted .card.cx .cx-ico {
+  color: #59637b !important;
+  background: rgba(255, 255, 255, .96) !important;
+  border: 1px solid #e0e4ed !important;
+  box-shadow: 0 2px 6px rgba(22, 27, 48, .12) !important;
+}
+:root[data-theme="light"] .gc-shell-mounted .card.cx .cx-ico.fav { color: #c14e70 !important; }
+:root[data-theme="light"] .gc-shell-mounted .card.cx .cx-ico.yes { color: #267a59 !important; }
+:root[data-theme="light"] .gc-shell-mounted .card.cx .cx-ico.no { color: #b64e5b !important; }
+
+/* Tür etiketleri ve ek bilgiler. */
+:root[data-theme="light"] .gc-shell-mounted .card.cx .cx-chips span {
+  color: #6048a4 !important;
+  background: #f1edfb !important;
+  border: 1px solid #e2daf4 !important;
+}
+:root[data-theme="light"] .gc-shell-mounted .card.cx .cx-facts span {
+  color: #657087 !important;
+  background: #f8f9fc !important;
+  border: 1px solid #e5e8f0 !important;
+}
+:root[data-theme="light"] .gc-shell-mounted .card.cx .cx-score-inline {
+  color: #51398f !important;
+  background: #f0ecfa !important;
+  border: 1px solid #e2daf4 !important;
+}
+
+/* Alt eylemler: Ayrıntılar ve Paylaş butonları açık temaya uygun. */
+:root[data-theme="light"] .gc-shell-mounted .card.cx .cx-foot {
+  border-top-color: #e5e8f0 !important;
+}
+:root[data-theme="light"] .gc-shell-mounted .card.cx .cx-foot .more {
+  color: #51398f !important;
+  background: #f1edfb !important;
+  border: 1px solid #d9cff3 !important;
+  box-shadow: 0 1px 3px rgba(53, 40, 91, .05) !important;
+}
+:root[data-theme="light"] .gc-shell-mounted .card.cx .cx-foot .more:hover {
+  color: #ffffff !important;
+  background: #674bb4 !important;
+  border-color: #674bb4 !important;
+  box-shadow: 0 4px 10px rgba(103, 75, 180, .20) !important;
+}
+:root[data-theme="light"] .gc-shell-mounted .card.cx .cx-share-btn {
+  color: #515c73 !important;
+  background: #ffffff !important;
+  border: 1px solid #dfe3ed !important;
+  box-shadow: 0 1px 3px rgba(39, 45, 75, .04) !important;
+}
+:root[data-theme="light"] .gc-shell-mounted .card.cx .cx-share-btn:hover {
+  color: #51398f !important;
+  background: #f4f0fc !important;
+  border-color: #cfc3ec !important;
+}
