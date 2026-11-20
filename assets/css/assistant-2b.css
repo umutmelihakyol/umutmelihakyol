@@ -361,70 +361,109 @@
 .g2b-message-user .g2b-bubble code { color: #fff; background: rgba(255,255,255,.14); border-color: rgba(255,255,255,.22); }
 
 
-/* 2B READABILITY HOTFIX — high-specificity text contrast */
-#gunlugum-2b {
-  --g2b-ink: #f5f6fb;
-  --g2b-muted: #c5cada;
-}
+/* ---------------------------------------------------------
+   2B THEME-AWARE MESSAGE CONTRAST
+   Light theme uses dark text on pale bubbles; dark theme
+   uses light text. User's blue bubble remains white.
+   --------------------------------------------------------- */
 
-/* Main message surfaces must not inherit the site's muted text color. */
-#gunlugum-2b .g2b-bubble {
-  color: #f5f6fb !important;
-  opacity: 1 !important;
-  filter: none !important;
-  -webkit-text-fill-color: #f5f6fb;
+/* Dark theme */
+html[data-theme="dark"] #gunlugum-2b .g2b-message-assistant .g2b-bubble {
+  color: #f3f5fb;
+  -webkit-text-fill-color: #f3f5fb;
 }
-
-/* Rendered Markdown paragraphs and list items were inheriting a low-contrast theme color. */
-#gunlugum-2b .g2b-bubble p,
-#gunlugum-2b .g2b-bubble li,
-#gunlugum-2b .g2b-bubble h1,
-#gunlugum-2b .g2b-bubble h2,
-#gunlugum-2b .g2b-bubble h3,
-#gunlugum-2b .g2b-bubble blockquote,
-#gunlugum-2b .g2b-bubble del,
-#gunlugum-2b .g2b-bubble em {
-  color: #f5f6fb !important;
-  opacity: 1 !important;
-  -webkit-text-fill-color: #f5f6fb;
+html[data-theme="dark"] #gunlugum-2b .g2b-message-assistant .g2b-bubble p,
+html[data-theme="dark"] #gunlugum-2b .g2b-message-assistant .g2b-bubble li,
+html[data-theme="dark"] #gunlugum-2b .g2b-message-assistant .g2b-bubble h1,
+html[data-theme="dark"] #gunlugum-2b .g2b-message-assistant .g2b-bubble h2,
+html[data-theme="dark"] #gunlugum-2b .g2b-message-assistant .g2b-bubble h3,
+html[data-theme="dark"] #gunlugum-2b .g2b-message-assistant .g2b-bubble em,
+html[data-theme="dark"] #gunlugum-2b .g2b-message-assistant .g2b-bubble del {
+  color: #f3f5fb;
+  -webkit-text-fill-color: #f3f5fb;
 }
-
-/* Also catch nested Markdown elements, without overriding spans with explicit color tags. */
-#gunlugum-2b .g2b-bubble *:not([style*="color"]) {
-  opacity: 1 !important;
-}
-
-#gunlugum-2b .g2b-bubble strong,
-#gunlugum-2b .g2b-bubble b {
-  color: #ffffff !important;
-  font-weight: 800 !important;
+html[data-theme="dark"] #gunlugum-2b .g2b-message-assistant .g2b-bubble strong,
+html[data-theme="dark"] #gunlugum-2b .g2b-message-assistant .g2b-bubble b {
+  color: #ffffff;
+  font-weight: 800;
   -webkit-text-fill-color: #ffffff;
 }
-
-#gunlugum-2b .g2b-bubble blockquote {
-  color: #dce1ec !important;
+html[data-theme="dark"] #gunlugum-2b .g2b-message-assistant .g2b-bubble blockquote {
+  color: #d4d9e5;
   border-left-color: #a994ff;
-  -webkit-text-fill-color: #dce1ec;
+  -webkit-text-fill-color: #d4d9e5;
 }
-
-#gunlugum-2b .g2b-bubble a {
-  color: #cbbdff !important;
+html[data-theme="dark"] #gunlugum-2b .g2b-message-assistant .g2b-bubble a {
+  color: #cbbdff;
   -webkit-text-fill-color: #cbbdff;
 }
-
-#gunlugum-2b .g2b-bubble code {
-  color: #e9e1ff !important;
+html[data-theme="dark"] #gunlugum-2b .g2b-message-assistant .g2b-bubble code {
+  color: #e9e1ff;
   -webkit-text-fill-color: #e9e1ff;
 }
 
-/* Preserve custom [renk=...] spans, which carry an explicit safe color style. */
+/* Light theme: dark text on the pale lavender message background. */
+html[data-theme="light"] #gunlugum-2b .g2b-message-assistant .g2b-bubble {
+  color: #25243a;
+  -webkit-text-fill-color: #25243a;
+}
+html[data-theme="light"] #gunlugum-2b .g2b-message-assistant .g2b-bubble p,
+html[data-theme="light"] #gunlugum-2b .g2b-message-assistant .g2b-bubble li,
+html[data-theme="light"] #gunlugum-2b .g2b-message-assistant .g2b-bubble h1,
+html[data-theme="light"] #gunlugum-2b .g2b-message-assistant .g2b-bubble h2,
+html[data-theme="light"] #gunlugum-2b .g2b-message-assistant .g2b-bubble h3,
+html[data-theme="light"] #gunlugum-2b .g2b-message-assistant .g2b-bubble em,
+html[data-theme="light"] #gunlugum-2b .g2b-message-assistant .g2b-bubble del {
+  color: #25243a;
+  -webkit-text-fill-color: #25243a;
+}
+html[data-theme="light"] #gunlugum-2b .g2b-message-assistant .g2b-bubble strong,
+html[data-theme="light"] #gunlugum-2b .g2b-message-assistant .g2b-bubble b {
+  color: #171629;
+  font-weight: 800;
+  -webkit-text-fill-color: #171629;
+}
+html[data-theme="light"] #gunlugum-2b .g2b-message-assistant .g2b-bubble blockquote {
+  color: #55566d;
+  border-left-color: #7662d5;
+  -webkit-text-fill-color: #55566d;
+}
+html[data-theme="light"] #gunlugum-2b .g2b-message-assistant .g2b-bubble a {
+  color: #5543b5;
+  text-decoration-color: rgba(85,67,181,.45);
+  -webkit-text-fill-color: #5543b5;
+}
+html[data-theme="light"] #gunlugum-2b .g2b-message-assistant .g2b-bubble code {
+  color: #453485;
+  border-color: rgba(100,78,180,.22);
+  background: rgba(110,90,195,.11);
+  -webkit-text-fill-color: #453485;
+}
+html[data-theme="light"] #gunlugum-2b .g2b-message-assistant .g2b-bubble pre {
+  color: #f3f4fa;
+  background: #242333;
+}
+html[data-theme="light"] #gunlugum-2b .g2b-message-assistant .g2b-bubble pre code {
+  color: inherit;
+  -webkit-text-fill-color: currentColor;
+}
+
+/* Custom [renk=...] spans retain their inline chosen color in both themes. */
 #gunlugum-2b .g2b-bubble span[style*="color"] {
   -webkit-text-fill-color: currentColor;
 }
 
+/* User's blue-gradient bubble is intentionally white in both themes. */
 #gunlugum-2b .g2b-message-user .g2b-bubble,
 #gunlugum-2b .g2b-message-user .g2b-bubble p,
-#gunlugum-2b .g2b-message-user .g2b-bubble li {
-  color: #ffffff !important;
+#gunlugum-2b .g2b-message-user .g2b-bubble li,
+#gunlugum-2b .g2b-message-user .g2b-bubble strong,
+#gunlugum-2b .g2b-message-user .g2b-bubble em {
+  color: #ffffff;
+  -webkit-text-fill-color: #ffffff;
+}
+#gunlugum-2b .g2b-message-user .g2b-bubble a,
+#gunlugum-2b .g2b-message-user .g2b-bubble code {
+  color: #ffffff;
   -webkit-text-fill-color: #ffffff;
 }

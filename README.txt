@@ -1,20 +1,18 @@
-Günlüğüm 2B — Yazı kontrastı kesin düzeltmesi
+Günlüğüm 2B — Açık/koyu tema yazı rengi düzeltmesi
 
-Bu pakette bu kez ayrı bir kontrast CSS dosyası yoktur. Yüksek kontrast kuralları doğrudan ana assistant-2b.css dosyasının en altına eklenmiştir.
+ZIP içindeki dosyaları site ana dizinine klasör yollarını koruyarak kopyalayın:
+- assets/css/assistant-2b.css
+- scripts/site-nav.js
 
-Kurulum:
-1. ZIP'i açın.
-2. assets/css/assistant-2b.css dosyasını sitenizdeki aynı dosyanın üzerine yazın.
-3. scripts/site-nav.js dosyasını sitenizdeki aynı dosyanın üzerine yazın.
-4. Siteyi yayınlayın.
-5. Telefonda tarayıcı sekmesini kapatıp yeniden açın veya Ctrl+F5 / tam yenileme uygulayın.
+Mevcut dosyaların üzerine yazın, siteyi yayınlayın.
 
-Bu güncelleme:
-- Normal asistan metnini açık beyaz (#F5F6FB) olarak zorlar.
-- Kullanıcı mesajlarını beyaz yapar.
-- Kalın yazıları parlak beyaz tutar.
-- Alıntıları daha açık gri gösterir.
-- [renk=...] özel renklerini korur.
-- Markdown biçimlendirme mantığını, Gemini bağlantısını ve Worker ayarlarını değiştirmez.
+Yeni renk davranışı:
+- Koyu temada asistan mesajları açık beyaz.
+- Beyaz temada asistan mesajları koyu mor-siyah.
+- Kullanıcı mesajları mavi balon üzerinde beyaz kalır.
+- Kalın, italik, başlık, liste ve bağlantılar temaya uygun renk alır.
+- Kod blokları açık temada da koyu zeminli ve okunabilir kalır.
+- [renk=...] biçimlendirmelerinin seçtiği renk korunur.
 
-Önbellek sürümü 20261121-2 olarak yükseltildi.
+Önbellek sürümü 20261121-3 olarak yükseltildi. Yayından sonra sayfayı Ctrl+F5 ile yenileyin; telefonda sekmeyi kapatıp yeniden açın.
+Gemini Worker ve API anahtarı değiştirilmez.
