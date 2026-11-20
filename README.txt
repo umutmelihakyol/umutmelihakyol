@@ -1,12 +1,18 @@
-2B Gemini Worker adresi güncellemesi
+Günlüğüm 2B — Modern sohbet arayüzü
 
-1. ZIP içindeki scripts/assistant-2b-config.js dosyasını sitenin kök dizinindeki
-   scripts klasörüne kopyala.
-2. Mevcut assistant-2b-config.js dosyasının üzerine yaz.
-3. Siteyi yayınla ve Ctrl+F5 ile yenile.
-4. Sağ alttaki 2B karakterine tıkla ve "Merhaba, kendini tanıtır mısın?" mesajını gönder.
+Kurulum:
+1. ZIP içindeki assets/css/assistant-2b.css dosyasını sitenin aynı klasöründeki dosyanın üzerine yaz.
+2. Siteyi yayınla.
+3. Tarayıcıda Ctrl + F5 ile yenile.
 
-Worker adresi:
-https://gunlugum-2b.umutmelihakyol29.workers.dev/api/chat
+Neler değişti?
+- Sohbet paneli büyütüldü.
+- Mesaj metinleri 14 px'e çıkarıldı, satır aralığı artırıldı.
+- Kullanıcı ve 2B mesajları daha belirgin ayrıldı.
+- Mesaj gönderildikten sonra karşılama ve hazır komut alanı gizlenerek sohbet için yer açılır.
+- Mesaj geçmişinin kaydırma alanı büyütüldü.
+- Yazı alanı ve gönder düğmesi büyütüldü.
+- Mobil panel düzeni iyileştirildi.
+- Alt bilgi satırı kaldırılarak gereksiz alan tüketmesi önlendi.
 
-API anahtarı bu dosyada yer almaz. Cloudflare'daki AI_API_KEY Secret olarak kalmalıdır.
+Yalnızca CSS değişmiştir; Worker, Gemini modeli, API anahtarı ve asistanın mesaj mantığı değişmez.
