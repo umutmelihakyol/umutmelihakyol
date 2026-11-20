@@ -3,9 +3,10 @@
   const $ = (selector) => document.querySelector(selector);
   const STORAGE_KEY = 'gunlugum:dice-game:v1';
   const START_BALANCE = 10000;
+  const MIN_BALANCE = 100;
   const DAILY_BONUS = 5000;
-  const MIN_BET = 500;
-  const BET_STEP = 500;
+  const MIN_BET = 100;
+  const BET_STEP = 100;
   const AUTO_LIMIT = 25;
   const AUTO_DELAY = 1350;
   const fmt = (value) => new Intl.NumberFormat('tr-TR').format(Math.max(0, Math.trunc(Number(value) || 0)));
@@ -26,7 +27,8 @@
       const base = defaultState();
       return {
         ...base, ...parsed,
-        balance: Number.isSafeInteger(parsed.balance) && parsed.balance >= 0 ? parsed.balance : START_BALANCE,
+        // Existing balances below 100 are upgraded to the protected minimum.
+        balance: Number.isSafeInteger(parsed.balance) ? Math.max(MIN_BALANCE, parsed.balance) : START_BALANCE,
         playsByDay: parsed.playsByDay && typeof parsed.playsByDay === 'object' ? parsed.playsByDay : {},
         months: parsed.months && typeof parsed.months === 'object' ? parsed.months : {},
         history: Array.isArray(parsed.history) ? parsed.history.slice(0, 60) : []
@@ -57,6 +59,12 @@
   const rollValueEl = $('#diceRollValue');
   const autoInput = $('#diceAuto');
   const historyList = $('#diceHistoryList');
+
+  // Keep the visible input limits in sync with the protected minimum.
+  betInput.min = String(MIN_BET);
+  betInput.step = String(BET_STEP);
+  $('#diceBetMinus').setAttribute('aria-label', `Bahsi ${fmt(BET_STEP)} azalt`);
+  $('#diceBetPlus').setAttribute('aria-label', `Bahsi ${fmt(BET_STEP)} artır`);
 
   const currentMonthStat = () => state.months[monthKey()] || newMonthStats();
   const ensureMonth = () => { const key = monthKey(); if (!state.months[key]) state.months[key] = newMonthStats(); return state.months[key]; };
@@ -160,7 +168,8 @@
     const roll = secureRandom101();
     const payout = roll <= 54 ? 0 : roll <= 98 ? stake * 2 : stake * 10;
     const net = payout - stake;
-    state.balance = Math.max(0, state.balance - stake + payout);
+    // The balance can never drop below 100, even on a losing roll.
+    state.balance = Math.max(MIN_BALANCE, state.balance - stake + payout);
     state.totalPlays += 1;
     state.playsByDay[todayKey()] = Number(state.playsByDay[todayKey()] || 0) + 1;
     state.lastPlayDate = todayKey();
