@@ -60,5 +60,30 @@
     }
     body.dataset.navBuilt = '1';
   }
+
+  // 2B asistanini tum sayfalara ortak noktadan yukle.
+  (function load2BAssistant() {
+    if (document.getElementById('g2b-style')) return;
+    var style = document.createElement('link');
+    style.id = 'g2b-style';
+    style.rel = 'stylesheet';
+    style.href = new URL('assets/css/assistant-2b.css?v=20261120-1', root).href;
+    document.head.appendChild(style);
+
+    var configScript = document.createElement('script');
+    configScript.src = new URL('scripts/assistant-2b-config.js?v=20261120-1', root).href;
+    configScript.onload = loadApp;
+    configScript.onerror = loadApp;
+    document.head.appendChild(configScript);
+
+    function loadApp() {
+      if (document.getElementById('g2b-app-script')) return;
+      var app = document.createElement('script');
+      app.id = 'g2b-app-script';
+      app.src = new URL('scripts/assistant-2b.js?v=20261120-1', root).href;
+      document.body.appendChild(app);
+    }
+  })();
+
   build();
 })();
