@@ -1,16 +1,20 @@
-Günlüğüm 2B — Mesaj kontrastı düzeltmesi
+Günlüğüm 2B — Yazı kontrastı kesin düzeltmesi
 
-ZIP içindeki dosyaları site kök dizinine, klasör yollarını koruyarak yükleyin:
-- scripts/site-nav.js
-- assets/css/assistant-2b-contrast.css
+Bu pakette bu kez ayrı bir kontrast CSS dosyası yoktur. Yüksek kontrast kuralları doğrudan ana assistant-2b.css dosyasının en altına eklenmiştir.
 
-Mevcut scripts/site-nav.js dosyasının üzerine yazın. Yeni CSS dosyasını assets/css klasörüne ekleyin. Siteyi yayınladıktan sonra tarayıcıyı Ctrl+F5 ile yenileyin.
+Kurulum:
+1. ZIP'i açın.
+2. assets/css/assistant-2b.css dosyasını sitenizdeki aynı dosyanın üzerine yazın.
+3. scripts/site-nav.js dosyasını sitenizdeki aynı dosyanın üzerine yazın.
+4. Siteyi yayınlayın.
+5. Telefonda tarayıcı sekmesini kapatıp yeniden açın veya Ctrl+F5 / tam yenileme uygulayın.
 
-Ne değişti?
-- Asistanın normal mesaj metni açık gri/beyaz yüksek kontrasta alındı.
-- Kullanıcının mesajı beyaz olarak görünür.
-- Kalın metin güçlü beyaz vurgu alır.
-- İtalik metin normal metin kadar parlak kalır.
-- Alıntılar okunabilir açık gri olur.
-- Renk etiketiyle yazılan özel renkler korunur.
-- Markdown dosyaları ve Gemini/Worker ayarları değişmez.
+Bu güncelleme:
+- Normal asistan metnini açık beyaz (#F5F6FB) olarak zorlar.
+- Kullanıcı mesajlarını beyaz yapar.
+- Kalın yazıları parlak beyaz tutar.
+- Alıntıları daha açık gri gösterir.
+- [renk=...] özel renklerini korur.
+- Markdown biçimlendirme mantığını, Gemini bağlantısını ve Worker ayarlarını değiştirmez.
+
+Önbellek sürümü 20261121-2 olarak yükseltildi.

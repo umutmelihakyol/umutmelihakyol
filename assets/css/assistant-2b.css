@@ -359,3 +359,72 @@
 }
 .g2b-message-user .g2b-bubble a { color: #fff !important; }
 .g2b-message-user .g2b-bubble code { color: #fff; background: rgba(255,255,255,.14); border-color: rgba(255,255,255,.22); }
+
+
+/* 2B READABILITY HOTFIX — high-specificity text contrast */
+#gunlugum-2b {
+  --g2b-ink: #f5f6fb;
+  --g2b-muted: #c5cada;
+}
+
+/* Main message surfaces must not inherit the site's muted text color. */
+#gunlugum-2b .g2b-bubble {
+  color: #f5f6fb !important;
+  opacity: 1 !important;
+  filter: none !important;
+  -webkit-text-fill-color: #f5f6fb;
+}
+
+/* Rendered Markdown paragraphs and list items were inheriting a low-contrast theme color. */
+#gunlugum-2b .g2b-bubble p,
+#gunlugum-2b .g2b-bubble li,
+#gunlugum-2b .g2b-bubble h1,
+#gunlugum-2b .g2b-bubble h2,
+#gunlugum-2b .g2b-bubble h3,
+#gunlugum-2b .g2b-bubble blockquote,
+#gunlugum-2b .g2b-bubble del,
+#gunlugum-2b .g2b-bubble em {
+  color: #f5f6fb !important;
+  opacity: 1 !important;
+  -webkit-text-fill-color: #f5f6fb;
+}
+
+/* Also catch nested Markdown elements, without overriding spans with explicit color tags. */
+#gunlugum-2b .g2b-bubble *:not([style*="color"]) {
+  opacity: 1 !important;
+}
+
+#gunlugum-2b .g2b-bubble strong,
+#gunlugum-2b .g2b-bubble b {
+  color: #ffffff !important;
+  font-weight: 800 !important;
+  -webkit-text-fill-color: #ffffff;
+}
+
+#gunlugum-2b .g2b-bubble blockquote {
+  color: #dce1ec !important;
+  border-left-color: #a994ff;
+  -webkit-text-fill-color: #dce1ec;
+}
+
+#gunlugum-2b .g2b-bubble a {
+  color: #cbbdff !important;
+  -webkit-text-fill-color: #cbbdff;
+}
+
+#gunlugum-2b .g2b-bubble code {
+  color: #e9e1ff !important;
+  -webkit-text-fill-color: #e9e1ff;
+}
+
+/* Preserve custom [renk=...] spans, which carry an explicit safe color style. */
+#gunlugum-2b .g2b-bubble span[style*="color"] {
+  -webkit-text-fill-color: currentColor;
+}
+
+#gunlugum-2b .g2b-message-user .g2b-bubble,
+#gunlugum-2b .g2b-message-user .g2b-bubble p,
+#gunlugum-2b .g2b-message-user .g2b-bubble li {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff;
+}
