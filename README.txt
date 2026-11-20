@@ -1,18 +1,16 @@
-Günlüğüm 2B — Modern sohbet arayüzü
+Günlüğüm 2B — Mobil chibi konum düzeltmesi
 
-Kurulum:
-1. ZIP içindeki assets/css/assistant-2b.css dosyasını sitenin aynı klasöründeki dosyanın üzerine yaz.
-2. Siteyi yayınla.
-3. Tarayıcıda Ctrl + F5 ile yenile.
+ZIP içindeki iki dosyayı klasör yollarını koruyarak sitenin ana dizinine kopyalayın:
+- assets/css/assistant-2b.css
+- scripts/site-nav.js
 
-Neler değişti?
-- Sohbet paneli büyütüldü.
-- Mesaj metinleri 14 px'e çıkarıldı, satır aralığı artırıldı.
-- Kullanıcı ve 2B mesajları daha belirgin ayrıldı.
-- Mesaj gönderildikten sonra karşılama ve hazır komut alanı gizlenerek sohbet için yer açılır.
-- Mesaj geçmişinin kaydırma alanı büyütüldü.
-- Yazı alanı ve gönder düğmesi büyütüldü.
-- Mobil panel düzeni iyileştirildi.
-- Alt bilgi satırı kaldırılarak gereksiz alan tüketmesi önlendi.
+Mevcut dosyaların üzerine yazın ve siteyi yayınlayın. Telefonda tarayıcıyı tamamen kapatıp yeniden açın veya sayfayı yenileyin.
 
-Yalnızca CSS değişmiştir; Worker, Gemini modeli, API anahtarı ve asistanın mesaj mantığı değişmez.
+Yapılanlar:
+- Mobilde chibi karakter 48x60 px boyutuna küçültüldü.
+- Yukarı/aşağı gezinme düğmelerinin solundaki konumu korundu.
+- Dar ekranlarda karakter biraz daha küçülür.
+- Mobilde sayfa altına güvenli boşluk eklendi; son satırlar sabit karakter ve gezinme düğmelerinin altında kalmaz.
+- CSS sürüm parametresi 20261120-2 yapılarak eski stil önbelleğinin kullanılma ihtimali azaltıldı.
+
+Bu güncelleme yalnızca mobil görünümü değiştirir. Gemini bağlantısı, Worker ve asistan mesaj sistemi değişmez.

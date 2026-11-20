@@ -279,3 +279,30 @@
 @media (prefers-reduced-motion:reduce) {
   .g2b *, .g2b *::before, .g2b *::after { animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important; }
 }
+
+
+/* Mobil düzeltme: chibi karakteri küçült, okuma alanını koru. */
+@media (max-width: 760px), (pointer: coarse) {
+  body:has(#gunlugum-2b) {
+    padding-bottom: max(88px, calc(env(safe-area-inset-bottom) + 78px)) !important;
+  }
+
+  .g2b-launcher {
+    right: max(66px, calc(env(safe-area-inset-right) + 62px));
+    bottom: max(13px, calc(env(safe-area-inset-bottom) + 9px));
+    width: 48px;
+    height: 60px;
+  }
+
+  .g2b-mascot {
+    filter: drop-shadow(0 3px 5px rgba(0,0,0,.24));
+  }
+}
+
+@media (max-width: 380px) {
+  .g2b-launcher {
+    right: max(62px, calc(env(safe-area-inset-right) + 58px));
+    width: 44px;
+    height: 56px;
+  }
+}
