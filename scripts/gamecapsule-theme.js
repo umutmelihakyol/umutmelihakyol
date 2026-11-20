@@ -6,7 +6,6 @@
 
   const body = document.body;
   const root = document.documentElement;
-  try { localStorage.removeItem('gunlugum:arcade:v1'); } catch (_) {}
   if (!body || body.dataset.gcShell === '1') return;
 
   const paths = {
@@ -22,6 +21,7 @@
     stats: '/istatistik/',
     people: '/kisiler/',
     giveaway: '/cekilis/',
+    dice: '/zar/',
     search: '/ara/',
     recommendations: '/oneriler/',
     costs: '/oyun/maliyet/',
@@ -46,6 +46,7 @@
   else if (path.startsWith('/istatistik')) current = 'stats';
   else if (path.startsWith('/kisiler')) current = 'people';
   else if (path.startsWith('/cekilis')) current = 'giveaway';
+  else if (path.startsWith('/zar')) current = 'dice';
   else if (path.startsWith('/ara')) current = 'search';
   else if (path.startsWith('/admin')) current = 'admin';
 
@@ -95,7 +96,8 @@
       label: 'Araçlar',
       items: [
         makeLink('costs', 'Oyun maliyeti', 'Mağaza ve kütüphane takibi', '₺'),
-        makeLink('giveaway', 'Çekiliş', 'Zaman ayarlı çekiliş alanı', '✧')
+        makeLink('giveaway', 'Çekiliş', 'Zaman ayarlı çekiliş alanı', '✧'),
+        makeLink('dice', 'Zar Oyunu', 'Sanal kredilerle zar at ve şansını dene', '🎲')
       ]
     }
   ];

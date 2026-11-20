@@ -1,0 +1,90 @@
+/* Günlüğüm Zar Oyunu */
+.dice-page { min-height:100vh; color:var(--text,#f4f1fa); background:radial-gradient(ellipse at 50% 0,rgba(173,111,47,.10),transparent 38%),#09090c; }
+.dice-page-shell { width:min(100% - 32px,520px); margin:clamp(24px,5vh,54px) auto 64px; }
+.dice-heading { margin:0 0 20px; }
+.dice-eyebrow,.dice-section-kicker { display:inline-flex; align-items:center; gap:8px; color:#c99b5b; font-size:10px; font-weight:800; letter-spacing:.16em; }
+.dice-eyebrow i { width:7px;height:7px;border-radius:50%;background:#d59b43;box-shadow:0 0 12px #d59b43; }
+.dice-heading h1 { margin:9px 0 7px; font-size:clamp(27px,5vw,36px); line-height:1.12; letter-spacing:-.055em; font-weight:800; }
+.dice-heading p { max-width:600px;margin:0;color:var(--muted,#9b9aa5);font-size:13px;line-height:1.65; }
+.dice-balance-card { position:relative; display:flex; align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap; margin-bottom:18px; padding:22px 24px 18px; border:1px solid rgba(205,151,61,.18);border-radius:20px;background:linear-gradient(130deg,#171613,#111111 72%);box-shadow:0 16px 46px rgba(0,0,0,.18); }
+.dice-balance-main { display:flex;flex-direction:column;gap:4px; }
+.dice-overline { color:#aaa7a1;font-size:11px;font-weight:800;letter-spacing:.13em; }
+.dice-balance-main strong { color:#fff;font-size:clamp(38px,8vw,54px);font-weight:900;letter-spacing:-.06em;line-height:1.08;font-variant-numeric:tabular-nums; }
+.dice-daily-button { border:1px solid rgba(211,158,62,.24);border-radius:13px;padding:11px 15px;background:rgba(184,123,33,.10);color:#e8bd69;font:800 13px/1.3 'Plus Jakarta Sans',sans-serif;cursor:pointer;transition:transform .18s ease,background .18s ease,border-color .18s ease; }
+.dice-daily-button:hover:not(:disabled) { transform:translateY(-2px);background:rgba(184,123,33,.18);border-color:rgba(211,158,62,.5); }
+.dice-daily-button:disabled { opacity:.55;cursor:not-allowed; }
+.dice-daily-status { flex:1 0 100%;margin:0;color:#aaa39a;font-size:11px;line-height:1.5; }
+.dice-game-card { padding:24px;border:1px solid rgba(190,143,68,.11);border-radius:20px;background:linear-gradient(155deg,#151513,#111112 68%);box-shadow:0 24px 70px rgba(0,0,0,.24); }
+.dice-visual-stage { position:relative;display:grid;place-items:center;width:200px;height:200px;margin:0 auto 8px;border:1px solid rgba(204,148,49,.16);border-radius:36px;background:radial-gradient(circle at 50% 30%,rgba(213,183,235,.08),transparent 58%),#151514;isolation:isolate; }
+.dice-glow { position:absolute;width:130px;height:100px;border-radius:50%;background:rgba(182,144,218,.10);filter:blur(26px);z-index:-1; }
+.dice-cube { width:164px;height:164px;filter:drop-shadow(0 18px 13px rgba(0,0,0,.28));transform:translateY(0) rotate(0deg); }
+.dice-visual-stage.is-rolling .dice-cube { animation:dice-roll .72s cubic-bezier(.2,.75,.2,1); }
+@keyframes dice-roll { 0%{transform:translateY(0) rotate(0) scale(1)} 22%{transform:translateY(-18px) rotate(55deg) scale(.92)} 48%{transform:translateY(6px) rotate(170deg) scale(1.04)} 72%{transform:translateY(-9px) rotate(285deg) scale(.98)} 100%{transform:translateY(0) rotate(360deg) scale(1)} }
+.dice-roll-value { position:absolute;right:12px;bottom:10px;min-width:32px;padding:4px 8px;border:1px solid rgba(255,255,255,.10);border-radius:9px;background:rgba(10,10,12,.64);color:#eee;font-size:12px;font-weight:900;text-align:center;font-variant-numeric:tabular-nums; }
+.dice-outcome-legend { margin:0 0 27px; }
+.dice-probability-track { display:flex;height:7px;overflow:hidden;border-radius:30px;background:#272522; }
+.dice-probability-track span { height:100%; }
+.prob-loss { width:54.455%;background:#d76c72; }
+.prob-win { width:43.564%;background:#71c9b0; }
+.prob-jackpot { width:1.981%;min-width:5px;background:#cda34c; }
+.dice-legend-labels { display:flex;justify-content:space-between;gap:8px;margin-top:8px;color:#a4a2aa;font-size:11px;font-weight:800;font-variant-numeric:tabular-nums; }
+.legend-loss { color:#e28b8e; }.legend-win { color:#82d5bd; }.legend-jackpot { color:#d5b768; }
+.dice-rules-caption { margin:9px 0 0;color:#87858d;font-size:10px;line-height:1.5; }
+.dice-bet-control { display:grid;grid-template-columns:52px minmax(0,1fr) 52px;align-items:center;gap:10px; }
+.dice-bet-control>button { width:52px;height:52px;border:1px solid #34313b;border-radius:15px;background:#171619;color:#d8d4df;font-size:23px;font-weight:800;cursor:pointer;transition:background .18s ease,border-color .18s ease; }
+.dice-bet-control>button:hover { background:#24212a;border-color:#735d42; }
+.dice-bet-input-wrap { min-width:0; }
+.dice-bet-input-wrap input { width:100%;height:52px;padding:0 12px;border:0;border-bottom:1px solid rgba(205,151,61,.23);outline:0;background:transparent;color:#fff;text-align:center;font:900 25px/1 'Plus Jakarta Sans',sans-serif;font-variant-numeric:tabular-nums; }
+.dice-bet-input-wrap input:focus { border-bottom-color:#d49a43; }
+.dice-bet-input-wrap input::-webkit-inner-spin-button,.dice-bet-input-wrap input::-webkit-outer-spin-button { appearance:none;margin:0; }
+.dice-bet-input-wrap input[type=number] { appearance:textfield; }
+.dice-bet-presets { display:flex;justify-content:center;flex-wrap:wrap;gap:7px;margin:13px 0 16px; }
+.dice-bet-presets button { min-height:34px;padding:0 13px;border:1px solid #34313b;border-radius:999px;background:#151418;color:#c5c0ca;font-size:11px;font-weight:800;cursor:pointer;transition:all .16s ease; }
+.dice-bet-presets button:hover { border-color:#a77b3c;color:#f3d6a1;background:#221d15; }
+.dice-roll-button { display:flex;align-items:center;justify-content:center;gap:10px;width:100%;min-height:62px;border:0;border-radius:17px;background:linear-gradient(110deg,#9d5925,#d29a32);color:#fff3df;font-size:17px;font-weight:900;letter-spacing:.045em;box-shadow:0 12px 28px rgba(167,103,34,.19);cursor:pointer;transition:transform .18s ease,filter .18s ease,box-shadow .18s ease; }
+.dice-roll-button:hover:not(:disabled) { transform:translateY(-2px);filter:brightness(1.08);box-shadow:0 16px 34px rgba(167,103,34,.28); }
+.dice-roll-button:disabled { opacity:.55;cursor:not-allowed; }
+.dice-feedback { display:flex;flex-direction:column;gap:3px;min-height:48px;justify-content:center;margin-top:8px;color:#c8c3cd;text-align:left; }
+.dice-feedback strong { font-size:13px;font-weight:900; }.dice-feedback span { color:#96919c;font-size:11px;line-height:1.5; }
+.dice-feedback.is-loss strong { color:#e58b91; }.dice-feedback.is-win strong { color:#8cddc3; }.dice-feedback.is-jackpot strong { color:#e4bd68; }
+.dice-auto-row { position:relative;display:flex;align-items:center;justify-content:space-between;gap:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,.06);color:#bcb7c1;font-size:11px;font-weight:800;cursor:pointer; }
+.dice-auto-row>span:first-child { display:flex;align-items:center;gap:7px; }.dice-auto-dot { width:7px;height:7px;border-radius:50%;background:#77717b; }
+.dice-auto-row input { position:absolute;right:0;width:42px;height:24px;opacity:0;cursor:pointer; }
+.dice-switch { position:relative;width:42px;height:24px;border:1px solid #45404a;border-radius:99px;background:#29262c;transition:all .2s ease; }
+.dice-switch::after { content:"";position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:#aaa3ae;transition:transform .2s ease,background .2s ease; }
+.dice-auto-row input:checked+.dice-switch { border-color:#c58b3c;background:rgba(197,139,60,.25); }.dice-auto-row input:checked+.dice-switch::after { transform:translateX(18px);background:#e8bd70; }.dice-auto-row:has(input:checked) .dice-auto-dot { background:#8dd6b9;box-shadow:0 0 9px rgba(141,214,185,.7); }
+.dice-auto-note { margin:6px 0 0;color:#79757d;font-size:10px;line-height:1.5; }
+.dice-month-panel,.dice-history-panel { margin-top:26px;padding:19px 20px;border:1px solid rgba(255,255,255,.075);border-radius:18px;background:rgba(21,20,22,.78); }
+.dice-section-head { display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:15px; }
+.dice-section-head h2 { margin:5px 0 3px;font-size:17px;font-weight:900;letter-spacing:-.025em; }.dice-section-head p { margin:0;color:#918b95;font-size:11px; }
+.dice-month-select select { max-width:142px;min-height:37px;padding:0 10px;border:1px solid #39343d;border-radius:10px;background:#151418;color:#d7d1db;font:700 11px/1.2 'Plus Jakarta Sans',sans-serif; }
+.dice-month-stats { display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px; }
+.dice-month-stats article { min-width:0;padding:13px;border:1px solid rgba(255,255,255,.055);border-radius:12px;background:rgba(255,255,255,.025); }
+.dice-month-stats span { display:block;color:#96909a;font-size:10px;line-height:1.4; }.dice-month-stats strong { display:block;margin-top:6px;color:#f2edf7;font-size:17px;font-weight:900;font-variant-numeric:tabular-nums;overflow-wrap:anywhere; }
+.dice-month-stats strong.is-negative { color:#e58b91; }.dice-month-stats strong.is-positive { color:#88d7bb; }
+.dice-local-notice { margin:13px 0 0;padding:10px 11px;border-radius:10px;background:rgba(204,155,80,.06);color:#a39ba2;font-size:10px;line-height:1.6; }
+.dice-history-count { color:#8f8994;font-size:10px;font-weight:800; }.dice-history-list { display:grid;gap:7px; }
+.dice-history-item { display:grid;grid-template-columns:44px minmax(0,1fr) auto;align-items:center;gap:10px;padding:10px;border-radius:11px;background:rgba(255,255,255,.025); }
+.dice-history-number { display:grid;place-items:center;width:38px;height:38px;border:1px solid rgba(255,255,255,.07);border-radius:10px;background:#1b191d;color:#ded8e2;font-size:15px;font-weight:900; }
+.dice-history-copy { min-width:0; }.dice-history-copy strong { display:block;color:#e6e1e9;font-size:11px; }.dice-history-copy small { display:block;margin-top:3px;color:#89838d;font-size:10px; }
+.dice-history-result { font-size:11px;font-weight:900;text-align:right;font-variant-numeric:tabular-nums; }.dice-history-result.is-loss { color:#e58b91; }.dice-history-result.is-win { color:#8cddc3; }.dice-history-result.is-jackpot { color:#e4bd68; }
+.dice-history-empty { margin:0;padding:16px;text-align:center;color:#89838d;font-size:11px; }
+.dice-disclaimer { margin:19px auto 0;max-width:470px;color:#77727c;text-align:center;font-size:10px;line-height:1.65; }
+.sr-only { position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important; }
+@media (max-width:560px) {
+  .dice-page-shell { width:min(100% - 22px,520px);margin:22px auto 50px; }
+  .dice-heading { margin-bottom:15px; }.dice-heading p { font-size:12px; }
+  .dice-balance-card { padding:18px 17px 15px;border-radius:17px; }.dice-balance-main strong { font-size:43px; }
+  .dice-game-card { padding:17px 14px;border-radius:17px; }
+  .dice-visual-stage { width:184px;height:184px;border-radius:30px; }.dice-cube { width:151px;height:151px; }
+  .dice-legend-labels { gap:4px;font-size:9px; }.dice-rules-caption { font-size:9px; }
+  .dice-bet-control { grid-template-columns:46px minmax(0,1fr) 46px;gap:7px; }.dice-bet-control>button { width:46px;height:48px; }
+  .dice-bet-input-wrap input { height:48px;font-size:23px; }.dice-bet-presets { gap:6px; }.dice-bet-presets button { padding:0 10px; }
+  .dice-roll-button { min-height:57px;font-size:15px; }
+  .dice-month-panel,.dice-history-panel { padding:15px 13px; }.dice-month-stats { gap:6px; }.dice-month-stats article { padding:10px 8px; }.dice-month-stats strong { font-size:14px; }
+  .dice-month-select select { max-width:118px;font-size:10px; }
+}
+@media (prefers-reduced-motion:reduce) { .dice-cube,.dice-roll-button,.dice-daily-button,.dice-bet-control>button { animation:none!important;transition:none!important; } }
+
+.dice-storage-warning { margin:12px auto 0;padding:10px 12px;border:1px solid rgba(225,129,113,.25);border-radius:10px;background:rgba(225,91,91,.07);color:#e9a19b;font-size:11px;line-height:1.5;text-align:center; }
+.dice-storage-warning[hidden] { display:none; }

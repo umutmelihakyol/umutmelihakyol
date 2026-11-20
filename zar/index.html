@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <script>(()=>{const p=location.pathname;const c=p.replace(/index\.html$/i,'');if(c!==p)history.replaceState(history.state,'',c+location.search+location.hash)})();</script>
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#0a0a0d">
+  <title>Zar Oyunu | Günlüğüm</title>
+  <meta name="description" content="Günlüğüm sanal zar oyunu. Sanal kredilerini kullan, zarını at ve şansını dene.">
+  <link rel="canonical" href="https://umutmelihakyol.com/zar/">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Zar Oyunu | Günlüğüm">
+  <meta property="og:description" content="Sanal kredilerle zarını at. Bu oyun gerçek para içermez.">
+  <meta property="og:url" content="https://umutmelihakyol.com/zar/">
+  <link rel="icon" href="../assets/icons/gunlugum-192.png" type="image/png">
+  <link rel="manifest" href="../manifest.webmanifest">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css?v=17">
+  <link rel="stylesheet" href="../assets/css/modern.css?v=9">
+  <link rel="stylesheet" href="../assets/css/atelier.css?v=2">
+  <link rel="stylesheet" href="../assets/css/unified.css?v=2">
+  <link rel="stylesheet" href="../assets/css/matte.css?v=1">
+  <link rel="stylesheet" href="../assets/css/archive-editorial.css?v=20261105-3">
+  <link rel="stylesheet" href="../assets/css/gamecapsule-theme.css?v=4">
+  <link rel="stylesheet" href="../assets/css/gamecapsule-consistency.css?v=20261107-1">
+  <link rel="stylesheet" href="../assets/css/white-theme-fixes.css?v=1">
+  <link rel="stylesheet" href="../assets/css/search-overlay.css?v=2">
+  <link rel="stylesheet" href="../assets/css/page-jump.css?v=20261114-1">
+  <link rel="stylesheet" href="../assets/css/dice-game.css?v=1">
+  <script src="../scripts/theme.js?v=2"></script>
+  <script src="../scripts/config.js"></script>
+  <script src="../scripts/categories.js?v=4"></script>
+  <script src="../scripts/site-settings.js?v=3"></script>
+  <script src="../scripts/pwa.js?v=4" defer></script>
+  <script src="../scripts/site-nav.js?v=20261111-3" defer></script>
+  <script src="../scripts/search-overlay.js?v=2" defer></script>
+  <script src="../scripts/gamecapsule-theme.js?v=4" defer></script>
+  <script src="../scripts/dice-game.js?v=1" defer></script>
+  <script src="../scripts/page-jump.js?v=20261114-1" defer></script>
+</head>
+<body class="dice-page">
+  <main class="dice-page-shell">
+    <header class="dice-heading">
+      <span class="dice-eyebrow"><i></i> GÜNLÜĞÜM · SANAL ŞANS OYUNU</span>
+      <h1>Zar Oyunu</h1>
+      <p>Bahsini belirle, zarını at ve sonucunu gör. Krediler yalnızca bu tarayıcıda kullanılan sanal puanlardır.</p>
+    </header>
+
+    <section class="dice-balance-card" aria-label="Kredi bakiyesi">
+      <div class="dice-balance-main">
+        <span class="dice-overline">BAKİYE</span>
+        <strong id="diceBalance">10.000</strong>
+      </div>
+      <button class="dice-daily-button" id="diceDailyBonus" type="button" disabled>🎁 +5.000</button>
+      <p class="dice-daily-status" id="diceDailyStatus" aria-live="polite">Günlük +5.000 kredi için bugün en az bir kez oyna.</p>
+    </section>
+
+    <section class="dice-game-card" aria-label="Zar atma alanı">
+      <div class="dice-visual-stage" id="diceVisualStage">
+        <div class="dice-glow" aria-hidden="true"></div>
+        <svg class="dice-cube" id="diceCube" viewBox="0 0 180 180" role="img" aria-label="Üç boyutlu zar">
+          <defs>
+            <linearGradient id="diceTop" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#dcd8e8"/></linearGradient>
+            <linearGradient id="diceLeft" x1="0" y1="0" x2="0.9" y2="1"><stop offset="0" stop-color="#d2cddd"/><stop offset="1" stop-color="#a99fbd"/></linearGradient>
+            <linearGradient id="diceRight" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f7f5fb"/><stop offset="1" stop-color="#cec7dd"/></linearGradient>
+          </defs>
+          <path d="M90 23 151 48Q158 51 158 59V119Q158 127 151 131L97 157Q90 161 83 157L29 132Q22 128 22 120V60Q22 52 29 48Z" fill="#b9b1c9" opacity=".14" transform="translate(0 6)"/>
+          <path d="M90 19 151 44Q158 47 158 55L90 86 22 55Q22 47 29 44Z" fill="url(#diceTop)"/>
+          <path d="M22 55 90 86V159Q84 159 79 157L29 133Q22 129 22 121Z" fill="url(#diceLeft)"/>
+          <path d="M158 55 90 86V159Q96 159 101 157L151 133Q158 129 158 121Z" fill="url(#diceRight)"/>
+          <ellipse cx="90" cy="38" rx="10" ry="5.8" fill="#f04b74"/>
+          <g fill="#493477">
+            <ellipse cx="52" cy="82" rx="6.2" ry="10.5" transform="rotate(-18 52 82)"/>
+            <ellipse cx="74" cy="124" rx="6.2" ry="10.5" transform="rotate(-18 74 124)"/>
+            <ellipse cx="127" cy="77" rx="6.2" ry="10.5" transform="rotate(25 127 77)"/>
+            <ellipse cx="116" cy="96" rx="6.2" ry="10.5" transform="rotate(25 116 96)"/>
+            <ellipse cx="103" cy="128" rx="6.2" ry="10.5" transform="rotate(25 103 128)"/>
+          </g>
+        </svg>
+        <div class="dice-roll-value" id="diceRollValue" aria-live="polite">?</div>
+      </div>
+
+      <div class="dice-outcome-legend" aria-label="Kazanma aralıkları">
+        <div class="dice-probability-track"><span class="prob-loss"></span><span class="prob-win"></span><span class="prob-jackpot"></span></div>
+        <div class="dice-legend-labels">
+          <span>0</span>
+          <span class="legend-loss">✕ 0–54</span>
+          <span class="legend-win">✓ 55–98</span>
+          <span class="legend-jackpot">★ 99–100</span>
+          <span>100</span>
+        </div>
+        <p class="dice-rules-caption">0–54: bahis kaybolur · 55–98: toplam 2× ödeme · 99–100: toplam 10× ödeme</p>
+      </div>
+
+      <div class="dice-bet-control">
+        <button id="diceBetMinus" type="button" aria-label="Bahsi 500 azalt">−</button>
+        <label class="dice-bet-input-wrap"><span class="sr-only">Bahis miktarı</span><input id="diceBet" type="number" min="500" step="500" value="5000" inputmode="numeric" autocomplete="off"></label>
+        <button id="diceBetPlus" type="button" aria-label="Bahsi 500 artır">+</button>
+      </div>
+      <div class="dice-bet-presets" aria-label="Hazır bahis miktarları">
+        <button type="button" data-bet="500">500</button>
+        <button type="button" data-bet="1000">1.000</button>
+        <button type="button" data-bet="10000">10.000</button>
+        <button type="button" data-bet="50000">50.000</button>
+        <button type="button" data-bet="max">Max</button>
+      </div>
+
+      <button class="dice-roll-button" id="diceRollButton" type="button">🎲 ZAR AT</button>
+      <div class="dice-feedback" id="diceFeedback" role="status" aria-live="polite"><strong>Şansını denemeye hazır mısın?</strong><span>Enter tuşuyla da zar atabilirsin.</span></div>
+      <label class="dice-auto-row"><span><i class="dice-auto-dot"></i> Otomatik seri</span><input id="diceAuto" type="checkbox"><span class="dice-switch" aria-hidden="true"></span></label>
+      <p class="dice-auto-note">Otomatik seri, başlattığında en fazla 25 zar atar. İstediğin an kapatabilirsin.</p>
+    </section>
+
+    <section class="dice-month-panel" aria-labelledby="diceMonthTitle">
+      <div class="dice-section-head">
+        <div><span class="dice-section-kicker">OYUN PERFORMANSI</span><h2 id="diceMonthTitle">🏆 Aylık istatistiklerin</h2><p id="diceMonthLabel">Bu ayki performansın</p></div>
+        <label class="dice-month-select"><span class="sr-only">İstatistik ayı</span><select id="diceMonthSelect"></select></label>
+      </div>
+      <div class="dice-month-stats">
+        <article><span>Toplam oyun</span><strong id="diceMonthPlays">0</strong></article>
+        <article><span>Net değişim</span><strong id="diceMonthNet">0</strong></article>
+        <article><span>En yüksek ödeme</span><strong id="diceMonthBest">0</strong></article>
+      </div>
+      <p class="dice-local-notice">Bu sürümde bakiye ve istatistikler yalnızca kullandığın tarayıcıda saklanır. Ortak aylık sıralama ve cihazlar arası hesap için sunucu tabanlı hesap sistemi gerekir.</p>
+    </section>
+
+    <section class="dice-history-panel" aria-labelledby="diceHistoryTitle">
+      <div class="dice-section-head"><div><span class="dice-section-kicker">SON TURLAR</span><h2 id="diceHistoryTitle">Oyun geçmişin</h2></div><span class="dice-history-count" id="diceHistoryCount">0 oyun</span></div>
+      <div class="dice-history-list" id="diceHistoryList"><p class="dice-history-empty">Henüz zar atmadın. İlk turun seni bekliyor.</p></div>
+    </section>
+
+    <p class="dice-disclaimer">Bu oyun yalnızca eğlence amaçlı sanal krediler kullanır. Gerçek para içermez; krediler satın alınamaz, devredilemez veya ödüle çevrilemez.</p>
+  <p class="dice-storage-warning" id="diceStorageNotice" hidden>Tarayıcı bu oyunun bakiyesini kaydedemedi. Gizli pencere veya depolama engelleyicisi kullanıyorsan ayarlarını kontrol et.</p>
+  </main>
+</body>
+</html>
