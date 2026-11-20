@@ -1,4 +1,4 @@
-/* Günlüğüm Service Worker — cache v76: Zar sayfasının geniş yerleşimi ve yeni tasarımı. */
+/* Günlüğüm Service Worker — cache v77: 2B asistan dosyaları. */
 'use strict';
 
 const CACHE_PREFIX = 'gunlugum-pwa-';
