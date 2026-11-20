@@ -28,7 +28,7 @@
   <link rel="stylesheet" href="../assets/css/white-theme-fixes.css?v=1">
   <link rel="stylesheet" href="../assets/css/search-overlay.css?v=2">
   <link rel="stylesheet" href="../assets/css/page-jump.css?v=20261114-1">
-  <link rel="stylesheet" href="../assets/css/dice-game.css?v=1">
+  <link rel="stylesheet" href="../assets/css/dice-game.css?v=2">
   <script src="../scripts/theme.js?v=2"></script>
   <script src="../scripts/config.js"></script>
   <script src="../scripts/categories.js?v=4"></script>
@@ -57,8 +57,9 @@
       <p class="dice-daily-status" id="diceDailyStatus" aria-live="polite">Günlük +5.000 kredi için bugün en az bir kez oyna.</p>
     </section>
 
-    <section class="dice-game-card" aria-label="Zar atma alanı">
-      <div class="dice-visual-stage" id="diceVisualStage">
+    <div class="dice-dashboard-grid">
+      <section class="dice-game-card" aria-label="Zar atma alanı">
+        <div class="dice-visual-stage" id="diceVisualStage">
         <div class="dice-glow" aria-hidden="true"></div>
         <svg class="dice-cube" id="diceCube" viewBox="0 0 180 180" role="img" aria-label="Üç boyutlu zar">
           <defs>
@@ -113,7 +114,8 @@
       <p class="dice-auto-note">Otomatik seri, başlattığında en fazla 25 zar atar. İstediğin an kapatabilirsin.</p>
     </section>
 
-    <section class="dice-month-panel" aria-labelledby="diceMonthTitle">
+      <aside class="dice-insights-column" aria-label="Oyun istatistikleri ve geçmiş">
+        <section class="dice-month-panel" aria-labelledby="diceMonthTitle">
       <div class="dice-section-head">
         <div><span class="dice-section-kicker">OYUN PERFORMANSI</span><h2 id="diceMonthTitle">🏆 Aylık istatistiklerin</h2><p id="diceMonthLabel">Bu ayki performansın</p></div>
         <label class="dice-month-select"><span class="sr-only">İstatistik ayı</span><select id="diceMonthSelect"></select></label>
@@ -130,6 +132,9 @@
       <div class="dice-section-head"><div><span class="dice-section-kicker">SON TURLAR</span><h2 id="diceHistoryTitle">Oyun geçmişin</h2></div><span class="dice-history-count" id="diceHistoryCount">0 oyun</span></div>
       <div class="dice-history-list" id="diceHistoryList"><p class="dice-history-empty">Henüz zar atmadın. İlk turun seni bekliyor.</p></div>
     </section>
+
+      </aside>
+    </div>
 
     <p class="dice-disclaimer">Bu oyun yalnızca eğlence amaçlı sanal krediler kullanır. Gerçek para içermez; krediler satın alınamaz, devredilemez veya ödüle çevrilemez.</p>
   <p class="dice-storage-warning" id="diceStorageNotice" hidden>Tarayıcı bu oyunun bakiyesini kaydedemedi. Gizli pencere veya depolama engelleyicisi kullanıyorsan ayarlarını kontrol et.</p>
