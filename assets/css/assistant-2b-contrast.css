@@ -1,0 +1,58 @@
+/*
+ * Günlüğüm 2B — mesaj okunabilirliği / yüksek kontrast
+ * Bu dosya assistant-2b.css ve Markdown stillerinden sonra yüklenir.
+ */
+
+/* Normal asistan yanıtları: açık, net ve yüksek kontrastlı. */
+.g2b .g2b-message-assistant .g2b-bubble {
+  color: #f1f3f8 !important;
+}
+
+.g2b .g2b-message-assistant .g2b-bubble p,
+.g2b .g2b-message-assistant .g2b-bubble li,
+.g2b .g2b-message-assistant .g2b-bubble span:not([style*="color"]) {
+  color: inherit;
+}
+
+/* Kullanıcının kendi mesajları da net beyaz görünür. */
+.g2b .g2b-message-user .g2b-bubble {
+  color: #ffffff !important;
+}
+
+/* Kalın metin güçlü bir vurgu alsın; renk etiketleri kendi rengini korusun. */
+.g2b .g2b-bubble strong,
+.g2b .g2b-bubble b {
+  color: #ffffff;
+  font-weight: 800;
+}
+
+/* İtalik metni de normal gövdeden daha soluk yapma. */
+.g2b .g2b-bubble em,
+.g2b .g2b-bubble i {
+  color: inherit;
+}
+
+/* Alıntılar ikincil olabilir ama okunabilir kalmalı. */
+.g2b .g2b-bubble blockquote {
+  color: #c9ceda !important;
+}
+
+/* Liste numaraları ve madde işaretleri belirgin kalsın. */
+.g2b .g2b-bubble li::marker {
+  color: #bdaeff;
+}
+
+/* Kod, bağlantı ve satır içi parçalar kontrastını korusun. */
+.g2b .g2b-bubble code {
+  color: #e8e0ff;
+}
+
+.g2b .g2b-bubble a {
+  color: #cbbdff !important;
+  text-decoration-thickness: 1px;
+}
+
+/* Koyu arka planda normal metne daha fazla satır aralığı. */
+.g2b .g2b-bubble {
+  line-height: 1.78;
+}

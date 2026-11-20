@@ -70,6 +70,13 @@
     style.href = new URL('assets/css/assistant-2b.css?v=20261120-3', root).href;
     document.head.appendChild(style);
 
+    // Normal mesaj yazılarını yüksek kontrastta gösteren ek stil.
+    var contrastStyle = document.createElement('link');
+    contrastStyle.id = 'g2b-contrast-style';
+    contrastStyle.rel = 'stylesheet';
+    contrastStyle.href = new URL('assets/css/assistant-2b-contrast.css?v=20261121-1', root).href;
+    document.head.appendChild(contrastStyle);
+
     var configScript = document.createElement('script');
     configScript.src = new URL('scripts/assistant-2b-config.js?v=20261120-1', root).href;
     configScript.onload = loadApp;

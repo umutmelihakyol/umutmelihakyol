@@ -1,16 +1,16 @@
-Günlüğüm 2B — Mobil chibi konum düzeltmesi
+Günlüğüm 2B — Mesaj kontrastı düzeltmesi
 
-ZIP içindeki iki dosyayı klasör yollarını koruyarak sitenin ana dizinine kopyalayın:
-- assets/css/assistant-2b.css
+ZIP içindeki dosyaları site kök dizinine, klasör yollarını koruyarak yükleyin:
 - scripts/site-nav.js
+- assets/css/assistant-2b-contrast.css
 
-Mevcut dosyaların üzerine yazın ve siteyi yayınlayın. Telefonda tarayıcıyı tamamen kapatıp yeniden açın veya sayfayı yenileyin.
+Mevcut scripts/site-nav.js dosyasının üzerine yazın. Yeni CSS dosyasını assets/css klasörüne ekleyin. Siteyi yayınladıktan sonra tarayıcıyı Ctrl+F5 ile yenileyin.
 
-Yapılanlar:
-- Mobilde chibi karakter 48x60 px boyutuna küçültüldü.
-- Yukarı/aşağı gezinme düğmelerinin solundaki konumu korundu.
-- Dar ekranlarda karakter biraz daha küçülür.
-- Mobilde sayfa altına güvenli boşluk eklendi; son satırlar sabit karakter ve gezinme düğmelerinin altında kalmaz.
-- CSS sürüm parametresi 20261120-2 yapılarak eski stil önbelleğinin kullanılma ihtimali azaltıldı.
-
-Bu güncelleme yalnızca mobil görünümü değiştirir. Gemini bağlantısı, Worker ve asistan mesaj sistemi değişmez.
+Ne değişti?
+- Asistanın normal mesaj metni açık gri/beyaz yüksek kontrasta alındı.
+- Kullanıcının mesajı beyaz olarak görünür.
+- Kalın metin güçlü beyaz vurgu alır.
+- İtalik metin normal metin kadar parlak kalır.
+- Alıntılar okunabilir açık gri olur.
+- Renk etiketiyle yazılan özel renkler korunur.
+- Markdown dosyaları ve Gemini/Worker ayarları değişmez.
