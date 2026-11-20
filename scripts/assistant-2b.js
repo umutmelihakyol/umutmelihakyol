@@ -14,8 +14,8 @@
   host.id = 'gunlugum-2b';
   host.className = 'g2b';
   host.innerHTML =
-    '<button class="g2b-launcher" type="button" aria-label="2B asistanını aç" aria-expanded="false" aria-controls="g2b-panel">' +
-      '<span class="g2b-launcher-mark" aria-hidden="true">2B</span><span class="g2b-launcher-copy"><strong>2B</strong><small>Asistan</small></span><span class="g2b-launcher-dot" aria-hidden="true"></span>' +
+    '<button class="g2b-launcher" type="button" aria-label="2B asistanını aç" title="2B ile sohbet et" aria-expanded="false" aria-controls="g2b-panel">' +
+      '<img class="g2b-mascot" src="' + new URL('assets/images/2b/chibi-mascot.webp', root).href + '" alt="" width="420" height="428" decoding="async" fetchpriority="high">' +
     '</button>' +
     '<section class="g2b-panel" id="g2b-panel" role="dialog" aria-modal="false" aria-label="2B Günlüğüm asistanı" hidden>' +
       '<header class="g2b-header"><div class="g2b-brand"><span class="g2b-brand-mark" aria-hidden="true">2B</span><span class="g2b-brand-copy"><strong>2B <em>·</em> Günlüğüm</strong><small>ARŞİV ASİSTANI</small></span></div>' +
