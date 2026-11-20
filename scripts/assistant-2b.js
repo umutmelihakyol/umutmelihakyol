@@ -50,6 +50,165 @@
     launcher.setAttribute('aria-expanded', value ? 'true' : 'false');
     if (value) window.setTimeout(function () { input.focus(); }, 50);
   }
+
+  /* Markdown renderer:
+     - Escapes all source HTML before formatting.
+     - Allows only safe http(s)/mailto links.
+     - Allows a small, controlled color syntax.
+     - Never inserts user-supplied raw HTML into the page. */
+  function escapeHtml(value) {
+    return String(value).replace(/[&<>"']/g, function (char) {
+      return { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[char];
+    });
+  }
+
+  function safeMarkdownUrl(value) {
+    try {
+      var url = new URL(value, location.href);
+      if (url.protocol === 'https:' || url.protocol === 'http:' || url.protocol === 'mailto:') return url.href;
+    } catch (_) {}
+    return null;
+  }
+
+  function renderInlineMarkdown(value) {
+    var text = escapeHtml(value);
+    var protectedParts = [];
+    function protect(html) {
+      var token = '\uE000' + protectedParts.length + '\uE001';
+      protectedParts.push(html);
+      return token;
+    }
+
+    /* Inline code and links are protected from later emphasis replacements. */
+    text = text.replace(/`([^`\n]+)`/g, function (_, code) {
+      return protect('<code>' + code + '</code>');
+    });
+
+    text = text.replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+|mailto:[^\s)]+|\/[^\s)]*)\)/g, function (_, label, href) {
+      var safeUrl = safeMarkdownUrl(href);
+      if (!safeUrl) return label;
+      return protect('<a href="' + escapeHtml(safeUrl) + '" target="_blank" rel="noopener noreferrer">' + label + '</a>');
+    });
+
+    var colors = {
+      'kırmızı':'#ff6b6b', 'kirmizi':'#ff6b6b', 'mavi':'#63a8ff',
+      'yeşil':'#51c99a', 'yesil':'#51c99a', 'mor':'#b69aff',
+      'sarı':'#f3c969', 'sari':'#f3c969', 'turuncu':'#ff9a62',
+      'pembe':'#f08fbd', 'beyaz':'#ffffff', 'gri':'#aeb6c5'
+    };
+    text = text.replace(/\[renk=(#[0-9a-f]{6}|kırmızı|kirmizi|mavi|yeşil|yesil|mor|sarı|sari|turuncu|pembe|beyaz|gri)\]([\s\S]*?)\[\/renk\]/gi, function (_, color, content) {
+      var normalized = color.toLowerCase();
+      var safeColor = /^#[0-9a-f]{6}$/i.test(normalized) ? normalized : colors[normalized];
+      return safeColor ? '<span style="color:' + safeColor + '">' + content + '</span>' : content;
+    });
+
+    text = text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+    text = text.replace(/__(.+?)__/g, '<strong>$1</strong>');
+    text = text.replace(/~~(.+?)~~/g, '<del>$1</del>');
+    text = text.replace(/(^|[^*])\*([^*\n]+)\*(?!\*)/g, '$1<em>$2</em>');
+    text = text.replace(/(^|[\s(])_([^_\n]+)_(?=$|[\s).,!?:;])/g, '$1<em>$2</em>');
+
+    text = text.replace(/https?:\/\/[^\s<]+/g, function (url) {
+      var safeUrl = safeMarkdownUrl(url);
+      if (!safeUrl) return url;
+      return '<a href="' + escapeHtml(safeUrl) + '" target="_blank" rel="noopener noreferrer">' + url + '</a>';
+    });
+
+    text = text.replace(/\uE000(\d+)\uE001/g, function (_, index) {
+      return protectedParts[Number(index)] || '';
+    });
+    return text;
+  }
+
+  function renderMarkdown(value) {
+    var lines = String(value || '').replace(/\r\n?/g, '\n').split('\n');
+    var output = [];
+    var paragraph = [];
+    var listItems = [];
+    var listType = '';
+    var inCode = false;
+    var codeLines = [];
+
+    function flushParagraph() {
+      if (!paragraph.length) return;
+      output.push('<p>' + paragraph.map(renderInlineMarkdown).join('<br>') + '</p>');
+      paragraph = [];
+    }
+    function flushList() {
+      if (!listItems.length) return;
+      var tag = listType === 'ol' ? 'ol' : 'ul';
+      output.push('<' + tag + '>' + listItems.map(function (item) {
+        return '<li>' + renderInlineMarkdown(item) + '</li>';
+      }).join('') + '</' + tag + '>');
+      listItems = [];
+      listType = '';
+    }
+    function flushCode() {
+      output.push('<pre><code>' + escapeHtml(codeLines.join('\n')) + '</code></pre>');
+      codeLines = [];
+      inCode = false;
+    }
+    function flushBlocks() {
+      flushParagraph();
+      flushList();
+    }
+
+    lines.forEach(function (line) {
+      if (/^\s*```/.test(line)) {
+        if (inCode) {
+          flushCode();
+        } else {
+          flushBlocks();
+          inCode = true;
+        }
+        return;
+      }
+      if (inCode) {
+        codeLines.push(line);
+        return;
+      }
+
+      var heading = line.match(/^(#{1,3})\s+(.+)$/);
+      if (heading) {
+        flushBlocks();
+        var level = heading[1].length;
+        output.push('<h' + level + '>' + renderInlineMarkdown(heading[2]) + '</h' + level + '>');
+        return;
+      }
+      if (/^\s*(---+|\*\*\*+|___+)\s*$/.test(line)) {
+        flushBlocks();
+        output.push('<hr>');
+        return;
+      }
+      var quote = line.match(/^\s*>\s?(.*)$/);
+      if (quote) {
+        flushBlocks();
+        output.push('<blockquote>' + renderInlineMarkdown(quote[1]) + '</blockquote>');
+        return;
+      }
+      var unordered = line.match(/^\s*[-*]\s+(.+)$/);
+      var ordered = line.match(/^\s*\d+[.)]\s+(.+)$/);
+      if (unordered || ordered) {
+        flushParagraph();
+        var nextType = ordered ? 'ol' : 'ul';
+        if (listType && listType !== nextType) flushList();
+        listType = nextType;
+        listItems.push((unordered || ordered)[1]);
+        return;
+      }
+      if (!line.trim()) {
+        flushBlocks();
+        return;
+      }
+      flushList();
+      paragraph.push(line);
+    });
+
+    if (inCode) flushCode();
+    flushBlocks();
+    return output.join('') || escapeHtml(value || '');
+  }
+
   function addMessage(role, text, links) {
     var wrapper = document.createElement('div');
     wrapper.className = 'g2b-message ' + (role === 'user' ? 'g2b-message-user' : 'g2b-message-assistant');
@@ -61,7 +220,7 @@
     }
     var bubble = document.createElement('div');
     bubble.className = 'g2b-bubble';
-    bubble.textContent = String(text || '');
+    bubble.innerHTML = renderMarkdown(String(text || ''));
     wrapper.appendChild(bubble);
     if (Array.isArray(links) && links.length) {
       var group = document.createElement('div');
@@ -170,7 +329,7 @@
       return Promise.resolve({ text:'Arama sayfasını açıyorum.' });
     }
     if (lower === 'yardım' || lower === 'komutlar' || lower === 'neler yapabilirsin') {
-      return Promise.resolve({ text:'Kullanabileceğin komutlar:\n• Arşivimi özetle\n• Rastgele oyun seç\n• Bana oyun öner\n• Bu sayfayı açıkla\n• ara [içerik adı]\n\nSerbest sohbet, güvenli yapay zekâ bağlantısı yapılandırıldığında etkinleşir.' });
+      return Promise.resolve({ text:'Kullanabileceğin komutlar:\n• Arşivimi özetle\n• Rastgele oyun seç\n• Bana oyun öner\n• Bu sayfayı açıkla\n• ara [içerik adı]\n\nBiçimlendirme: **kalın**, *italik*, ~~üstü çizili~~, [renk=#ff6b6b]renkli yazı[/renk].' });
     }
     var match = lower.match(/^(ara|bul|arama)\s+(.+)$/);
     if (match) return searchArchive(q.slice(q.search(/\s/) + 1));

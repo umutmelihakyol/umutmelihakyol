@@ -67,7 +67,7 @@
     var style = document.createElement('link');
     style.id = 'g2b-style';
     style.rel = 'stylesheet';
-    style.href = new URL('assets/css/assistant-2b.css?v=20261120-2', root).href;
+    style.href = new URL('assets/css/assistant-2b.css?v=20261120-3', root).href;
     document.head.appendChild(style);
 
     var configScript = document.createElement('script');
@@ -80,7 +80,7 @@
       if (document.getElementById('g2b-app-script')) return;
       var app = document.createElement('script');
       app.id = 'g2b-app-script';
-      app.src = new URL('scripts/assistant-2b.js?v=20261120-1', root).href;
+      app.src = new URL('scripts/assistant-2b.js?v=20261120-2', root).href;
       document.body.appendChild(app);
     }
   })();

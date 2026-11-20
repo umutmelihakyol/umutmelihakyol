@@ -13,8 +13,7 @@
 }
 .g2b button, .g2b textarea { font: inherit; }
 .g2b [hidden] { display: none !important; }
-
-/* Chibi karakter, sağ alttaki sayfa gezinme düğmelerinin solunda durur. */
+/* Karakter, yukarı/aşağı gezinme düğmelerinin solunda ayrı bir alanda durur. */
 .g2b-launcher {
   position: fixed; right: 82px; bottom: 10px; z-index: 1199;
   display: grid; place-items: end center; width: 90px; height: 106px;
@@ -280,25 +279,19 @@
   .g2b *, .g2b *::before, .g2b *::after { animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important; }
 }
 
-
 /* Mobil düzeltme: chibi karakteri küçült, okuma alanını koru. */
 @media (max-width: 760px), (pointer: coarse) {
   body:has(#gunlugum-2b) {
     padding-bottom: max(88px, calc(env(safe-area-inset-bottom) + 78px)) !important;
   }
-
   .g2b-launcher {
     right: max(66px, calc(env(safe-area-inset-right) + 62px));
     bottom: max(13px, calc(env(safe-area-inset-bottom) + 9px));
     width: 48px;
     height: 60px;
   }
-
-  .g2b-mascot {
-    filter: drop-shadow(0 3px 5px rgba(0,0,0,.24));
-  }
+  .g2b-mascot { filter: drop-shadow(0 3px 5px rgba(0,0,0,.24)); }
 }
-
 @media (max-width: 380px) {
   .g2b-launcher {
     right: max(62px, calc(env(safe-area-inset-right) + 58px));
@@ -306,3 +299,63 @@
     height: 56px;
   }
 }
+
+
+/* 2B message Markdown formatting */
+.g2b-bubble p { margin: 0 0 .72em; color: inherit; }
+.g2b-bubble p:last-child { margin-bottom: 0; }
+.g2b-bubble strong { color: inherit; font-weight: 800; }
+.g2b-bubble em { color: inherit; font-style: italic; }
+.g2b-bubble del { opacity: .72; text-decoration-thickness: 1.5px; }
+.g2b-bubble h1, .g2b-bubble h2, .g2b-bubble h3 {
+  margin: .3em 0 .55em !important;
+  color: inherit !important;
+  font-family: inherit !important;
+  font-weight: 800 !important;
+  letter-spacing: -.025em !important;
+  line-height: 1.25 !important;
+}
+.g2b-bubble h1 { font-size: 1.3em !important; }
+.g2b-bubble h2 { font-size: 1.18em !important; }
+.g2b-bubble h3 { font-size: 1.08em !important; }
+.g2b-bubble ul, .g2b-bubble ol { margin: .45em 0 .75em; padding-left: 1.45em; }
+.g2b-bubble li { margin: .22em 0; padding-left: .15em; }
+.g2b-bubble li::marker { color: var(--g2b-accent-light); }
+.g2b-bubble blockquote {
+  margin: .55em 0;
+  padding: .25em 0 .25em .85em;
+  color: var(--g2b-muted);
+  border-left: 3px solid var(--g2b-accent);
+}
+.g2b-bubble hr { margin: .8em 0; border: 0; border-top: 1px solid var(--g2b-line); }
+.g2b-bubble a { color: var(--g2b-accent-light) !important; text-decoration: underline; text-decoration-color: color-mix(in srgb, currentColor 42%, transparent); text-underline-offset: 2px; overflow-wrap: anywhere; }
+.g2b-bubble a:hover { text-decoration-color: currentColor; }
+.g2b-bubble code {
+  padding: .12em .38em;
+  color: #d9ccff;
+  border: 1px solid rgba(158,135,255,.2);
+  border-radius: 5px;
+  background: rgba(128,101,226,.13);
+  font: .88em/1.5 ui-monospace, SFMono-Regular, Consolas, monospace;
+}
+.g2b-bubble pre {
+  max-width: 100%;
+  margin: .65em 0;
+  padding: 11px 13px;
+  overflow-x: auto;
+  color: #e7e9f2;
+  border: 1px solid var(--g2b-line);
+  border-radius: 10px;
+  background: rgba(0,0,0,.24);
+  white-space: pre;
+}
+.g2b-bubble pre code {
+  padding: 0;
+  color: inherit;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  font-size: 12px;
+}
+.g2b-message-user .g2b-bubble a { color: #fff !important; }
+.g2b-message-user .g2b-bubble code { color: #fff; background: rgba(255,255,255,.14); border-color: rgba(255,255,255,.22); }
