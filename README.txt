@@ -1,10 +1,14 @@
-Günlüğüm 2048 animasyon güncellemesi
+Günlük Kelime sözlük genişletmesi
 
-İçerik:
-- mini-oyunlar/2048/index.html
-- scripts/mini-game-2048.js
-- assets/css/game2048-animations.css
+Özellikler:
+- Tahmin sözlüğü 5.298 adet beş harfli Türkçe kelimeye genişletildi.
+- Günün cevabı için kullanılan seçilmiş kelime havuzu değiştirilmedi.
+- Sözlükte bulunmayan bir kelime gönderilirse yazılmış harfler silinir; tahmin hakkı eksilmez.
 
-Özellikler: Karo kayma, birleşme ve yeni karo animasyonları; puan artışı vurgusu; hareket azaltma erişilebilirlik tercihi.
+Değişen / eklenen dosyalar:
+- scripts/mini-game-daily-word.js
+- scripts/mini-game-daily-word-dictionary.js (yeni)
+- mini-oyunlar/gunluk-kelime/index.html
 
-Kurulum: ZIP içeriğini klasör yapısını koruyarak sitenin ana dizinine çıkartın ve mevcut dosyaların üzerine yazın.
+Kurulum: ZIP içeriğini klasör yapısını koruyarak sitenin ana dizinine çıkarın ve mevcut dosyaların üzerine yazın.
+Sözlük veri kaynağı: horisho00/tdk-5-letter-wordlist GitHub deposundaki github-turkish-words.txt dosyasının beş harfli girdileri.

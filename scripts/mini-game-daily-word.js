@@ -43,7 +43,15 @@
   const $ = id => document.getElementById(id);
   const normalize = value => String(value || '').normalize('NFC').toLocaleUpperCase('tr-TR');
   const letterCount = word => Array.from(normalize(word)).length;
-  const validWords = new Set([...ANSWERS, ...EXTRA_GUESSES].filter(word => letterCount(word) === 5));
+
+  const externalWords = Array.isArray(window.GUNLUGUM_DAILY_WORD_DICTIONARY)
+    ? window.GUNLUGUM_DAILY_WORD_DICTIONARY
+    : [];
+  const validWords = new Set(
+    [...ANSWERS, ...EXTRA_GUESSES, ...externalWords]
+      .map(normalize)
+      .filter(word => /^[A-ZÇĞİÖŞÜ]{5}$/u.test(word))
+  );
 
   function istanbulDate(date = new Date()) {
     const parts = new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Istanbul', year: 'numeric', month: '2-digit', day: '2-digit' }).formatToParts(date);
@@ -169,7 +177,12 @@
   function submitGuess() {
     const guess = normalize(currentGuess);
     if (letterCount(guess) !== 5) { notice = 'Tahminin beş harfli olmalı.'; render(); return; }
-    if (!validWords.has(guess)) { notice = 'Bu kelime oyun sözlüğünde bulunmuyor. Başka bir kelime dene.'; render(); return; }
+    if (!validWords.has(guess)) {
+      currentGuess = '';
+      notice = 'Bu kelime sözlükte bulunmuyor. Yazdığın kelime silindi; tahmin hakkın eksilmedi.';
+      render();
+      return;
+    }
     state.guesses.push(guess); currentGuess = '';
     if (guess === state.answer) { state.won = true; state.completed = true; updateStats(true); }
     else if (state.guesses.length >= 6) { state.completed = true; state.won = false; updateStats(false); }
