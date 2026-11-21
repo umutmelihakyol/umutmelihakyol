@@ -1,0 +1,53 @@
+/* Günlüğüm 2048 — karo kayma, birleşme ve puan animasyonları */
+.game2048-page .game2048-board-wrap { position:relative; isolation:isolate; }
+.game2048-page .game2048-board { position:relative; z-index:0; }
+.game2048-page .game2048-tiles {
+  position:absolute; z-index:1; inset:9px; display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr)); grid-template-rows:repeat(4,minmax(0,1fr));
+  gap:9px; pointer-events:none;
+}
+.game2048-page .game2048-tile {
+  position:relative; display:grid; min-width:0; min-height:0; place-items:stretch;
+  border-radius:11px; color:#f8f6ff; font-size:clamp(18px,3.5vw,32px);
+  font-weight:900; font-variant-numeric:tabular-nums; will-change:transform;
+}
+.game2048-page .game2048-tile>span {
+  display:grid; width:100%; height:100%; place-items:center; border-radius:10px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.25),0 5px 12px rgba(0,0,0,.15);
+}
+.game2048-page .game2048-tile.v2>span { color:#5b4f75; background:#eee9dc; }
+.game2048-page .game2048-tile.v4>span { color:#5c4b70; background:#e8d9b9; }
+.game2048-page .game2048-tile.v8>span { color:#fff; background:#edaa69; }
+.game2048-page .game2048-tile.v16>span { color:#fff; background:#e98c59; }
+.game2048-page .game2048-tile.v32>span { color:#fff; background:#e96f55; }
+.game2048-page .game2048-tile.v64>span { color:#fff; background:#db4e46; }
+.game2048-page .game2048-tile.v128>span,
+.game2048-page .game2048-tile.v256>span,
+.game2048-page .game2048-tile.v512>span { color:#fff; background:#b99143; font-size:clamp(15px,3vw,27px); }
+.game2048-page .game2048-tile.v1024>span,
+.game2048-page .game2048-tile.v2048>span,
+.game2048-page .game2048-tile.v4096>span { color:#fff; background:linear-gradient(145deg,#8767e8,#477db6); font-size:clamp(13px,2.7vw,24px); }
+.game2048-page .game2048-tile.is-new>span { animation:game2048-tile-appear 180ms cubic-bezier(.18,.9,.25,1.35) both; }
+.game2048-page .game2048-tile.is-merged>span { animation:game2048-tile-merge 190ms cubic-bezier(.2,.85,.25,1.3) both; }
+.game2048-page .game2048-merge-ghost { position:absolute!important; z-index:5; display:grid; pointer-events:none; }
+.game2048-page .game2048-score { position:relative; overflow:visible; }
+.game2048-page #g2048Score.is-bumping { animation:game2048-score-bump 250ms cubic-bezier(.2,.85,.25,1.3); }
+.game2048-page .game2048-score-gain { position:absolute; top:3px; right:8px; color:#83e3b4; font-size:11px; font-weight:900; opacity:0; pointer-events:none; }
+.game2048-page .game2048-score-gain.is-visible { animation:game2048-score-gain 700ms ease-out both; }
+.game2048-page .game2048-controls button:disabled,
+.game2048-page #g2048New:disabled { opacity:.55; cursor:wait; }
+@keyframes game2048-tile-appear { 0%{opacity:.25;transform:scale(.25)} 68%{opacity:1;transform:scale(1.13)} 100%{opacity:1;transform:scale(1)} }
+@keyframes game2048-tile-merge { 0%{transform:scale(.84);filter:brightness(1)} 55%{transform:scale(1.18);filter:brightness(1.22)} 100%{transform:scale(1);filter:brightness(1)} }
+@keyframes game2048-score-bump { 0%{transform:scale(1);color:#f2f0ff} 45%{transform:scale(1.22);color:#8ee7ba} 100%{transform:scale(1);color:#f2f0ff} }
+@keyframes game2048-score-gain { 0%{opacity:0;transform:translateY(7px)} 18%{opacity:1;transform:translateY(0)} 72%{opacity:1;transform:translateY(-5px)} 100%{opacity:0;transform:translateY(-12px)} }
+@media(max-width:700px) {
+  .game2048-page .game2048-tiles { inset:7px; gap:6px; }
+  .game2048-page .game2048-tile { border-radius:8px; }
+  .game2048-page .game2048-tile>span { border-radius:7px; }
+}
+@media(prefers-reduced-motion:reduce) {
+  .game2048-page .game2048-tile.is-new>span,
+  .game2048-page .game2048-tile.is-merged>span,
+  .game2048-page #g2048Score.is-bumping,
+  .game2048-page .game2048-score-gain.is-visible { animation:none!important; }
+}

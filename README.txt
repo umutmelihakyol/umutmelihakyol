@@ -1,8 +1,10 @@
-Tas Kagit Makas animasyon guncellemesi
+Günlüğüm 2048 animasyon güncellemesi
 
-Degisen/eklenen dosyalar:
-- mini-oyunlar/tas-kagit-makas/index.html
-- scripts/mini-game-rps.js
-- assets/css/rps-animations.css (yeni)
+İçerik:
+- mini-oyunlar/2048/index.html
+- scripts/mini-game-2048.js
+- assets/css/game2048-animations.css
 
-Kurulum: ZIP icerigini klasor yapisini koruyarak site ana dizinine cikartin ve mevcut dosyanin uzerine yazin.
+Özellikler: Karo kayma, birleşme ve yeni karo animasyonları; puan artışı vurgusu; hareket azaltma erişilebilirlik tercihi.
+
+Kurulum: ZIP içeriğini klasör yapısını koruyarak sitenin ana dizinine çıkartın ve mevcut dosyaların üzerine yazın.
