@@ -1,0 +1,167 @@
+/* Günlüğüm — Refleks Testi ve Sayı Tahmin Etme hareketli oyun arayüzleri */
+.reflex-game-page .reflex-stage {
+  position:relative;display:grid;min-height:370px;place-items:center;overflow:hidden;isolation:isolate;
+  border:1px solid rgba(151,139,255,.18);border-radius:19px;
+  background:radial-gradient(circle at 50% 48%,rgba(109,83,204,.18),transparent 35%),radial-gradient(ellipse at 50% 100%,rgba(31,111,142,.12),transparent 58%),linear-gradient(145deg,#11172a,#111321 70%);
+  transition:background .25s ease,border-color .25s ease,box-shadow .25s ease
+}
+.reflex-game-page .reflex-stage:before,.reflex-game-page .reflex-stage:after {
+  position:absolute;inset:12%;border:1px solid rgba(158,145,255,.10);border-radius:50%;content:"";pointer-events:none
+}
+.reflex-game-page .reflex-stage:after {inset:22%;border-color:rgba(99,190,255,.09);transform:rotate(24deg) scaleX(.76)}
+.reflex-game-page .reflex-orbit {position:absolute;z-index:0;width:255px;height:255px;border:1px solid rgba(153,134,255,.19);border-radius:50%;transform:rotate(-24deg) scaleY(.8);pointer-events:none}
+.reflex-game-page .reflex-orbit-a {width:260px;height:260px}
+.reflex-game-page .reflex-orbit-b {width:315px;height:315px;border-color:rgba(90,186,255,.12);transform:rotate(48deg) scaleY(.58)}
+.reflex-game-page .reflex-orbit-c {width:205px;height:205px;border-style:dashed;border-color:rgba(172,151,255,.15)}
+.reflex-game-page .reflex-signal {position:absolute;z-index:1;width:120px;height:120px;border-radius:50%;background:rgba(150,125,255,.06);filter:blur(20px);transition:background .25s ease,transform .25s ease}
+.reflex-game-page .reflex-signal span {position:absolute;inset:35px;border:1px solid rgba(178,159,255,.3);border-radius:50%;background:radial-gradient(circle,rgba(159,133,255,.28),rgba(125,102,255,.05) 72%);box-shadow:0 0 24px rgba(143,116,255,.15);transition:background .2s ease,box-shadow .2s ease,border-color .2s ease}
+.reflex-game-page .reflex-core {position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;gap:11px;padding:28px 14px;text-align:center}
+.reflex-game-page .reflex-kicker {color:#aaa0d9;font-size:9px;font-weight:900;letter-spacing:.23em}
+.reflex-game-page .reflex-action {
+  position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;width:174px;aspect-ratio:1;padding:20px;overflow:hidden;
+  border:1px solid rgba(182,163,255,.46);border-radius:50%;color:#f8f5ff;
+  background:radial-gradient(circle at 50% 28%,rgba(174,154,255,.23),transparent 44%),linear-gradient(145deg,rgba(106,82,192,.35),rgba(27,63,103,.4));
+  box-shadow:0 0 0 9px rgba(144,119,255,.045),0 18px 52px rgba(0,0,0,.38),inset 0 1px 0 rgba(255,255,255,.15);
+  cursor:pointer;transition:border-color .22s ease,background .22s ease,box-shadow .22s ease,transform .22s ease
+}
+.reflex-game-page .reflex-action:before {position:absolute;inset:8px;border:1px solid rgba(212,201,255,.14);border-radius:50%;content:"";pointer-events:none}
+.reflex-game-page .reflex-action:hover {transform:translateY(-2px) scale(1.025)}
+.reflex-game-page .reflex-action:active {transform:scale(.97)}
+.reflex-game-page .reflex-action-icon {color:#d5caff;font-size:30px;line-height:1}
+.reflex-game-page .reflex-action strong {color:#fff;font-size:13px;font-weight:950;letter-spacing:.14em}
+.reflex-game-page .reflex-action small {color:rgba(231,226,255,.72);font-size:8px;font-weight:700}
+.reflex-game-page .reflex-stage-hint {color:#8d97b4;font-size:10px;font-weight:650;letter-spacing:.02em}
+.reflex-game-page .reflex-stage.is-waiting {border-color:rgba(241,190,101,.3);background:radial-gradient(circle at 50% 50%,rgba(218,162,78,.14),transparent 38%),linear-gradient(145deg,#17182a,#111321 75%)}
+.reflex-game-page .reflex-stage.is-waiting .reflex-orbit-a {animation:reflex-orbit-spin 9s linear infinite;border-color:rgba(241,190,101,.3)}
+.reflex-game-page .reflex-stage.is-waiting .reflex-orbit-b {animation:reflex-orbit-spin 13s linear infinite reverse}
+.reflex-game-page .reflex-stage.is-waiting .reflex-signal {background:rgba(241,190,101,.14);animation:reflex-wait-pulse .9s ease-in-out infinite alternate}
+.reflex-game-page .reflex-stage.is-waiting .reflex-signal span {border-color:rgba(241,190,101,.58);background:radial-gradient(circle,rgba(250,195,101,.7),rgba(197,123,45,.08) 70%);box-shadow:0 0 35px rgba(245,177,77,.28)}
+.reflex-game-page .reflex-stage.is-waiting .reflex-action {border-color:rgba(241,190,101,.48);background:radial-gradient(circle at 50% 28%,rgba(249,194,107,.25),transparent 46%),linear-gradient(145deg,rgba(165,112,45,.4),rgba(55,52,75,.55));animation:reflex-wait-pulse 1.2s ease-in-out infinite alternate}
+.reflex-game-page .reflex-stage.is-waiting .reflex-action-icon {color:#ffcf83}
+.reflex-game-page .reflex-stage.is-ready {border-color:rgba(74,222,160,.5);background:radial-gradient(circle at 50% 50%,rgba(42,218,143,.18),transparent 42%),linear-gradient(145deg,#102c2a,#101b25 75%);box-shadow:inset 0 0 55px rgba(54,221,151,.075),0 0 28px rgba(56,219,150,.08)}
+.reflex-game-page .reflex-stage.is-ready .reflex-orbit-a {border-color:rgba(74,222,160,.48);animation:reflex-ready-ring 1.2s ease-out infinite}
+.reflex-game-page .reflex-stage.is-ready .reflex-orbit-b {border-color:rgba(74,222,160,.23);animation:reflex-ready-ring 1.2s ease-out .35s infinite}
+.reflex-game-page .reflex-stage.is-ready .reflex-signal {background:rgba(74,222,160,.28);transform:scale(1.35)}
+.reflex-game-page .reflex-stage.is-ready .reflex-signal span {inset:20px;border-color:rgba(115,255,192,.95);background:radial-gradient(circle,#71ffba 0%,#2ddc91 50%,rgba(45,220,145,.12) 75%);box-shadow:0 0 22px #4adea0,0 0 72px rgba(74,222,160,.5)}
+.reflex-game-page .reflex-stage.is-ready .reflex-action {border-color:rgba(126,255,193,.9);background:radial-gradient(circle at 50% 32%,rgba(107,255,187,.36),transparent 48%),linear-gradient(145deg,#187b61,#124b4b);box-shadow:0 0 0 12px rgba(74,222,160,.07),0 0 60px rgba(74,222,160,.34),inset 0 1px rgba(255,255,255,.25);animation:reflex-green-flash .42s ease-out both}
+.reflex-game-page .reflex-stage.is-ready .reflex-action-icon {color:#a8ffd5}
+.reflex-game-page .reflex-stage.is-ready .reflex-kicker,.reflex-game-page .reflex-stage.is-ready .reflex-stage-hint {color:#8df0bb}
+.reflex-game-page .reflex-stage.is-early {border-color:rgba(241,115,130,.38);background:radial-gradient(circle at 50% 50%,rgba(235,85,115,.13),transparent 40%),linear-gradient(145deg,#241722,#111321 75%)}
+.reflex-game-page .reflex-stage.is-early .reflex-action {border-color:rgba(245,132,149,.52);background:linear-gradient(145deg,rgba(147,55,78,.42),rgba(54,42,65,.6))}
+.reflex-game-page .reflex-stage.is-early .reflex-action-icon,.reflex-game-page .reflex-stage.is-early .reflex-kicker {color:#ff9bab}
+.reflex-game-page .reflex-stage.is-result .reflex-action {border-color:rgba(74,222,160,.5)}
+.reflex-game-page .reflex-result {display:flex;flex-direction:column;align-items:center;gap:4px;min-height:72px;justify-content:center;margin-top:13px;border:1px solid rgba(151,139,255,.14);border-radius:13px;background:rgba(255,255,255,.02)}
+.reflex-game-page .reflex-result strong {color:#f5f2ff;font-size:29px;font-weight:950;letter-spacing:-.05em;font-variant-numeric:tabular-nums}
+.reflex-game-page .reflex-result span {color:#929bb6;font-size:9px;font-weight:750}
+.reflex-game-page .reflex-stage.is-result + .reflex-result strong {animation:reflex-score-rise .45s cubic-bezier(.2,.9,.25,1.2)}
+.reflex-game-page .reflex-particles {position:absolute;z-index:3;inset:0;overflow:hidden;pointer-events:none}
+.reflex-game-page .reflex-particle {position:absolute;top:50%;left:50%;width:7px;height:15px;border-radius:3px;background:#74e9b1;box-shadow:0 0 12px rgba(74,222,160,.4);animation:reflex-particle .82s cubic-bezier(.15,.65,.3,1) var(--delay) forwards}
+@keyframes reflex-orbit-spin {to{transform:rotate(336deg) scaleY(.8)}}
+@keyframes reflex-wait-pulse {to{transform:scale(1.075);filter:brightness(1.24)}}
+@keyframes reflex-ready-ring {0%{opacity:.7;transform:scale(.82) rotate(0)}100%{opacity:0;transform:scale(1.42) rotate(35deg)}}
+@keyframes reflex-green-flash {0%{transform:scale(.9);filter:brightness(.75)}65%{transform:scale(1.07);filter:brightness(1.3)}100%{transform:scale(1);filter:brightness(1)}}
+@keyframes reflex-score-rise {0%{opacity:.3;transform:translateY(9px) scale(.8)}100%{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes reflex-particle {0%{opacity:1;transform:rotate(var(--angle)) translateY(0) scale(1)}100%{opacity:0;transform:rotate(var(--angle)) translateY(-125px) scale(.15)}}
+
+/* Sayı Tahmin Etme */
+.number-guess-page .number-hero {
+  position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:224px;gap:8px;overflow:hidden;isolation:isolate;
+  border:1px solid rgba(151,139,255,.2);border-radius:18px;
+  background:radial-gradient(circle at 50% 47%,rgba(118,93,220,.2),transparent 39%),linear-gradient(145deg,#15172b,#111827 75%);
+  transition:border-color .25s,background .25s,box-shadow .25s
+}
+.number-guess-page .number-hero:before,.number-guess-page .number-hero:after {position:absolute;z-index:-1;width:200px;height:200px;border:1px solid rgba(167,148,255,.13);border-radius:50%;content:""}
+.number-guess-page .number-hero:after {width:275px;height:145px;border-color:rgba(91,182,255,.1);transform:rotate(-28deg)}
+.number-guess-page .number-hero-orbit {position:absolute;z-index:-1;border:1px dashed rgba(173,155,255,.12);border-radius:50%;pointer-events:none}
+.number-guess-page .number-hero-orbit-a {width:235px;height:235px;animation:number-orbit 18s linear infinite}
+.number-guess-page .number-hero-orbit-b {width:290px;height:180px;border-color:rgba(90,187,255,.13);animation:number-orbit 25s linear infinite reverse}
+.number-guess-page .number-hero-kicker {color:#a69bdb;font-size:9px;font-weight:900;letter-spacing:.24em}
+.number-guess-page .number-target {display:grid;place-items:center;min-width:104px;min-height:104px;padding:0 20px;border:1px solid rgba(182,163,255,.4);border-radius:28px;color:#f8f5ff;background:linear-gradient(145deg,rgba(151,121,255,.23),rgba(57,118,174,.13));box-shadow:0 14px 40px rgba(0,0,0,.28),inset 0 1px rgba(255,255,255,.12);font-size:clamp(48px,7vw,68px);font-weight:950;letter-spacing:-.06em;line-height:1.1;font-variant-numeric:tabular-nums}
+.number-guess-page .number-hero-caption {color:#a1a9c2;font-size:10px;font-weight:650}
+.number-guess-page .number-hero.is-won {border-color:rgba(74,222,160,.5);background:radial-gradient(circle at 50% 45%,rgba(57,222,151,.22),transparent 43%),linear-gradient(145deg,#12332f,#111d29 78%);box-shadow:inset 0 0 45px rgba(74,222,160,.08),0 0 28px rgba(74,222,160,.08)}
+.number-guess-page .number-hero.is-won .number-target {color:#eafff3;border-color:rgba(119,255,192,.72);background:linear-gradient(145deg,#218a68,#155b5a);box-shadow:0 0 38px rgba(74,222,160,.28);animation:number-target-win .65s cubic-bezier(.17,.85,.25,1.25)}
+.number-guess-page .number-hero.is-lost {border-color:rgba(240,192,112,.34);background:radial-gradient(circle at 50% 45%,rgba(240,192,112,.13),transparent 43%),linear-gradient(145deg,#29241f,#151a27 78%)}
+.number-guess-page .number-hero.is-lost .number-target {color:#ffdfa5;border-color:rgba(240,192,112,.45);background:linear-gradient(145deg,#76552d,#403b38);animation:number-target-win .45s ease-out}
+.number-guess-page .number-attempt-row {display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:17px;color:#929bb6;font-size:9px;font-weight:850;letter-spacing:.12em}
+.number-guess-page .number-attempt-row strong {color:#f4f2ff;font-size:17px;font-variant-numeric:tabular-nums}
+.number-guess-page .number-attempt-row small {color:#8f98b5;font-size:10px;font-weight:750}
+.number-guess-page .number-attempt-dots {display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin:8px 0 15px}
+.number-guess-page .number-attempt-dots i {height:5px;border-radius:99px;background:rgba(151,139,255,.12);transition:background .2s,transform .2s,box-shadow .2s}
+.number-guess-page .number-attempt-dots i.is-used {background:linear-gradient(90deg,#8063df,#51a6d9)}
+.number-guess-page .number-attempt-dots i.is-latest {transform:scaleY(1.9);box-shadow:0 0 10px rgba(139,116,255,.35)}
+.number-guess-page .number-guess-form {display:grid;grid-template-columns:minmax(0,1fr) auto;gap:9px}
+.number-guess-page .number-input-wrap {display:block;min-width:0}
+.number-guess-page .number-input-wrap input {width:100%;height:48px;padding:0 15px;border:1px solid rgba(151,139,255,.24);border-radius:12px;outline:0;color:#f5f2ff;background:rgba(255,255,255,.035);font-size:14px;font-weight:850;font-variant-numeric:tabular-nums;transition:border-color .18s,box-shadow .18s,background .18s}
+.number-guess-page .number-input-wrap input::placeholder {color:#7e88a5;font-size:11px;font-weight:600}
+.number-guess-page .number-input-wrap input:focus {border-color:rgba(167,145,255,.7);box-shadow:0 0 0 3px rgba(139,112,255,.12);background:rgba(255,255,255,.055)}
+.number-guess-page .number-input-wrap input:disabled {opacity:.6}
+.number-guess-page .number-input-wrap input.is-invalid {border-color:rgba(244,119,137,.75);animation:number-input-shake .3s ease}
+.number-guess-page .number-guess-form .mini-arcade-primary {white-space:nowrap}
+.number-guess-page .number-feedback {display:flex;align-items:center;min-height:50px;margin-top:12px;padding:12px 14px;border:1px solid rgba(151,139,255,.14);border-radius:12px;color:#b8bfd4;background:rgba(255,255,255,.025);font-size:11px;font-weight:700;line-height:1.55;transition:background .2s,border-color .2s}
+.number-guess-page .number-feedback.is-higher {color:#8de7bd;border-color:rgba(74,222,160,.25);background:rgba(74,222,160,.055);animation:number-feedback-in .3s ease-out}
+.number-guess-page .number-feedback.is-lower {color:#f0cb86;border-color:rgba(240,192,112,.25);background:rgba(240,192,112,.055);animation:number-feedback-in .3s ease-out}
+.number-guess-page .number-feedback.is-correct {color:#8de7bd;border-color:rgba(74,222,160,.3);background:rgba(74,222,160,.07)}
+.number-guess-page .number-feedback.is-lost {color:#f0cb86;border-color:rgba(240,192,112,.25);background:rgba(240,192,112,.05)}
+.number-guess-page .number-feedback.is-warning {color:#ffabb8;border-color:rgba(244,119,137,.25);background:rgba(244,119,137,.05);animation:number-feedback-in .25s ease-out}
+.number-guess-page .number-range {margin-top:16px;padding:13px 14px;border:1px solid rgba(151,139,255,.13);border-radius:12px;background:rgba(255,255,255,.02)}
+.number-guess-page .number-range-heading,.number-guess-page .number-history-heading {display:flex;align-items:center;justify-content:space-between;gap:10px}
+.number-guess-page .number-range-heading span {color:#8e98b5;font-size:8px;font-weight:900;letter-spacing:.13em}
+.number-guess-page .number-range-heading strong {color:#d2caff;font-size:10px;font-weight:900;font-variant-numeric:tabular-nums}
+.number-guess-page .number-range-track {position:relative;height:7px;margin-top:12px;overflow:hidden;border-radius:99px;background:rgba(151,139,255,.10)}
+.number-guess-page .number-range-fill {position:absolute;top:0;bottom:0;left:0;width:100%;border-radius:inherit;background:linear-gradient(90deg,#6e5ad2,#639bdf,#58d6a2);box-shadow:0 0 13px rgba(120,118,255,.25);transition:left .45s cubic-bezier(.2,.75,.25,1),width .45s cubic-bezier(.2,.75,.25,1)}
+.number-guess-page .number-range-ends {display:flex;justify-content:space-between;margin-top:6px;color:#78829e;font-size:9px;font-weight:800;font-variant-numeric:tabular-nums}
+.number-guess-page .number-history-wrap {margin-top:15px}
+.number-guess-page .number-history-heading {margin-bottom:9px}
+.number-guess-page .number-history-heading strong {color:#e8e5f7;font-size:11px;font-weight:850}
+.number-guess-page .number-history-heading span {color:#7e88a4;font-size:9px}
+.number-guess-page .number-history {display:flex;flex-wrap:wrap;gap:7px;min-height:32px}
+.number-guess-page .number-history-empty {align-self:center;color:#75809b;font-size:9px}
+.number-guess-page .number-guess-chip {display:inline-flex;align-items:center;gap:7px;padding:7px 9px;border:1px solid rgba(151,139,255,.17);border-radius:9px;background:rgba(255,255,255,.025);animation:number-chip-in .28s cubic-bezier(.2,.9,.25,1.2)}
+.number-guess-page .number-guess-chip strong {color:#f4f1ff;font-size:13px;font-weight:900;font-variant-numeric:tabular-nums}
+.number-guess-page .number-guess-chip small {color:#a0aac4;font-size:8px;font-weight:750}
+.number-guess-page .number-guess-chip.low {border-color:rgba(74,222,160,.22);background:rgba(74,222,160,.045)}
+.number-guess-page .number-guess-chip.low small {color:#8de7bd}
+.number-guess-page .number-guess-chip.high {border-color:rgba(240,192,112,.22);background:rgba(240,192,112,.045)}
+.number-guess-page .number-guess-chip.high small {color:#f0cb86}
+.number-guess-page .number-guess-chip.correct {border-color:rgba(74,222,160,.4);background:rgba(74,222,160,.1)}
+.number-guess-page .number-guess-chip.correct small {color:#8de7bd}
+.number-guess-page .number-new-game-row {display:flex;justify-content:center;margin-top:15px}
+.number-guess-page .number-celebration {position:absolute;z-index:2;inset:0;overflow:hidden;pointer-events:none}
+.number-guess-page .number-confetti {position:absolute;top:52%;left:var(--x);width:7px;height:13px;border-radius:2px;background:linear-gradient(180deg,#8df0bd,#62a9e9);box-shadow:0 0 10px rgba(105,231,176,.25);animation:number-confetti-fall 1.25s cubic-bezier(.16,.7,.3,1) var(--delay) both}
+@keyframes number-orbit {to{transform:rotate(336deg) scaleX(.78)}}
+@keyframes number-target-win {0%{transform:scale(.68) rotate(-8deg);filter:brightness(.7)}65%{transform:scale(1.16) rotate(3deg);filter:brightness(1.3)}100%{transform:scale(1) rotate(0);filter:brightness(1)}}
+@keyframes number-input-shake {0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-5px)}40%,80%{transform:translateX(5px)}}
+@keyframes number-feedback-in {from{opacity:.35;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+@keyframes number-chip-in {from{opacity:.25;transform:translateY(8px) scale(.85)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes number-confetti-fall {0%{opacity:1;transform:translateY(-35px) rotate(0)}100%{opacity:0;transform:translateY(180px) rotate(var(--spin))}}
+
+@media(max-width:700px) {
+  .reflex-game-page .reflex-stage {min-height:330px}
+  .reflex-game-page .reflex-action {width:155px}
+  .reflex-game-page .reflex-orbit-a {width:225px;height:225px}
+  .reflex-game-page .reflex-orbit-b {width:270px;height:270px}
+  .number-guess-page .number-hero {min-height:205px}
+  .number-guess-page .number-target {min-width:90px;min-height:90px;font-size:53px}
+  .number-guess-page .number-guess-form {grid-template-columns:minmax(0,1fr)}
+  .number-guess-page .number-guess-form .mini-arcade-primary {width:100%}
+}
+@media(prefers-reduced-motion:reduce) {
+  .reflex-game-page .reflex-orbit,.reflex-game-page .reflex-signal,.reflex-game-page .reflex-action,
+  .number-guess-page .number-hero-orbit,.number-guess-page .number-target,
+  .number-guess-page .number-range-fill,.number-guess-page .number-guess-chip,
+  .number-guess-page .number-feedback,.number-guess-page .number-confetti {
+    animation:none!important;transition:none!important
+  }
+}
+
+/* Oyun merkezi kartlarının iki yeni görseli */
+.mini-games-page .mini-game-visual-reflex {
+  background:radial-gradient(circle at 50% 54%,rgba(74,222,160,.2),transparent 47%),linear-gradient(145deg,rgba(39,111,93,.22),rgba(37,105,153,.13)),#101426
+}
+.mini-games-page .mini-game-visual-number {
+  background:radial-gradient(circle at 50% 54%,rgba(241,190,101,.2),transparent 47%),linear-gradient(145deg,rgba(124,89,46,.21),rgba(80,66,140,.15)),#101426
+}
+.mini-games-page .mini-game-card-symbol.symbol-reflex {color:#a8ffd5;text-shadow:0 0 24px rgba(74,222,160,.5);transform:rotate(-8deg)}
+.mini-games-page .mini-game-card-symbol.symbol-number {color:#ffdfa5;text-shadow:0 0 24px rgba(241,190,101,.42);font-size:clamp(42px,5vw,62px);font-weight:800}
+.mini-games-page .mini-game-card:hover .mini-game-card-symbol.symbol-reflex {transform:rotate(6deg) scale(1.12)}
+.mini-games-page .mini-game-card:hover .mini-game-card-symbol.symbol-number {transform:rotate(7deg) scale(1.12)}

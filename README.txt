@@ -1,14 +1,17 @@
-Günlük Kelime sözlük genişletmesi
+Günlüğüm Mini Oyunlar — Refleks Testi ve Sayı Tahmin Etme
 
-Özellikler:
-- Tahmin sözlüğü 5.298 adet beş harfli Türkçe kelimeye genişletildi.
-- Günün cevabı için kullanılan seçilmiş kelime havuzu değiştirilmedi.
-- Sözlükte bulunmayan bir kelime gönderilirse yazılmış harfler silinir; tahmin hakkı eksilmez.
+Refleks Testi: Rastgele süreli yeşil sinyal, erken tıklama kontrolü, milisaniye ölçümü, kişisel en iyi süre ve ortalama.
+Sayı Tahmin Etme: 1–100 aralığı, 7 tahmin, daha yüksek/düşük ipuçları, daralan aralık göstergesi ve istatistikler.
 
-Değişen / eklenen dosyalar:
-- scripts/mini-game-daily-word.js
-- scripts/mini-game-daily-word-dictionary.js (yeni)
-- mini-oyunlar/gunluk-kelime/index.html
+Eklenen:
+- mini-oyunlar/refleks-testi/index.html
+- mini-oyunlar/sayi-tahmin/index.html
+- scripts/mini-game-reflex.js
+- scripts/mini-game-number-guess.js
+- assets/css/mini-game-reflex-number.css
 
-Kurulum: ZIP içeriğini klasör yapısını koruyarak sitenin ana dizinine çıkarın ve mevcut dosyaların üzerine yazın.
-Sözlük veri kaynağı: horisho00/tdk-5-letter-wordlist GitHub deposundaki github-turkish-words.txt dosyasının beş harfli girdileri.
+Değişen:
+- mini-oyunlar/index.html (oyun merkezi 6 oyuna güncellendi)
+
+Kurulum: ZIP içeriğini sitenin ana dizinine klasör yapısını koruyarak çıkarın. Mevcut mini-oyunlar/index.html dosyasının üzerine yazın.
+Oyun sonuçları ve istatistikleri yalnızca kullandığınız tarayıcıda saklanır.
