@@ -14,10 +14,11 @@
   <link rel="stylesheet" href="../../assets/css/matte.css?v=1"><link rel="stylesheet" href="../../assets/css/archive-editorial.css?v=20261105-3">
   <link rel="stylesheet" href="../../assets/css/gamecapsule-theme.css?v=4"><link rel="stylesheet" href="../../assets/css/gamecapsule-consistency.css?v=20261107-1">
   <link rel="stylesheet" href="../../assets/css/white-theme-fixes.css?v=1"><link rel="stylesheet" href="../../assets/css/mini-arcade-games.css?v=1">
+  <link rel="stylesheet" href="../../assets/css/rps-animations.css?v=1">
   <script src="../../scripts/theme.js?v=2"></script><script src="../../scripts/config.js"></script><script src="../../scripts/categories.js?v=4"></script>
   <script src="../../scripts/site-settings.js?v=3"></script><script src="../../scripts/pwa.js?v=4" defer></script>
   <script src="../../scripts/site-nav.js?v=20261121-4" defer></script><script src="../../scripts/gamecapsule-theme.js?v=4" defer></script>
-  <script src="../../scripts/page-jump.js?v=20261114-1" defer></script><script src="../../scripts/mini-game-rps.js?v=1" defer></script>
+  <script src="../../scripts/page-jump.js?v=20261114-1" defer></script><script src="../../scripts/mini-game-rps.js?v=2" defer></script>
 </head>
 <body class="mini-arcade-page tas-kagit-makas-page">
   <main class="mini-arcade-shell">
@@ -25,11 +26,11 @@
     <div class="mini-arcade-layout">
   <section class="mini-arcade-panel" aria-label="Taş, Kâğıt, Makas oyunu">
     <div class="mini-arcade-panel-head"><h2>Hamleni seç</h2><span>SINIRSIZ TUR · KİŞİSEL İSTATİSTİK</span></div>
-    <div class="rps-duel" aria-live="polite">
+    <div class="rps-duel" id="rpsDuel">
       <div class="rps-player"><small>SEN</small><strong id="rpsPlayerMove">?</strong><em id="rpsPlayerLabel">Hamleni bekliyorum</em></div>
       <div class="rps-player"><small>BİLGİSAYAR</small><strong id="rpsComputerMove">?</strong><em id="rpsComputerLabel">Rakibin hazır</em></div>
     </div>
-    <div class="rps-versus">VS</div>
+    <div class="rps-versus" id="rpsCountdown" aria-live="polite">VS</div>
     <div class="rps-choices" aria-label="Hamle seçenekleri">
       <button class="rps-choice" type="button" data-move="rock"><span>✊</span><strong>Taş</strong></button>
       <button class="rps-choice" type="button" data-move="paper"><span>✋</span><strong>Kâğıt</strong></button>

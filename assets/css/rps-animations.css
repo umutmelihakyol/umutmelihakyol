@@ -1,0 +1,110 @@
+/* Taş, Kâğıt, Makas — el sallama, geri sayım ve hamle açılış animasyonu */
+.tas-kagit-makas-page .rps-duel {
+  position: relative;
+  perspective: 700px;
+}
+.tas-kagit-makas-page .rps-player {
+  position: relative;
+  overflow: hidden;
+  transition: border-color .22s ease, background .22s ease, box-shadow .22s ease;
+}
+.tas-kagit-makas-page .rps-player strong {
+  transform-origin: 50% 72%;
+  will-change: transform;
+}
+.tas-kagit-makas-page .rps-duel.is-counting .rps-player {
+  border-color: rgba(166, 143, 255, .42);
+  background: linear-gradient(145deg, rgba(126,99,255,.11), rgba(255,255,255,.025));
+  box-shadow: inset 0 0 28px rgba(126,99,255,.06), 0 0 20px rgba(126,99,255,.055);
+}
+.tas-kagit-makas-page .rps-duel.is-counting .rps-player strong {
+  animation: rps-fist-shake .34s cubic-bezier(.36,.07,.19,.97) 3;
+}
+.tas-kagit-makas-page .rps-duel.is-revealed .rps-player strong {
+  animation: rps-hand-reveal .46s cubic-bezier(.18,.89,.32,1.35) both;
+}
+.tas-kagit-makas-page .rps-duel.result-win .rps-player:first-child {
+  border-color: rgba(74,222,160,.48);
+  background: linear-gradient(145deg, rgba(74,222,160,.10), rgba(255,255,255,.025));
+  box-shadow: 0 0 25px rgba(74,222,160,.08);
+}
+.tas-kagit-makas-page .rps-duel.result-loss .rps-player:nth-child(2) {
+  border-color: rgba(240,192,112,.43);
+  background: linear-gradient(145deg, rgba(240,192,112,.09), rgba(255,255,255,.025));
+}
+.tas-kagit-makas-page .rps-duel.result-draw .rps-player {
+  border-color: rgba(169,151,255,.38);
+}
+.tas-kagit-makas-page .rps-versus {
+  min-height: 35px;
+  display: grid;
+  place-items: center;
+  transition: color .2s ease, transform .2s ease, text-shadow .2s ease;
+}
+.tas-kagit-makas-page .rps-versus.is-counting {
+  color: #c8baff;
+  font-size: 19px;
+  text-shadow: 0 0 18px rgba(151,121,255,.55);
+}
+.tas-kagit-makas-page .rps-versus.is-pop {
+  animation: rps-count-pop .3s cubic-bezier(.2,.85,.25,1.4);
+}
+.tas-kagit-makas-page .rps-versus.is-result {
+  color: #c8baff;
+  font-size: 10px;
+  letter-spacing: .16em;
+  text-shadow: 0 0 16px rgba(151,121,255,.35);
+}
+.tas-kagit-makas-page .rps-versus.is-result.result-win { color: #80e4b4; }
+.tas-kagit-makas-page .rps-versus.is-result.result-loss { color: #f0cb86; }
+.tas-kagit-makas-page .rps-versus.is-result.result-draw { color: #c8baff; }
+.tas-kagit-makas-page .rps-choice:disabled {
+  opacity: .42;
+  filter: saturate(.65);
+}
+.tas-kagit-makas-page .rps-choice:disabled span:first-child {
+  transform: scale(.94);
+}
+.tas-kagit-makas-page .rps-choice:disabled:hover {
+  border-color: rgba(151,139,255,.18);
+  background: rgba(126,99,255,.055);
+}
+
+@keyframes rps-fist-shake {
+  0%, 100% { transform: translateY(0) rotate(0) scale(1); }
+  22% { transform: translateY(-9px) rotate(-12deg) scale(1.04); }
+  48% { transform: translateY(0) rotate(0) scale(.98); }
+  74% { transform: translateY(-9px) rotate(12deg) scale(1.04); }
+}
+@keyframes rps-hand-reveal {
+  0% { opacity: .55; transform: translateY(13px) scale(.55) rotate(-18deg); filter: blur(3px); }
+  62% { opacity: 1; transform: translateY(-5px) scale(1.16) rotate(5deg); filter: blur(0); }
+  100% { opacity: 1; transform: translateY(0) scale(1) rotate(0); filter: none; }
+}
+@keyframes rps-count-pop {
+  0% { opacity: .25; transform: scale(.55) translateY(5px); }
+  70% { opacity: 1; transform: scale(1.28) translateY(-2px); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+@media (max-width: 700px) {
+  .tas-kagit-makas-page .rps-duel.is-counting .rps-player strong {
+    animation-duration: .34s;
+  }
+  .tas-kagit-makas-page .rps-versus.is-counting {
+    min-height: 31px;
+    font-size: 17px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tas-kagit-makas-page .rps-duel.is-counting .rps-player strong,
+  .tas-kagit-makas-page .rps-duel.is-revealed .rps-player strong,
+  .tas-kagit-makas-page .rps-versus.is-pop {
+    animation: none !important;
+  }
+  .tas-kagit-makas-page .rps-player,
+  .tas-kagit-makas-page .rps-player strong,
+  .tas-kagit-makas-page .rps-versus {
+    transition: none !important;
+  }
+}

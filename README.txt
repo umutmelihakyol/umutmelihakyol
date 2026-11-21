@@ -1,10 +1,8 @@
-Günlüğüm Mini Oyunlar paketi
+Tas Kagit Makas animasyon guncellemesi
 
-Bu paket, Mini Oyunlar sayfasına üç yeni oyunu ekler:
-- Taş, Kâğıt, Makas
-- 2048
-- Günlük Kelime
+Degisen/eklenen dosyalar:
+- mini-oyunlar/tas-kagit-makas/index.html
+- scripts/mini-game-rps.js
+- assets/css/rps-animations.css (yeni)
 
-Kurulum:
-ZIP içindeki klasör yapısını koruyarak site ana dizinine çıkartın ve mevcut dosyaların üzerine yazın.
-Oyun kayıtları tarayıcının localStorage alanında saklanır. Zar Oyunu kredileriyle ortak bakiye kullanılmaz.
+Kurulum: ZIP icerigini klasor yapisini koruyarak site ana dizinine cikartin ve mevcut dosyanin uzerine yazin.
