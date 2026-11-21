@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <script>(()=>{const p=location.pathname;const c=p.replace(/index\.html$/i,'');if(c!==p)history.replaceState(history.state,'',c+location.search+location.hash)})();</script>
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#08090f">
+  <title>2048 | Günlüğüm</title><meta name="description" content="Sayıları birleştir, tahtada yer aç ve 2048 hedefine ulaş.">
+  <link rel="canonical" href="https://umutmelihakyol.com/mini-oyunlar/2048/">
+  <link rel="icon" href="../../assets/icons/gunlugum-192.png" type="image/png"><link rel="manifest" href="../../manifest.webmanifest">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets/css/style.css?v=17"><link rel="stylesheet" href="../../assets/css/modern.css?v=9">
+  <link rel="stylesheet" href="../../assets/css/atelier.css?v=2"><link rel="stylesheet" href="../../assets/css/unified.css?v=2">
+  <link rel="stylesheet" href="../../assets/css/matte.css?v=1"><link rel="stylesheet" href="../../assets/css/archive-editorial.css?v=20261105-3">
+  <link rel="stylesheet" href="../../assets/css/gamecapsule-theme.css?v=4"><link rel="stylesheet" href="../../assets/css/gamecapsule-consistency.css?v=20261107-1">
+  <link rel="stylesheet" href="../../assets/css/white-theme-fixes.css?v=1"><link rel="stylesheet" href="../../assets/css/mini-arcade-games.css?v=1">
+  <script src="../../scripts/theme.js?v=2"></script><script src="../../scripts/config.js"></script><script src="../../scripts/categories.js?v=4"></script>
+  <script src="../../scripts/site-settings.js?v=3"></script><script src="../../scripts/pwa.js?v=4" defer></script>
+  <script src="../../scripts/site-nav.js?v=20261121-4" defer></script><script src="../../scripts/gamecapsule-theme.js?v=4" defer></script>
+  <script src="../../scripts/page-jump.js?v=20261114-1" defer></script><script src="../../scripts/mini-game-2048.js?v=1" defer></script>
+</head>
+<body class="mini-arcade-page 2048-page">
+  <main class="mini-arcade-shell">
+    <header class="mini-arcade-heading"><div class="mini-arcade-heading-copy"><span class="mini-arcade-eyebrow">GÜNLÜĞÜM · MİNİ OYUNLAR</span><h1>2048</h1><p>Sayıları birleştir, tahtada yer aç ve 2048 hedefine ulaş.</p></div><a class="mini-arcade-back" href="/mini-oyunlar/">← Tüm mini oyunlar</a></header>
+    <div class="mini-arcade-layout">
+  <section class="mini-arcade-panel" aria-label="2048 oyun alanı">
+    <div class="game2048-topline"><div class="game2048-scores"><div class="game2048-score"><span>SKOR</span><strong id="g2048Score">0</strong></div><div class="game2048-score"><span>EN İYİ</span><strong id="g2048Best">0</strong></div></div><button class="mini-arcade-secondary" id="g2048New" type="button">↻ Yeni oyun</button></div>
+    <div class="game2048-board-wrap" id="g2048BoardWrap"><div class="game2048-board" id="g2048Board" role="grid" aria-label="2048 oyun tahtası"></div>
+      <div class="game2048-overlay" id="g2048Overlay" hidden><strong id="g2048OverlayTitle">2048!</strong><p id="g2048OverlayText">Hedefe ulaştın.</p><button class="mini-arcade-primary" id="g2048Continue" type="button">Devam et</button><button class="mini-arcade-secondary" id="g2048OverlayNew" type="button">Yeni oyun</button></div>
+    </div>
+    <div class="game2048-status" id="g2048Status" role="status" aria-live="polite">Aynı sayıları birleştirerek 2048'e ulaş.</div>
+    <div class="game2048-controls" aria-label="Yön kontrolleri"><button type="button" data-dir="up" aria-label="Yukarı">↑</button><button type="button" data-dir="left" aria-label="Sola">←</button><button type="button" data-dir="down" aria-label="Aşağı">↓</button><button type="button" data-dir="right" aria-label="Sağa">→</button></div>
+  </section>
+  <aside class="mini-arcade-side">
+    <section class="mini-arcade-panel"><div class="mini-arcade-panel-head"><h2>Nasıl oynanır?</h2><span>2048</span></div><p class="mini-arcade-note">Kareleri yön tuşlarıyla veya ekranda kaydırarak hareket ettir. Aynı sayıya sahip iki kare birleşerek değerlerini toplar. Her hamleden sonra tahtaya yeni bir 2 veya 4 eklenir.</p><p class="mini-arcade-note">Hedefin 2048 karesini oluşturmak. Hedefe ulaştıktan sonra istersen oynamaya devam edebilirsin.</p></section>
+    <section class="mini-arcade-panel"><div class="mini-arcade-panel-head"><h2>Kontroller</h2><span>KLAVYE</span></div><div class="mini-arcade-stat-grid"><div class="mini-arcade-stat"><span>YUKARI / W</span><strong>↑</strong></div><div class="mini-arcade-stat"><span>AŞAĞI / S</span><strong>↓</strong></div><div class="mini-arcade-stat"><span>SOLA / A</span><strong>←</strong></div><div class="mini-arcade-stat"><span>SAĞA / D</span><strong>→</strong></div></div></section>
+  </aside>
+</div>
+    <footer class="mini-arcade-footer">Oyun kayıtları yalnızca bu tarayıcıda saklanır. Sunucuya veya ortak bir hesaba gönderilmez.</footer>
+  </main>
+</body>
+</html>
