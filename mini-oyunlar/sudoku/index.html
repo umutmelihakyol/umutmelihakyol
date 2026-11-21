@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <script>(()=>{const p=location.pathname;const c=p.replace(/index\.html$/i,'');if(c!==p)history.replaceState(history.state,'',c+location.search+location.hash)})();</script>
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#08090f">
+  <title>Sudoku | Günlüğüm</title><meta name="description" content="Günlüğüm Sudoku. Kolaydan uzmana farklı zorluklarda Sudoku çöz, notlarını tut ve rekorunu geliştir.">
+  <link rel="canonical" href="https://umutmelihakyol.com/mini-oyunlar/sudoku/">
+  <link rel="icon" href="../../assets/icons/gunlugum-192.png" type="image/png"><link rel="manifest" href="../../manifest.webmanifest">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets/css/style.css?v=17"><link rel="stylesheet" href="../../assets/css/modern.css?v=9">
+  <link rel="stylesheet" href="../../assets/css/atelier.css?v=2"><link rel="stylesheet" href="../../assets/css/unified.css?v=2">
+  <link rel="stylesheet" href="../../assets/css/matte.css?v=1"><link rel="stylesheet" href="../../assets/css/archive-editorial.css?v=20261105-3">
+  <link rel="stylesheet" href="../../assets/css/gamecapsule-theme.css?v=4"><link rel="stylesheet" href="../../assets/css/gamecapsule-consistency.css?v=20261107-1">
+  <link rel="stylesheet" href="../../assets/css/white-theme-fixes.css?v=1"><link rel="stylesheet" href="../../assets/css/mini-arcade-games.css?v=1">
+  <link rel="stylesheet" href="../../assets/css/mini-game-minesweeper-sudoku.css?v=1">
+  <script src="../../scripts/theme.js?v=2"></script><script src="../../scripts/config.js"></script><script src="../../scripts/categories.js?v=4"></script>
+  <script src="../../scripts/site-settings.js?v=3"></script><script src="../../scripts/pwa.js?v=4" defer></script>
+  <script src="../../scripts/site-nav.js?v=20261121-4" defer></script><script src="../../scripts/gamecapsule-theme.js?v=4" defer></script>
+  <script src="../../scripts/page-jump.js?v=20261114-1" defer></script><script src="../../scripts/mini-game-sudoku.js?v=1" defer></script>
+</head>
+<body class="mini-arcade-page sudoku-page">
+  <main class="mini-arcade-shell">
+    <header class="mini-arcade-heading"><div class="mini-arcade-heading-copy"><span class="mini-arcade-eyebrow">GÜNLÜĞÜM · MİNİ OYUNLAR</span><h1>Sudoku</h1><p>Her satırda, sütunda ve 3 × 3 kutuda 1’den 9’a kadar tüm rakamları birer kez kullan. Notlarını al, ipuçlarını değerlendir ve bulmacayı tamamla.</p></div><a class="mini-arcade-back" href="/mini-oyunlar/">← Tüm mini oyunlar</a></header>
+    <div class="mini-arcade-layout">
+      <section class="mini-arcade-panel" aria-label="Sudoku oyun alanı">
+        <div class="sdk-toolbar">
+          <label class="sdk-difficulty-label" for="sdkDifficulty">ZORLUK<select id="sdkDifficulty"><option value="easy">Kolay</option><option value="medium">Orta</option><option value="hard">Zor</option><option value="expert">Uzman</option></select></label>
+          <div class="sdk-toolbar-actions"><button class="mini-arcade-secondary" type="button" id="sdkReset">↺ Sıfırla</button><button class="mini-arcade-primary" type="button" id="sdkNew">↻ Yeni bulmaca</button></div>
+        </div>
+        <div class="sdk-progress-row"><div><span>İLERLEME</span><strong id="sdkProgressText">0 / 81</strong></div><div class="sdk-progress-track"><span id="sdkProgressBar"></span></div><span class="sdk-clock"><b id="sdkTimer">00:00</b><small>SÜRE</small></span></div>
+        <div class="sdk-board-wrap"><div class="sdk-board" id="sdkBoard" role="grid" aria-label="Sudoku tahtası"></div></div>
+        <div class="sdk-tools"><button type="button" id="sdkNotes" class="mini-arcade-secondary" aria-pressed="false">✎ Not modu: Kapalı</button><button type="button" id="sdkErase" class="mini-arcade-secondary">⌫ Sil</button><button type="button" id="sdkHint" class="mini-arcade-secondary">✦ İpucu</button><button type="button" id="sdkCheck" class="mini-arcade-secondary">✓ Kontrol et</button></div>
+        <div class="sdk-numpad" aria-label="Sayı seçimi"><button type="button" data-digit="1" aria-label="1 rakamını gir">1</button><button type="button" data-digit="2" aria-label="2 rakamını gir">2</button><button type="button" data-digit="3" aria-label="3 rakamını gir">3</button><button type="button" data-digit="4" aria-label="4 rakamını gir">4</button><button type="button" data-digit="5" aria-label="5 rakamını gir">5</button><button type="button" data-digit="6" aria-label="6 rakamını gir">6</button><button type="button" data-digit="7" aria-label="7 rakamını gir">7</button><button type="button" data-digit="8" aria-label="8 rakamını gir">8</button><button type="button" data-digit="9" aria-label="9 rakamını gir">9</button><button type="button" data-digit="0" class="sdk-numpad-erase" aria-label="Seçili hücreyi sil">⌫</button></div>
+        <p class="mini-arcade-message" id="sdkStatus" role="status" aria-live="polite">Başlamak için boş bir hücre seç ve rakamları yerleştir.</p>
+      </section>
+      <aside class="mini-arcade-side">
+        <section class="mini-arcade-panel"><div class="mini-arcade-panel-head"><h2>İstatistiklerin</h2><span>BU TARAYICI</span></div>
+          <div class="mini-arcade-stat-grid">
+            <div class="mini-arcade-stat"><span>TAMAMLANAN</span><strong id="sdkGames">0</strong></div><div class="mini-arcade-stat"><span>KAZANMA SERİSİ</span><strong id="sdkStreak">0</strong></div>
+            <div class="mini-arcade-stat"><span>EN İYİ SÜRE</span><strong id="sdkBest">—</strong></div><div class="mini-arcade-stat"><span>BU BULMACADA İPUCU</span><strong id="sdkHints">0</strong></div>
+          </div>
+        </section>
+        <section class="mini-arcade-panel"><div class="mini-arcade-panel-head"><h2>Nasıl oynanır?</h2><span>SUDOKU</span></div>
+          <p class="mini-arcade-note">Her satırda, sütunda ve 3 × 3 kutuda 1–9 arasındaki rakamların her biri yalnızca bir kez bulunmalıdır. Başlangıçta verilen rakamlar değiştirilemez.</p>
+          <p class="mini-arcade-note">Bir hücre seçip alttaki sayı tuşlarını veya klavyendeki 1–9 tuşlarını kullan. Not moduyla olası rakamları küçük işaretler hâlinde tutabilirsin.</p>
+          <p class="mini-arcade-note">Kontrol et düğmesi hatalı girişleri işaretler. İpucu, seçili boş hücrenin doğru değerini gösterir. Her bulmaca tek çözümlüdür.</p>
+        </section>
+        <section class="mini-arcade-panel"><div class="mini-arcade-panel-head"><h2>Kısayollar</h2><span>KLAVYE</span></div><div class="sdk-shortcuts"><span><kbd>1–9</kbd> Rakam gir</span><span><kbd>↑ ↓ ← →</kbd> Hücre değiştir</span><span><kbd>⌫</kbd> Hücreyi temizle</span><span><kbd>N</kbd> Not modunu aç</span></div></section>
+      </aside>
+    </div>
+    <footer class="mini-arcade-footer">Bulmacalar ve kişisel istatistiklerin yalnızca bu tarayıcıda saklanır.</footer>
+  </main>
+</body>
+</html>

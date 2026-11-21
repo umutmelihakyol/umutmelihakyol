@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <script>(()=>{const p=location.pathname;const c=p.replace(/index\.html$/i,'');if(c!==p)history.replaceState(history.state,'',c+location.search+location.hash)})();</script>
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#08090f">
+  <title>Mayın Tarlası | Günlüğüm</title><meta name="description" content="Günlüğüm Mayın Tarlası. Mayınlara basmadan kareleri aç, bayraklarını yerleştir ve rekorunu geliştir.">
+  <link rel="canonical" href="https://umutmelihakyol.com/mini-oyunlar/mayin-tarlasi/">
+  <link rel="icon" href="../../assets/icons/gunlugum-192.png" type="image/png"><link rel="manifest" href="../../manifest.webmanifest">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets/css/style.css?v=17"><link rel="stylesheet" href="../../assets/css/modern.css?v=9">
+  <link rel="stylesheet" href="../../assets/css/atelier.css?v=2"><link rel="stylesheet" href="../../assets/css/unified.css?v=2">
+  <link rel="stylesheet" href="../../assets/css/matte.css?v=1"><link rel="stylesheet" href="../../assets/css/archive-editorial.css?v=20261105-3">
+  <link rel="stylesheet" href="../../assets/css/gamecapsule-theme.css?v=4"><link rel="stylesheet" href="../../assets/css/gamecapsule-consistency.css?v=20261107-1">
+  <link rel="stylesheet" href="../../assets/css/white-theme-fixes.css?v=1"><link rel="stylesheet" href="../../assets/css/mini-arcade-games.css?v=1">
+  <link rel="stylesheet" href="../../assets/css/mini-game-minesweeper-sudoku.css?v=1">
+  <script src="../../scripts/theme.js?v=2"></script><script src="../../scripts/config.js"></script><script src="../../scripts/categories.js?v=4"></script>
+  <script src="../../scripts/site-settings.js?v=3"></script><script src="../../scripts/pwa.js?v=4" defer></script>
+  <script src="../../scripts/site-nav.js?v=20261121-4" defer></script><script src="../../scripts/gamecapsule-theme.js?v=4" defer></script>
+  <script src="../../scripts/page-jump.js?v=20261114-1" defer></script><script src="../../scripts/mini-game-minesweeper.js?v=1" defer></script>
+</head>
+<body class="mini-arcade-page minesweeper-page">
+  <main class="mini-arcade-shell">
+    <header class="mini-arcade-heading"><div class="mini-arcade-heading-copy"><span class="mini-arcade-eyebrow">GÜNLÜĞÜM · MİNİ OYUNLAR</span><h1>Mayın Tarlası</h1><p>Mayınlara basmadan güvenli kareleri aç. İpuçlarını takip et, tüm mayınları işaretle ve zamana karşı oyna.</p></div><a class="mini-arcade-back" href="/mini-oyunlar/">← Tüm mini oyunlar</a></header>
+    <div class="mini-arcade-layout">
+      <section class="mini-arcade-panel" aria-label="Mayın Tarlası oyun alanı">
+        <div class="ms-toolbar">
+          <label class="ms-difficulty-label" for="msDifficulty">ZORLUK
+            <select id="msDifficulty"><option value="easy">Kolay · 9 × 9</option><option value="medium">Orta · 16 × 16</option><option value="hard">Zor · 16 × 30</option></select>
+          </label>
+          <button class="mini-arcade-secondary" type="button" id="msNew">↻ Yeni oyun</button>
+        </div>
+        <div class="ms-scorebar" aria-live="polite">
+          <div class="ms-counter"><span>💣</span><strong id="msMinesLeft">010</strong><small>KALAN MAYIN</small></div>
+          <div class="ms-counter ms-clock"><span>◷</span><strong id="msTimer">000</strong><small>SÜRE</small></div>
+          <div class="ms-counter"><span>⚑</span><strong id="msFlags">000</strong><small>BAYRAK</small></div>
+        </div>
+        <div class="ms-mode-row"><span id="msModeHint">Sol tık: kareyi aç · Sağ tık: bayrak koy</span><button class="ms-mode-button" type="button" id="msMode" aria-pressed="false">⚑ Bayrak modu: Kapalı</button></div>
+        <div class="ms-board-frame" id="msBoardFrame">
+          <div class="ms-board-scroll"><div class="ms-board" id="msBoard" role="grid" aria-label="Mayın Tarlası tahtası"></div></div>
+          <div class="ms-overlay" id="msOverlay" hidden><span class="ms-overlay-icon" id="msOverlayIcon">💥</span><strong id="msOverlayTitle">Oyun bitti</strong><p id="msOverlayText">Bir mayına bastın.</p><button class="mini-arcade-primary" id="msOverlayNew" type="button">Yeniden oyna</button></div>
+        </div>
+        <p class="mini-arcade-message" id="msStatus" role="status" aria-live="polite">Başlamak için bir kare aç. İlk hamlen güvenli olacak.</p>
+      </section>
+      <aside class="mini-arcade-side">
+        <section class="mini-arcade-panel"><div class="mini-arcade-panel-head"><h2>İstatistiklerin</h2><span>BU TARAYICI</span></div>
+          <div class="mini-arcade-stat-grid">
+            <div class="mini-arcade-stat"><span>OYNANAN</span><strong id="msGames">0</strong></div><div class="mini-arcade-stat"><span>KAZANILAN</span><strong id="msWins">0</strong></div>
+            <div class="mini-arcade-stat"><span>KAZANMA ORANI</span><strong id="msWinRate">—</strong></div><div class="mini-arcade-stat"><span>EN İYİ SÜRE</span><strong id="msBest">—</strong></div>
+          </div>
+        </section>
+        <section class="mini-arcade-panel"><div class="mini-arcade-panel-head"><h2>Nasıl oynanır?</h2><span>MAYIN TARLASI</span></div>
+          <p class="mini-arcade-note">Bir kareyi açmak için üzerine tıkla. Karedeki sayı, çevresindeki sekiz hücrede kaç mayın olduğunu gösterir. Sayılardan yararlanarak güvenli alanları bul.</p>
+          <p class="mini-arcade-note">Mayın olduğunu düşündüğün kareye sağ tıkla veya Bayrak modunu aç. Tüm güvenli kareleri açtığında oyunu kazanırsın. İlk tıklaman hiçbir zaman mayına denk gelmez.</p>
+          <p class="mini-arcade-note">Mobilde Bayrak modunu kullanarak kareleri işaretleyebilirsin. Zorluk seviyesi büyüdükçe tahta da genişler.</p>
+        </section>
+        <section class="mini-arcade-panel"><div class="mini-arcade-panel-head"><h2>Renklerin anlamı</h2><span>SAYI İPUÇLARI</span></div><div class="ms-legend"><span class="ms-n1">1</span><span class="ms-n2">2</span><span class="ms-n3">3</span><span class="ms-n4">4</span><span class="ms-n5">5</span><small>Komşu mayın sayısı</small></div></section>
+      </aside>
+    </div>
+    <footer class="mini-arcade-footer">En iyi sürelerin ve oyun istatistiklerin yalnızca bu tarayıcıda saklanır.</footer>
+  </main>
+</body>
+</html>
