@@ -34,10 +34,11 @@
   }
 
   function randomInt(max) {
-    if (window.crypto?.getRandomValues) {
+    const cryptoSource = window.crypto;
+    if (cryptoSource && typeof cryptoSource.getRandomValues === 'function') {
       const data = new Uint32Array(1);
       const limit = Math.floor(0x100000000 / max) * max;
-      do { crypto.getRandomValues(data); } while (data[0] >= limit);
+      do { cryptoSource.getRandomValues(data); } while (data[0] >= limit);
       return data[0] % max;
     }
     return Math.floor(Math.random() * max);
@@ -164,7 +165,9 @@
         button.classList.add('is-wrong-flag');
         button.textContent = '×';
       }
-      button.disabled = state.over || revealed;
+      // Açılmış numaralı kareler tıklanabilir kalır: üzerlerine tıklayarak
+      // çevredeki bayraklara göre komşu kareleri topluca açabilirsin.
+      button.disabled = state.over || (revealed && (isMine || state.counts[index] === 0));
       button.setAttribute('aria-label', cellLabel(index));
       fragment.appendChild(button);
     }
@@ -222,7 +225,37 @@
   }
 
   function checkWin() {
-    if (state.revealed.size === state.rows * state.cols - state.mineCount) finish(true);
+    const allSafeCellsOpen = state.revealed.size === state.rows * state.cols - state.mineCount;
+    const allMinesFlagged = state.flags.size === state.mineCount &&
+      Array.from(state.flags).every(index => state.mines.has(index));
+    if (allSafeCellsOpen || allMinesFlagged) finish(true);
+  }
+
+  function chord(index) {
+    if (state.over || !state.revealed.has(index) || state.counts[index] < 1) return;
+    const adjacent = neighbours(index, state.rows, state.cols);
+    const flagCount = adjacent.filter(next => state.flags.has(next)).length;
+    const required = state.counts[index];
+    if (flagCount !== required) {
+      setStatus(`Bu karenin çevresinde ${required} mayın var. ${required} bayrak yerleştirmelisin; şu anda ${flagCount} bayrak var.`, 'warn');
+      return;
+    }
+
+    const unopened = adjacent.filter(next => !state.revealed.has(next) && !state.flags.has(next));
+    const hitMine = unopened.find(next => state.mines.has(next));
+    if (hitMine !== undefined) {
+      state.exploded = hitMine;
+      state.mines.forEach(mine => state.revealed.add(mine));
+      finish(false);
+      return;
+    }
+
+    unopened.forEach(next => revealArea(next));
+    checkWin();
+    if (!state.over) {
+      setStatus('Bayrak sayısı doğru. Komşu güvenli kareler açıldı.', 'good');
+      render();
+    }
   }
 
   function reveal(index) {
@@ -252,12 +285,14 @@
     if (state.flags.has(index)) state.flags.delete(index);
     else if (state.flags.size < state.mineCount) state.flags.add(index);
     else { setStatus('Mayın sayısı kadar bayrak yerleştirebilirsin.', 'warn'); return; }
-    render();
+    checkWin();
+    if (!state.over) render();
   }
 
   function startGame(difficulty = configSelect.value) {
     if (!DIFFICULTIES[difficulty]) difficulty = 'easy';
     if (timerHandle) window.clearInterval(timerHandle);
+    timerHandle = 0;
     configSelect.value = difficulty;
     state = createState(difficulty);
     flagMode = false;
@@ -271,7 +306,9 @@
     const cell = event.target.closest('.ms-cell');
     if (!cell || !board.contains(cell)) return;
     const index = Number(cell.dataset.index);
+    if (!Number.isInteger(index) || index < 0 || index >= state.rows * state.cols) return;
     if (flagMode) toggleFlag(index);
+    else if (state.revealed.has(index)) chord(index);
     else reveal(index);
   });
   board.addEventListener('contextmenu', event => {
